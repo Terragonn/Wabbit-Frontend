@@ -1,19 +1,21 @@
 import approvedAssets from "./approved.json";
+import Row from "./row";
 
 function Home(props: {}) {
     return (
-        <table className="table-auto mx-auto">
+        <table className="table-auto mx-auto w-full">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Available</th>
-                    <th>TVL</th>
-                    <th>APR</th>
+                <tr className="text-white font-bold">
+                    <th className="pb-6">Name</th>
+                    <th className="pb-6">Available</th>
+                    <th className="pb-6">Borrowed</th>
+                    <th className="pb-6">TVL</th>
+                    <th className="pb-6">APR</th>
                 </tr>
             </thead>
             <tbody>
                 {approvedAssets.map((asset) => {
-                    return <h1>{asset.name}</h1>;
+                    return <Row data={asset} />;
                 })}
             </tbody>
         </table>
