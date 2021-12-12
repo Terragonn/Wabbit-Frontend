@@ -26,7 +26,7 @@ function App() {
                 }}
             >
                 <Nav navLinks={links} current={pageId} setPageId={setPageId} />
-                {links[pageId].component};
+                {links[pageId].component}
             </Web3ReactProvider>
         </div>
     );
