@@ -4,7 +4,7 @@ import * as ethers from "ethers";
 
 function App() {
     return (
-        <>
+        <div className="min-h-screen bg-zinc-800">
             <Web3ReactProvider
                 getLibrary={(provider) => {
                     return new ethers.providers.Web3Provider(provider, "any");
@@ -12,7 +12,7 @@ function App() {
             >
                 <Nav />
             </Web3ReactProvider>
-        </>
+        </div>
     );
 }
 

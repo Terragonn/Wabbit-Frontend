@@ -1,8 +1,8 @@
 import Wallet from "../wallet";
 
-function Nav() {
+function Nav(page: any, setPage: any) {
     return (
-        <nav>
+        <nav className="bg-zinc-900 p-6">
             <Wallet />
         </nav>
     );
