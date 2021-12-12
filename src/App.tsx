@@ -5,11 +5,15 @@ import { useState } from "react";
 
 import { Link } from "./components/nav/navLink";
 
+interface PageLink extends Link {
+    component: JSX.Element; // **** Probably will end up being its own seperate component that extends it anyway ?
+}
+
 function App() {
-    const links: Link[] = [
-        { id: 0, name: "Home" },
-        { id: 1, name: "Stake" },
-        { id: 2, name: "Borrow" },
+    const links: PageLink[] = [
+        { id: 0, name: "Home", component: <h1>Home</h1> },
+        { id: 1, name: "Stake", component: <h1>Stake</h1> },
+        { id: 2, name: "Borrow", component: <h1>Borrow</h1> },
     ];
 
     const [pageId, setPageId] = useState<number>(0);
@@ -22,6 +26,7 @@ function App() {
                 }}
             >
                 <Nav navLinks={links} current={pageId} setPageId={setPageId} />
+                {links[pageId].component};
             </Web3ReactProvider>
         </div>
     );

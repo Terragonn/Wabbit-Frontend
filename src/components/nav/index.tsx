@@ -3,7 +3,7 @@ import NavLink, { Link } from "./navLink";
 
 function Nav(props: { navLinks: Link[]; current: number; setPageId: (pageId: number) => void }) {
     return (
-        <nav className="bg-zinc-900 mx-auto p-6 text-center">
+        <nav className="bg-zinc-900 mx-auto p-6 text-center drop-shadow-md">
             <div className="mx-auto w-5/6 flex items-center justify-evenly">
                 <div className="mx-auto flex items-center justify-evenly">
                     {props.navLinks.map((link, index) => (
