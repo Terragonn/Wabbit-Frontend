@@ -13,7 +13,18 @@ function Wallet() {
         }
     }
 
-    return <div>{!active ? <button onClick={connect}>Connect</button> : <button onClick={() => deactivate()}>Disconnect</button>}</div>;
+    return (
+        <div>
+            {!active ? (
+                <button onClick={connect}>Connect</button>
+            ) : (
+                <>
+                    <span>{account}</span>
+                    <button onClick={() => deactivate()}>Disconnect</button>
+                </>
+            )}
+        </div>
+    );
 }
 
 export default Wallet;
