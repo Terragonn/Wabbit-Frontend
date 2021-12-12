@@ -5,15 +5,20 @@ import { useState } from "react";
 
 import { Link } from "./components/nav/navLink";
 
+import Base from "./components/pages/base";
+import Home from "./components/pages/home";
+import Stake from "./components/pages/stake";
+import Borrow from "./components/pages/borrow";
+
 interface PageLink extends Link {
     component: JSX.Element; // **** Probably will end up being its own seperate component that extends it anyway ?
 }
 
 function App() {
     const links: PageLink[] = [
-        { id: 0, name: "Home", component: <h1>Home</h1> },
-        { id: 1, name: "Stake", component: <h1>Stake</h1> },
-        { id: 2, name: "Borrow", component: <h1>Borrow</h1> },
+        { id: 0, name: "Home", component: <Home /> },
+        { id: 1, name: "Stake", component: <Stake /> },
+        { id: 2, name: "Borrow", component: <Borrow /> },
     ];
 
     const [pageId, setPageId] = useState<number>(0);
@@ -26,7 +31,7 @@ function App() {
                 }}
             >
                 <Nav navLinks={links} current={pageId} setPageId={setPageId} />
-                {links[pageId].component}
+                <Base>{links[pageId].component}</Base>
             </Web3ReactProvider>
         </div>
     );
