@@ -1,11 +1,11 @@
-interface RowData {
+export interface AssetData {
     name: string;
     symbol: string;
     icon: string;
     address: string;
 }
 
-function Row(props: { data: RowData; last: boolean }) {
+function Row(props: { data: AssetData; last: boolean }) {
     return (
         <tr className={`text-white font-normal text-lg ${!props.last ? "border-b-2" : ""} border-zinc-800 text-center`}>
             <td className="flex items-center px-4 py-3 my-5 mx-4 justify-start">
