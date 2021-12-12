@@ -14,8 +14,8 @@ function Home(props: {}) {
                 </tr>
             </thead>
             <tbody>
-                {approvedAssets.map((asset) => {
-                    return <Row data={asset} />;
+                {approvedAssets.map((asset, index) => {
+                    return <Row key={index} data={asset} last={index === approvedAssets.length - 1} />;
                 })}
             </tbody>
         </table>
