@@ -1,4 +1,4 @@
-import approvedAssets from "./approved.json";
+import approvedAssets from "../../../approved.json";
 import Row from "./row";
 
 function Home(props: {}) {
