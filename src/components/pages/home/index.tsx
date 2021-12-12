@@ -5,7 +5,7 @@ function Home(props: {}) {
     return (
         <table className="table-auto mx-auto w-full">
             <thead>
-                <tr className="text-white font-bold">
+                <tr className="text-zinc-300 font-bold">
                     <th className="pb-6">Name</th>
                     <th className="pb-6">Available</th>
                     <th className="pb-6">Borrowed</th>
