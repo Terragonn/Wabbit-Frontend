@@ -3,7 +3,11 @@ import { useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 function Wallet() {
-    const { active, account, library, connector, activate, deactivate } = useWeb3React();
+    const { active, account, activate, deactivate } = useWeb3React();
+
+    useEffect(() => {
+        if (!active) connect();
+    }, []);
 
     async function connect() {
         try {
@@ -14,15 +18,17 @@ function Wallet() {
     }
 
     return (
-        <div className="text-white font-medium">
+        <div className="text-white font-medium mx-8 text-lg">
             {!active ? (
                 <button onClick={connect}>Connect</button>
             ) : (
                 <div className="mx-auto flex items-center">
-                    <span className="bg-zinc-700 rounded-md py-3 px-6 mr-8">
+                    <span className="bg-zinc-700 rounded-md py-3 px-6 mx-8">
                         {account?.slice(0, 6).toUpperCase()}...{account?.slice(account?.length - 6, account?.length).toUpperCase()}
                     </span>
-                    <button onClick={() => deactivate()}>Disconnect</button>
+                    <button className="mx-8" onClick={() => deactivate()}>
+                        Disconnect
+                    </button>
                 </div>
             )}
         </div>
