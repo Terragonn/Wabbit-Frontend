@@ -1,14 +1,21 @@
-import fakeData from "./fake.json"; // **** Remove for production
+import approvedAssets from "./approved.json";
 
 function Home(props: {}) {
     return (
-        <table>
+        <table className="table-auto mx-auto">
             <thead>
-                <th>Name</th>
-                <th>Available</th>
-                <th>TVL</th>
-                <th>APR</th>
+                <tr>
+                    <th>Name</th>
+                    <th>Available</th>
+                    <th>TVL</th>
+                    <th>APR</th>
+                </tr>
             </thead>
+            <tbody>
+                {approvedAssets.map((asset) => {
+                    return <h1>{asset.name}</h1>;
+                })}
+            </tbody>
         </table>
     );
 }
