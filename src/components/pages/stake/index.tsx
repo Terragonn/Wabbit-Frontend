@@ -1,5 +1,11 @@
+import AssetPanel from "../assetPanel";
+
 function Stake(props: {}) {
-    return <h1>Stake</h1>;
+    return (
+        <div>
+            <AssetPanel onChangeAsset={() => {}} onChangeAmount={() => {}} />
+        </div>
+    );
 }
 
 export default Stake;
