@@ -11,7 +11,7 @@ import Stake from "./components/pages/stake";
 import Borrow from "./components/pages/borrow";
 
 interface PageLink extends Link {
-    component: JSX.Element; // **** Probably will end up being its own seperate component that extends it anyway ?
+    component: JSX.Element;
 }
 
 function App() {
