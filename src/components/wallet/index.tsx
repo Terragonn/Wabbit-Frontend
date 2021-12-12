@@ -1,9 +1,10 @@
 import { injected } from "./connectors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 function Wallet() {
     const { active, account, activate, deactivate } = useWeb3React();
+    const [showDisconnect, setShowDisconnect] = useState<boolean>(false);
 
     useEffect(() => {
         if (!active) connect();
@@ -18,18 +19,21 @@ function Wallet() {
     }
 
     return (
-        <div className="text-white font-medium mx-8 text-lg text-center">
+        <div className="text-white font-medium text-lg text-center" onMouseEnter={() => setShowDisconnect(true)} onMouseLeave={() => setShowDisconnect(false)}>
             {!active ? (
                 <button onClick={connect}>Connect</button>
             ) : (
-                <div className="mx-auto flex items-center">
-                    <span className="bg-zinc-700 rounded-md py-3 px-6 mx-8">
-                        {account?.slice(0, 6).toUpperCase()}...{account?.slice(account?.length - 6, account?.length).toUpperCase()}
+                <>
+                    <span className="bg-zinc-700 rounded-md py-3 px-6">
+                        {showDisconnect ? (
+                            <button onClick={() => deactivate()}>Disconnect</button>
+                        ) : (
+                            <>
+                                {account?.slice(0, 6).toUpperCase()}...{account?.slice(account?.length - 6, account?.length).toUpperCase()}
+                            </>
+                        )}
                     </span>
-                    <button className="mx-8" onClick={() => deactivate()}>
-                        Disconnect
-                    </button>
-                </div>
+                </>
             )}
         </div>
     );
