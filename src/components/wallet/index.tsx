@@ -18,7 +18,7 @@ function Wallet() {
     }
 
     return (
-        <div className="text-white font-medium mx-8 text-lg">
+        <div className="text-white font-medium mx-8 text-lg text-center">
             {!active ? (
                 <button onClick={connect}>Connect</button>
             ) : (
