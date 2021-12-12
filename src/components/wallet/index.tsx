@@ -20,7 +20,7 @@ function Wallet() {
             ) : (
                 <div className="mx-auto flex items-center">
                     <span className="bg-zinc-700 rounded-md py-3 px-6 mr-8">
-                        {account?.slice(0, 6)}...{account?.slice(account?.length - 6, account?.length)}
+                        {account?.slice(0, 6).toUpperCase()}...{account?.slice(account?.length - 6, account?.length).toUpperCase()}
                     </span>
                     <button onClick={() => deactivate()}>Disconnect</button>
                 </div>
