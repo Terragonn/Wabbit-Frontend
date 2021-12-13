@@ -21,6 +21,8 @@ function App() {
         { id: 2, name: "Borrow", component: <Borrow /> },
     ];
 
+    // Initialize the smart contracts here
+
     const [pageId, setPageId] = useState<number>(0);
 
     return (
