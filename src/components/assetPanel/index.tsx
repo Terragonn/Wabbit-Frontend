@@ -24,8 +24,12 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     setCurrentAsset(asset);
                 }}
             >
-                {approvedAssets.map((asset) => {
-                    return <option value={asset.address}>{asset.symbol}</option>;
+                {approvedAssets.map((asset, index) => {
+                    return (
+                        <option key={index} value={asset.address}>
+                            {asset.symbol}
+                        </option>
+                    );
                 })}
             </select>
             <input
