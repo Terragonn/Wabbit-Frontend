@@ -39,7 +39,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                 min={0}
                 step="0.01"
                 placeholder="0.00"
-                className="sm:w-9/12 w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
+                className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
                 onChange={(e) => setAmount(e.target.valueAsNumber || 0)}
             />
         </div>

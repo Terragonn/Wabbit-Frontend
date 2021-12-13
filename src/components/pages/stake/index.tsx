@@ -3,7 +3,7 @@ import Withdraw from "./withdraw";
 
 function Stake() {
     return (
-        <div className="flex items-stretch justify-between lg:flex-row flex-col">
+        <div className="flex items-center justify-between lg:flex-row flex-col">
             <div className="w-full lg:mx-5 lg:my-0 mb-10">
                 <Deposit />
             </div>
