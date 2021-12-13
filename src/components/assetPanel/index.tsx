@@ -16,7 +16,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
 
     return (
         <div className="flex sm:items-center items-start justify-between sm:flex-row flex-col text-gray-500 text-lg font-medium p-5">
-            <div className="w-auto flex items-center justify-between sm:mb-0 mb-3 mr-4">
+            <div className="w-auto flex items-center justify-between sm:mb-0 mb-3 mr-8">
                 <img src={asset.icon} alt={asset.symbol} width={32} className="mr-4 rounded-md" />
                 <select
                     className="py-1 pl-2 pr-7 border-transparent bg-transparent rounded-md"
