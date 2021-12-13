@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AssetPanel from "../../assetPanel";
+import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import approvedAssets from "../../../../approved.json";
 

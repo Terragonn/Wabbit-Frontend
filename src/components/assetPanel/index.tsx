@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import approvedAssets from "../../../approved.json";
-import { AssetData } from "../home/row";
+import approvedAssets from "../../approved.json";
+import { AssetData } from "../pages/home/row";
 
 function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: number) => void }) {
     const [asset, setCurrentAsset] = useState<AssetData>(approvedAssets[0]);
