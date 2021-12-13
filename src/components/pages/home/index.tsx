@@ -7,9 +7,9 @@ function Home(props: {}) {
             <thead>
                 <tr className="text-zinc-300 font-bold">
                     <th className="pb-6">Name</th>
-                    <th className="pb-6">Available</th>
-                    <th className="pb-6">Borrowed</th>
-                    <th className="pb-6">TVL</th>
+                    <th className="pb-6 md:table-cell hidden">Available</th>
+                    <th className="pb-6 md:table-cell hidden">Borrowed</th>
+                    <th className="pb-6 md:table-cell hidden">TVL</th>
                     <th className="pb-6">APR</th>
                 </tr>
             </thead>
