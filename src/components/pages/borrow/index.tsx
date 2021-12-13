@@ -7,7 +7,7 @@ function BorrowPage(props: {}) {
     // **** Dont forget the props for the actual implementation
 
     return (
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mx-5 text-base text-white mb-4">
             <Deposit />
             <Repay />
             <Borrow />
