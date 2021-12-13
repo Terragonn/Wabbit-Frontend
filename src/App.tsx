@@ -7,7 +7,7 @@ import { Link } from "./components/nav/navLink";
 
 import Base from "./components/pages/base";
 import Home from "./components/pages/home";
-import Stake from "./components/pages/stake/deposit";
+import Stake from "./components/pages/stake";
 import Borrow from "./components/pages/borrow";
 
 interface PageLink extends Link {
