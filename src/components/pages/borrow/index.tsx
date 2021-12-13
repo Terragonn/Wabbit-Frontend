@@ -3,14 +3,19 @@ import Deposit from "./deposit";
 import Repay from "./repay";
 import Withdraw from "./withdraw";
 
+import { AssetData } from "../home/row";
+import approvedAssets from "../../../approved.json";
+import { useState } from "react";
+
 function BorrowPage(props: {}) {
-    // **** Dont forget the props for the actual implementation
+    const [collateral, setCollateral] = useState<AssetData>(approvedAssets[0]);
+    const [borrowed, setBorrowed] = useState<AssetData>(approvedAssets[0]);
 
     return (
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mx-5 text-base text-white mb-4">
-            <Deposit />
+            <Deposit setCollateral={setCollateral} />
             <Repay />
-            <Borrow />
+            <Borrow setBorrowed={setBorrowed} />
             <Withdraw />
         </div>
     );

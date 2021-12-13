@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import approvedAssets from "../../../../approved.json";
 
-function Borrow(props: {}) {
+function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<number>(0);
     const [asset, setAsset] = useState<AssetData>(approvedAssets[0]);
 
     // **** Obviously add in the calculations to get the data properly
+
+    useEffect(() => {
+        props.setBorrowed(asset);
+    }, [asset]);
 
     return (
         <div className="flex flex-col justify-center items-stretch">

@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import approvedAssets from "../../../../approved.json";
 
-function Deposit(props: {}) {
+function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<number>(0);
     const [asset, setAsset] = useState<AssetData>(approvedAssets[0]);
+
+    // **** Obviously add real data to this
+
+    useEffect(() => {
+        props.setCollateral(asset);
+    }, [asset]);
 
     return (
         <div className="flex flex-col justify-center items-stretch">
