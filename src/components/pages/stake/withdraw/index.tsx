@@ -12,7 +12,7 @@ function Withdraw(props: {}) {
             <h1 className="text-white text-lg font-medium mx-5">Withdraw</h1>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
-            <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
+            <div className="grid grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
                 <h2>Initial stake: 3.0</h2>
                 <h2>Current stake value: 4.0</h2>
             </div>

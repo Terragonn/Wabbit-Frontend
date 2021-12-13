@@ -3,11 +3,14 @@ import Withdraw from "./withdraw";
 
 function Stake() {
     return (
-        <div>
+        <div className="flex items-stretch justify-between">
             {/* **** Also add in whether or not the period epilogue is present */}
-            <Deposit />
-            <div className="my-16" />
-            <Withdraw />
+            <div className="w-full mx-5">
+                <Deposit />
+            </div>
+            <div className="w-full mx-5">
+                <Withdraw />
+            </div>
         </div>
     );
 }
