@@ -31,11 +31,11 @@ function Base(props: { children: any }) {
     return (
         <>
             <div className="mx-auto w-4/5 bg-zinc-900 my-10 p-8 rounded-md drop-shadow-sm text-center">
-                <h1 className="font-medium text-white text-lg flex items-center justify-evenly">
-                    <span>
+                <h1 className="font-medium text-white text-lg flex items-center justify-evenly sm:flex-row flex-col">
+                    <span className="sm:my-0 mb-4">
                         Prologue: <span className={activeClass(prologueActive)}>{prologueActive ? "active" : "inactive"}</span>
                     </span>
-                    <span>
+                    <span className="sm:my-0 mb-4">
                         Epilogue: <span className={activeClass(epilogueActive)}>{epilogueActive ? "active" : "inactive"}</span>
                     </span>
                     <span>Period end: {timeTo(epilogueTimes[1])}</span>
