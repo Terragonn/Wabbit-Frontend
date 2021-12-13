@@ -1,0 +1,31 @@
+{
+    "approved": [
+        {
+            "name": "Dai",
+            "symbol": "DAI",
+            "icon": "https://s2.coinmarketcap.com/static/img/coins/64x64/4943.png",
+            "address": "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e"
+        },
+        {
+            "name": "Spookyswap",
+            "symbol": "BOO",
+            "icon": "https://s2.coinmarketcap.com/static/img/coins/64x64/9608.png",
+            "address": "0x841fad6eae12c286d1fd18d1d525dffa75c7effe"
+        },
+        {
+            "name": "Spartacus",
+            "symbol": "SPA",
+            "icon": "https://s2.coinmarketcap.com/static/img/coins/64x64/13748.png",
+            "address": "0x5602df4a94eb6c680190accfa2a475621e0ddbdc"
+        },
+        {
+            "name": "Popsicle Finance",
+            "symbol": "ICE",
+            "icon": "https://s2.coinmarketcap.com/static/img/coins/64x64/9073.png",
+            "address": "0xf16e81dce15b08f326220742020379b855b87df9"
+        }
+    ],
+    "poolAddress": "0xB0D4afd8879eD9F52b28595d31B441D079B2Ca07",
+    "oracleAddress": "0xdbC43Ba45381e02825b14322cDdd15eC4B3164E6",
+    "marginAddress": "0x4C4a2f8c81640e47606d3fd77B353E87Ba015584"
+}
