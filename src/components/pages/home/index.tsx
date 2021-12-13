@@ -10,7 +10,7 @@ function Home(props: {}) {
                     <th className="pb-6 md:table-cell hidden">Available</th>
                     <th className="pb-6 md:table-cell hidden">Borrowed</th>
                     <th className="pb-6 md:table-cell hidden">TVL</th>
-                    <th className="pb-6">APR</th>
+                    <th className="pb-6">APY</th>
                 </tr>
             </thead>
             <tbody>

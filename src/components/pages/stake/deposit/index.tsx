@@ -16,7 +16,7 @@ function Deposit(props: {}) {
                 <h2>Liquidity: 2.6B</h2>
                 <h2>Borrowed: 1.4B</h2>
                 <h2>TVL: 4.0B</h2>
-                <h2>APR: 23.05%</h2>
+                <h2>APY: 23.05%</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
                 Deposit {amount} {asset.symbol}
