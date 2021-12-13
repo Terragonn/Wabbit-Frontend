@@ -29,7 +29,7 @@ function Wallet() {
                             <button onClick={() => deactivate()}>Disconnect</button>
                         ) : (
                             <>
-                                {account?.slice(0, 6).toUpperCase()}...{account?.slice(account?.length - 6, account?.length).toUpperCase()}
+                                {account?.slice(0, 4).toUpperCase()}...{account?.slice(account?.length - 4, account?.length).toUpperCase()}
                             </>
                         )}
                     </span>

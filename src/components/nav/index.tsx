@@ -9,7 +9,7 @@ function Nav(props: { navLinks: Link[]; current: number; setPageId: (pageId: num
 
     return (
         <>
-            {modalVisible ? <NavModal /> : null}
+            {modalVisible ? <NavModal navLinks={props.navLinks} current={props.current} setPageId={props.setPageId} /> : null}
             <nav className="bg-zinc-900 mx-auto p-6 text-center drop-shadow-md relative z-20">
                 <div className="mx-auto w-5/6 flex items-center justify-evenly">
                     <h1 className="mx-auto text-white font-bold text-lg">Wabbit</h1>
