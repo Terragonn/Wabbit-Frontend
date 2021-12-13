@@ -8,7 +8,6 @@ function Stake() {
             <div className="w-full lg:mx-5 lg:my-0 mb-10">
                 <Deposit />
             </div>
-            <div className="p-0.25 border-2 border-zinc-800 lg:visible invisible" />
             <div className="w-full lg:mx-5">
                 <Withdraw />
             </div>
