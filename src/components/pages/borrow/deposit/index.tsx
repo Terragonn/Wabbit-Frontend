@@ -13,7 +13,7 @@ function Deposit(props: {}) {
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
-                <h2>Collateral: 2.6B</h2>
+                <h2>Collateral: 200.0</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
                 Deposit {amount} {asset.symbol}
