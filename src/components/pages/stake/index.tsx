@@ -1,9 +1,9 @@
-import AssetPanel from "../assetPanel";
+import Deposit from "./deposit";
 
-function Stake(props: {}) {
+function Stake() {
     return (
         <div>
-            <AssetPanel onChangeAsset={() => {}} onChangeAmount={() => {}} />
+            <Deposit />
         </div>
     );
 }

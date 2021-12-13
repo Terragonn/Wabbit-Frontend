@@ -15,7 +15,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
     }, [amount]);
 
     return (
-        <div className="flex items-center justify-evenly text-gray-500 text-lg font-medium p-4">
+        <div className="flex items-center justify-evenly text-gray-500 text-lg font-medium p-5">
             <img src={asset.icon} alt={asset.symbol} width={32} className="mr-4 rounded-md" />
             <select
                 className="py-1 pl-2 pr-7 border-transparent bg-transparent rounded-md w-5/12"
