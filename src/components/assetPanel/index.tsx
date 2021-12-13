@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import approvedAssets from "../../approved.json";
+import config from "../../config/config.json";
 import { AssetData } from "../pages/home/row";
 
 function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: number) => void }) {
-    const [asset, setCurrentAsset] = useState<AssetData>(approvedAssets[0]);
+    const [asset, setCurrentAsset] = useState<AssetData>(config.approved[0]);
     const [amount, setAmount] = useState<number>(0);
 
     useEffect(() => {
@@ -21,11 +21,11 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                 <select
                     className="py-1 pl-2 pr-7 border-transparent bg-transparent rounded-md"
                     onChange={(e) => {
-                        const asset = approvedAssets.filter((_asset) => _asset.address === e.target.value)[0];
+                        const asset = config.approved.filter((_asset) => _asset.address === e.target.value)[0];
                         setCurrentAsset(asset);
                     }}
                 >
-                    {approvedAssets.map((asset, index) => {
+                    {config.approved.map((asset, index) => {
                         return (
                             <option key={index} value={asset.address}>
                                 {asset.symbol}

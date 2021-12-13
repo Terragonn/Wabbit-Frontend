@@ -1,11 +1,11 @@
 import { useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
-import approvedAssets from "../../../../approved.json";
+import config from "../../../../config/config.json";
 
 function Withdraw(props: {}) {
     const [amount, setAmount] = useState<number>(0);
-    const [asset, setAsset] = useState<AssetData>(approvedAssets[0]);
+    const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
     return (
         <div className="flex flex-col justify-center items-stretch">

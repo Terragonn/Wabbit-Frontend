@@ -1,4 +1,4 @@
-import approvedAssets from "../../../approved.json";
+import config from "../../../config/config.json";
 import Row from "./row";
 
 function Home(props: {}) {
@@ -14,8 +14,8 @@ function Home(props: {}) {
                 </tr>
             </thead>
             <tbody>
-                {approvedAssets.map((asset, index) => {
-                    return <Row key={index} data={asset} last={index === approvedAssets.length - 1} />;
+                {config.approved.map((asset, index) => {
+                    return <Row key={index} data={asset} last={index === config.approved.length - 1} />;
                 })}
             </tbody>
         </table>

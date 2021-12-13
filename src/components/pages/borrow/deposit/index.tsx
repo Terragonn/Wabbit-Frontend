@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
-import approvedAssets from "../../../../approved.json";
+import config from "../../../../config/config.json";
 
 function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<number>(0);
-    const [asset, setAsset] = useState<AssetData>(approvedAssets[0]);
+    const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
     // **** Obviously add real data to this
 

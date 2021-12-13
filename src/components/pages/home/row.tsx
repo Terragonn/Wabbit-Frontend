@@ -3,6 +3,7 @@ export interface AssetData {
     symbol: string;
     icon: string;
     address: string;
+    whale: string;
 }
 
 function Row(props: { data: AssetData; last: boolean }) {
