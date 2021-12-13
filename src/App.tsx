@@ -24,7 +24,7 @@ function App() {
     const [pageId, setPageId] = useState<number>(0);
 
     return (
-        <div className="mx-auto min-h-screen bg-zinc-800">
+        <div className="mx-auto min-h-screen bg-zinc-800 pb-1">
             <Web3ReactProvider
                 getLibrary={(provider) => {
                     return new ethers.providers.Web3Provider(provider, "any");
