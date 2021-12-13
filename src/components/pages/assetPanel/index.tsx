@@ -31,11 +31,10 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
             <input
                 type="number"
                 min={0}
-                value={amount}
                 step="0.01"
                 placeholder="0.00"
                 className="w-full text-center bg-transparent border-transparent rounded-md"
-                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                onChange={(e) => setAmount(e.target.valueAsNumber || 0)}
             />
         </div>
     );
