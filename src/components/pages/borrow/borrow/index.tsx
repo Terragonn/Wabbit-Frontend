@@ -3,7 +3,7 @@ import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import approvedAssets from "../../../../approved.json";
 
-function Deposit(props: {}) {
+function Borrow(props: {}) {
     const [amount, setAmount] = useState<number>(0);
     const [asset, setAsset] = useState<AssetData>(approvedAssets[0]);
 
@@ -25,4 +25,4 @@ function Deposit(props: {}) {
     );
 }
 
-export default Deposit;
+export default Borrow;
