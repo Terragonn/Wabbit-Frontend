@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useContracts from "../../../utils/useContracts";
 import parseBigNumber from "../../../utils/parseBigNumber";
+import parseNumber from "../../../utils/parseNumber";
 
 export interface AssetData {
     name: string;
@@ -25,6 +26,7 @@ function Row(props: { data: AssetData; last: boolean }) {
     useEffect(() => {
         // Get the contracts
         const pool = contracts?.pool;
+        const oracle = contracts?.oracle;
         const margin = contracts?.margin;
 
         // Get the data
@@ -33,9 +35,10 @@ function Row(props: { data: AssetData; last: boolean }) {
             tempData.available = parseBigNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
             tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
             tempData.tvl = parseBigNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
-            tempData.apy = parseBigNumber(await margin?.calculateInterestRate(props.data.address, pool?.address), props.data.decimals); // **** I'm going to have to do some wacky stuff with the period id for this - also I need to use the oracle to get the decimals
-
-            // **** Recompile and fix ABI's, add oracle, add in wacky time stuff for the APY - add more getters and setters
+            if (parseInt(tempData.tvl) > 0) {
+                tempData.apy = parseBigNumber(await margin?.calculateInterestRate(props.data.address, pool?.address), props.data.decimals);
+            } else tempData.apy = parseNumber(0);
+            // **** I'm going to have to do some wacky stuff with the period id for this - also I need to use the oracle to get the decimals
 
             setData(tempData);
         })();
@@ -51,9 +54,9 @@ function Row(props: { data: AssetData; last: boolean }) {
 
             {/* The following will need to be calculated and are currently just placeholders - also use the nice "billion" formats */}
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.available}</td>
-            <td className="px-4 py-3 my-5 md:table-cell hidden">1.6B</td>
-            <td className="px-4 py-3 my-5 md:table-cell hidden">4.0B</td>
-            <td className="px-4 py-3 my-5">28.34%</td>
+            <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.borrowed}</td>
+            <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.tvl}</td>
+            <td className="px-4 py-3 my-5">{data?.apy}%</td>
         </tr>
     );
 }

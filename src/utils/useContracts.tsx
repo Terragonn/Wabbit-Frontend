@@ -4,10 +4,12 @@ import { useWeb3React } from "@web3-react/core";
 
 import IVPool from "../config/IVPool.json";
 import IMargin from "../config/IMargin.json";
+import IOracle from "../config/IOracle.json";
 import config from "../config/config.json";
 
 interface Contracts {
     pool: ethers.Contract;
+    oracle: ethers.Contract;
     margin: ethers.Contract;
 }
 
@@ -26,9 +28,10 @@ export function ContractsProvider(props: { children: any }) {
             const signer = provider.getSigner();
 
             const pool = new ethers.Contract(config.poolAddress, IVPool.abi, signer);
+            const oracle = new ethers.Contract(config.oracleAddress, IOracle.abi, signer);
             const margin = new ethers.Contract(config.marginAddress, IMargin.abi, signer);
 
-            return { pool, margin };
+            return { pool, oracle, margin };
         }
         return null;
     }
