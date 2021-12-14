@@ -6,7 +6,7 @@ import IVPool from "../config/IVPool.json";
 import IMargin from "../config/IMargin.json";
 import config from "../config/config.json";
 
-export interface Contracts {
+interface Contracts {
     pool: ethers.Contract;
     margin: ethers.Contract;
 }
