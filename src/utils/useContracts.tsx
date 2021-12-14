@@ -11,13 +11,13 @@ export interface Contracts {
     margin: ethers.Contract;
 }
 
-export function useContracts() {
+export default function useContracts() {
     return useContext(contractCtx);
 }
 
-export const contractCtx = createContext<[Contracts | null, (contracts: Contracts | null) => void]>(undefined as any);
+const contractCtx = createContext<[Contracts | null, (contracts: Contracts | null) => void]>(undefined as any);
 
-export default function ContractsProvider(props: { children: any }) {
+export function ContractsProvider(props: { children: any }) {
     const { active, library } = useWeb3React();
     const [contracts, setContracts] = useState<Contracts | null>(getContracts);
 
