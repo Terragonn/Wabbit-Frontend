@@ -10,6 +10,8 @@ import Home from "./components/pages/home";
 import Stake from "./components/pages/stake";
 import Borrow from "./components/pages/borrow";
 
+import { ContractsProvider } from "./utils/useContracts";
+
 interface PageLink extends Link {
     component: JSX.Element;
 }
@@ -32,8 +34,10 @@ function App() {
                     return new ethers.providers.Web3Provider(provider, "any");
                 }}
             >
-                <Nav navLinks={links} current={pageId} setPageId={setPageId} />
-                <Base>{links[pageId].component}</Base>
+                <ContractsProvider>
+                    <Nav navLinks={links} current={pageId} setPageId={setPageId} />
+                    <Base>{links[pageId].component}</Base>
+                </ContractsProvider>
             </Web3ReactProvider>
         </div>
     );
