@@ -1,13 +1,16 @@
+import { useWeb3React } from "@web3-react/core";
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import config from "../../config/config.json";
+import loadERC20 from "../../utils/loadERC20";
 import { AssetData } from "../pages/home/row";
-import useContracts from "../../utils/useContracts";
 
 function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: number) => void }) {
+    const { library } = useWeb3React();
+
     const [asset, setCurrentAsset] = useState<AssetData>(config.approved[0]);
     const [amount, setAmount] = useState<number>(0);
 
-    const [contracts] = useContracts();
     const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
 
     useEffect(() => {
@@ -51,7 +54,23 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                         setMaxAmount(undefined);
                     }}
                 />
-                <button className="ml-4">Max</button>
+                <button
+                    className="ml-4"
+                    onClick={async () => {
+                        // Get the max amount of the asset
+                        const provider = new ethers.providers.Web3Provider(library.provider);
+                        const signer = provider.getSigner();
+                        const signerAddress = await signer.getAddress();
+
+                        const erc20 = loadERC20(asset.address, signer);
+                        const balance = await erc20.balanceOf(signerAddress);
+
+                        setAmount(balance.toString());
+                        setMaxAmount(balance.toString());
+                    }}
+                >
+                    Max
+                </button>
             </div>
         </div>
     );
