@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useContracts from "../../../utils/useContracts";
 import parseBigNumber from "../../../utils/parseBigNumber";
 import parseNumber from "../../../utils/parseNumber";
+import { ethers } from "ethers";
 
 export interface AssetData {
     name: string;
@@ -32,13 +33,21 @@ function Row(props: { data: AssetData; last: boolean }) {
         // Get the data
         (async () => {
             const tempData: Data = {} as any;
+
             tempData.available = parseBigNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
             tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
             tempData.tvl = parseBigNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
+
             if (parseInt(tempData.tvl) > 0) {
-                tempData.apy = parseBigNumber(await margin?.calculateInterestRate(props.data.address, pool?.address), props.data.decimals);
+                const decimals = await oracle?.getDecimals();
+                const periodLength = await pool?.getPeriodLength();
+                const interestRate = await margin?.calculateInterestRate(props.data.address, pool?.address);
+
+                const periodsPerYear = ethers.BigNumber.from(3.154e7).div(periodLength);
+                const apy = interestRate.mul(periodsPerYear);
+
+                tempData.apy = parseBigNumber(apy, decimals.div(100).toNumber());
             } else tempData.apy = parseNumber(0);
-            // **** I'm going to have to do some wacky stuff with the period id for this - also I need to use the oracle to get the decimals
 
             setData(tempData);
         })();
