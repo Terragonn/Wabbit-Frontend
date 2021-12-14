@@ -18,10 +18,11 @@ function Base(props: { children: any }) {
             const pool = contracts?.pool;
 
             const _epilogueTimes = await pool?.getEpilogueTimes();
-            const timesParsed = _epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000);
-            console.log(new Date(timesParsed[1]));
+            setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000));
+
+            const _prologueTimes = await pool?.getPrologueTimes();
+            console.log(_prologueTimes.map((time: ethers.BigNumber) => new Date(time.toNumber() * 1000)));
             console.log(new Date());
-            setEpilogueTimes(timesParsed);
 
             const _prologueActive = await pool?.isPrologue();
             setPrologueActive(_prologueActive);
