@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { ethers } from "ethers";
+import { useEffect, useState } from "react";
 import parseTime from "../../utils/parseTime";
 import useContracts from "../../utils/useContracts";
 import Wallet from "../wallet";
@@ -6,21 +7,28 @@ import Wallet from "../wallet";
 function Base(props: { children: any }) {
     const [contracts] = useContracts();
 
+    const [prologueTimes, setPrologueTimes] = useState<[number, number]>([Date.now(), Date.now()]);
+    const [epilogueTimes, setEpilogueTimes] = useState<[number, number]>([Date.now(), Date.now()]);
+
+    const [prologueActive, setPrologueActive] = useState<boolean>(false);
+    const [epilogueActive, setEpilogueActive] = useState<boolean>(false);
+
     useEffect(() => {
         (async () => {
+            // Get the prologue and epilogue times
             const pool = contracts?.pool;
-            const currentPeriodId = await pool?.currentPeriodId();
 
-            const prologueTimes = await pool?.getPrologueTimes();
-            const epilogueTimes = await pool?.getEpilogueTimes();
+            const _prologueTimes = await pool?.getPrologueTimes();
+            setPrologueTimes(_prologueTimes.map((time: ethers.BigNumber) => time.toNumber()));
+            const _epilogueTimes = await pool?.getEpilogueTimes();
+            setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber()));
+
+            const _prologueActive = await pool?.isPrologue();
+            setPrologueActive(_prologueActive);
+            const _epilogueActive = await pool?.isEpilogue();
+            setEpilogueActive(_epilogueActive);
         })();
     }, []);
-
-    const prologueTimes = [Date.now(), Date.now()];
-    const epilogueTimes = [Date.now(), Date.now() + 10000];
-
-    const prologueActive = Date.now() >= prologueTimes[0] && Date.now() < prologueTimes[1];
-    const epilogueActive = Date.now() >= epilogueTimes[0] && Date.now() < epilogueTimes[1];
 
     function activeClass(active: boolean) {
         return `${active ? "bg-emerald-300 text-green-600" : "bg-red-400 text-rose-700"} px-2 py-1 rounded-md ml-2`;
