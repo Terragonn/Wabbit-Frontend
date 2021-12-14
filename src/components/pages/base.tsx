@@ -19,7 +19,7 @@ function Base(props: { children: any }) {
 
             const _epilogueTimes = await pool?.getEpilogueTimes();
             const timesParsed = _epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000);
-            console.log(new Date(timesParsed[0]));
+            console.log(new Date(timesParsed[1]));
             console.log(new Date());
             setEpilogueTimes(timesParsed);
 
