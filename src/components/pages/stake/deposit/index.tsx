@@ -3,7 +3,6 @@ import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
 import useContracts from "../../../../utils/useContracts";
-import parseBigNumber from "../../../../utils/parseBigNumber";
 import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
 import approveERC20 from "../../../../utils/approveERC20";
@@ -20,7 +19,7 @@ interface Data {
 function Deposit(props: {}) {
     const { library } = useWeb3React();
 
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
     const [contracts] = useContracts();
@@ -29,7 +28,7 @@ function Deposit(props: {}) {
 
     async function deposit() {
         // Require a specified amount before depositing
-        if (!(amount > 0)) return;
+        if (!amount.gt(0)) return;
 
         // Deposit the asset into the current pool or the next pool
         const pool = contracts?.pool;
@@ -59,9 +58,9 @@ function Deposit(props: {}) {
         (async () => {
             const tempData: Data = {} as any;
 
-            tempData.available = parseBigNumber(await margin?.liquidityAvailable(asset.address, pool?.address), asset.decimals);
-            tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(asset.address, pool?.address), asset.decimals);
-            tempData.tvl = parseBigNumber(await pool?.getLiquidity(asset.address), asset.decimals);
+            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address, pool?.address), asset.decimals);
+            tempData.borrowed = parseNumber(await margin?.totalBorrowed(asset.address, pool?.address), asset.decimals);
+            tempData.tvl = parseNumber(await pool?.getLiquidity(asset.address), asset.decimals);
 
             if (parseInt(tempData.tvl) > 0) {
                 const decimals = await oracle?.getDecimals();
@@ -71,8 +70,8 @@ function Deposit(props: {}) {
                 const periodsPerYear = ethers.BigNumber.from(3.154e7).div(periodLength);
                 const apy = interestRate.mul(periodsPerYear);
 
-                tempData.apy = parseBigNumber(apy, decimals.div(100).toNumber());
-            } else tempData.apy = parseNumber(0);
+                tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
+            } else tempData.apy = parseNumber("0", 0);
 
             setData(tempData);
         })();
@@ -89,8 +88,8 @@ function Deposit(props: {}) {
                 <h2>TVL: {data?.tvl}</h2>
                 <h2>APY: {data?.apy}%</h2>
             </div>
-            <button className={`${amount > 0 ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={deposit}>
-                Deposit {parseBigNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={deposit}>
+                Deposit {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
     );

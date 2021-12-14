@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useContracts from "../../../utils/useContracts";
-import parseBigNumber from "../../../utils/parseBigNumber";
 import parseNumber from "../../../utils/parseNumber";
 import { ethers } from "ethers";
 
@@ -34,9 +33,9 @@ function Row(props: { data: AssetData; last: boolean }) {
         (async () => {
             const tempData: Data = {} as any;
 
-            tempData.available = parseBigNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
-            tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
-            tempData.tvl = parseBigNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
+            tempData.available = parseNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
+            tempData.borrowed = parseNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
+            tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
 
             if (parseInt(tempData.tvl) > 0) {
                 const decimals = await oracle?.getDecimals();
@@ -46,8 +45,8 @@ function Row(props: { data: AssetData; last: boolean }) {
                 const periodsPerYear = ethers.BigNumber.from(3.154e7).div(periodLength);
                 const apy = interestRate.mul(periodsPerYear);
 
-                tempData.apy = parseBigNumber(apy, decimals.div(100).toNumber());
-            } else tempData.apy = parseNumber(0);
+                tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
+            } else tempData.apy = parseNumber("0", 0);
 
             setData(tempData);
         })();

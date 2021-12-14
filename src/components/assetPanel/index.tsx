@@ -5,7 +5,7 @@ import config from "../../config/config.json";
 import loadERC20 from "../../utils/loadERC20";
 import { AssetData } from "../pages/home/row";
 
-function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: number) => void }) {
+function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: ethers.BigNumber) => void }) {
     const { library } = useWeb3React();
 
     const [asset, setCurrentAsset] = useState<AssetData>(config.approved[0]);
@@ -18,7 +18,8 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
     }, [asset]);
 
     useEffect(() => {
-        props.onChangeAmount(amount);
+        const asBigNumber = ethers.BigNumber.from(amount).mul(ethers.BigNumber.from(10).pow(asset.decimals));
+        props.onChangeAmount(asBigNumber);
     }, [amount]);
 
     return (
@@ -47,10 +48,10 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     min={0}
                     step="0.01"
                     placeholder="0.00"
-                    value={maxAmount}
+                    value={maxAmount?.toString()}
                     className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
                     onChange={(e) => {
-                        setAmount((e.target.value as any) || 0);
+                        setAmount(e.target.valueAsNumber);
                         setMaxAmount(undefined);
                     }}
                 />
@@ -63,10 +64,10 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                         const signerAddress = await signer.getAddress();
 
                         const erc20 = loadERC20(asset.address, signer);
-                        const balance = await erc20.balanceOf(signerAddress);
+                        const balance = (await erc20.balanceOf(signerAddress).mul(1e3).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber()) / 1e3;
 
-                        setAmount(balance.toString());
-                        setMaxAmount(balance.toString());
+                        setAmount(balance);
+                        setMaxAmount(balance);
                     }}
                 >
                     Max
