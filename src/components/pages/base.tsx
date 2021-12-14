@@ -7,7 +7,6 @@ import Wallet from "../wallet";
 function Base(props: { children: any }) {
     const [contracts] = useContracts();
 
-    const [prologueTimes, setPrologueTimes] = useState<[number, number]>([Date.now(), Date.now()]);
     const [epilogueTimes, setEpilogueTimes] = useState<[number, number]>([Date.now(), Date.now()]);
 
     const [prologueActive, setPrologueActive] = useState<boolean>(false);
@@ -18,17 +17,18 @@ function Base(props: { children: any }) {
             // Get the prologue and epilogue times
             const pool = contracts?.pool;
 
-            const _prologueTimes = await pool?.getPrologueTimes();
-            setPrologueTimes(_prologueTimes.map((time: ethers.BigNumber) => time.toNumber()));
             const _epilogueTimes = await pool?.getEpilogueTimes();
-            setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber()));
+            const timesParsed = _epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000);
+            console.log(new Date(timesParsed[0]));
+            console.log(new Date());
+            setEpilogueTimes(timesParsed);
 
             const _prologueActive = await pool?.isPrologue();
             setPrologueActive(_prologueActive);
             const _epilogueActive = await pool?.isEpilogue();
             setEpilogueActive(_epilogueActive);
         })();
-    }, []);
+    }, [contracts]);
 
     function activeClass(active: boolean) {
         return `${active ? "bg-emerald-300 text-green-600" : "bg-red-400 text-rose-700"} px-2 py-1 rounded-md ml-2`;
