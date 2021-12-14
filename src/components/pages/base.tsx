@@ -20,10 +20,6 @@ function Base(props: { children: any }) {
             const _epilogueTimes = await pool?.getEpilogueTimes();
             setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000));
 
-            const _prologueTimes = await pool?.getPrologueTimes();
-            console.log(_prologueTimes.map((time: ethers.BigNumber) => new Date(time.toNumber() * 1000)));
-            console.log(new Date());
-
             const _prologueActive = await pool?.isPrologue();
             setPrologueActive(_prologueActive);
             const _epilogueActive = await pool?.isEpilogue();
