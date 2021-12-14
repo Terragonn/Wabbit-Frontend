@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import config from "../../config/config.json";
 import { AssetData } from "../pages/home/row";
+import useContracts from "../../utils/useContracts";
 
 function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: number) => void }) {
     const [asset, setCurrentAsset] = useState<AssetData>(config.approved[0]);
     const [amount, setAmount] = useState<number>(0);
+
+    const [contracts] = useContracts();
+    const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
 
     useEffect(() => {
         props.onChangeAsset(asset);
@@ -34,14 +38,21 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     })}
                 </select>
             </div>
-            <input
-                type="number"
-                min={0}
-                step="0.01"
-                placeholder="0.00"
-                className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
-                onChange={(e) => setAmount(e.target.valueAsNumber || 0)}
-            />
+            <div className="w-full flex items-center justify-between sm:mb-0 mb-3 mr-8">
+                <input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    placeholder="0.00"
+                    value={maxAmount}
+                    className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
+                    onChange={(e) => {
+                        setAmount(e.target.valueAsNumber || 0);
+                        setMaxAmount(undefined);
+                    }}
+                />
+                <button className="ml-4">Max</button>
+            </div>
         </div>
     );
 }
