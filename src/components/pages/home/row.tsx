@@ -22,7 +22,7 @@ interface Data {
 
 function Row(props: { data: AssetData; last: boolean }) {
     const [data, setData] = useState<Data | null>(null);
-    const [contracts, setContracts] = useContracts();
+    const [contracts] = useContracts();
 
     useEffect(() => {
         // Get the contracts
