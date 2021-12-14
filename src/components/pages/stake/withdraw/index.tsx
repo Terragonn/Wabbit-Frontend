@@ -37,12 +37,12 @@ function Withdraw(props: {}) {
             // Calculate initial stake
             const balCurrent = await pool?.balanceOf(signerAddress, asset.address, periodId);
             const balNext = await pool?.balanceOf(signerAddress, asset.address, periodId.add(1));
-            tempData.initialStake = balCurrent.add(balNext).toString();
+            tempData.initialStake = parseNumber(balCurrent.add(balNext).toString(), asset.decimals);
 
             // Calculate initial stake value
             const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
             const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
-            tempData.currentStakeValue = valueCurrent.add(valueNext);
+            tempData.currentStakeValue = parseNumber(valueCurrent.add(valueNext), asset.decimals);
 
             setData(tempData);
         })();
@@ -54,8 +54,8 @@ function Withdraw(props: {}) {
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
             <div className="grid grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
-                <h2>Initial stake: {parseNumber(ethers.BigNumber.from(data?.initialStake), asset.decimals)}</h2>
-                <h2>Current stake value: {parseNumber(ethers.BigNumber.from(data?.currentStakeValue), asset.decimals)}</h2>
+                <h2>Initial stake: {data?.initialStake}</h2>
+                <h2>Current stake value: {data?.currentStakeValue}</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
                 Withdraw {parseNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}

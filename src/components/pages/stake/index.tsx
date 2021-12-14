@@ -7,7 +7,9 @@ function Stake() {
             <div className="w-full lg:mx-5 lg:my-0 mb-10">
                 <Deposit />
             </div>
-            <div className="w-full lg:mx-5">{/* <Withdraw /> */}</div>
+            <div className="w-full lg:mx-5">
+                <Withdraw />
+            </div>
         </div>
     );
 }
