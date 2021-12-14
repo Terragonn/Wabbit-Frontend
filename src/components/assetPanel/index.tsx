@@ -13,12 +13,16 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
 
     const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
 
+    const ROUND_CONSTANT = 1e3;
+
     useEffect(() => {
         props.onChangeAsset(asset);
     }, [asset]);
 
     useEffect(() => {
-        const asBigNumber = ethers.BigNumber.from(amount).mul(ethers.BigNumber.from(10).pow(asset.decimals));
+        const asBigNumber = ethers.BigNumber.from(Math.floor(amount * ROUND_CONSTANT))
+            .mul(ethers.BigNumber.from(10).pow(asset.decimals))
+            .div(ROUND_CONSTANT);
         props.onChangeAmount(asBigNumber);
     }, [amount]);
 
@@ -51,7 +55,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     value={maxAmount?.toString()}
                     className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
                     onChange={(e) => {
-                        setAmount(e.target.valueAsNumber);
+                        setAmount(e.target.valueAsNumber || 0);
                         setMaxAmount(undefined);
                     }}
                 />
@@ -64,7 +68,8 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                         const signerAddress = await signer.getAddress();
 
                         const erc20 = loadERC20(asset.address, signer);
-                        const balance = (await erc20.balanceOf(signerAddress).mul(1e3).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber()) / 1e3;
+                        const balance =
+                            (await erc20.balanceOf(signerAddress)).mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber() / ROUND_CONSTANT;
 
                         setAmount(balance);
                         setMaxAmount(balance);
