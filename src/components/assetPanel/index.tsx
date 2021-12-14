@@ -50,7 +50,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     value={maxAmount}
                     className="w-full text-center bg-zinc-700 bg-opacity-10 border-transparent rounded-md"
                     onChange={(e) => {
-                        setAmount(e.target.valueAsNumber || 0);
+                        setAmount((e.target.value as any) || 0);
                         setMaxAmount(undefined);
                     }}
                 />
