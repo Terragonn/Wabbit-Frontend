@@ -31,6 +31,7 @@ function Row(props: { data: AssetData; last: boolean }) {
         (async () => {
             const tempData: Data = {} as any;
             tempData.available = parseBigNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
+            tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
 
             setData(tempData);
         })();
