@@ -19,8 +19,6 @@ function Base(props: { children: any }) {
             // Get the prologue and epilogue times
             const pool = contracts?.pool;
 
-            // **** WHY IS THE TIMES ON THE PROLOGUE AND THE EPILOGUE SO BROKEN ????
-
             const _epilogueTimes = await pool?.getEpilogueTimes();
             setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000));
 
