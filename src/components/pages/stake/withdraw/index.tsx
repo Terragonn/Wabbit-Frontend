@@ -2,6 +2,8 @@ import { useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
+import parseBigNumber from "../../../../utils/parseBigNumber";
+import { ethers } from "ethers";
 
 function Withdraw(props: {}) {
     const [amount, setAmount] = useState<number>(0);
@@ -17,7 +19,7 @@ function Withdraw(props: {}) {
                 <h2>Current stake value: 4.0</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
-                Withdraw {amount} {asset.symbol}
+                Withdraw {parseBigNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
             </button>
         </div>
     );
