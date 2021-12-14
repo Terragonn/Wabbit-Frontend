@@ -307,13 +307,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "getEpilogueTimes",
       "outputs": [
         {
@@ -363,13 +357,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "getPrologueTimes",
       "outputs": [
         {
@@ -425,13 +413,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "isEpilogue",
       "outputs": [
         {
@@ -444,13 +426,7 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
+      "inputs": [],
       "name": "isPrologue",
       "outputs": [
         {

@@ -1,13 +1,21 @@
+import { useEffect } from "react";
 import parseTime from "../../utils/parseTime";
 import useContracts from "../../utils/useContracts";
 import Wallet from "../wallet";
 
 function Base(props: { children: any }) {
-    const [contracts, setContracts] = useContracts();
+    const [contracts] = useContracts();
 
-    // **** Have something here which renders a message if there is no wallet connected
+    useEffect(() => {
+        (async () => {
+            const pool = contracts?.pool;
+            const currentPeriodId = await pool?.currentPeriodId();
 
-    // **** Obviously get the real times here
+            const prologueTimes = await pool?.getPrologueTimes();
+            const epilogueTimes = await pool?.getEpilogueTimes();
+        })();
+    }, []);
+
     const prologueTimes = [Date.now(), Date.now()];
     const epilogueTimes = [Date.now(), Date.now() + 10000];
 
