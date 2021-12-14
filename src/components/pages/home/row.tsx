@@ -32,6 +32,10 @@ function Row(props: { data: AssetData; last: boolean }) {
             const tempData: Data = {} as any;
             tempData.available = parseBigNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
             tempData.borrowed = parseBigNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
+            tempData.tvl = parseBigNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
+            tempData.apy = parseBigNumber(await margin?.calculateInterestRate(props.data.address, pool?.address), props.data.decimals); // **** I'm going to have to do some wacky stuff with the period id for this - also I need to use the oracle to get the decimals
+
+            // **** Recompile and fix ABI's, add oracle, add in wacky time stuff for the APY
 
             setData(tempData);
         })();
