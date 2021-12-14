@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
+import { ethers } from "ethers";
 
 function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
     // **** Obviously add real data to this
