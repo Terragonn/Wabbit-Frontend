@@ -657,61 +657,10 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC20",
-          "name": "_collateral",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_borrowed",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
-        }
-      ],
-      "name": "redeposit",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address",
           "name": "_account",
           "type": "address"
         },
-        {
-          "internalType": "contract IERC20",
-          "name": "_collateral",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_borrowed",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
-        }
-      ],
-      "name": "repay",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
         {
           "internalType": "contract IERC20",
           "name": "_collateral",

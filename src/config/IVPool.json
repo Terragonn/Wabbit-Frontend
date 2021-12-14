@@ -226,30 +226,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_token",
-          "type": "address"
-        }
-      ],
-      "name": "balanceOf",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "currentPeriodId",
       "outputs": [
@@ -488,24 +464,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "contract IERC20",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
-      "name": "restake",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

@@ -58,8 +58,7 @@ function Withdraw(props: {}) {
                 <h2>Current stake value: {data?.currentStakeValue}</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
-                Withdraw {parseNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
-                {/* **** ADD THE ABOVE PARSED NUMBER THING INTO THE BORROW TAB AS WELL */}
+                Withdraw {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
     );
