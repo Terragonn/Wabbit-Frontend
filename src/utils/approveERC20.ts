@@ -6,7 +6,8 @@ export default async function approveERC20(contract: ethers.Contract, address: s
     const TO_APPROVE = "9".repeat(40);
 
     // Get the approved value
-    const approved = await contract.allowance(address);
+    const signerAddress = await contract.signer.getAddress();
+    const approved = await contract.allowance(signerAddress, address);
     if (ethers.BigNumber.from(approved).lte(ethers.BigNumber.from(MIN_APPROVED))) {
         await contract.approve(address, TO_APPROVE);
     }

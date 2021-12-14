@@ -9,8 +9,6 @@ function Base(props: { children: any }) {
 
     const [epilogueTimes, setEpilogueTimes] = useState<[number, number]>([Date.now(), Date.now()]);
 
-    console.log(new Date(epilogueTimes[0]));
-
     const [prologueActive, setPrologueActive] = useState<boolean>(false);
     const [epilogueActive, setEpilogueActive] = useState<boolean>(false);
 

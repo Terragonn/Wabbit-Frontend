@@ -6,6 +6,9 @@ import useContracts from "../../../../utils/useContracts";
 import parseBigNumber from "../../../../utils/parseBigNumber";
 import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
+import approveERC20 from "../../../../utils/approveERC20";
+import loadERC20 from "../../../../utils/loadERC20";
+import { useWeb3React } from "@web3-react/core";
 
 interface Data {
     available: string;
@@ -15,12 +18,36 @@ interface Data {
 }
 
 function Deposit(props: {}) {
+    const { library } = useWeb3React();
+
     const [amount, setAmount] = useState<number>(0);
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
     const [contracts] = useContracts();
 
     const [data, setData] = useState<Data | null>(null);
+
+    async function deposit() {
+        // Require a specified amount before depositing
+        if (!(amount > 0)) return;
+
+        // Deposit the asset into the current pool or the next pool
+        const pool = contracts?.pool;
+        const isPrologue = await pool?.isPrologue();
+
+        const provider = new ethers.providers.Web3Provider(library.provider);
+        const signer = provider.getSigner();
+        const erc20 = loadERC20(asset.address, signer);
+        approveERC20(erc20, pool?.address as string);
+
+        if (isPrologue) {
+            // Deposit into the current pool period
+            await pool?.stake(asset.address, amount);
+        } else {
+            // Deposit into the next pool period
+            await pool?.stakeNext(asset.address, amount);
+        }
+    }
 
     useEffect(() => {
         // Get the contracts
@@ -62,7 +89,7 @@ function Deposit(props: {}) {
                 <h2>TVL: {data?.tvl}</h2>
                 <h2>APY: {data?.apy}%</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
+            <button className={`${amount > 0 ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={deposit}>
                 Deposit {parseBigNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
             </button>
         </div>

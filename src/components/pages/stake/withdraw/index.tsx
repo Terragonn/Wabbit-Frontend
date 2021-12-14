@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
 import parseBigNumber from "../../../../utils/parseBigNumber";
 import { ethers } from "ethers";
+import useContracts from "../../../../utils/useContracts";
+
+interface Data {
+    initialStake: string;
+    currentStakeValue: string;
+}
 
 function Withdraw(props: {}) {
     const [amount, setAmount] = useState<number>(0);
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
+
+    const [contracts] = useContracts();
+
+    const [data, setData] = useState<Data | null>(null);
+
+    useEffect(() => {}, [contracts, asset]);
 
     return (
         <div className="flex flex-col justify-center items-stretch">
