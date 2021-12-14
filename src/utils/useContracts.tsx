@@ -19,7 +19,6 @@ const contractCtx = createContext<[Contracts | null, (contracts: Contracts | nul
 
 export function ContractsProvider(props: { children: any }) {
     const { active, library } = useWeb3React();
-    const [contracts, setContracts] = useState<Contracts | null>(getContracts);
 
     function getContracts() {
         if (active) {
@@ -33,6 +32,8 @@ export function ContractsProvider(props: { children: any }) {
         }
         return null;
     }
+
+    const [contracts, setContracts] = useState<Contracts | null>(getContracts);
 
     useEffect(() => {
         setContracts(getContracts());
