@@ -22,7 +22,10 @@ function Withdraw(props: {}) {
 
     const [data, setData] = useState<Data | null>(null);
 
-    async function withdraw() {}
+    async function withdraw() {
+        // Require a specified amount before withdrawing
+        if (!amount.gt(0)) return;
+    }
 
     useEffect(() => {
         const pool = contracts?.pool;
