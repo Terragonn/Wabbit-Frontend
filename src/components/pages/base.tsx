@@ -1,7 +1,10 @@
 import parseTime from "../../utils/parseTime";
-import { useWeb3React } from "@web3-react/core";
+import useContracts from "../../utils/useContracts";
+import Wallet from "../wallet";
 
 function Base(props: { children: any }) {
+    const [contracts, setContracts] = useContracts();
+
     // **** Have something here which renders a message if there is no wallet connected
 
     // **** Obviously get the real times here
@@ -28,7 +31,16 @@ function Base(props: { children: any }) {
                     <span>Period end: {parseTime(epilogueTimes[1])}</span>
                 </h1>
             </div>
-            <div className="mx-auto w-4/5 bg-zinc-900 my-5 p-8 rounded-md drop-shadow-sm">{props.children}</div>
+            <div className="mx-auto w-4/5 bg-zinc-900 my-5 p-8 rounded-md drop-shadow-sm">
+                {!contracts ? (
+                    <div className="text-center">
+                        <h1 className="text-white font-bold mb-6">Please connect with a wallet to be able to access the app.</h1>
+                        <Wallet />
+                    </div>
+                ) : (
+                    props.children
+                )}
+            </div>
         </>
     );
 }
