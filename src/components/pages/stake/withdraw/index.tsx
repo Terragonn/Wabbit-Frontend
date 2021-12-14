@@ -22,6 +22,8 @@ function Withdraw(props: {}) {
 
     const [data, setData] = useState<Data | null>(null);
 
+    async function withdraw() {}
+
     useEffect(() => {
         const pool = contracts?.pool;
 
@@ -40,9 +42,13 @@ function Withdraw(props: {}) {
             tempData.initialStake = parseNumber(balCurrent.add(balNext).toString(), asset.decimals);
 
             // Calculate initial stake value
-            const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
-            const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
-            tempData.currentStakeValue = parseNumber(valueCurrent.add(valueNext), asset.decimals);
+            try {
+                const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
+                const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
+                tempData.currentStakeValue = parseNumber(valueCurrent.add(valueNext), asset.decimals);
+            } catch {
+                tempData.currentStakeValue = parseNumber("0", 0);
+            }
 
             setData(tempData);
         })();
@@ -57,7 +63,7 @@ function Withdraw(props: {}) {
                 <h2>Initial stake: {data?.initialStake}</h2>
                 <h2>Current stake value: {data?.currentStakeValue}</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={withdraw}>
                 Withdraw {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
