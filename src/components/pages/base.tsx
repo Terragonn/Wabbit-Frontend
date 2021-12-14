@@ -1,4 +1,5 @@
 import parseTime from "../../utils/parseTime";
+import { useWeb3React } from "@web3-react/core";
 
 function Base(props: { children: any }) {
     // **** Have something here which renders a message if there is no wallet connected
