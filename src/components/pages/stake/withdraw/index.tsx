@@ -20,6 +20,7 @@ function Withdraw(props: {}) {
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
                 Withdraw {parseBigNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
+                {/* **** ADD THE ABOVE PARSED NUMBER THING INTO THE BORROW TAB AS WELL */}
             </button>
         </div>
     );
