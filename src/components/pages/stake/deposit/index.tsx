@@ -63,7 +63,7 @@ function Deposit(props: {}) {
                 <h2>APY: {data?.apy}%</h2>
             </div>
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
-                Deposit {amount} {asset.symbol}
+                Deposit {parseBigNumber(ethers.BigNumber.from(amount), asset.decimals)} {asset.symbol}
             </button>
         </div>
     );
