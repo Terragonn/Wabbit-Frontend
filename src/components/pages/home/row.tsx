@@ -40,11 +40,8 @@ function Row(props: { data: AssetData; last: boolean }) {
 
             if (parseInt(tempData.tvl) > 0) {
                 const decimals = await oracle?.getDecimals();
-                const periodLength = await pool?.getPeriodLength();
                 const interestRate = await margin?.calculateInterestRate(props.data.address, pool?.address);
-
-                const periodsPerYear = ethers.BigNumber.from(3.154e7).div(periodLength);
-                const apy = interestRate.mul(periodsPerYear);
+                const apy = interestRate.mul(3.154e7);
 
                 tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
             } else tempData.apy = parseNumber("0", 0);

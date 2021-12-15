@@ -53,6 +53,7 @@ function Deposit(props: {}) {
         const pool = contracts?.pool;
         const oracle = contracts?.oracle;
         const margin = contracts?.margin;
+        const periodId = contracts?.periodId;
 
         // Get the data
         (async () => {
@@ -60,15 +61,12 @@ function Deposit(props: {}) {
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address, pool?.address), asset.decimals);
             tempData.borrowed = parseNumber(await margin?.totalBorrowed(asset.address, pool?.address), asset.decimals);
-            tempData.tvl = parseNumber(await pool?.getLiquidity(asset.address), asset.decimals);
+            tempData.tvl = parseNumber(await pool?.getLiquidity(asset.address, periodId), asset.decimals);
 
             if (parseInt(tempData.tvl) > 0) {
                 const decimals = await oracle?.getDecimals();
-                const periodLength = await pool?.getPeriodLength();
                 const interestRate = await margin?.calculateInterestRate(asset.address, pool?.address);
-
-                const periodsPerYear = ethers.BigNumber.from(3.154e7).div(periodLength);
-                const apy = interestRate.mul(periodsPerYear);
+                const apy = interestRate.mul(3.154e7);
 
                 tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
             } else tempData.apy = parseNumber("0", 0);
