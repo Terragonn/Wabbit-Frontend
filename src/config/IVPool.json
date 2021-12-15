@@ -283,7 +283,13 @@
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
       "name": "getEpilogueTimes",
       "outputs": [
         {
@@ -306,6 +312,11 @@
           "internalType": "contract IERC20",
           "name": "_token",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
         }
       ],
       "name": "getLiquidity",
@@ -333,7 +344,13 @@
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
       "name": "getPrologueTimes",
       "outputs": [
         {
@@ -389,7 +406,13 @@
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
       "name": "isEpilogue",
       "outputs": [
         {
@@ -402,7 +425,13 @@
       "type": "function"
     },
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
       "name": "isPrologue",
       "outputs": [
         {
@@ -446,12 +475,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "_periodId",
+          "name": "_amount",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "_periodId",
           "type": "uint256"
         }
       ],
@@ -480,7 +509,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_periodId",
+          "name": "_periodIdFrom",
           "type": "uint256"
         }
       ],
@@ -513,27 +542,14 @@
           "internalType": "uint256",
           "name": "_amount",
           "type": "uint256"
-        }
-      ],
-      "name": "stake",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "contract IERC20",
-          "name": "_token",
-          "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "_amount",
+          "name": "_periodId",
           "type": "uint256"
         }
       ],
-      "name": "stakeNext",
+      "name": "stake",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
