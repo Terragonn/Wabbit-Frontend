@@ -19,15 +19,15 @@ function Base(props: { children: any }) {
             // Get the prologue and epilogue times
             const pool = contracts?.pool;
 
-            const _epilogueTimes = await pool?.getEpilogueTimes();
+            if (contracts?.periodId) setPeriodId(contracts.periodId);
+
+            const _epilogueTimes = await pool?.getEpilogueTimes(contracts?.periodId);
             setEpilogueTimes(_epilogueTimes.map((time: ethers.BigNumber) => time.toNumber() * 1000));
 
-            const _prologueActive = await pool?.isPrologue();
+            const _prologueActive = await pool?.isPrologue(contracts?.periodId);
             setPrologueActive(_prologueActive);
-            const _epilogueActive = await pool?.isEpilogue();
+            const _epilogueActive = await pool?.isEpilogue(contracts?.periodId);
             setEpilogueActive(_epilogueActive);
-
-            if (contracts?.periodId) setPeriodId(contracts.periodId);
         })();
     }, [contracts]);
 

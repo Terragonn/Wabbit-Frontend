@@ -7,8 +7,8 @@ export default function parseNumber(num: ethers.BigNumber | string, decimals: nu
     num = num.div(exponent);
 
     // Set num as number
-    if (num.abs().gt(1e9)) return (num.mul(100).div(1e9).toNumber() / 100).toString() + "B";
-    else if (num.abs().gt(1e6)) return (num.mul(100).div(1e6).toNumber() / 100).toString() + "M";
-    else if (num.abs().gt(1e3)) return (num.mul(100).div(1e3).toNumber() / 100).toString() + "K";
-    else return (num.mul(100).toNumber() / 100).toString();
+    if (num.abs().gt(1e9)) return (num.mul(100).div(1e9).toNumber() / 100).toFixed(2).toString() + "B";
+    else if (num.abs().gt(1e6)) return (num.mul(100).div(1e6).toNumber() / 100).toFixed(2).toString() + "M";
+    else if (num.abs().gt(1e3)) return (num.mul(100).div(1e3).toNumber() / 100).toFixed(2).toString() + "K";
+    else return (num.mul(100).toNumber() / 100).toFixed(2).toString();
 }

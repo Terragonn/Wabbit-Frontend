@@ -28,6 +28,7 @@ function Row(props: { data: AssetData; last: boolean }) {
         const pool = contracts?.pool;
         const oracle = contracts?.oracle;
         const margin = contracts?.margin;
+        const periodId = contracts?.periodId;
 
         // Get the data
         (async () => {
@@ -35,7 +36,7 @@ function Row(props: { data: AssetData; last: boolean }) {
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
             tempData.borrowed = parseNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
-            tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address), props.data.decimals);
+            tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address, periodId), props.data.decimals);
 
             if (parseInt(tempData.tvl) > 0) {
                 const decimals = await oracle?.getDecimals();
