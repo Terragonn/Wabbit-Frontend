@@ -25,6 +25,11 @@ function Withdraw(props: {}) {
     async function withdraw() {
         // Require a specified amount before withdrawing
         if (!amount.gt(0)) return;
+
+        const pool = contracts?.pool;
+
+        const periodId = pool?.currentPeriodId();
+        await pool?.redeem(asset.address, amount, periodId);
     }
 
     useEffect(() => {

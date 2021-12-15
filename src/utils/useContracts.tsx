@@ -11,6 +11,7 @@ interface Contracts {
     pool: ethers.Contract;
     oracle: ethers.Contract;
     margin: ethers.Contract;
+    periodId: number;
 }
 
 export default function useContracts() {
@@ -22,7 +23,7 @@ const contractCtx = createContext<[Contracts | null, (contracts: Contracts | nul
 export function ContractsProvider(props: { children: any }) {
     const { active, library } = useWeb3React();
 
-    function getContracts() {
+    async function getContracts() {
         if (active) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
@@ -31,15 +32,19 @@ export function ContractsProvider(props: { children: any }) {
             const oracle = new ethers.Contract(config.oracleAddress, IOracle.abi, signer);
             const margin = new ethers.Contract(config.marginAddress, IMargin.abi, signer);
 
-            return { pool, oracle, margin };
+            const periodId = (await pool.currentPeriodId()).toNumber();
+
+            return { pool, oracle, margin, periodId };
         }
         return null;
     }
 
-    const [contracts, setContracts] = useState<Contracts | null>(getContracts);
+    const [contracts, setContracts] = useState<Contracts | null>(null);
 
     useEffect(() => {
-        setContracts(getContracts());
+        (async () => {
+            setContracts(await getContracts());
+        })();
     }, [active]);
 
     return <contractCtx.Provider value={[contracts, setContracts]}>{props.children}</contractCtx.Provider>;
