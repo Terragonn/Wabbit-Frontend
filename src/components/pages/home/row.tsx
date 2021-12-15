@@ -30,6 +30,8 @@ function Row(props: { data: AssetData; last: boolean }) {
         const margin = contracts?.margin;
         const periodId = contracts?.periodId;
 
+        // =========== ************* Its actually quite the dilemma what we do here - do we want this to always be for the current period id or do we want there to be options for different periods ?
+
         // Get the data
         (async () => {
             const tempData: Data = {} as any;
@@ -38,17 +40,19 @@ function Row(props: { data: AssetData; last: boolean }) {
             tempData.borrowed = parseNumber(await margin?.totalBorrowed(props.data.address, pool?.address), props.data.decimals);
             tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address, periodId), props.data.decimals);
 
-            if (parseInt(tempData.tvl) > 0) {
+            try {
                 const decimals = await oracle?.getDecimals();
                 const interestRate = await margin?.calculateInterestRate(props.data.address, pool?.address);
                 const apy = interestRate.mul(3.154e7);
 
                 tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
-            } else tempData.apy = parseNumber("0", 0);
+            } catch {
+                tempData.apy = parseNumber("0", 0);
+            }
 
             setData(tempData);
         })();
-    }, []);
+    }, [contracts]);
 
     return (
         <tr className={`text-white font-normal text-lg ${!props.last ? "border-b-2" : ""} border-zinc-800 text-center`}>
