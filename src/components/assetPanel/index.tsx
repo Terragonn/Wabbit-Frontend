@@ -70,8 +70,6 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                         const erc20 = loadERC20(asset.address, signer);
                         const balance =
                             (await erc20.balanceOf(signerAddress)).mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber() / ROUND_CONSTANT;
-                        // **** I want to fix this to just use the decimals thing, and then fix the decimals thing to include an extra decimal point (all standardized)
-                        // **** Then im going to use the period id for everything so that it is adjustable
 
                         setAmount(balance);
                         setMaxAmount(balance);
