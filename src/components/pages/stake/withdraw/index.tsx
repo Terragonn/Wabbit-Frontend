@@ -50,7 +50,6 @@ function Withdraw(props: {}) {
                 const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
                 stakeValue = stakeValue.add(valueCurrent);
             } catch {}
-
             try {
                 const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
                 stakeValue = stakeValue.add(valueNext);
