@@ -45,13 +45,18 @@ function Withdraw(props: {}) {
             tempData.initialStake = parseNumber(balCurrent.add(balNext).toString(), asset.decimals);
 
             // Calculate initial stake value
+            let stakeValue = ethers.BigNumber.from(0);
             try {
                 const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
+                stakeValue = stakeValue.add(valueCurrent);
+            } catch {}
+
+            try {
                 const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
-                tempData.currentStakeValue = parseNumber(valueCurrent.add(valueNext), asset.decimals);
-            } catch {
-                tempData.currentStakeValue = parseNumber("0", 0);
-            }
+                stakeValue = stakeValue.add(valueNext);
+            } catch {}
+
+            tempData.currentStakeValue = parseNumber(stakeValue, asset.decimals);
 
             setData(tempData);
         })();
