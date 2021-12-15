@@ -27,13 +27,14 @@ function Withdraw(props: {}) {
         if (!amount.gt(0)) return;
 
         const pool = contracts?.pool;
+        const periodId = contracts?.periodId;
 
-        const periodId = pool?.currentPeriodId();
         await pool?.redeem(asset.address, amount, periodId);
     }
 
     useEffect(() => {
         const pool = contracts?.pool;
+        const periodId = contracts?.periodId;
 
         (async () => {
             const tempData: Data = {} as any;
@@ -42,22 +43,15 @@ function Withdraw(props: {}) {
             const signer = provider.getSigner();
             const signerAddress = await signer.getAddress();
 
-            const periodId = await pool?.currentPeriodId();
-
             // Calculate initial stake
             const balCurrent = await pool?.balanceOf(signerAddress, asset.address, periodId);
-            const balNext = await pool?.balanceOf(signerAddress, asset.address, periodId.add(1));
-            tempData.initialStake = parseNumber(balCurrent.add(balNext).toString(), asset.decimals);
+            tempData.initialStake = parseNumber(balCurrent, asset.decimals);
 
             // Calculate initial stake value
             let stakeValue = ethers.BigNumber.from(0);
             try {
-                const valueCurrent = await pool?.redeemValue(asset.address, periodId, balCurrent);
+                const valueCurrent = await pool?.redeemValue(asset.address, balCurrent, periodId);
                 stakeValue = stakeValue.add(valueCurrent);
-            } catch {}
-            try {
-                const valueNext = await pool?.redeemValue(asset.address, periodId.add(1), balNext);
-                stakeValue = stakeValue.add(valueNext);
             } catch {}
 
             tempData.currentStakeValue = parseNumber(stakeValue, asset.decimals);
