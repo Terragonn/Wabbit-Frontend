@@ -37,7 +37,7 @@ function Deposit(props: {}) {
         const provider = new ethers.providers.Web3Provider(library.provider);
         const signer = provider.getSigner();
         const erc20 = loadERC20(asset.address, signer);
-        approveERC20(erc20, pool?.address as string);
+        await approveERC20(erc20, pool?.address as string);
 
         // Deposit into the current pool period
         await pool?.stake(asset.address, amount, periodId);
