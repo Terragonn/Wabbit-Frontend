@@ -30,22 +30,17 @@ function Deposit(props: {}) {
         // Require a specified amount before depositing
         if (!amount.gt(0)) return;
 
-        // Deposit the asset into the current pool or the next pool
+        // Deposit the asset into the pool with the given period id
         const pool = contracts?.pool;
-        const isPrologue = await pool?.isPrologue();
+        const periodId = contracts?.periodId;
 
         const provider = new ethers.providers.Web3Provider(library.provider);
         const signer = provider.getSigner();
         const erc20 = loadERC20(asset.address, signer);
         approveERC20(erc20, pool?.address as string);
 
-        if (isPrologue) {
-            // Deposit into the current pool period
-            await pool?.stake(asset.address, amount);
-        } else {
-            // Deposit into the next pool period
-            await pool?.stakeNext(asset.address, amount);
-        }
+        // Deposit into the current pool period
+        await pool?.stake(asset.address, amount, periodId);
     }
 
     useEffect(() => {
