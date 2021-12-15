@@ -48,11 +48,12 @@ function Deposit(props: {}) {
         const pool = contracts?.pool;
         const oracle = contracts?.oracle;
         const margin = contracts?.margin;
-        const periodId = contracts?.periodId;
 
         // Get the data
         (async () => {
             const tempData: Data = {} as any;
+
+            const periodId = pool?.currentPeriodId();
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address, pool?.address), asset.decimals);
             tempData.borrowed = parseNumber(await margin?.totalBorrowed(asset.address, pool?.address), asset.decimals);

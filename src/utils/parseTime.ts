@@ -3,13 +3,13 @@ export default function parseTime(time: number) {
     const seconds = new Date(time).getTime();
     let delta = (seconds - now) / 1000;
 
-    const days = Math.floor(delta / 86400);
+    const days = Math.max(0, Math.floor(delta / 86400));
     delta %= 86400;
 
-    const hours = Math.floor(delta / 3600);
+    const hours = Math.max(0, Math.floor(delta / 3600));
     delta %= 3600;
 
-    const mins = Math.floor(delta / 60);
+    const mins = Math.max(0, Math.floor(delta / 60));
 
     return `${days}d ${hours}h ${mins}m`;
 }
