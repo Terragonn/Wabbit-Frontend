@@ -50,10 +50,10 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
                 <h2>Collateral: {data?.collateral}</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-3">
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}>
                 Deposit {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
-            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}>
                 Withdraw {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
