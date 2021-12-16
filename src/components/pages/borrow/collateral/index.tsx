@@ -71,6 +71,22 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
     async function withdraw() {
         // Require a specific amount before withdrawing
         if (!amount.gt(0)) return;
+
+        try {
+            // Deposit the asset into the pool with the given period id
+            const margin = contracts?.margin;
+            const periodId = contracts?.periodId;
+
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const erc20 = loadERC20(asset.address, signer);
+            await approveERC20(erc20, margin?.address as string);
+
+            // Deposit into the current pool period
+            await margin?.withdraw(asset.address, props.borrowed.address, amount, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
     }
 
     return (
