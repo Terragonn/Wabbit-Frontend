@@ -84,11 +84,26 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
     async function borrow() {
         // Require a specific amount before borrowing
         if (!amount.gt(0)) return;
+
+        try {
+            // Borrow assets against collateral
+            const margin = contracts?.margin;
+            const periodId = contracts?.periodId;
+
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const signerAddress = await signer.getAddress();
+
+            // Borrow for the current period
+            await margin?.borrow(props.collateral.address, asset.address, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
     }
 
     async function repay() {
         try {
-            // Deposit the asset into the pool with the given period id
+            // Repay the borrowed assets
             const margin = contracts?.margin;
             const periodId = contracts?.periodId;
 
