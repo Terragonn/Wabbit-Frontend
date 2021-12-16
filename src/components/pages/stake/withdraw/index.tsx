@@ -29,6 +29,9 @@ function Withdraw(props: {}) {
         const pool = contracts?.pool;
         const periodId = contracts?.periodId;
 
+        const liquidity = await pool?.getLiquidity(asset.address, periodId);
+        console.log(liquidity.toString());
+
         await pool?.redeem(asset.address, amount, periodId);
     }
 
