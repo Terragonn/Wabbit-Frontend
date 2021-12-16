@@ -8,6 +8,7 @@ import parseNumber from "../../../../utils/parseNumber";
 import approveERC20 from "../../../../utils/approveERC20";
 import loadERC20 from "../../../../utils/loadERC20";
 import { useWeb3React } from "@web3-react/core";
+import useError from "../../../../utils/useError";
 
 interface Data {
     available: string;
@@ -24,23 +25,29 @@ function Deposit(props: {}) {
 
     const [contracts] = useContracts();
 
+    const [, setError] = useError();
+
     const [data, setData] = useState<Data | null>(null);
 
     async function deposit() {
         // Require a specified amount before depositing
         if (!amount.gt(0)) return;
 
-        // Deposit the asset into the pool with the given period id
-        const pool = contracts?.pool;
-        const periodId = contracts?.periodId;
+        try {
+            // Deposit the asset into the pool with the given period id
+            const pool = contracts?.pool;
+            const periodId = contracts?.periodId;
 
-        const provider = new ethers.providers.Web3Provider(library.provider);
-        const signer = provider.getSigner();
-        const erc20 = loadERC20(asset.address, signer);
-        await approveERC20(erc20, pool?.address as string);
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const erc20 = loadERC20(asset.address, signer);
+            await approveERC20(erc20, pool?.address as string);
 
-        // Deposit into the current pool period
-        await pool?.stake(asset.address, amount, periodId);
+            // Deposit into the current pool period
+            await pool?.stake(asset.address, amount, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
     }
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import useContracts from "../../../../utils/useContracts";
 import { useWeb3React } from "@web3-react/core";
 import parseNumber from "../../../../utils/parseNumber";
+import useError from "../../../../utils/useError";
 
 interface Data {
     initialStake: string;
@@ -20,6 +21,8 @@ function Withdraw(props: {}) {
 
     const [contracts] = useContracts();
 
+    const [, setError] = useError();
+
     const [data, setData] = useState<Data | null>(null);
 
     async function withdraw() {
@@ -29,7 +32,11 @@ function Withdraw(props: {}) {
         const pool = contracts?.pool;
         const periodId = contracts?.periodId;
 
-        await pool?.redeem(asset.address, amount, periodId);
+        try {
+            await pool?.redeem(asset.address, amount, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
     }
 
     useEffect(() => {
