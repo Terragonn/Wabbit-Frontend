@@ -19,12 +19,6 @@
           "type": "uint256"
         },
         {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
-        },
-        {
           "indexed": false,
           "internalType": "contract IERC20",
           "name": "collateral",
@@ -62,12 +56,6 @@
           "type": "uint256"
         },
         {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
-        },
-        {
           "indexed": false,
           "internalType": "contract IERC20",
           "name": "collateral",
@@ -103,12 +91,6 @@
           "internalType": "uint256",
           "name": "periodId",
           "type": "uint256"
-        },
-        {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
         },
         {
           "indexed": false,
@@ -154,12 +136,6 @@
           "type": "uint256"
         },
         {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
-        },
-        {
           "indexed": false,
           "internalType": "contract IERC20",
           "name": "collateral",
@@ -195,12 +171,6 @@
           "internalType": "uint256",
           "name": "periodId",
           "type": "uint256"
-        },
-        {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
         },
         {
           "indexed": false,
@@ -242,11 +212,6 @@
           "type": "address"
         },
         {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
-        },
-        {
           "internalType": "uint256",
           "name": "_periodId",
           "type": "uint256"
@@ -279,11 +244,6 @@
           "internalType": "uint256",
           "name": "_amount",
           "type": "uint256"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "borrow",
@@ -294,27 +254,27 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_collateral",
+          "type": "address"
+        },
+        {
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
         },
         {
           "internalType": "uint256",
-          "name": "_initialBorrow",
+          "name": "_periodId",
           "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_borrowTime",
-          "type": "uint256"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
-      "name": "calculateInterest",
+      "name": "borrowTime",
       "outputs": [
         {
           "internalType": "uint256",
@@ -333,8 +293,32 @@
           "type": "address"
         },
         {
-          "internalType": "contract IVPool",
-          "name": "_pool",
+          "internalType": "uint256",
+          "name": "_initialBorrow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_borrowTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateInterest",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "_borrowed",
           "type": "address"
         }
       ],
@@ -380,14 +364,43 @@
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "calculateMarginLevel",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_collateral",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_borrowed",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
+      "name": "collateralOf",
       "outputs": [
         {
           "internalType": "uint256",
@@ -414,6 +427,40 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_collateral",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_borrowed",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
+        }
+      ],
+      "name": "debtOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "contract IERC20",
           "name": "_collateral",
           "type": "address"
@@ -427,11 +474,6 @@
           "internalType": "uint256",
           "name": "_amount",
           "type": "uint256"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "deposit",
@@ -454,11 +496,6 @@
         {
           "internalType": "contract IERC20",
           "name": "_borrowed",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
           "type": "address"
         }
       ],
@@ -483,14 +520,22 @@
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "getMarginLevel",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMinBorrowLength",
       "outputs": [
         {
           "internalType": "uint256",
@@ -530,11 +575,6 @@
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "isLiquidatable",
@@ -553,11 +593,6 @@
         {
           "internalType": "contract IERC20",
           "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
           "type": "address"
         }
       ],
@@ -588,11 +623,6 @@
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         }
       ],
       "name": "repay",
@@ -605,11 +635,6 @@
         {
           "internalType": "contract IERC20",
           "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
           "type": "address"
         }
       ],
@@ -640,11 +665,6 @@
           "internalType": "uint256",
           "name": "_amount",
           "type": "uint256"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
         },
         {
           "internalType": "uint256",
