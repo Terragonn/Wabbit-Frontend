@@ -150,55 +150,6 @@
         {
           "indexed": true,
           "internalType": "uint256",
-          "name": "periodIdTo",
-          "type": "uint256"
-        },
-        {
-          "indexed": true,
-          "internalType": "contract IVPool",
-          "name": "pool",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "contract IERC20",
-          "name": "collateral",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "contract IERC20",
-          "name": "borrowed",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "caller",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "periodIdFrom",
-          "type": "uint256"
-        }
-      ],
-      "name": "Redeposit",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint256",
           "name": "periodId",
           "type": "uint256"
         },
@@ -619,39 +570,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_collateral",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_borrowed",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IVPool",
-          "name": "_pool",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_periodId",
-          "type": "uint256"
-        }
-      ],
-      "name": "redeposit",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {

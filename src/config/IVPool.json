@@ -94,43 +94,6 @@
         },
         {
           "indexed": false,
-          "internalType": "address",
-          "name": "caller",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "periodIdFrom",
-          "type": "uint256"
-        }
-      ],
-      "name": "Restake",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "account",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint256",
-          "name": "periodId",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "contract IERC20",
-          "name": "token",
-          "type": "address"
-        },
-        {
-          "indexed": false,
           "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
@@ -493,29 +456,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        },
-        {
-          "internalType": "contract IERC20",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_periodIdFrom",
-          "type": "uint256"
-        }
-      ],
-      "name": "restake",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
