@@ -3,6 +3,7 @@ import AssetPanel from "../../../assetPanel";
 import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
 import { ethers } from "ethers";
+import parseNumber from "../../../../utils/parseNumber";
 
 function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
@@ -23,10 +24,12 @@ function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
                 <h2>Margin level: 999.0</h2>
                 <h2>Min borrow period: 1d</h2>
                 <h2>Available: 2.6B</h2>
+                <h2>Margin balance: 2.4B</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
-                Borrow {amount} {asset.symbol}
+            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-2">
+                Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
+            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">Repay</button>
         </div>
     );
 }
