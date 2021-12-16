@@ -66,7 +66,16 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength));
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
-            tempData.marginBalance = parseNumber(await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId), props.collateral.decimals);
+            if (totalBorrowed.gt(0))
+                tempData.marginBalance = parseNumber(
+                    await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId),
+                    props.collateral.decimals
+                );
+            else
+                tempData.marginBalance = parseNumber(
+                    await margin?.collateralOf(signerAddress, props.collateral.address, asset.address, periodId),
+                    props.collateral.decimals
+                );
 
             setData(tempData);
         })();
