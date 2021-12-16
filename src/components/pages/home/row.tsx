@@ -25,8 +25,8 @@ function Row(props: { data: AssetData; last: boolean }) {
 
     useEffect(() => {
         // Get the contracts
-        const oracle = contracts?.oracle;
         const margin = contracts?.margin;
+        const oracle = contracts?.oracle;
 
         // Get the data
         (async () => {
@@ -35,6 +35,8 @@ function Row(props: { data: AssetData; last: boolean }) {
             const totalAvailable = await margin?.liquidityAvailable(props.data.address);
             tempData.available = parseNumber(totalAvailable, props.data.decimals);
             const totalBorrowed = await margin?.totalBorrowed(props.data.address);
+
+            console.log(props.data.symbol, totalBorrowed.toString());
             tempData.borrowed = parseNumber(totalBorrowed, props.data.decimals);
 
             tempData.tvl = parseNumber(totalAvailable.add(totalBorrowed), props.data.decimals);
@@ -43,8 +45,7 @@ function Row(props: { data: AssetData; last: boolean }) {
                 const decimals = await oracle?.getDecimals();
                 const interestRate = await margin?.calculateInterestRate(props.data.address);
                 const apy = interestRate.mul(3.154e7);
-
-                tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
+                tempData.apy = parseNumber(apy, decimals.div(100));
             } else tempData.apy = parseNumber("0", 0);
 
             setData(tempData);

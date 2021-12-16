@@ -54,9 +54,9 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
                 const interestRate = await margin?.calculateInterestRate(asset.address);
-                const apy = interestRate.mul(3.154e7); // **** Perhaps dont make it APY and instead make it over the period length ?
+                const apy = interestRate.mul(3.154e7);
 
-                tempData.interest = parseNumber(apy, decimals.div(100).toNumber());
+                tempData.interest = parseNumber(apy, decimals.div(100));
             } else tempData.interest = parseNumber("0", 0);
 
             tempData.marginLevel = parseNumber(await margin?.getMarginLevel(signerAddress, props.collateral.address, asset.address), oracleDecimals);
@@ -95,7 +95,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             const signerAddress = await signer.getAddress();
 
             // Borrow for the current period
-            await margin?.borrow(props.collateral.address, asset.address, periodId);
+            await margin?.borrow(props.collateral.address, asset.address, amount);
         } catch (e: any) {
             setError(e.data?.message || null);
         }

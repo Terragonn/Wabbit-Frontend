@@ -71,7 +71,7 @@ function Deposit(props: {}) {
                 const interestRate = await margin?.calculateInterestRate(asset.address);
                 const apy = interestRate.mul(3.154e7);
 
-                tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
+                tempData.apy = parseNumber(apy, decimals.div(100));
             } else tempData.apy = parseNumber("0", 0);
 
             setData(tempData);
