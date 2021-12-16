@@ -6,6 +6,9 @@ import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
 import useContracts from "../../../../utils/useContracts";
 import { useWeb3React } from "@web3-react/core";
+import loadERC20 from "../../../../utils/loadERC20";
+import approveERC20 from "../../../../utils/approveERC20";
+import useError from "../../../../utils/useError";
 
 interface Data {
     collateral: string;
@@ -18,6 +21,8 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
     const { library } = useWeb3React();
 
     const [contracts] = useContracts();
+
+    const [, setError] = useError();
 
     const [data, setData] = useState<Data | null>(null);
 
@@ -44,10 +49,27 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
     }, [contracts]);
 
     async function deposit() {
+        // Require a specific amount before depositing
         if (!amount.gt(0)) return;
+
+        try {
+            // Deposit the asset into the pool with the given period id
+            const margin = contracts?.margin;
+
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const erc20 = loadERC20(asset.address, signer);
+            await approveERC20(erc20, margin?.address as string);
+
+            // Deposit into the current pool period
+            await margin?.deposit(asset.address, props.borrowed.address, amount);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
     }
 
     async function withdraw() {
+        // Require a specific amount before withdrawing
         if (!amount.gt(0)) return;
     }
 
