@@ -5,7 +5,16 @@ import config from "../../../../config/config.json";
 import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
 
-function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
+interface Data {
+    debt: string;
+    interest: string;
+    marginLevel: string;
+    minBorrowPeriod: string;
+    available: string;
+    marginBalance: string;
+}
+
+function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 

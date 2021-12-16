@@ -12,10 +12,10 @@ function BorrowPage(props: {}) {
     return (
         <div className="flex lg:items-start items-center justify-between lg:flex-row flex-col text-base text-white mb-4">
             <div className="w-full lg:mx-5 lg:my-0 mb-10">
-                <Deposit setCollateral={setCollateral} />
+                <Deposit borrowed={borrowed} setCollateral={setCollateral} />
             </div>
             <div className="w-full lg:mx-5 lg:my-0 mb-10">
-                <Borrow setBorrowed={setBorrowed} />
+                <Borrow collateral={collateral} setBorrowed={setBorrowed} />
             </div>
         </div>
     );
