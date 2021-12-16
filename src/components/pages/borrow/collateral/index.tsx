@@ -41,8 +41,7 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
             const signer = provider.getSigner();
             const signerAddress = await signer.getAddress();
 
-            const collateral = await margin?.collateralOf(signerAddress, asset.address, props.borrowed.address, periodId);
-            tempData.collateral = parseNumber(collateral, asset.decimals);
+            tempData.collateral = parseNumber(await margin?.collateralOf(signerAddress, asset.address, props.borrowed.address, periodId), asset.decimals);
 
             setData(tempData);
         })();

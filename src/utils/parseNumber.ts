@@ -1,11 +1,13 @@
 import { ethers } from "ethers";
 
-export default function parseNumber(num: ethers.BigNumber | string, decimals: number): string {
+export default function parseNumber(num: ethers.BigNumber | string, decimals: number | ethers.BigNumber): string {
     const ROUND_CONSTANT = 1e3;
 
     // Appreviate a number with its alphabetical representation
     if (!(num instanceof ethers.BigNumber)) num = ethers.BigNumber.from(num);
-    const exponent = ethers.BigNumber.from(10).pow(decimals);
+    let exponent;
+    if (decimals instanceof ethers.BigNumber) exponent = decimals;
+    else exponent = ethers.BigNumber.from(10).pow(decimals);
     num = num.mul(ROUND_CONSTANT).div(exponent);
 
     // Set num as number

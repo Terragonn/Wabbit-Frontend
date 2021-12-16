@@ -4,6 +4,10 @@ import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
 import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
+import useContracts from "../../../../utils/useContracts";
+import useError from "../../../../utils/useError";
+import { useWeb3React } from "@web3-react/core";
+import parseTime from "../../../../utils/parseTime";
 
 interface Data {
     debt: string;
@@ -15,12 +19,58 @@ interface Data {
 }
 
 function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) => void }) {
+    const { library } = useWeb3React();
+
     const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
+
+    const [contracts] = useContracts();
+
+    const [, setError] = useError();
+
+    const [data, setData] = useState<Data | null>(null);
 
     useEffect(() => {
         props.setBorrowed(asset);
     }, [asset]);
+
+    useEffect(() => {
+        const margin = contracts?.margin;
+        const oracle = contracts?.oracle;
+        const periodId = contracts?.periodId;
+
+        (async () => {
+            const tempData: Data = {} as any;
+
+            const oracleDecimals = await oracle?.getDecimals();
+
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const signerAddress = await signer.getAddress();
+
+            tempData.debt = parseNumber(await margin?.debtOf(signerAddress, props.collateral.address, asset.address, periodId), asset.decimals);
+
+            const totalBorrowed = await margin?.totalBorrowed(asset.address);
+            if (totalBorrowed.gt(0)) {
+                const decimals = await oracle?.getDecimals();
+                const interestRate = await margin?.calculateInterestRate(asset.address);
+                const apy = interestRate.mul(3.154e7); // **** Perhaps dont make it APY and instead make it over the period length ?
+
+                tempData.interest = parseNumber(apy, decimals.div(100).toNumber());
+            } else tempData.interest = parseNumber("0", 0);
+
+            tempData.marginLevel = parseNumber(await margin?.getMarginLevel(signerAddress, props.collateral.address, asset.address), oracleDecimals);
+
+            const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address, periodId);
+            const minBorrowLength = await margin?.getMinBorrowLength();
+            tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength));
+
+            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
+            tempData.marginBalance = parseNumber(await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId), props.collateral.decimals);
+
+            setData(tempData);
+        })();
+    }, [contracts]);
 
     return (
         <div className="flex flex-col justify-center items-stretch">
@@ -35,10 +85,10 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
                 <h2>Available: 2.6B</h2>
                 <h2>Margin balance: 2.4B</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-3">
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}>
                 Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
-            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
+            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}>
                 Repay {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
