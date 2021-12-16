@@ -25,7 +25,6 @@ function Row(props: { data: AssetData; last: boolean }) {
 
     useEffect(() => {
         // Get the contracts
-        const pool = contracts?.pool;
         const oracle = contracts?.oracle;
         const margin = contracts?.margin;
 
@@ -33,12 +32,12 @@ function Row(props: { data: AssetData; last: boolean }) {
         (async () => {
             const tempData: Data = {} as any;
 
-            const periodId = await pool?.currentPeriodId();
-
-            tempData.available = parseNumber(await margin?.liquidityAvailable(props.data.address), props.data.decimals);
+            const totalAvailable = await margin?.liquidityAvailable(props.data.address);
+            tempData.available = parseNumber(totalAvailable, props.data.decimals);
             const totalBorrowed = await margin?.totalBorrowed(props.data.address);
             tempData.borrowed = parseNumber(totalBorrowed, props.data.decimals);
-            tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address, periodId), props.data.decimals);
+
+            tempData.tvl = parseNumber(totalAvailable.add(totalBorrowed), props.data.decimals);
 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
@@ -60,7 +59,6 @@ function Row(props: { data: AssetData; last: boolean }) {
                 <span className="mx-1 sm:text-zinc-500 text-white">{props.data.symbol}</span>
             </td>
 
-            {/* The following will need to be calculated and are currently just placeholders - also use the nice "billion" formats */}
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.available}</td>
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.borrowed}</td>
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.tvl}</td>

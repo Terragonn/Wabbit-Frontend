@@ -52,7 +52,6 @@ function Deposit(props: {}) {
 
     useEffect(() => {
         // Get the contracts
-        const pool = contracts?.pool;
         const oracle = contracts?.oracle;
         const margin = contracts?.margin;
 
@@ -60,12 +59,12 @@ function Deposit(props: {}) {
         (async () => {
             const tempData: Data = {} as any;
 
-            const periodId = pool?.currentPeriodId();
-
-            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
+            const totalAvailable = await margin?.liquidityAvailable(asset.address);
+            tempData.available = parseNumber(totalAvailable, asset.decimals);
             const totalBorrowed = await margin?.totalBorrowed(asset.address);
             tempData.borrowed = parseNumber(totalBorrowed, asset.decimals);
-            tempData.tvl = parseNumber(await pool?.getLiquidity(asset.address, periodId), asset.decimals);
+
+            tempData.tvl = parseNumber(totalAvailable.add(totalBorrowed), asset.decimals);
 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
