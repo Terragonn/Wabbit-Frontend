@@ -4,14 +4,23 @@ import { AssetData } from "../../home/row";
 import config from "../../../../config/config.json";
 import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
+import useContracts from "../../../../utils/useContracts";
+
+interface Data {}
 
 function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [asset, setAsset] = useState<AssetData>(config.approved[0]);
 
+    const [contracts] = useContracts();
+
+    const [data, setData] = useState<Data | null>(null);
+
     useEffect(() => {
         props.setCollateral(asset);
     }, [asset]);
+
+    useEffect(() => {}, [contracts]);
 
     // **** Todo I need to add the data back to the thing and possibly add some more getters for example to get the remaining period time left and the margin balance and the collateral
 
