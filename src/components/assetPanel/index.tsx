@@ -13,7 +13,7 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
 
     const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
 
-    const ROUND_CONSTANT = 1e3;
+    const ROUND_CONSTANT = 1e2;
 
     useEffect(() => {
         props.onChangeAsset(asset);
