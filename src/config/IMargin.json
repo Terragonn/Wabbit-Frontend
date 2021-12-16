@@ -623,6 +623,11 @@
           "internalType": "contract IERC20",
           "name": "_borrowed",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_periodId",
+          "type": "uint256"
         }
       ],
       "name": "repay",
