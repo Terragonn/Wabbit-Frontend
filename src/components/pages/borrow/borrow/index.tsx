@@ -81,12 +81,16 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
         })();
     }, [contracts]);
 
+    async function borrow() {}
+
+    async function repay() {}
+
     return (
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Borrow</h1>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
-            {/* Update these with the actual values */}
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
+                {/* **** Perhaps in here and in the other parts add in the symbol of the token being referenced ? */}
                 <h2>Debt: {data?.debt}</h2>
                 <h2>Interest: {data?.interest}%</h2>
                 <h2>Margin level: {data?.marginLevel}</h2>
@@ -94,10 +98,16 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
                 <h2>Available: {data?.available}</h2>
                 <h2>Margin balance: {data?.marginBalance}</h2>
             </div>
-            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}>
+            <button
+                className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}
+                onClick={borrow}
+            >
                 Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
-            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}>
+            <button
+                className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}
+                onClick={repay}
+            >
                 Repay {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
