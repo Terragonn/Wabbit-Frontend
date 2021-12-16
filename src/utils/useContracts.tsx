@@ -14,11 +14,11 @@ interface Contracts {
     periodId: number;
 }
 
+const contractCtx = createContext<[Contracts | null, (contracts: Contracts | null) => void]>(undefined as any);
+
 export default function useContracts() {
     return useContext(contractCtx);
 }
-
-const contractCtx = createContext<[Contracts | null, (contracts: Contracts | null) => void]>(undefined as any);
 
 export function ContractsProvider(props: { children: any }) {
     const { active, library } = useWeb3React();

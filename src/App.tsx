@@ -11,6 +11,7 @@ import Stake from "./components/pages/stake";
 import Borrow from "./components/pages/borrow";
 
 import { ContractsProvider } from "./utils/useContracts";
+import { ErrorProvider } from "./utils/useError";
 
 interface PageLink extends Link {
     component: JSX.Element;
@@ -35,8 +36,10 @@ function App() {
                 }}
             >
                 <ContractsProvider>
-                    <Nav navLinks={links} current={pageId} setPageId={setPageId} />
-                    <Base>{links[pageId].component}</Base>
+                    <ErrorProvider>
+                        <Nav navLinks={links} current={pageId} setPageId={setPageId} />
+                        <Base>{links[pageId].component}</Base>
+                    </ErrorProvider>
                 </ContractsProvider>
             </Web3ReactProvider>
         </div>
