@@ -10,9 +10,13 @@ function BorrowPage(props: {}) {
     const [borrowed, setBorrowed] = useState<AssetData>(config.approved[0]);
 
     return (
-        <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 mx-5 text-base text-white mb-4">
-            <Deposit setCollateral={setCollateral} />
-            <Borrow setBorrowed={setBorrowed} />
+        <div className="flex lg:items-start items-center justify-between lg:flex-row flex-col text-base text-white mb-4">
+            <div className="w-full lg:mx-5 lg:my-0 mb-10">
+                <Deposit setCollateral={setCollateral} />
+            </div>
+            <div className="w-full lg:mx-5 lg:my-0 mb-10">
+                <Borrow setBorrowed={setBorrowed} />
+            </div>
         </div>
     );
 }

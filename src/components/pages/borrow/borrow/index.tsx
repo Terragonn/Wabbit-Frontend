@@ -15,7 +15,7 @@ function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
 
     return (
         <div className="flex flex-col justify-center items-stretch">
-            <h1 className="text-white text-lg font-medium mx-5">Borrow Against Collateral</h1>
+            <h1 className="text-white text-lg font-medium mx-5">Borrow</h1>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
