@@ -13,6 +13,8 @@ function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
         props.setCollateral(asset);
     }, [asset]);
 
+    // **** Todo I need to add the data back to the thing and possibly add some more getters for example to get the remaining period time left and the margin balance and the collateral
+
     return (
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Collateral</h1>
