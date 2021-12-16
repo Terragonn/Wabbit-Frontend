@@ -71,7 +71,6 @@ function Withdraw(props: {}) {
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Withdraw</h1>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
-            {/* Update these with the actual values */}
             <div className="grid grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
                 <h2>
                     Initial stake: {data?.initialStake} {asset.symbol}
