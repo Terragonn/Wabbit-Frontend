@@ -89,7 +89,10 @@ function Deposit(props: {}) {
                 <h2>TVL: {data?.tvl}</h2>
                 <h2>APY: {data?.apy}%</h2>
             </div>
-            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={deposit}>
+            <button
+                className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}
+                onClick={deposit}
+            >
                 Deposit {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>

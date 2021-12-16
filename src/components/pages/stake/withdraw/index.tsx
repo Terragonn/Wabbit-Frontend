@@ -67,6 +67,8 @@ function Withdraw(props: {}) {
         })();
     }, [contracts, asset]);
 
+    async function restake() {}
+
     return (
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Withdraw</h1>
@@ -76,8 +78,14 @@ function Withdraw(props: {}) {
                 <h2>Initial stake: {data?.initialStake}</h2>
                 <h2>Current stake value: {data?.currentStakeValue}</h2>
             </div>
-            <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500"} p-3 rounded-md text-white font-medium`} onClick={withdraw}>
+            <button
+                className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}
+                onClick={withdraw}
+            >
                 Withdraw {parseNumber(amount, asset.decimals)} {asset.symbol}
+            </button>
+            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium" onClick={restake}>
+                Restake Into Current Period
             </button>
         </div>
     );

@@ -6,7 +6,15 @@ import { ethers } from "ethers";
 import parseNumber from "../../../../utils/parseNumber";
 import useContracts from "../../../../utils/useContracts";
 
-interface Data {}
+interface Data {
+    collateral: string;
+    debt: string;
+    interest: string;
+    marginLevel: string;
+    minBorrowPeriod: string;
+    available: string;
+    marginBalance: string;
+}
 
 function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
     const [amount, setAmount] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
@@ -31,7 +39,7 @@ function Deposit(props: { setCollateral: (asset: AssetData) => void }) {
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
                 <h2>Collateral: 200.0</h2>
             </div>
-            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-2">
+            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-3">
                 Deposit {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
             <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
