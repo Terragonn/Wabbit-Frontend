@@ -35,14 +35,14 @@ function Row(props: { data: AssetData; last: boolean }) {
 
             const periodId = await pool?.currentPeriodId();
 
-            tempData.available = parseNumber(await margin?.liquidityAvailable(props.data.address, pool?.address), props.data.decimals);
-            const totalBorrowed = await margin?.totalBorrowed(props.data.address, pool?.address);
+            tempData.available = parseNumber(await margin?.liquidityAvailable(props.data.address), props.data.decimals);
+            const totalBorrowed = await margin?.totalBorrowed(props.data.address);
             tempData.borrowed = parseNumber(totalBorrowed, props.data.decimals);
             tempData.tvl = parseNumber(await pool?.getLiquidity(props.data.address, periodId), props.data.decimals);
 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
-                const interestRate = await margin?.calculateInterestRate(props.data.address, pool?.address);
+                const interestRate = await margin?.calculateInterestRate(props.data.address);
                 const apy = interestRate.mul(3.154e7);
 
                 tempData.apy = parseNumber(apy, decimals.div(100).toNumber());

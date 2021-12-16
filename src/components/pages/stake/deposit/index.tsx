@@ -62,14 +62,14 @@ function Deposit(props: {}) {
 
             const periodId = pool?.currentPeriodId();
 
-            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address, pool?.address), asset.decimals);
-            const totalBorrowed = await margin?.totalBorrowed(asset.address, pool?.address);
+            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
+            const totalBorrowed = await margin?.totalBorrowed(asset.address);
             tempData.borrowed = parseNumber(totalBorrowed, asset.decimals);
             tempData.tvl = parseNumber(await pool?.getLiquidity(asset.address, periodId), asset.decimals);
 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
-                const interestRate = await margin?.calculateInterestRate(asset.address, pool?.address);
+                const interestRate = await margin?.calculateInterestRate(asset.address);
                 const apy = interestRate.mul(3.154e7);
 
                 tempData.apy = parseNumber(apy, decimals.div(100).toNumber());
