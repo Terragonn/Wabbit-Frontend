@@ -29,7 +29,9 @@ function Borrow(props: { setBorrowed: (asset: AssetData) => void }) {
             <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium mb-2">
                 Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
-            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">Repay</button>
+            <button className="bg-zinc-500 hover:bg-indigo-700 p-3 rounded-md text-white font-medium">
+                Repay {parseNumber(amount, asset.decimals)} {asset.symbol}
+            </button>
         </div>
     );
 }
