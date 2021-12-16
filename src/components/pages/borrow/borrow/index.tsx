@@ -84,7 +84,9 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
     async function borrow() {
         // Require a specific amount before borrowing
         if (!amount.gt(0)) return;
+    }
 
+    async function repay() {
         try {
             // Deposit the asset into the pool with the given period id
             const margin = contracts?.margin;
@@ -100,8 +102,6 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             setError(e.data?.message || null);
         }
     }
-
-    async function repay() {}
 
     return (
         <div className="flex flex-col justify-center items-stretch">
