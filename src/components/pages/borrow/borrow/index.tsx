@@ -79,7 +79,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
             setData(tempData);
         })();
-    }, [contracts]);
+    }, [contracts, asset]);
 
     async function borrow() {
         // Require a specific amount before borrowing
