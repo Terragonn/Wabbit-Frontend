@@ -84,9 +84,15 @@ function Deposit(props: {}) {
             <h1 className="text-white text-lg font-medium mx-5">Stake</h1>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
-                <h2>Liquidity: {data?.available}</h2>
-                <h2>Borrowed: {data?.borrowed}</h2>
-                <h2>TVL: {data?.tvl}</h2>
+                <h2>
+                    Liquidity: {data?.available} {asset.symbol}
+                </h2>
+                <h2>
+                    Borrowed: {data?.borrowed} {asset.symbol}
+                </h2>
+                <h2>
+                    TVL: {data?.tvl} {asset.symbol}
+                </h2>
                 <h2>APY: {data?.apy}%</h2>
             </div>
             <button

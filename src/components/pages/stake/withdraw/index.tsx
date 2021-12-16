@@ -73,8 +73,12 @@ function Withdraw(props: {}) {
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
             <div className="grid grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
-                <h2>Initial stake: {data?.initialStake}</h2>
-                <h2>Current stake value: {data?.currentStakeValue}</h2>
+                <h2>
+                    Initial stake: {data?.initialStake} {asset.symbol}
+                </h2>
+                <h2>
+                    Current stake value: {data?.currentStakeValue} {asset.symbol}
+                </h2>
             </div>
             <button
                 className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}
