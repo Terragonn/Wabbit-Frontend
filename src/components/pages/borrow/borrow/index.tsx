@@ -78,12 +78,12 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
             {/* Update these with the actual values */}
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
-                <h2>Debt: 3.6K</h2>
-                <h2>Interest: 23.05%</h2>
-                <h2>Margin level: 999.0</h2>
-                <h2>Min borrow period: 1d</h2>
-                <h2>Available: 2.6B</h2>
-                <h2>Margin balance: 2.4B</h2>
+                <h2>Debt: {data?.debt}</h2>
+                <h2>Interest: {data?.interest}%</h2>
+                <h2>Margin level: {data?.marginLevel}</h2>
+                <h2>Min borrow period: {data?.minBorrowPeriod}</h2>
+                <h2>Available: {data?.available}</h2>
+                <h2>Margin balance: {data?.marginBalance}</h2>
             </div>
             <button className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}>
                 Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
