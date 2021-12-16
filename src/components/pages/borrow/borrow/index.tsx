@@ -81,7 +81,10 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
         })();
     }, [contracts]);
 
-    async function borrow() {}
+    async function borrow() {
+        // Require a specific amount before borrowing
+        if (!amount.gt(0)) return;
+    }
 
     async function repay() {}
 
@@ -104,10 +107,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             >
                 Borrow {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
-            <button
-                className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}
-                onClick={repay}
-            >
+            <button className="bg-indigo-600 hover:bg-indigo-700 p-3 rounded-md text-white font-medium" onClick={repay}>
                 Repay {parseNumber(amount, asset.decimals)} {asset.symbol}
             </button>
         </div>
