@@ -1,12 +1,14 @@
 import Wallet from "../wallet";
 import useContracts from "../../utils/useContracts";
-import Period from "./period";
+import Period from "../period";
+import Error from "../error";
 
 function Base(props: { children: any }) {
     const [contracts] = useContracts();
 
     return (
         <>
+            <Error />
             <div className="mx-auto w-4/5 bg-zinc-900 my-10 p-8 rounded-md drop-shadow-sm text-center">
                 <Period />
             </div>
