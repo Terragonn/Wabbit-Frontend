@@ -67,6 +67,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber() * 1000);
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
+            // **** Look into this one a little bit more
             if (totalBorrowed.gt(0))
                 tempData.marginBalance = parseNumber(
                     await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId),
