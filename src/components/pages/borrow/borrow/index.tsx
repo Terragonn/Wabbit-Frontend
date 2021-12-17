@@ -48,7 +48,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             const signer = provider.getSigner();
             const signerAddress = await signer.getAddress();
 
-            tempData.debt = parseNumber(await margin?.debtOf(signerAddress, props.collateral.address, asset.address, periodId), asset.decimals);
+            tempData.debt = parseNumber(await margin?.debtOf(signerAddress, props.collateral.address, asset.address), asset.decimals);
 
             const totalBorrowed = await margin?.totalBorrowed(asset.address);
             if (totalBorrowed.gt(0)) {
@@ -61,7 +61,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
             tempData.marginLevel = parseNumber(await margin?.getMarginLevel(signerAddress, props.collateral.address, asset.address), oracleDecimals);
 
-            const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address, periodId);
+            const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address);
             const minBorrowLength = await margin?.getMinBorrowLength();
             tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber() * 1000);
 
