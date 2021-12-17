@@ -63,7 +63,8 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
             const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address, periodId);
             const minBorrowLength = await margin?.getMinBorrowLength();
-            tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber());
+            console.log(lastBorrowTime.add(minBorrowLength).toNumber());
+            tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber() * 1000);
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
             if (totalBorrowed.gt(0))
