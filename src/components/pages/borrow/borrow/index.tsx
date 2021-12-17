@@ -63,11 +63,9 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
             const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address, periodId);
             const minBorrowLength = await margin?.getMinBorrowLength();
-            console.log(lastBorrowTime.add(minBorrowLength).toNumber());
             tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber() * 1000);
 
             tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
-            // **** Look into this one a little bit more
             if (totalBorrowed.gt(0))
                 tempData.marginBalance = parseNumber(
                     await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId),
@@ -90,11 +88,6 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
         try {
             // Borrow assets against collateral
             const margin = contracts?.margin;
-            const periodId = contracts?.periodId;
-
-            const provider = new ethers.providers.Web3Provider(library.provider);
-            const signer = provider.getSigner();
-            const signerAddress = await signer.getAddress();
 
             // Borrow for the current period
             await margin?.borrow(props.collateral.address, asset.address, amount);
