@@ -25,19 +25,7 @@ function Withdraw(props: {}) {
 
     const [data, setData] = useState<Data | null>(null);
 
-    async function withdraw() {
-        // Require a specified amount before withdrawing
-        if (!amount.gt(0)) return;
-
-        const pool = contracts?.pool;
-        const periodId = contracts?.periodId;
-
-        try {
-            await pool?.redeem(asset.address, amount, periodId);
-        } catch (e: any) {
-            setError(e.data?.message || null);
-        }
-    }
+    const [maxWithdraw, setMaxWithdraw] = useState<ethers.BigNumber | undefined>(undefined);
 
     useEffect(() => {
         const pool = contracts?.pool;
@@ -64,13 +52,28 @@ function Withdraw(props: {}) {
             tempData.currentStakeValue = parseNumber(stakeValue, asset.decimals);
 
             setData(tempData);
+            setMaxWithdraw(balCurrent);
         })();
     }, [contracts, asset]);
+
+    async function withdraw() {
+        // Require a specified amount before withdrawing
+        if (!amount.gt(0)) return;
+
+        const pool = contracts?.pool;
+        const periodId = contracts?.periodId;
+
+        try {
+            await pool?.redeem(asset.address, amount, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
+    }
 
     return (
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Withdraw</h1>
-            <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
+            <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} max={maxWithdraw} />
             <div className="grid grid-cols-1 gap-6 mx-5 text-base text-white mb-4">
                 <h2>
                     Initial stake: {data?.initialStake} {asset.symbol}

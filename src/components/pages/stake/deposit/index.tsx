@@ -29,31 +29,10 @@ function Deposit(props: {}) {
 
     const [data, setData] = useState<Data | null>(null);
 
-    async function deposit() {
-        // Require a specified amount before depositing
-        if (!amount.gt(0)) return;
-
-        try {
-            // Deposit the asset into the pool with the given period id
-            const pool = contracts?.pool;
-            const periodId = contracts?.periodId;
-
-            const provider = new ethers.providers.Web3Provider(library.provider);
-            const signer = provider.getSigner();
-            const erc20 = loadERC20(asset.address, signer);
-            await approveERC20(erc20, pool?.address as string);
-
-            // Deposit into the current pool period
-            await pool?.stake(asset.address, amount, periodId);
-        } catch (e: any) {
-            setError(e.data?.message || null);
-        }
-    }
-
     useEffect(() => {
         // Get the contracts
-        const oracle = contracts?.oracle;
         const margin = contracts?.margin;
+        const oracle = contracts?.oracle;
 
         // Get the data
         (async () => {
@@ -77,6 +56,27 @@ function Deposit(props: {}) {
             setData(tempData);
         })();
     }, [contracts, asset]);
+
+    async function deposit() {
+        // Require a specified amount before depositing
+        if (!amount.gt(0)) return;
+
+        try {
+            // Deposit the asset into the pool with the given period id
+            const pool = contracts?.pool;
+            const periodId = contracts?.periodId;
+
+            const provider = new ethers.providers.Web3Provider(library.provider);
+            const signer = provider.getSigner();
+            const erc20 = loadERC20(asset.address, signer);
+            await approveERC20(erc20, pool?.address as string);
+
+            // Deposit into the current pool period
+            await pool?.stake(asset.address, amount, periodId);
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
+    }
 
     return (
         <div className="flex flex-col justify-center items-stretch">
