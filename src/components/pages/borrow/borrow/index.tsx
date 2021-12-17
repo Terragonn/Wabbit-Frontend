@@ -13,6 +13,7 @@ interface Data {
     debt: string;
     interest: string;
     marginLevel: string;
+    minMarginLevel: string;
     minBorrowPeriod: string;
     available: string;
     marginBalance: string;
@@ -62,6 +63,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             } else tempData.interest = parseNumber("0", 0);
 
             tempData.marginLevel = parseNumber(await margin?.getMarginLevel(signerAddress, props.collateral.address, asset.address), oracleDecimals);
+            tempData.minMarginLevel = parseNumber(await margin?.getMinMarginLevel(), oracleDecimals);
 
             const lastBorrowTime = await margin?.borrowTime(signerAddress, props.collateral.address, asset.address);
             const minBorrowLength = await margin?.getMinBorrowLength();
@@ -127,6 +129,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
                 </h2>
                 <h2>Interest: {data?.interest}%</h2>
                 <h2>Margin level: {data?.marginLevel}</h2>
+                <h2>Min margin level: {data?.minMarginLevel}</h2>
                 <h2>Min borrow period: {data?.minBorrowPeriod}</h2>
                 <h2>
                     Available: {data?.available} {asset.symbol}
