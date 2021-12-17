@@ -8,6 +8,7 @@ import useContracts from "../../../../utils/useContracts";
 import useError from "../../../../utils/useError";
 import { useWeb3React } from "@web3-react/core";
 import parseTime from "../../../../utils/parseTime";
+import Tooltip from "../../../tooltip";
 
 interface Data {
     debt: string;
@@ -121,22 +122,22 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
     return (
         <div className="flex flex-col justify-center items-stretch">
-            <h1 className="text-white text-lg font-medium mx-5">Borrow</h1>
+            <h2 className="text-white text-lg font-medium mx-5">Borrow</h2>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} max={maxBorrow} />
-            <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
-                <h2>
+            <div className="grid grid-cols-2 gap-6 mx-5 mb-4">
+                <Tooltip>
                     Debt: {data?.debt} {asset.symbol}
-                </h2>
-                <h2>Interest: {data?.interest}%</h2>
-                <h2>Margin level: {data?.marginLevel}</h2>
-                <h2>Min margin level: {data?.minMarginLevel}</h2>
-                <h2>Min borrow period: {data?.minBorrowPeriod}</h2>
-                <h2>
+                </Tooltip>
+                <Tooltip>Interest: {data?.interest}%</Tooltip>
+                <Tooltip>Margin level: {data?.marginLevel}</Tooltip>
+                <Tooltip>Min margin level: {data?.minMarginLevel}</Tooltip>
+                <Tooltip>Min borrow period: {data?.minBorrowPeriod}</Tooltip>
+                <Tooltip>
                     Available: {data?.available} {asset.symbol}
-                </h2>
-                <h2>
+                </Tooltip>
+                <Tooltip>
                     Margin balance: {data?.marginBalance} {props.collateral.symbol}
-                </h2>
+                </Tooltip>
             </div>
             <button
                 className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}

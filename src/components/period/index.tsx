@@ -35,7 +35,7 @@ function Period(props: {}) {
     }
 
     return (
-        <h1 className="font-medium text-white text-lg flex items-center justify-evenly sm:flex-row flex-col sm:space-y-0 space-y-2">
+        <h3 className="font-medium text-white text-lg flex items-center justify-evenly sm:flex-row flex-col sm:space-y-0 space-y-2">
             <span className="sm:my-0 mb-4 sm:w-1/4 w-full flex sm:flex-row flex-col justify-center items-center">
                 <span className="w-full">Period ID:</span>
                 <input
@@ -64,7 +64,7 @@ function Period(props: {}) {
                 Epilogue: <span className={activeClass(epilogueActive)}>{epilogueActive ? "active" : "inactive"}</span>
             </span>
             <span className="sm:w-1/4 w-full">Period end: {parseTime(epilogueTimes[1])}</span>
-        </h1>
+        </h3>
     );
 }
 
