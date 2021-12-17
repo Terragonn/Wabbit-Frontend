@@ -12,13 +12,13 @@ function Nav(props: { navLinks: Link[]; current: number; setPageId: (pageId: num
             {modalVisible ? <NavModal navLinks={props.navLinks} current={props.current} setPageId={props.setPageId} /> : null}
             <nav className="bg-zinc-900 mx-auto p-6 text-center drop-shadow-sm relative z-20">
                 <div className="mx-auto w-5/6 flex items-center justify-evenly">
-                    <h1 className="mx-auto text-white font-bold text-lg">Wabbit</h1>
-                    <div className="mx-auto items-center justify-evenly lg:flex hidden">
+                    <h1 className="w-full mx-auto text-white font-bold text-lg">Wabbit</h1>
+                    <div className="w-full mx-auto items-center justify-evenly lg:flex hidden">
                         {props.navLinks.map((link, index) => (
                             <NavLink key={index} current={link.id === props.current} link={link} setPageId={props.setPageId} />
                         ))}
                     </div>
-                    <span className="mx-auto w-5/12 lg:block hidden">
+                    <span className="w-full mx-auto lg:block hidden">
                         <Wallet />
                     </span>
                     <div className="mx-auto cursor-pointer lg:hidden block" onClick={() => setModalVisible(!modalVisible)}>
