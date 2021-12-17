@@ -9,9 +9,7 @@ function Tooltip(props: { children: any; tooltip?: string }) {
                 {props.children}
             </p>
             {hovered && props.tooltip ? (
-                <div className="inline-block absolute mt-3 z-10 py-2 px-3 text-sm font-medium text-white bg-slate-700 rounded-lg shadow-sm opacity-1 transition-opacity duration-300">
-                    {props.tooltip}
-                </div>
+                <div className="absolute mt-3 z-10 py-2 px-3 mr-5 text-sm font-medium text-white bg-slate-600 rounded-lg shadow-sm">{props.tooltip}</div>
             ) : null}
         </span>
     );

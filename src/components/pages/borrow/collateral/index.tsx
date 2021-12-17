@@ -9,6 +9,7 @@ import { useWeb3React } from "@web3-react/core";
 import loadERC20 from "../../../../utils/loadERC20";
 import approveERC20 from "../../../../utils/approveERC20";
 import useError from "../../../../utils/useError";
+import Tooltip from "../../../tooltip";
 
 interface Data {
     collateral: string;
@@ -90,12 +91,12 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
 
     return (
         <div className="flex flex-col justify-center items-stretch">
-            <h1 className="text-white text-lg font-medium mx-5">Collateral</h1>
+            <h2 className="text-white text-lg font-medium mx-5">Collateral</h2>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
-            <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
-                <h2>
+            <div className="grid grid-cols-2 gap-6 mx-5 mb-4">
+                <Tooltip tooltip="Your available collateral">
                     Collateral: {data?.collateral} {asset.symbol}
-                </h2>
+                </Tooltip>
             </div>
             <button
                 className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium mb-3`}

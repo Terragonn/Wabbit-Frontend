@@ -58,9 +58,9 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             if (totalBorrowed.gt(0)) {
                 const decimals = await oracle?.getDecimals();
                 const interestRate = await margin?.calculateInterestRate(asset.address);
-                const apy = interestRate.mul(3.154e7);
+                const dailyInterestRate = interestRate.mul(86400);
 
-                tempData.interest = parseNumber(apy, decimals.div(100));
+                tempData.interest = parseNumber(dailyInterestRate, decimals.div(100));
             } else tempData.interest = parseNumber("0", 0);
 
             tempData.marginLevel = parseNumber(await margin?.getMarginLevel(signerAddress, props.collateral.address, asset.address), oracleDecimals);
@@ -125,13 +125,13 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             <h2 className="text-white text-lg font-medium mx-5">Borrow</h2>
             <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} max={maxBorrow} />
             <div className="grid grid-cols-2 gap-6 mx-5 mb-4">
-                <Tooltip>
+                <Tooltip tooltip="The amount borrowed">
                     Debt: {data?.debt} {asset.symbol}
                 </Tooltip>
-                <Tooltip>Interest: {data?.interest}%</Tooltip>
-                <Tooltip>Margin level: {data?.marginLevel}</Tooltip>
+                <Tooltip tooltip="The daily interest rate">Interest rate: {data?.interest}%</Tooltip>
+                <Tooltip tooltip="If this falls below the minimum level you will be liquidated">Margin level: {data?.marginLevel}</Tooltip>
                 <Tooltip>Min margin level: {data?.minMarginLevel}</Tooltip>
-                <Tooltip>Min borrow period: {data?.minBorrowPeriod}</Tooltip>
+                <Tooltip tooltip="The time remaining before you may repay">Min borrow period end: {data?.minBorrowPeriod}</Tooltip>
                 <Tooltip>
                     Available: {data?.available} {asset.symbol}
                 </Tooltip>
