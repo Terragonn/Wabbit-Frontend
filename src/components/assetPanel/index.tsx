@@ -5,7 +5,7 @@ import config from "../../config/config.json";
 import loadERC20 from "../../utils/loadERC20";
 import { AssetData } from "../pages/home/row";
 
-function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: ethers.BigNumber) => void }) {
+function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChangeAmount: (amount: ethers.BigNumber) => void; max?: ethers.BigNumber }) {
     const { library } = useWeb3React();
 
     const [asset, setCurrentAsset] = useState<AssetData>(config.approved[0]);
@@ -63,16 +63,20 @@ function AssetPanel(props: { onChangeAsset: (asset: AssetData) => void; onChange
                     className="ml-4"
                     onClick={async () => {
                         // Get the max amount of the asset
-                        const provider = new ethers.providers.Web3Provider(library.provider);
-                        const signer = provider.getSigner();
-                        const signerAddress = await signer.getAddress();
+                        let max: ethers.BigNumber;
+                        if (!props.max) {
+                            const provider = new ethers.providers.Web3Provider(library.provider);
+                            const signer = provider.getSigner();
+                            const signerAddress = await signer.getAddress();
 
-                        const erc20 = loadERC20(asset.address, signer);
-                        const balance =
-                            (await erc20.balanceOf(signerAddress)).mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber() / ROUND_CONSTANT;
+                            const erc20 = loadERC20(asset.address, signer);
+                            max = await erc20.balanceOf(signerAddress);
+                        } else max = props.max;
 
-                        setAmount(balance);
-                        setMaxAmount(balance);
+                        const maxProcessed = max.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(asset.decimals)).toNumber() / ROUND_CONSTANT;
+
+                        setAmount(maxProcessed);
+                        setMaxAmount(maxProcessed);
                     }}
                 >
                     Max
