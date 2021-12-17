@@ -30,6 +30,8 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
 
     const [data, setData] = useState<Data | null>(null);
 
+    const [maxBorrow, setMaxBorrow] = useState<ethers.BigNumber | undefined>(undefined);
+
     useEffect(() => {
         props.setBorrowed(asset);
     }, [asset]);
@@ -65,7 +67,8 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
             const minBorrowLength = await margin?.getMinBorrowLength();
             tempData.minBorrowPeriod = parseTime(lastBorrowTime.add(minBorrowLength).toNumber() * 1000);
 
-            tempData.available = parseNumber(await margin?.liquidityAvailable(asset.address), asset.decimals);
+            const liquidityAvailable = await margin?.liquidityAvailable(asset.address);
+            tempData.available = parseNumber(liquidityAvailable, asset.decimals);
             if (totalBorrowed.gt(0))
                 tempData.marginBalance = parseNumber(
                     await margin?.balanceOf(signerAddress, props.collateral.address, asset.address, periodId),
@@ -78,6 +81,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
                 );
 
             setData(tempData);
+            setMaxBorrow(liquidityAvailable);
         })();
     }, [contracts, asset, props.collateral]);
 
@@ -116,7 +120,7 @@ function Borrow(props: { collateral: AssetData; setBorrowed: (asset: AssetData) 
     return (
         <div className="flex flex-col justify-center items-stretch">
             <h1 className="text-white text-lg font-medium mx-5">Borrow</h1>
-            <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} />
+            <AssetPanel onChangeAsset={setAsset} onChangeAmount={setAmount} max={maxBorrow} />
             <div className="grid grid-cols-2 gap-6 mx-5 text-base text-white mb-4">
                 <h2>
                     Debt: {data?.debt} {asset.symbol}
