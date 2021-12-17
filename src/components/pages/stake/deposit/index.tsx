@@ -93,7 +93,7 @@ function Deposit(props: {}) {
                 <Tooltip tooltip="Total value locked">
                     TVL: {data?.tvl} {asset.symbol}
                 </Tooltip>
-                <Tooltip tooltip="Yearly percentage return">APY: {data?.apy}%</Tooltip>
+                <Tooltip tooltip="Yearly percentage yield">APY: {data?.apy}%</Tooltip>
             </div>
             <button
                 className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}

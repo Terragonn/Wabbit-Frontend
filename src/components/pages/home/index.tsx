@@ -1,5 +1,6 @@
 import config from "../../../config/config.json";
 import Row from "./row";
+import Tooltip from "../../tooltip";
 
 function Home(props: {}) {
     return (
@@ -7,10 +8,18 @@ function Home(props: {}) {
             <thead>
                 <tr className="text-zinc-300 font-bold">
                     <th className="pb-6">Name</th>
-                    <th className="pb-6 md:table-cell hidden">Available</th>
-                    <th className="pb-6 md:table-cell hidden">Borrowed</th>
-                    <th className="pb-6 md:table-cell hidden">TVL</th>
-                    <th className="pb-6">APY</th>
+                    <th className="pb-6 md:table-cell hidden">
+                        <Tooltip tooltip="Amount of the asset available to borrow">Available</Tooltip>
+                    </th>
+                    <th className="pb-6 md:table-cell hidden">
+                        <Tooltip tooltip="Amount of asset borrowed">Borrowed</Tooltip>
+                    </th>
+                    <th className="pb-6 md:table-cell hidden">
+                        <Tooltip tooltip="Total value locked">TVL</Tooltip>
+                    </th>
+                    <th className="pb-6">
+                        <Tooltip tooltip="Yearly percentage yield">APY</Tooltip>
+                    </th>
                 </tr>
             </thead>
             <tbody>
