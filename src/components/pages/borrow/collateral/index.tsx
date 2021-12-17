@@ -45,7 +45,7 @@ function Deposit(props: { borrowed: AssetData; setCollateral: (asset: AssetData)
 
             setData(tempData);
         })();
-    }, [contracts, asset]);
+    }, [contracts, asset, props.borrowed]);
 
     async function deposit() {
         // Require a specific amount before depositing

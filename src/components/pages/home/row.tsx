@@ -35,8 +35,6 @@ function Row(props: { data: AssetData; last: boolean }) {
             const totalAvailable = await margin?.liquidityAvailable(props.data.address);
             tempData.available = parseNumber(totalAvailable, props.data.decimals);
             const totalBorrowed = await margin?.totalBorrowed(props.data.address);
-
-            console.log(props.data.symbol, totalBorrowed.toString());
             tempData.borrowed = parseNumber(totalBorrowed, props.data.decimals);
 
             tempData.tvl = parseNumber(totalAvailable.add(totalBorrowed), props.data.decimals);
