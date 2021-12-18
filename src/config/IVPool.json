@@ -461,6 +461,19 @@
     {
       "inputs": [
         {
+          "internalType": "contract IMargin",
+          "name": "_margin",
+          "type": "address"
+        }
+      ],
+      "name": "setMargin",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "_taxAccount",
           "type": "address"
