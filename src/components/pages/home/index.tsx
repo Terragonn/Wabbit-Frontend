@@ -18,7 +18,7 @@ function Home(props: {}) {
                         <Tooltip tooltip="Total value locked">TVL</Tooltip>
                     </th>
                     <th className="pb-6">
-                        <Tooltip tooltip="Yearly percentage yield">APY</Tooltip>
+                        <Tooltip tooltip="Annual percentage return">APR</Tooltip>
                     </th>
                 </tr>
             </thead>

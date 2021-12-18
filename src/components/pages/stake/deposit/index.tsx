@@ -15,7 +15,7 @@ interface Data {
     available: string;
     borrowed: string;
     tvl: string;
-    apy: string;
+    apr: string;
 }
 
 function Deposit(props: {}) {
@@ -51,8 +51,8 @@ function Deposit(props: {}) {
                 const interestRate = await margin?.calculateInterestRate(asset.address);
                 const apy = interestRate.mul(3.154e7);
 
-                tempData.apy = parseNumber(apy, decimals.div(100));
-            } else tempData.apy = parseNumber("0", 0);
+                tempData.apr = parseNumber(apy, decimals.div(100));
+            } else tempData.apr = parseNumber("0", 0);
 
             setData(tempData);
         })();
@@ -93,7 +93,7 @@ function Deposit(props: {}) {
                 <Tooltip tooltip="Total value locked">
                     TVL: {data?.tvl} {asset.symbol}
                 </Tooltip>
-                <Tooltip tooltip="Yearly percentage yield">APY: {data?.apy}%</Tooltip>
+                <Tooltip tooltip="Annual percentage rate">APY: {data?.apr}%</Tooltip>
             </div>
             <button
                 className={`${amount.gt(0) ? "bg-indigo-600 hover:bg-indigo-700" : "bg-zinc-500 cursor-default"} p-3 rounded-md text-white font-medium`}

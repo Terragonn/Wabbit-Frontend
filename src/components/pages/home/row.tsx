@@ -16,7 +16,7 @@ interface Data {
     available: string;
     borrowed: string;
     tvl: string;
-    apy: string;
+    apr: string;
 }
 
 function Row(props: { data: AssetData; last: boolean }) {
@@ -43,8 +43,8 @@ function Row(props: { data: AssetData; last: boolean }) {
                 const decimals = await oracle?.getDecimals();
                 const interestRate = await margin?.calculateInterestRate(props.data.address);
                 const apy = interestRate.mul(3.154e7);
-                tempData.apy = parseNumber(apy, decimals.div(100));
-            } else tempData.apy = parseNumber("0", 0);
+                tempData.apr = parseNumber(apy, decimals.div(100));
+            } else tempData.apr = parseNumber("0", 0);
 
             setData(tempData);
         })();
@@ -61,7 +61,7 @@ function Row(props: { data: AssetData; last: boolean }) {
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.available}</td>
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.borrowed}</td>
             <td className="px-4 py-3 my-5 md:table-cell hidden">{data?.tvl}</td>
-            <td className="px-4 py-3 my-5">{data?.apy}%</td>
+            <td className="px-4 py-3 my-5">{data?.apr}%</td>
         </tr>
     );
 }
