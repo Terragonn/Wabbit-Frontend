@@ -2,9 +2,9 @@ import { ethers } from "ethers";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
-import IVPool from "../config/IVPool.json";
-import IMargin from "../config/IMargin.json";
-import IOracle from "../config/IOracle.json";
+import LPool from "../config/LPool.json";
+import Margin from "../config/Margin.json";
+import Oracle from "../config/Oracle.json";
 import config from "../config/config.json";
 
 interface Contracts {
@@ -28,9 +28,9 @@ export function ContractsProvider(props: { children: any }) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
 
-            const pool = new ethers.Contract(config.poolAddress, IVPool.abi, signer);
-            const oracle = new ethers.Contract(config.oracleAddress, IOracle.abi, signer);
-            const margin = new ethers.Contract(config.marginAddress, IMargin.abi, signer);
+            const pool = new ethers.Contract(config.poolAddress, LPool.abi, signer);
+            const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer);
+            const margin = new ethers.Contract(config.marginAddress, Margin.abi, signer);
 
             const periodId = (await pool.currentPeriodId()).toNumber();
 
