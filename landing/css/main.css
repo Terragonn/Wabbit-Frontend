@@ -1,0 +1,48 @@
+main {
+    width: 70%;
+    margin: 0 auto;
+}
+
+article {
+    margin: 200px auto;
+}
+
+article {
+    font-size: 30px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+article h2 {
+    color: #18181b;
+    font-size: 60px;
+    margin: 20px 0 50px 0;
+}
+
+article p {
+    font-size: 32px;
+    margin-top: 0;
+}
+
+article.no-limitations img {
+    width: 500px;
+    margin: 0 0 0 100px;
+    border-radius: 20px;
+    box-shadow: 4px 8px 12px #921ebb;
+}
+
+article.returns {
+    text-align: right;
+    margin: 300px auto;
+}
+
+article.returns .bar {
+    margin-left: 85%;
+}
+
+article.returns img {
+    margin: 0 100px 0 0;
+    width: 500px;
+    filter: drop-shadow(4px 8px 12px #921ebb);
+}

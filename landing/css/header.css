@@ -86,12 +86,17 @@ nav ul li:not(.ignore):hover {
     border-bottom: 5px solid #921ebb;
 }
 
-.main {
+.header {
     width: 70%;
     margin: 50px auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.header img {
+    width: 700px;
+    filter: drop-shadow(10px 10px 10px rgba(146, 30, 187, 0.2));
 }
 
 .title {
@@ -127,9 +132,4 @@ nav ul li:not(.ignore):hover {
 .title li {
     font-size: 50px;
     font-weight: 600;
-}
-
-.main img {
-    width: 700px;
-    filter: drop-shadow(10px 10px 10px rgba(146, 30, 187, 0.2));
 }
