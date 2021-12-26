@@ -12,6 +12,11 @@ a {
     color: white;
 }
 
+.link:hover {
+    transition: all 0.1s ease 0s;
+    color: #d860ca;
+}
+
 .button {
     transition: all 0.1s ease 0s;
     background-color: #921ebb;
