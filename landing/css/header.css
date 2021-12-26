@@ -73,7 +73,7 @@ nav ul {
     justify-content: space-evenly;
     font-size: 40px;
     color: white;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 nav ul li {
@@ -112,6 +112,7 @@ nav ul li:not(.ignore):hover {
     color: white;
     text-transform: uppercase;
     letter-spacing: 0px;
+    font-weight: bold;
 }
 
 .title ul {
