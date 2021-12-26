@@ -5,13 +5,24 @@ main {
 
 article {
     margin: 200px auto;
-}
-
-article {
     font-size: 30px;
     display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
+}
+
+article section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+article a {
+    font-weight: 600;
+    font-size: 40px;
+    margin: 0 auto;
 }
 
 article h2 {
@@ -23,9 +34,10 @@ article h2 {
 article p {
     font-size: 32px;
     margin-top: 0;
+    margin-bottom: 50px;
 }
 
-article.no-limitations img {
+article.no-limits img {
     width: 500px;
     margin: 0 0 0 100px;
     border-radius: 20px;
@@ -33,12 +45,15 @@ article.no-limitations img {
 }
 
 article.returns {
-    text-align: right;
-    margin: 300px auto;
+    margin: 350px auto;
 }
 
-article.returns .bar {
-    margin-left: 85%;
+article.returns section {
+    align-items: flex-end;
+}
+
+article.returns p {
+    text-align: right;
 }
 
 article.returns img {
