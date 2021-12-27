@@ -68,7 +68,7 @@ article.returns img {
 
 @media screen and (max-width: 1400px) {
     main {
-        width: 95%;
+        width: 70%;
     }
 
     article {
@@ -88,8 +88,8 @@ article.returns img {
 
     article p {
         min-width: 0;
-        max-width: 800px;
-        font-size: min(10vw, 32px);
+        max-width: 700px;
+        font-size: min(10vw, 28px);
     }
 
     article a {
