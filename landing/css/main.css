@@ -1,5 +1,5 @@
 main {
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
     padding-bottom: 20px;
 }
@@ -8,7 +8,7 @@ article {
     margin: 80px auto 200px auto;
     font-size: 30px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-evenly;
 }
 
@@ -42,7 +42,7 @@ article p {
 }
 
 article.no-limits img {
-    width: 500px;
+    max-width: min(55%, 700px);
     margin: 0 0 0 100px;
     border-radius: 20px;
     box-shadow: 4px 8px 12px #921ebb;
@@ -93,7 +93,7 @@ article.returns img {
 
     article.no-limits img {
         margin: 40px 0;
-        max-width: min(100%, 400px);
+        max-width: min(100%, 600px);
     }
 
     article.returns {
