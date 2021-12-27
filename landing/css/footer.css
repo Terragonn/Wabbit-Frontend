@@ -44,6 +44,7 @@ footer {
 .cta h2 {
     font-size: 50px;
     color: white;
+    font-weight: 800;
 }
 
 .cta ul {
@@ -53,12 +54,13 @@ footer {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    font-weight: 800;
 }
 
 .cta li {
     margin: 0 20px;
     font-size: 40px;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 .footer {
@@ -80,12 +82,12 @@ footer {
     color: white;
     font-weight: 600;
     font-size: 30px;
+    font-weight: 800;
 }
 
 @media screen and (max-width: 900px) {
     .cta h2 {
-        margin-top: 100px;
-        font-size: 40px;
+        font-size: min(10vw, 50px);
     }
 
     .cta ul {
@@ -94,8 +96,8 @@ footer {
     }
 
     .cta li {
-        font-size: 30px;
         margin-bottom: 40px;
+        font-size: min(7vw, 40px);
     }
 
     .footer {
@@ -107,7 +109,6 @@ footer {
     }
 
     .footer li {
-        font-size: 25px;
         margin: 10px 0;
     }
 }
