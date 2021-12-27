@@ -67,6 +67,10 @@ article.returns img {
 }
 
 @media screen and (max-width: 1400px) {
+    main {
+        width: 95%;
+    }
+
     article {
         flex-direction: column;
         align-items: center;
@@ -75,7 +79,7 @@ article.returns img {
     article section {
         align-items: center;
         text-align: center;
-        width: auto;
+        width: 100%;
     }
 
     article h2 {
