@@ -27,8 +27,8 @@ header {
             rgba(251, 251, 251, 0.04) 100%
         ),
         linear-gradient(90deg, rgb(0, 0, 0), rgb(0, 0, 0));
-    height: 100vh;
     position: relative;
+    padding-bottom: 10vw;
 }
 
 .wave {
@@ -63,7 +63,7 @@ nav {
 }
 
 nav .logo {
-    width: 200px;
+    max-width: min(100%, 200px);
 }
 
 nav ul {
@@ -153,10 +153,6 @@ nav ul li:not(.ignore):hover {
 
     nav ul {
         display: none;
-    }
-
-    header {
-        height: 80vh;
     }
 
     .header img {

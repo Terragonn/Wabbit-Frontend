@@ -81,3 +81,33 @@ footer {
     font-weight: 600;
     font-size: 30px;
 }
+
+@media screen and (max-width: 900px) {
+    .cta h2 {
+        margin-top: 100px;
+        font-size: 40px;
+    }
+
+    .cta ul {
+        margin-top: 20px;
+        flex-direction: column;
+    }
+
+    .cta li {
+        font-size: 30px;
+        margin-bottom: 40px;
+    }
+
+    .footer {
+        margin-top: 20px;
+    }
+
+    .footer ul {
+        flex-direction: column;
+    }
+
+    .footer li {
+        font-size: 25px;
+        margin: 10px 0;
+    }
+}
