@@ -97,7 +97,6 @@ nav ul li:not(.ignore):hover {
 
 .header img {
     max-width: min(55%, 800px);
-    width: auto / 5;
     filter: drop-shadow(10px 10px 10px rgba(146, 30, 187, 0.2));
 }
 

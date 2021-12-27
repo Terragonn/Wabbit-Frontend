@@ -75,6 +75,7 @@ article.returns img {
 
     article.no-limits img {
         margin: 40px 0;
+        max-width: min(100%, 400px);
     }
 
     article.returns {
@@ -92,5 +93,6 @@ article.returns img {
 
     article.returns img {
         margin: 40px 0;
+        max-width: min(100%, 400px);
     }
 }
