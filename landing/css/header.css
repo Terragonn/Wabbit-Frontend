@@ -158,6 +158,10 @@ nav ul li:not(.ignore):hover {
 }
 
 @media screen and (max-width: 1400px) {
+    header {
+        padding-bottom: 20vh;
+    }
+
     .hamburger {
         display: flex;
         flex-direction: column;
