@@ -58,7 +58,7 @@ article.returns p {
 
 article.returns img {
     margin: 0 100px 0 0;
-    width: 500px;
+    width: 400px;
     filter: drop-shadow(4px 8px 12px #921ebb);
 }
 
@@ -93,6 +93,6 @@ article.returns img {
 
     article.returns img {
         margin: 40px 0;
-        max-width: min(100%, 400px);
+        max-width: min(100%, 500px);
     }
 }
