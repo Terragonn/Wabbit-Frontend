@@ -61,3 +61,36 @@ article.returns img {
     width: 500px;
     filter: drop-shadow(4px 8px 12px #921ebb);
 }
+
+@media screen and (max-width: 1400px) {
+    article {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    article section {
+        align-items: center;
+        text-align: center;
+    }
+
+    article.no-limits img {
+        margin: 40px 0;
+    }
+
+    article.returns {
+        flex-direction: column-reverse;
+        margin: 100px auto;
+    }
+
+    article.returns section {
+        align-items: center;
+    }
+
+    article.returns p {
+        text-align: center;
+    }
+
+    article.returns img {
+        margin: 40px 0;
+    }
+}
