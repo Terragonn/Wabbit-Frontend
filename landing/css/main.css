@@ -37,12 +37,12 @@ article p {
     font-size: 32px;
     margin-top: 0;
     margin-bottom: 50px;
-    color: #272a33;
+    color: #27272a;
     min-width: 500px;
 }
 
 article.no-limits img {
-    max-width: min(55%, 700px);
+    max-width: min(55%, 600px);
     margin: 0 0 0 100px;
     border-radius: 20px;
     box-shadow: 4px 8px 12px #921ebb;

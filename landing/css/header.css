@@ -138,7 +138,6 @@ nav ul li:not(.ignore):hover {
     font-size: 80px;
     color: white;
     text-transform: uppercase;
-    letter-spacing: 0px;
     font-weight: 800;
 }
 
@@ -179,6 +178,10 @@ nav ul li:not(.ignore):hover {
 
     .nav {
         display: contents;
+    }
+
+    .nav li {
+        font-size: min(10vw, 30px);
     }
 
     nav ul {
