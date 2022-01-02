@@ -18,7 +18,9 @@ function App() {
         >
             <HashRouter>
                 <div className="background">
-                    <Nav />
+                    <Wrapper>
+                        <Nav />
+                    </Wrapper>
                     <SideNav />
                     <Routes>
                         <Route path="dashboard">
