@@ -16,20 +16,18 @@ function App() {
                     <Nav />
                     <SideNav />
                     <Routes>
-                        <Route path="/">
-                            <Route path="dashboard">
-                                <Route path="leverage" />
-                                {/* <Route path="lending" /> */}
-                            </Route>
-                            <Route path="stake">
-                                <Route path="leverage" />
-                                {/* <Route path="lending" /> */}
-                            </Route>
+                        <Route path="dashboard">
                             <Route path="leverage" />
-                            <Route path="borrow" />
-                            <Route path="yield" />
-                            <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
+                            {/* <Route path="lending" /> */}
                         </Route>
+                        <Route path="stake">
+                            <Route path="leverage" />
+                            {/* <Route path="lending" /> */}
+                        </Route>
+                        <Route path="/leverage" />
+                        <Route path="/borrow" />
+                        <Route path="/yield" />
+                        <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
                     </Routes>
                 </div>
             </HashRouter>

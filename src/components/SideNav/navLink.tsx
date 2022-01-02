@@ -20,8 +20,8 @@ export default function NavLink({ base, directories, children }: { base: string;
                         <li>
                             <Link
                                 to={`${base}/${directory}`}
-                                className={`text-zinc-400 font-bold text-2xl transition duration-150 ${
-                                    sections[1] === directory ? "text-zinc-500" : "hover:text-zinc-500"
+                                className={`text-neutral-400 font-bold text-2xl transition duration-150 ${
+                                    sections[1] === directory ? "text-neutral-500" : "hover:text-neutral-500"
                                 }`}
                             >
                                 {directory.charAt(0).toUpperCase() + directory.slice(1)}
