@@ -29,7 +29,7 @@ export default function TableRow({
             <div className="w-1/5">
                 <span>{stakeAPY} %</span>
                 <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg">
-                    <img src={require("../../images/TOKEN.png")} width={27} />
+                    <img src={require("../../images/TOKEN.png")} width={28} />
                     <span>{yieldAPR} %</span>
                     <span className="text-neutral-400">APR</span>
                 </span>
