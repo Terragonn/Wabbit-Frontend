@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    transition: all 200ms ease;
+}
+
 body {
     min-width: 600px;
 }
