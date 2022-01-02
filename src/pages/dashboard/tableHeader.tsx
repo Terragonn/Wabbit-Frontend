@@ -1,4 +1,6 @@
-export default function TableHeader({ headers }: { headers: string[] }) {
+export default function TableHeader() {
+    const headers = ["Name", "TVL", "Borrowed", "Stake APY", "Borrow APY"];
+
     return (
         <div className="flex items-center justify-evenly py-3">
             {headers.map((header) => (
