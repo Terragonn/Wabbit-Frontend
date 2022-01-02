@@ -1,5 +1,5 @@
 import { Web3ReactProvider } from "@web3-react/core";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
 import Nav from "./components/nav";
 
@@ -25,6 +25,7 @@ function App() {
                         <Route path="leverage" />
                         <Route path="borrow" />
                         <Route path="yield" />
+                        <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
                     </Route>
                 </Routes>
             </HashRouter>

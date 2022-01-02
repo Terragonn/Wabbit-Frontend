@@ -1,21 +1,33 @@
 import { Link } from "react-router-dom";
+import NavLink from "./navLink";
 
 export default function Nav() {
     return (
-        <div className="fixed top-0 left-0 h-screen w-16">
-            <h1>Torque</h1>
-            <ul>
+        <div className="fixed top-0 left-0 h-screen w-80 bg-zinc-900 p-5">
+            <Link to="dashboard/leverage">
+                <img src={require("../../images/logo1.png")} width={200} className="mx-auto" />
+            </Link>
+            <p className="text-center text-white font-bold text-xl pt-5 pb-24">0xa02E...7EfA</p>
+            <ul className="flex flex-col space-y-16">
                 <li>
-                    <Link to="dashboard">Dashboard</Link>
+                    <NavLink base="dashboard" directories={["leverage"]}>
+                        Dashboard
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to="stake">Stake</Link>
+                    <NavLink base="stake" directories={["leverage"]}>
+                        Stake
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to="leverage">Leverage</Link>
+                    <NavLink base="leverage" directories={[]}>
+                        Leverage
+                    </NavLink>
                 </li>
                 <li>
-                    <Link to="yield">Yield</Link>
+                    <NavLink base="yield" directories={[]}>
+                        Yield
+                    </NavLink>
                 </li>
             </ul>
         </div>
