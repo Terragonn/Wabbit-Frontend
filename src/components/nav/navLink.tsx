@@ -7,7 +7,7 @@ export default function NavLink({ base, directories, children }: { base: string;
     const isDirectory = base === sections[0];
 
     return (
-        <div className="text-left mx-auto w-4/6">
+        <div className="text-left mx-auto w-4/6 drop-shadow-md shadow-fuchsia-500">
             <Link to={`${base}/${directories.length > 0 ? directories[0] : ""}`} className={`text-white font-bold text-3xl ${isDirectory ? "text-fuchsia-500" : ""}`}>
                 {children}
             </Link>
