@@ -2,6 +2,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
 import SideNav from "./components/SideNav";
+import Nav from "./components/Nav";
 
 function App() {
     return (
@@ -11,23 +12,26 @@ function App() {
             }}
         >
             <HashRouter>
-                <SideNav />
-                <Routes>
-                    <Route path="/">
-                        <Route path="dashboard">
+                <div className="background">
+                    <Nav />
+                    <SideNav />
+                    <Routes>
+                        <Route path="/">
+                            <Route path="dashboard">
+                                <Route path="leverage" />
+                                {/* <Route path="lending" /> */}
+                            </Route>
+                            <Route path="stake">
+                                <Route path="leverage" />
+                                {/* <Route path="lending" /> */}
+                            </Route>
                             <Route path="leverage" />
-                            {/* <Route path="lending" /> */}
+                            <Route path="borrow" />
+                            <Route path="yield" />
+                            <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
                         </Route>
-                        <Route path="stake">
-                            <Route path="leverage" />
-                            {/* <Route path="lending" /> */}
-                        </Route>
-                        <Route path="leverage" />
-                        <Route path="borrow" />
-                        <Route path="yield" />
-                        <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
-                    </Route>
-                </Routes>
+                    </Routes>
+                </div>
             </HashRouter>
         </Web3ReactProvider>
     );

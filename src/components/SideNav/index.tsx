@@ -3,7 +3,7 @@ import NavLink from "./navLink";
 
 export default function SideNav() {
     return (
-        <nav className="fixed top-0 left-0 h-screen w-80 bg-zinc-900 p-5">
+        <nav className="fixed top-0 left-0 h-screen w-80 bg-zinc-900 p-5 shadow-lg shadow-fuchsia-500">
             <Link to="dashboard/leverage">
                 <img src={require("../../images/logo1.png")} width={200} className="mx-auto" />
             </Link>
