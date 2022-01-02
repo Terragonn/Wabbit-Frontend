@@ -1,8 +1,13 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
+
+import Wrapper from "./pages/wrapper";
+
 import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
+
+import DashboardLeverage from "./pages/dashboard/leverage";
 
 function App() {
     return (
@@ -17,7 +22,14 @@ function App() {
                     <SideNav />
                     <Routes>
                         <Route path="dashboard">
-                            <Route path="leverage" />
+                            <Route
+                                path="leverage"
+                                element={
+                                    <Wrapper>
+                                        <DashboardLeverage />
+                                    </Wrapper>
+                                }
+                            />
                             {/* <Route path="lending" /> */}
                         </Route>
                         <Route path="stake">

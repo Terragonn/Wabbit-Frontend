@@ -1,3 +1,5 @@
+import Banner from "../../../components/Banner";
+
 export default function DashboardLeverage() {
-    return <div></div>;
+    return <div>Hello World</div>;
 }

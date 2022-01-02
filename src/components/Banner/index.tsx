@@ -4,5 +4,13 @@ interface Placeholder {
 }
 
 export default function Banner({ placeholders }: { placeholders: Placeholder[] }) {
-    return <div></div>;
+    return (
+        <div>
+            {placeholders.map((placeholder) => (
+                <div>
+                    <h2>{placeholders}</h2>
+                </div>
+            ))}
+        </div>
+    );
 }
