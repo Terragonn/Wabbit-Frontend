@@ -11,7 +11,19 @@ function App() {
         >
             <HashRouter>
                 <Routes>
-                    <Route path="/"></Route>
+                    <Route path="/">
+                        <Route path="dashboard">
+                            <Route path="leverage" />
+                            {/* <Route path="lending" /> */}
+                        </Route>
+                        <Route path="stake">
+                            <Route path="leverage" />
+                            {/* <Route path="lending" /> */}
+                        </Route>
+                        <Route path="leverage" />
+                        <Route path="borrow" />
+                        <Route path="yield" />
+                    </Route>
                 </Routes>
             </HashRouter>
         </Web3ReactProvider>
