@@ -8,14 +8,22 @@ export default function NavLink({ base, directories, children }: { base: string;
 
     return (
         <div className="text-left mx-auto w-4/6">
-            <Link to={`${base}/${directories.length > 0 ? directories[0] : ""}`} className={`text-white font-bold text-3xl ${isDirectory ? "text-fuchsia-500" : ""}`}>
+            <Link
+                to={`${base}/${directories.length > 0 ? directories[0] : ""}`}
+                className={`text-white font-bold text-3xl transition duration-150 ${isDirectory ? "text-fuchsia-500" : "hover:text-fuchsia-400"}`}
+            >
                 {children}
             </Link>
             {isDirectory ? (
                 <ul className="ml-10">
                     {directories.map((directory) => (
                         <li>
-                            <Link to={`${base}/${directory}`} className={`text-zinc-400 font-bold text-2xl ${sections[1] === directory ? "text-zinc-500" : ""}`}>
+                            <Link
+                                to={`${base}/${directory}`}
+                                className={`text-zinc-400 font-bold text-2xl transition duration-150 ${
+                                    sections[1] === directory ? "text-zinc-500" : "hover:text-zinc-500"
+                                }`}
+                            >
                                 {directory.charAt(0).toUpperCase() + directory.slice(1)}
                             </Link>
                         </li>
