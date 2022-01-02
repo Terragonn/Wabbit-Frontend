@@ -1,7 +1,7 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
-import Nav from "./components/nav";
+import SideNav from "./components/SideNav";
 
 function App() {
     return (
@@ -11,7 +11,7 @@ function App() {
             }}
         >
             <HashRouter>
-                <Nav />
+                <SideNav />
                 <Routes>
                     <Route path="/">
                         <Route path="dashboard">
