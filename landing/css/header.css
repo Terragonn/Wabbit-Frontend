@@ -83,7 +83,7 @@ nav {
 }
 
 nav .logo {
-    max-width: min(100%, 200px);
+    max-width: 200px;
 }
 
 nav ul {
@@ -181,7 +181,7 @@ nav ul li:not(.ignore):hover {
     }
 
     .nav li {
-        font-size: min(10vw, 30px);
+        font-size: 30px;
     }
 
     nav ul {
@@ -193,11 +193,11 @@ nav ul li:not(.ignore):hover {
     }
 
     .title h1 {
-        font-size: min(10vw, 80px);
+        font-size: max(55px, min(10vw, 80px));
     }
 
     .title li {
-        font-size: min(7vw, 50px);
+        font-size: max(35px, min(7vw, 50px));
     }
 }
 
