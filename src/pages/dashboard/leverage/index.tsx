@@ -10,7 +10,7 @@ export default function DashboardLeverage() {
             icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/4943.png",
         },
         {
-            name: "Wrapped Fantom",
+            name: "wFantom",
             symbol: "wFTM",
             icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png",
         },
