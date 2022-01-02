@@ -1,5 +1,5 @@
 import { Web3ReactProvider } from "@web3-react/core";
-import { HashRouter } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import * as ethers from "ethers";
 
 function App() {
@@ -9,7 +9,11 @@ function App() {
                 return new ethers.providers.Web3Provider(provider, "any");
             }}
         >
-            <HashRouter></HashRouter>
+            <HashRouter>
+                <Routes>
+                    <Route path="/"></Route>
+                </Routes>
+            </HashRouter>
         </Web3ReactProvider>
     );
 }
