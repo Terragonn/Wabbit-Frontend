@@ -68,7 +68,7 @@ article.returns img {
 
 @media screen and (max-width: 1400px) {
     main {
-        width: 70%;
+        width: 90%;
     }
 
     article {
@@ -83,17 +83,17 @@ article.returns img {
     }
 
     article h2 {
-        font-size: min(15vw, 60px);
+        font-size: 60px;
     }
 
     article p {
         min-width: 0;
         max-width: 700px;
-        font-size: min(10vw, 28px);
+        font-size: 28px;
     }
 
     article a {
-        font-size: min(7vw, 40px);
+        font-size: 35px;
     }
 
     article.no-limits img {

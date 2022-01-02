@@ -87,7 +87,7 @@ footer {
 
 @media screen and (max-width: 900px) {
     .cta h2 {
-        font-size: min(10vw, 50px);
+        font-size: 50px;
     }
 
     .cta ul {
@@ -97,7 +97,7 @@ footer {
 
     .cta li {
         margin-bottom: 40px;
-        font-size: min(7vw, 40px);
+        font-size: 40px;
     }
 
     .footer {
@@ -110,6 +110,6 @@ footer {
 
     .footer li {
         margin: 10px 0;
-        font-size: min(10vw, 30px);
+        font-size: 30px;
     }
 }
