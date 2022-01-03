@@ -17,10 +17,15 @@ export default function TokenSelect() {
 
     return (
         <div className="bg-neutral-900 rounded-3xl p-3 shadow-lg shadow-fuchsia-500/20 flex items-center justify-evenly">
-            <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} />
-            <select className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl">
+            <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
+            <select
+                className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl"
+                onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}
+            >
                 {tokens.map((token) => (
-                    <option className="font-bold bg-neutral-900">{token.symbol}</option>
+                    <option className="font-bold bg-neutral-900" value={token.address}>
+                        {token.symbol}
+                    </option>
                 ))}
             </select>
         </div>
