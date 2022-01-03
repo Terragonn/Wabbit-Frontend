@@ -30,7 +30,7 @@ export default function TableRow({
             <span className="w-full">$ {borrowed}</span>
             <div className="w-full">
                 <span>{stakeAPY} %</span>
-                <span className="flex items-center justify-evenly lg:mt-2 w-3/5 mx-auto text-lg space-x-2">
+                <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
                     <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
                     <span className="whitespace-nowrap">{yieldAPR} %</span>
                     <span className="text-neutral-400">APR</span>

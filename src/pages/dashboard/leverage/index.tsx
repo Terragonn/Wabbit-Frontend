@@ -33,8 +33,8 @@ export default function DashboardLeverage() {
                         tvl="373.73M"
                         borrowed="431.84M"
                         stakeAPY="7.23"
-                        yieldAPR="3.21"
                         borrowAPY="16.23"
+                        yieldAPR="3.21"
                     />
                 ))}
             </div>
@@ -48,8 +48,8 @@ export default function DashboardLeverage() {
                         tvl="373.73M"
                         borrowed="431.84M"
                         stakeAPY="7.23"
-                        yieldAPR="3.21"
                         borrowAPY="16.23"
+                        yieldAPR="3.21"
                     />
                 ))}
             </div>
