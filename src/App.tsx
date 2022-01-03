@@ -18,7 +18,7 @@ function App() {
             }}
         >
             <HashRouter>
-                <div className="background">
+                <div className="background pb-10">
                     <Wrapper>
                         <Nav />
                     </Wrapper>

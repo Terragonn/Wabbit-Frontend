@@ -2,7 +2,7 @@ import NavLink from "./navLink";
 
 export default function SideNav() {
     return (
-        <nav className="fixed top-0 left-0 h-screen w-80 bg-neutral-900 p-5 glow xl:block hidden">
+        <nav className="fixed top-0 h-screen w-80 bg-neutral-900 p-5 xl:glow xl:left-0 left-[-20rem]">
             <a href="https://torque.money">
                 <img src={require("../../images/logo1.png")} width={200} className="pt-5 mx-auto" alt="Torque logo" />
             </a>

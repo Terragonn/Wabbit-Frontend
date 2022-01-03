@@ -7,7 +7,7 @@
 }
 
 body {
-    min-width: 900px;
+    min-width: 1024px;
 }
 
 @layer components {
@@ -44,6 +44,5 @@ body {
                 rgba(251, 251, 251, 0.04) 100%
             ),
             linear-gradient(90deg, rgb(0, 0, 0), rgb(0, 0, 0));
-        min-height: 100vh;
     }
 }
