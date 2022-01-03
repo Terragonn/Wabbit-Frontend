@@ -17,12 +17,12 @@ export default function DashboardLeverage() {
     ];
 
     return (
-        <div className="w-5/6 mx-auto">
+        <>
             <Banner placeholders={[{ title: "Total Value Locked", body: "$ 138,245,234" }]} />
             <TableHeader />
             {tableData.map((data) => (
                 <TableRow name={data.name} symbol={data.symbol} icon={data.icon} tvl="373.73M" borrowed="431.84M" stakeAPY="7.23" yieldAPR="3.21" borrowAPY="16.23" />
             ))}
-        </div>
+        </>
     );
 }

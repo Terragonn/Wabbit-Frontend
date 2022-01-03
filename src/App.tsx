@@ -8,6 +8,7 @@ import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
 
 import DashboardLeverage from "./pages/dashboard/leverage";
+import StakeLeverage from "./pages/stake/leverage";
 
 function App() {
     return (
@@ -35,7 +36,14 @@ function App() {
                             {/* <Route path="lending" /> */}
                         </Route>
                         <Route path="stake">
-                            <Route path="leverage" />
+                            <Route
+                                path="leverage"
+                                element={
+                                    <Wrapper>
+                                        <StakeLeverage />
+                                    </Wrapper>
+                                }
+                            />
                             {/* <Route path="lending" /> */}
                         </Route>
                         <Route path="/leverage" />
