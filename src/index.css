@@ -7,7 +7,7 @@
 }
 
 body {
-    min-width: 1024px;
+    min-width: 640px;
 }
 
 @layer components {
