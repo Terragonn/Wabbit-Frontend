@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    transition: all 200ms ease;
+    transition: all 200ms ease; /* Make some changes to this so it doesnt affect literally everything */
 }
 
 body {
