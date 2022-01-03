@@ -14,20 +14,18 @@ export default function NavLink({ base, directories, children }: { base: string;
             >
                 {children}
             </Link>
-            {isDirectory ? (
-                <ul className="ml-10">
-                    {directories.map((directory) => (
-                        <li>
-                            <Link
-                                to={`${base}/${directory}`}
-                                className={`text-neutral-400 font-bold text-2xl ${sections[1] === directory ? "text-neutral-500" : "hover:text-neutral-500"}`}
-                            >
-                                {directory.charAt(0).toUpperCase() + directory.slice(1)}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            ) : null}
+            <ul className={`ml-10 ${isDirectory ? "block" : "hidden"}`}>
+                {directories.map((directory) => (
+                    <li>
+                        <Link
+                            to={`${base}/${directory}`}
+                            className={`text-neutral-400 font-bold text-2xl ${sections[1] === directory ? "text-neutral-500" : "hover:text-neutral-500"}`}
+                        >
+                            {directory.charAt(0).toUpperCase() + directory.slice(1)}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
