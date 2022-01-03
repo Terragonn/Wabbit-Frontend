@@ -1,7 +1,19 @@
-export default function TokenSegment() {
+export default function TokenSegment({ title, keys, cta }: { title: string; keys: { [key: string]: string }; cta: string }) {
     return (
-        <div className="bg-neutral-900 rounded-3xl p-3 glow w-full text-center">
-            <input className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold" type="number" value="0.00" min={0} step={0.01} />
-        </div>
+        <>
+            <h3 className="text-neutral-500 font-bold text-center text-xl mb-4">{title}</h3>
+            <div className="bg-neutral-900 rounded-3xl p-3 glow w-full text-center">
+                <input className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold" type="number" value="0.00" min={0} step={0.01} />
+            </div>
+            <div className="mt-16 w-4/5 mx-auto">
+                {Object.entries(keys).map(([key, value], index) => (
+                    <div className="flex items-center justify-between text-white font-bold text-lg mb-5">
+                        <span>{key}:</span>
+                        <span>{value}</span>
+                    </div>
+                ))}
+                <button className="bg-fuchsia-700 glow text-white font-bold text-3xl px-5 py-2.5 rounded-xl">{cta}</button>
+            </div>
+        </>
     );
 }

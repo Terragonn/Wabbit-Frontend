@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function TokenSelect() {
+export default function TokenSelect({ title }: { title: string }) {
     const tokens = [
         {
             symbol: "DAI",
@@ -16,18 +16,21 @@ export default function TokenSelect() {
     const [selectedToken, setSelectedToken] = useState<{ symbol: string; icon: string; address: string }>(tokens[0]);
 
     return (
-        <div className="bg-neutral-900 rounded-3xl p-3 glow flex items-center justify-evenly w-full">
-            <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
-            <select
-                className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl"
-                onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}
-            >
-                {tokens.map((token, index) => (
-                    <option key={index} className="font-bold bg-neutral-900" value={token.address}>
-                        {token.symbol}
-                    </option>
-                ))}
-            </select>
-        </div>
+        <>
+            <h3 className="text-neutral-500 font-bold text-center text-xl mb-4">{title}</h3>
+            <div className="bg-neutral-900 rounded-3xl p-3 glow flex items-center justify-evenly w-full">
+                <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
+                <select
+                    className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl"
+                    onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}
+                >
+                    {tokens.map((token, index) => (
+                        <option key={index} className="font-bold bg-neutral-900" value={token.address}>
+                            {token.symbol}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </>
     );
 }

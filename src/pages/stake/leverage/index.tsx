@@ -12,18 +12,15 @@ export default function StakeLeverage() {
                     { title: "Total Value Locked", body: "$ 138,245,234" },
                 ]}
             />
-            <div className="p-5 bg-neutral-900 rounded-xl glow flex items-center justify-evenly space-x-10">
+            <div className="px-10 py-5 bg-neutral-900 rounded-xl glow flex items-start justify-evenly space-x-10 pb-10">
                 <div className="w-1/5">
-                    <h3 className="text-neutral-500 font-bold text-center text-xl">Stake</h3>
-                    <TokenSelect />
+                    <TokenSelect title="Token" />
                 </div>
                 <div className="w-2/5">
-                    <h3 className="text-neutral-500 font-bold text-center text-xl">Deposit</h3>
-                    <TokenSegment />
+                    <TokenSegment title="Stake" keys={{ "Staked amount": "25.36 tlDAI", "Staked value": "$ 25.36" }} cta="Deposit" />
                 </div>
                 <div className="w-2/5">
-                    <h3 className="text-neutral-500 font-bold text-center text-xl">Withdraw</h3>
-                    <TokenSegment />
+                    <TokenSegment title="Redeem" keys={{ "Staked amount": "25.36 tlDAI", "Staked value": "$ 25.36" }} cta="Redeem" />
                 </div>
             </div>
         </div>
