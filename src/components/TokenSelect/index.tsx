@@ -16,7 +16,7 @@ export default function TokenSelect() {
     const [selectedToken, setSelectedToken] = useState<{ symbol: string; icon: string; address: string }>(tokens[0]);
 
     return (
-        <div className="bg-neutral-900 rounded-3xl p-3 shadow-lg shadow-fuchsia-500/20 flex items-center justify-evenly">
+        <div className="bg-neutral-900 rounded-3xl p-3 glow flex items-center justify-evenly w-full">
             <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
             <select
                 className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl"

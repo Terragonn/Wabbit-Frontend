@@ -12,10 +12,19 @@ export default function StakeLeverage() {
                     { title: "Total Value Locked", body: "$ 138,245,234" },
                 ]}
             />
-            <div className="p-5 bg-neutral-900 rounded-xl shadow-lg shadow-fuchsia-500/20">
-                <TokenSelect />
-                <TokenSegment />
-                <TokenSegment />
+            <div className="p-5 bg-neutral-900 rounded-xl glow flex items-center justify-evenly space-x-10">
+                <div className="w-1/5">
+                    <h3 className="text-neutral-500 font-bold text-center text-xl">Stake</h3>
+                    <TokenSelect />
+                </div>
+                <div className="w-2/5">
+                    <h3 className="text-neutral-500 font-bold text-center text-xl">Deposit</h3>
+                    <TokenSegment />
+                </div>
+                <div className="w-2/5">
+                    <h3 className="text-neutral-500 font-bold text-center text-xl">Withdraw</h3>
+                    <TokenSegment />
+                </div>
             </div>
         </div>
     );
