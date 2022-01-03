@@ -8,7 +8,7 @@ export default function TokenSegment({ title, keys, cta }: { title: string; keys
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch justify-evenly">
                 <div>
                     {Object.entries(keys).map(([key, value], index) => (
-                        <div className="flex items-center justify-between text-white font-medium text-lg mb-6">
+                        <div key={index} className="flex items-center justify-between text-white font-medium text-lg mb-6">
                             <span>{key}:</span>
                             <span className="whitespace-nowrap">{value}</span>
                         </div>
