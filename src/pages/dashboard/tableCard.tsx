@@ -44,10 +44,12 @@ export default function TableCard({
                     <span>{borrowAPY} %</span>
                 </div>
             </div>
-            <div className="flex items-center justify-evenly w-3/5 mx-auto space-x-2">
-                <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
-                <span className="whitespace-nowrap">{yieldAPR} %</span>
-                <span className="text-neutral-400">APR</span>
+            <div className="w-full text-xl font-medium mt-6 flex items-center justify-between">
+                <span>Yield APR:</span>
+                <div className="flex items-center justify-center space-x-3">
+                    <img src={require("../../images/TOKEN.png")} width={30} alt="Torque TAU" />
+                    <span className="whitespace-nowrap">{yieldAPR} %</span>
+                </div>
             </div>
         </div>
     );
