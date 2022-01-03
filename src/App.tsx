@@ -7,6 +7,7 @@ import Wrapper from "./pages/wrapper";
 
 import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
+import AgreementModal from "./components/AgreementModal";
 
 import DashboardLeverage from "./pages/dashboard/leverage";
 import StakeLeverage from "./pages/stake/leverage";
@@ -24,6 +25,7 @@ function App() {
         >
             <HashRouter>
                 <div className="background pb-10">
+                    <AgreementModal />
                     <Wrapper>
                         <Nav setNavState={setNavState} />
                     </Wrapper>
