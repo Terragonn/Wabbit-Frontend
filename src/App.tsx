@@ -11,6 +11,7 @@ import Nav from "./components/Nav";
 import DashboardLeverage from "./pages/dashboard/leverage";
 import StakeLeverage from "./pages/stake/leverage";
 import Leverage from "./pages/leverage";
+import Yield from "./pages/yield";
 
 function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -58,8 +59,15 @@ function App() {
                                 </Wrapper>
                             }
                         />
-                        <Route path="/borrow" />
-                        <Route path="/yield" />
+                        {/* <Route path="/borrow" /> */}
+                        <Route
+                            path="/yield"
+                            element={
+                                <Wrapper>
+                                    <Yield />
+                                </Wrapper>
+                            }
+                        />
                         <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
                     </Routes>
                 </div>
