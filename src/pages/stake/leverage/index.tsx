@@ -17,10 +17,10 @@ export default function StakeLeverage() {
                     <TokenSelect title="Token" />
                 </div>
                 <div className="w-2/5">
-                    <TokenSegment title="Stake" keys={{ "Staked amount": "25.36 tlDAI", "Staked value": "$ 25.36" }} cta="Deposit" />
+                    <TokenSegment title="Stake" keys={{ "Staked amount": "25.36 DAI", "Staked value": "$ 25.36" }} cta="Deposit" />
                 </div>
                 <div className="w-2/5">
-                    <TokenSegment title="Redeem" keys={{ "Staked amount": "25.36 tlDAI", "Staked value": "$ 25.36" }} cta="Redeem" />
+                    <TokenSegment title="Redeem" keys={{ "Redeem amount": "25.36 tlDAI", "Redeem value": "$ 25.36" }} cta="Redeem" />
                 </div>
             </div>
         </div>
