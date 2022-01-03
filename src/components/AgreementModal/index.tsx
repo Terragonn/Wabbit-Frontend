@@ -13,7 +13,7 @@ export default function AgreementModal() {
 
     return (
         <div className={`${agreed ? "hidden" : ""} bg-black bg-opacity-80 fixed inset-0 flex items-center justify-center z-50 modal`}>
-            <div className="mx-auto lg:w-3/5 w-4/5 min-w-min bg-neutral-900 glow rounded-xl p-6">
+            <div className="mx-auto lg:w-2/5 w-4/5 min-w-min bg-neutral-900 glow rounded-xl p-6">
                 <h2 className="text-white font-bold text-xl mb-2">Disclaimer Agreement</h2>
                 <p className="text-neutral-400 font-medium mb-3">
                     By using this app you acknowledge the risks of cryptocurrencies, tokens, smart contracts, and leveraged trading.
