@@ -2,7 +2,7 @@ import NavLink from "./navLink";
 
 export default function SideNav({ navState, setNavState }: { navState: boolean; setNavState: (state: boolean) => void }) {
     return (
-        <nav className={`fixed top-0 h-screen w-80 bg-neutral-900 p-5 xl:glow xl:left-0 left-[-20rem] ${navState ? "!left-0 !glow" : ""}`}>
+        <nav className={`fixed top-0 h-full w-80 bg-neutral-900 p-5 xl:glow xl:left-0 left-[-20rem] ${navState ? "!left-0 !glow" : ""}`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-12 w-12 mb-8 cursor-pointer xl:hidden"
