@@ -22,8 +22,9 @@ export default function TableRow({
             <span className="flex items-center justify-start w-full space-x-5 font-medium text-xl">
                 <img src={icon} width={40} className="rounded-xl" alt={name} />
                 <div className="flex flex-col items-center justify-evenly">
-                    <span>{name}</span>
-                    <span className="text-neutral-500">({symbol})</span>
+                    <span className="lg:block hidden">{name}</span>
+                    <span className="lg:block hidden text-neutral-500">({symbol})</span>
+                    <span className="lg:hidden block text-white">{symbol}</span>
                 </div>
             </span>
             <span className="w-full">$ {tvl}</span>
