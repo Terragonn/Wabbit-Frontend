@@ -10,6 +10,7 @@ export default function StakeLeverage() {
                     { title: "Total Value Locked", body: "$ 138,245,234" },
                 ]}
             />
+            <div className="p-5 bg-neutral-900 rounded-xl shadow-lg shadow-fuchsia-500/20">Hello World</div>
         </div>
     );
 }
