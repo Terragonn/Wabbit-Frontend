@@ -17,7 +17,7 @@ export default function TokenSelect({ title }: { title: string }) {
 
     return (
         <div>
-            <h3 className="text-neutral-500 font-bold text-center text-2xl mb-4">{title}</h3>
+            <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
             <div className="bg-neutral-900 rounded-3xl p-3 glow flex items-center justify-evenly w-full min-w-max space-x-2">
                 <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
                 <select
