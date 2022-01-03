@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
@@ -9,7 +10,7 @@ import Nav from "./components/Nav";
 
 import DashboardLeverage from "./pages/dashboard/leverage";
 import StakeLeverage from "./pages/stake/leverage";
-import { useState } from "react";
+import Leverage from "./pages/leverage";
 
 function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -49,7 +50,14 @@ function App() {
                             />
                             {/* <Route path="lending" /> */}
                         </Route>
-                        <Route path="/leverage" />
+                        <Route
+                            path="/leverage"
+                            element={
+                                <Wrapper>
+                                    <Leverage />
+                                </Wrapper>
+                            }
+                        />
                         <Route path="/borrow" />
                         <Route path="/yield" />
                         <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
