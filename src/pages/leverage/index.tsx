@@ -14,16 +14,23 @@ export default function Leverage() {
                     ]}
                 />
             </div>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-x-10 lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col lg:my-0 my-20">
-                <div className="lg:w-1/5 w-full">
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start justify-evenly pb-10 lg:my-0 my-20">
+                <div className="w-full mb-10">
                     <TokenSelect title="Token" />
                 </div>
-                <div className="lg:w-2/5 w-full flex flex-col items-center justify-center">
-                    <TokenSegment title="Borrow" keys={{ "Staked amount": "25.36 DAI", "Staked value": "$ 25.36" }} cta="Leverage" />
-                    <button className="bg-fuchsia-700 glow text-white font-bold text-3xl px-5 py-2.5 rounded-xl mt-5 hover:bg-fuchsia-600 lg:w-4/5 w-full">Repay</button>
-                </div>
-                <div className="lg:w-2/5 w-full">
-                    <TokenSegment title="Withdraw" keys={{ "Redeem amount": "25.36 tlDAI", "Redeem value": "$ 25.36" }} cta="Withdraw" />
+                <div className="flex items-start justify-between">
+                    <div className="w-full">
+                        <TokenSegment title="Deposit" keys={{ "Staked amount": "25.36 DAI", "Staked value": "$ 25.36" }} cta="Deposit" />
+                    </div>
+                    <div className="w-full lg:mx-5">
+                        <TokenSegment title="Withdraw" keys={{ "Redeem amount": "25.36 tlDAI", "Redeem value": "$ 25.36" }} cta="Withdraw" />
+                    </div>
+                    <div className="w-full flex flex-col items-center justify-center">
+                        <TokenSegment title="Leverage" keys={{ "Redeem amount": "25.36 tlDAI", "Redeem value": "$ 25.36" }} cta="Leverage" />
+                        <button className="bg-fuchsia-700 glow text-white font-bold text-3xl px-5 py-2.5 rounded-xl mt-5 hover:bg-fuchsia-600 lg:w-4/5 w-full">
+                            Repay
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -14,11 +14,11 @@ export default function StakeLeverage() {
                     ]}
                 />
             </div>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-x-10 lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col lg:my-0 my-20">
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col lg:my-0 my-20">
                 <div className="lg:w-1/5 w-full">
                     <TokenSelect title="Token" />
                 </div>
-                <div className="lg:w-2/5 w-full">
+                <div className="lg:w-2/5 w-full lg:mx-10">
                     <TokenSegment title="Stake" keys={{ "Staked amount": "25.36 DAI", "Staked value": "$ 25.36" }} cta="Deposit" />
                 </div>
                 <div className="lg:w-2/5 w-full">
