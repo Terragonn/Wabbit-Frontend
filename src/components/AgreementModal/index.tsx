@@ -19,7 +19,7 @@ export default function AgreementModal() {
                     By using this app you acknowledge the risks of cryptocurrencies, tokens, smart contracts, and leveraged trading.
                 </p>
                 <p className="text-neutral-400 font-medium pb-5 border-b-2 border-b-neutral-800 border-opacity-30">
-                    You acknowledge that using this app is extremely risky and that you are responsible for ALL losses incurred on the platform.
+                    You acknowledge that using this app is risky and that you are responsible for ALL losses incurred on the platform.
                 </p>
 
                 <div className="flex lg:items-center items-stretch lg:space-y-0 space-y-3 justify-between mt-5 lg:flex-row flex-col">
