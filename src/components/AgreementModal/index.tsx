@@ -23,10 +23,10 @@ export default function AgreementModal() {
                 </p>
 
                 <div className="flex lg:items-center items-stretch lg:space-y-0 space-y-3 justify-between mt-5 lg:flex-row flex-col">
-                    <div className="flex items-center justify-start">
-                        <input type="checkbox" className="form-checkbox rounded-md bg-transparent p-2" onChange={(e) => setTicked((prev) => !prev)} />
+                    <label className="flex items-center justify-start cursor-pointer">
+                        <input type="checkbox" className="form-checkbox rounded-md bg-transparent p-2 cursor-pointer" onChange={(e) => setTicked((prev) => !prev)} />
                         <span className="text-neutral-400 font-medium ml-3">I have read and agree to the disclaimer agreement above</span>
-                    </div>
+                    </label>
                     <button
                         className={`${
                             ticked ? "bg-fuchsia-700 hover:bg-fuchsia-600 glow" : "bg-neutral-700 cursor-default"
