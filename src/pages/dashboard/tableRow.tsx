@@ -18,7 +18,7 @@ export default function TableRow({
     borrowAPY: string;
 }) {
     return (
-        <div className="bg-neutral-900 rounded-xl flex items-center justify-evenly py-9 px-10 text-center font-bold text-white text-2xl mb-8 glow">
+        <div className="bg-neutral-900 rounded-xl flex items-center justify-evenly py-9 px-10 text-center font-bold text-white text-2xl mb-10 glow">
             <span className="flex items-center justify-start w-1/5 space-x-3 font-medium text-xl">
                 <img src={icon} width={40} className="rounded-xl" alt={name} />
                 <span>{name}</span>
