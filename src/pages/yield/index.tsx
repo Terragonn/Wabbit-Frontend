@@ -13,7 +13,8 @@ export default function Yield() {
                     ]}
                 />
             </div>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col lg:my-0 my-20">
+            <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Yield</h2>
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col my-10">
                 <div className="lg:w-1/5 w-full">
                     <TokenSelect title="Token" />
                 </div>
