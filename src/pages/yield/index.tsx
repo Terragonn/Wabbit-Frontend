@@ -8,9 +8,8 @@ export default function Yield() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        { title: "Stake APY", body: "25.36 %" },
-                        { title: "Total Locked", body: "2,361,132 DAI" },
-                        { title: "Total Value Locked", body: "$ 138,245,234" },
+                        { title: "Yield APR", body: "16.42 %" },
+                        { title: "Total Staked", body: "1,429,813 DAI" },
                     ]}
                 />
             </div>
