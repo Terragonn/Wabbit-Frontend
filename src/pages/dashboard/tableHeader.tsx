@@ -3,9 +3,9 @@ export default function TableHeader() {
 
     return (
         <div className="flex items-center justify-evenly py-3 px-10 mb-2">
-            <h3 className="text-left w-1/5 text-neutral-500 font-bold">{headers[0]}</h3>
+            <h3 className="text-left w-full text-neutral-500 font-bold">{headers[0]}</h3>
             {headers.slice(1).map((header, index) => (
-                <h3 key={index} className="text-center w-1/5 text-neutral-500 font-bold">
+                <h3 key={index} className="text-center w-full text-neutral-500 font-bold">
                     {header}
                 </h3>
             ))}
