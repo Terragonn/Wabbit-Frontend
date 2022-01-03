@@ -38,7 +38,8 @@ export default function DashboardLeverage() {
                     />
                 ))}
             </div>
-            <div className="lg:hidden my-20">
+            <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Dashboard</h2>
+            <div className="lg:hidden my-10">
                 {tableData.map((data, index) => (
                     <TableCard
                         key={index}
