@@ -12,7 +12,7 @@ export default function StakeLeverage() {
                     { title: "Total Value Locked", body: "$ 138,245,234" },
                 ]}
             />
-            <div className="px-10 py-5 bg-neutral-900 rounded-xl glow flex items-start justify-evenly space-x-10 pb-10">
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly space-x-10 pb-10">
                 <div className="w-1/5">
                     <TokenSelect title="Token" />
                 </div>
