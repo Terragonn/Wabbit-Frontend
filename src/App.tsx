@@ -9,8 +9,11 @@ import Nav from "./components/Nav";
 
 import DashboardLeverage from "./pages/dashboard/leverage";
 import StakeLeverage from "./pages/stake/leverage";
+import { useState } from "react";
 
 function App() {
+    const [navState, setNavState] = useState<boolean>(false);
+
     return (
         <Web3ReactProvider
             getLibrary={(provider) => {
@@ -20,9 +23,9 @@ function App() {
             <HashRouter>
                 <div className="background pb-10">
                     <Wrapper>
-                        <Nav />
+                        <Nav setNavState={setNavState} />
                     </Wrapper>
-                    <SideNav />
+                    <SideNav navState={navState} setNavState={setNavState} />
                     <Routes>
                         <Route path="dashboard">
                             <Route
