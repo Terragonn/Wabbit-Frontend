@@ -22,8 +22,8 @@ export default function TokenSelect() {
                 className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl"
                 onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}
             >
-                {tokens.map((token) => (
-                    <option className="font-bold bg-neutral-900" value={token.address}>
+                {tokens.map((token, index) => (
+                    <option key={index} className="font-bold bg-neutral-900" value={token.address}>
                         {token.symbol}
                     </option>
                 ))}

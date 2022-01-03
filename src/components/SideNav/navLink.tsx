@@ -15,8 +15,8 @@ export default function NavLink({ base, directories, children }: { base: string;
                 {children}
             </Link>
             <ul className={`ml-10 ${isDirectory ? "block" : "hidden"}`}>
-                {directories.map((directory) => (
-                    <li>
+                {directories.map((directory, index) => (
+                    <li key={index}>
                         <Link
                             to={`${base}/${directory}`}
                             className={`text-neutral-400 font-bold text-2xl ${sections[1] === directory ? "text-neutral-500" : "hover:text-neutral-500"}`}

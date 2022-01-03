@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import NavLink from "./navLink";
 
 export default function SideNav() {
