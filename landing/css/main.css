@@ -1,125 +1,125 @@
 main {
-    width: 80%;
-    margin: 0 auto;
-    padding-bottom: 20px;
+  width: 80%;
+  margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 article {
-    margin: 80px auto 200px auto;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+  margin: 80px auto 200px auto;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 article section {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  width: 600px;
 }
 
 article a {
-    font-weight: 600;
-    font-size: 40px;
-    margin: 0 auto;
+  font-weight: 600;
+  font-size: 40px;
+  margin: 0 auto;
 }
 
 article h2 {
-    color: #18181b;
-    font-size: 60px;
-    margin: 20px 0 50px 0;
-    font-weight: 800;
+  color: #18181b;
+  font-size: 60px;
+  margin: 20px 0 50px 0;
+  font-weight: 800;
 }
 
 article p {
-    font-size: 32px;
-    margin-top: 0;
-    margin-bottom: 50px;
-    color: #27272a;
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 50px;
+  color: #27272a;
 }
 
 article.no-limits img {
-    max-width: min(55%, 600px);
-    margin: 0 0 0 100px;
-    border-radius: 20px;
-    box-shadow: 4px 8px 12px #921ebb;
+  max-width: min(55%, 600px);
+  margin: 0 0 0 100px;
+  border-radius: 20px;
+  box-shadow: 4px 8px 12px #921ebb;
 }
 
 article.returns section {
-    align-items: flex-end;
+  align-items: flex-end;
 }
 
 article.returns h2 {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 article.returns p {
-    text-align: right;
+  text-align: right;
 }
 
 article.returns img {
-    margin: 0 100px 0 0;
-    width: 400px;
-    filter: drop-shadow(4px 8px 12px #921ebb);
+  margin: 0 100px 0 0;
+  width: 400px;
+  filter: drop-shadow(4px 8px 12px #921ebb);
 }
 
 @media screen and (max-width: 1400px) {
-    main {
-        width: 90%;
-    }
+  main {
+    width: 90%;
+  }
 
-    article {
-        flex-direction: column;
-        align-items: center;
-    }
+  article {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    article section {
-        align-items: center;
-        text-align: center;
-        width: 100%;
-    }
+  article section {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
 
-    article h2 {
-        font-size: 60px;
-    }
+  article h2 {
+    font-size: 60px;
+  }
 
-    article p {
-        min-width: 0;
-        max-width: 700px;
-        font-size: 28px;
-    }
+  article p {
+    min-width: 0;
+    max-width: 700px;
+    font-size: 28px;
+  }
 
-    article a {
-        font-size: 35px;
-    }
+  article a {
+    font-size: 35px;
+  }
 
-    article.no-limits img {
-        margin: 40px 0;
-        max-width: min(100%, 600px);
-    }
+  article.no-limits img {
+    margin: 40px 0;
+    max-width: min(100%, 600px);
+  }
 
-    article.returns {
-        flex-direction: column-reverse;
-        margin: 100px auto;
-    }
+  article.returns {
+    flex-direction: column-reverse;
+    margin: 100px auto;
+  }
 
-    article.returns h2 {
-        white-space: normal;
-    }
+  article.returns h2 {
+    white-space: normal;
+  }
 
-    article.returns section {
-        align-items: center;
-    }
+  article.returns section {
+    align-items: center;
+  }
 
-    article.returns p {
-        text-align: center;
-    }
+  article.returns p {
+    text-align: center;
+  }
 
-    article.returns img {
-        margin: 40px 0;
-        max-width: min(100%, 500px);
-    }
+  article.returns img {
+    margin: 40px 0;
+    max-width: min(100%, 500px);
+  }
 }
