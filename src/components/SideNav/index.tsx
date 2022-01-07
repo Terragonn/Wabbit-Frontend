@@ -41,23 +41,23 @@ export default function SideNav({
       </p>
       <ul className="flex flex-col space-y-16">
         <li>
-          <NavLink base="dashboard" directories={["leverage"]}>
+          <NavLink base="dashboard" directories={[]}>
             Dashboard
           </NavLink>
         </li>
         <li>
-          <NavLink base="stake" directories={["leverage"]}>
+          <NavLink base="stake" directories={[]}>
             Stake
           </NavLink>
         </li>
         <li>
-          <NavLink base="leverage" directories={[]}>
+          <NavLink base="leverage" directories={["long"]}>
             Leverage
           </NavLink>
         </li>
         <li>
-          <NavLink base="yield" directories={[]}>
-            Yield
+          <NavLink base="reserve" directories={[]}>
+            Reserve
           </NavLink>
         </li>
       </ul>

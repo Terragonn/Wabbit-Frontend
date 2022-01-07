@@ -31,46 +31,41 @@ function App() {
           </Wrapper>
           <SideNav navState={navState} setNavState={setNavState} />
           <Routes>
-            <Route path="dashboard">
-              <Route
-                path="leverage"
-                element={
-                  <Wrapper>
-                    <DashboardLeverage />
-                  </Wrapper>
-                }
-              />
-              {/* <Route path="lending" /> */}
-            </Route>
-            <Route path="stake">
-              <Route
-                path="leverage"
-                element={
-                  <Wrapper>
-                    <StakeLeverage />
-                  </Wrapper>
-                }
-              />
-              {/* <Route path="lending" /> */}
-            </Route>
             <Route
-              path="/leverage"
+              path="dashboard"
               element={
                 <Wrapper>
-                  <Leverage />
+                  <DashboardLeverage />
                 </Wrapper>
               }
             />
-            {/* <Route path="/borrow" /> */}
             <Route
-              path="/yield"
+              path="stake"
+              element={
+                <Wrapper>
+                  <StakeLeverage />
+                </Wrapper>
+              }
+            />
+            <Route path="leverage">
+              <Route
+                path="long"
+                element={
+                  <Wrapper>
+                    <Leverage />
+                  </Wrapper>
+                }
+              />
+            </Route>
+            <Route
+              path="/reserve"
               element={
                 <Wrapper>
                   <Yield />
                 </Wrapper>
               }
             />
-            <Route path="*" element={<Navigate to="/dashboard/leverage" />} />
+            <Route path="*" element={<Navigate to="dashboard" />} />
           </Routes>
         </div>
       </HashRouter>
