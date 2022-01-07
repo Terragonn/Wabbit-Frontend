@@ -46,6 +46,7 @@
   "prettier": {
     "overrides": [
       {
+	"files": "*.sol",
         "options": {
           "printWidth": 170,
           "trailingComma": "es5",
