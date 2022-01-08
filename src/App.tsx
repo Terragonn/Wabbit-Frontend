@@ -4,6 +4,7 @@ import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import * as ethers from "ethers";
 
 import { ErrorProvider } from "./utils/useError";
+import { ContractsProvider } from "./utils/useContracts";
 
 import Wrapper from "./pages/wrapper";
 
@@ -27,55 +28,57 @@ function App() {
       }}
     >
       <ErrorProvider>
-        <HashRouter>
-          <div className="background pb-10">
-            <AgreementModal />
-            <Wrapper>
-              <Nav setNavState={setNavState} />
-            </Wrapper>
-            <Wrapper>
-              <Error />
-            </Wrapper>
-            <SideNav navState={navState} setNavState={setNavState} />
-            <Routes>
-              <Route
-                path="dashboard"
-                element={
-                  <Wrapper>
-                    <Dashboard />
-                  </Wrapper>
-                }
-              />
-              <Route
-                path="stake"
-                element={
-                  <Wrapper>
-                    <Stake />
-                  </Wrapper>
-                }
-              />
-              <Route path="leverage">
+        <ContractsProvider>
+          <HashRouter>
+            <div className="background pb-10">
+              <AgreementModal />
+              <Wrapper>
+                <Nav setNavState={setNavState} />
+              </Wrapper>
+              <Wrapper>
+                <Error />
+              </Wrapper>
+              <SideNav navState={navState} setNavState={setNavState} />
+              <Routes>
                 <Route
-                  path="long"
+                  path="dashboard"
                   element={
                     <Wrapper>
-                      <LeverageLong />
+                      <Dashboard />
                     </Wrapper>
                   }
                 />
-              </Route>
-              <Route
-                path="/reserve"
-                element={
-                  <Wrapper>
-                    <Yield />
-                  </Wrapper>
-                }
-              />
-              <Route path="*" element={<Navigate to="dashboard" />} />
-            </Routes>
-          </div>
-        </HashRouter>
+                <Route
+                  path="stake"
+                  element={
+                    <Wrapper>
+                      <Stake />
+                    </Wrapper>
+                  }
+                />
+                <Route path="leverage">
+                  <Route
+                    path="long"
+                    element={
+                      <Wrapper>
+                        <LeverageLong />
+                      </Wrapper>
+                    }
+                  />
+                </Route>
+                <Route
+                  path="/reserve"
+                  element={
+                    <Wrapper>
+                      <Yield />
+                    </Wrapper>
+                  }
+                />
+                <Route path="*" element={<Navigate to="dashboard" />} />
+              </Routes>
+            </div>
+          </HashRouter>
+        </ContractsProvider>
       </ErrorProvider>
     </Web3ReactProvider>
   );
