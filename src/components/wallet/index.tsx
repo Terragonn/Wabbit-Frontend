@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 export default function Wallet() {
-  const { active, library, activate, deactivate } = useWeb3React();
+  const { active, activate, deactivate } = useWeb3React();
 
   const CONNECTED = "connected";
 
@@ -33,6 +33,7 @@ export default function Wallet() {
   }
 
   async function connect() {
+    switchNetwork();
     localStorage.setItem(CONNECTED, JSON.stringify(true));
     try {
       await activate(injected);
