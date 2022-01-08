@@ -1,3 +1,4 @@
+import { useWeb3React } from "@web3-react/core";
 import NavLink from "./navLink";
 
 export default function SideNav({
@@ -7,6 +8,8 @@ export default function SideNav({
   navState: boolean;
   setNavState: (state: boolean) => void;
 }) {
+  const { account } = useWeb3React();
+
   return (
     <nav
       className={`fixed top-0 h-full w-80 bg-neutral-900 p-5 xl:glow xl:left-0 left-[-20rem] ${
@@ -37,7 +40,12 @@ export default function SideNav({
         />
       </a>
       <p className="text-center text-white font-bold text-xl pt-5 pb-24">
-        0xa02E...7EfA
+        {!account
+          ? "Not Connected"
+          : `${account.slice(0, 6)}...${account.slice(
+              account.length - 6,
+              account.length
+            )}`}
       </p>
       <ul className="flex flex-col space-y-16">
         <li>
