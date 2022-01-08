@@ -5,6 +5,7 @@ import * as ethers from "ethers";
 
 import Wrapper from "./pages/wrapper";
 
+import Error from "./components/Error";
 import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
 import AgreementModal from "./components/AgreementModal";
@@ -28,6 +29,9 @@ function App() {
           <AgreementModal />
           <Wrapper>
             <Nav setNavState={setNavState} />
+          </Wrapper>
+          <Wrapper>
+            <Error />
           </Wrapper>
           <SideNav navState={navState} setNavState={setNavState} />
           <Routes>
