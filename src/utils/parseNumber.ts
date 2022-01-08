@@ -1,6 +1,6 @@
 import {ethers} from "ethers";
 
-export const ROUND_CONSTANT = 1e3;
+export const ROUND_CONSTANT = 1e8;
 
 export default function parseNumber(num: ethers.BigNumber | string, decimals: number | ethers.BigNumber): string {
     // Appreviate a number with its alphabetical representation
