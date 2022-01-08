@@ -45,7 +45,7 @@ export default function useProtocolData() {
 }
 
 export function ProtocolDataProvider({children}: {children: any}) {
-    const {active, library} = useWeb3React();
+    const {active, library}: {active?: boolean; library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
     const contracts = useContracts();
 
@@ -74,7 +74,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function minMarginLevel() {
         if (contracts) {
             const [numerator, denominator] = await contracts.marginLong.minMarginLevel();
-            return numerator.mul(ROUND_CONSTANT).div(denominator) / ROUND_CONSTANT;
+            return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
         }
     }
 
@@ -125,11 +125,22 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     // Get the stake APY
-    async function stakeAPY(address: string) {
-        // **** To get this we are going to call the interest function for a given initial amount and see what it compounds into
-    }
+    async function stakeAPY(address: string) {}
 
     // Get the borrow APY
+    async function borrowAPY(address: string) {
+        if (contracts) {
+            const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
+            const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
+            const borrowBlock = currentBlock.sub(blocksPerYear);
+
+            const initialBorrow = ethers.BigNumber.from(10).pow(5);
+            const interest = await contracts.lPool.interest(address, initialBorrow, borrowBlock);
+
+            const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
+            return apy;
+        }
+    }
 
     // Get the utilization rate
 
