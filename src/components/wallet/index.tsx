@@ -1,9 +1,9 @@
-import { injected } from "./connectors";
+import { injected, supportedChainIds } from "./connectors";
 import { useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 export default function Wallet() {
-  const { active, activate, deactivate } = useWeb3React();
+  const { active, library, activate, deactivate } = useWeb3React();
 
   const CONNECTED = "connected";
 
@@ -12,7 +12,25 @@ export default function Wallet() {
     if (connected && JSON.parse(connected) && !active) connect();
   }, []);
 
-  //   **** HOW TO CHECK IF ON NETWORK AND HOW TO SWITCH NETWORK
+  function switchNetwork() {
+    // @ts-ignore
+    window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: "0xFA",
+          rpcUrls: ["https://rpc.ftm.tools/"],
+          chainName: "Fantom Opera",
+          nativeCurrency: {
+            name: "FTM",
+            symbol: "FTM",
+            decimals: 18,
+          },
+          blockExplorerUrls: ["https://ftmscan.com/"],
+        },
+      ],
+    });
+  }
 
   async function connect() {
     localStorage.setItem(CONNECTED, JSON.stringify(true));
