@@ -37,7 +37,7 @@ export default function Wallet() {
     }
 
     async function connect() {
-        switchNetwork();
+        // switchNetwork();
         localStorage.setItem(CONNECTED, JSON.stringify(true));
         try {
             await activate(injected);

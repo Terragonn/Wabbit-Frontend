@@ -1,4 +1,4 @@
-import Wallet from "../wallet";
+import Wallet from "../Wallet";
 
 export default function Nav({setNavState}: {setNavState: (state: boolean) => void}) {
     return (

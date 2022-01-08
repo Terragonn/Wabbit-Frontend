@@ -6,36 +6,7 @@ import config from "../config/config.json";
 import {ROUND_CONSTANT} from "./parseNumber";
 
 interface ProtocolData {
-    totalPoolPriceLocked: () => ethers.BigNumber;
-    minMarginLevel: () => number;
-    minCollateralPrice: (address: string) => ethers.BigNumber;
-
-    totalPriceLocked: (address: string) => ethers.BigNumber;
-    totalLocked: (address: string) => ethers.BigNumber;
-    totalBorrowed: (address: string) => ethers.BigNumber;
-    totalBorrowedLong: (address: string) => ethers.BigNumber;
-    liquidityAvailable: (address: string) => ethers.BigNumber;
-    stakeAPY: (address: string) => number;
-    borrowAPY: (address: string) => number;
-    utilizationRate: (address: string) => number;
-
-    totalLiquidity: (address: string) => ethers.BigNumber;
-    collateralTotalPrice: (address: string) => ethers.BigNumber;
-    collateralPrice: (address: string) => ethers.BigNumber;
-    collateralAmount: (address: string) => ethers.BigNumber;
-    borrowedTotalPrice: (address: string) => ethers.BigNumber;
-    borrowedPrice: (address: string) => ethers.BigNumber;
-    borrowedAmount: (address: string) => ethers.BigNumber;
-    marginLevel: (address: string) => ethers.BigNumber;
-    stakeLPTokenAmount: (address: string) => ethers.BigNumber;
-    stakeRedeemValue: (address: string) => ethers.BigNumber;
-    stakeRedeemPrice: (address: string) => ethers.BigNumber;
-
-    reserveYieldAPR: (address: string) => ethers.BigNumber;
-    totalStaked: (address: string) => ethers.BigNumber;
-    totalTAUSupply: (address: string) => ethers.BigNumber;
-    backingPerTAU: (address: string) => ethers.BigNumber;
-    TAUTotalLocked: (address: string) => ethers.BigNumber;
+    totalPoolPrice: ethers.BigNumber;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -45,7 +16,7 @@ export default function useProtocolData() {
 }
 
 export function ProtocolDataProvider({children}: {children: any}) {
-    const {active, library}: {active?: boolean; library?: ethers.providers.JsonRpcProvider} = useWeb3React();
+    const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
     const contracts = useContracts();
 
@@ -54,21 +25,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const decimals = await contracts?.oracle.decimals(address);
         return num.div(ethers.BigNumber.from(10).pow(decimals));
     }
-
-    // Calculate the total price of all of the assets locked in the pool
-    // async function totalPoolPriceLocked() {
-    //     if (contracts) {
-    //         const assets = config.approved.map((approved) => approved.address);
-    //         let totalPrice = ethers.BigNumber.from(0);
-    //         for (const asset of assets) {
-    //             const totalLocked = await contracts.lPool.tvl(asset);
-    //             const price = await contracts.oracle.price(asset, totalLocked);
-    //             totalPrice = totalPrice.add(price);
-    //         }
-    //         totalPrice = await parseDecimals(totalPrice, await contracts.oracle.defaultStablecoin());
-    //         return totalPrice;
-    //     }
-    // }
 
     // Get the minimum margin level
     // async function minMarginLevel() {
@@ -212,11 +168,25 @@ export function ProtocolDataProvider({children}: {children: any}) {
     // Get the total assets in reserve for a given token
 
     useEffect(() => {
-        if (!active) setProtocolData(null);
+        if (!contracts) setProtocolData(null);
         else {
-            // **** Here we will set all of the functions to be used throughout the protocol
-        }
-    }, [active]);
+            (async () => {
+                let totalPoolPrice;
+                if (true) {
+                    const assets = config.approved.map((approved) => approved.address);
+                    totalPoolPrice = ethers.BigNumber.from(0);
+                    for (const asset of assets) {
+                        const totalLocked = await contracts?.lPool.tvl(asset);
+                        const price = await contracts?.oracle.price(asset, totalLocked);
+                        totalPoolPrice = totalPoolPrice.add(price);
+                    }
+                    totalPoolPrice = await parseDecimals(totalPoolPrice, await contracts?.oracle.defaultStablecoin());
+                }
 
-    return <protocolDataCtx.Provider value={protocolData}></protocolDataCtx.Provider>;
+                setProtocolData({totalPoolPrice});
+            })();
+        }
+    }, [contracts]);
+
+    return <protocolDataCtx.Provider value={protocolData}>{children}</protocolDataCtx.Provider>;
 }
