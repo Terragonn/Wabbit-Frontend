@@ -18,9 +18,7 @@ interface Contracts {
   reserve: ethers.Contract;
 }
 
-const contractCtx = createContext<
-  [Contracts | null, (contracts: Contracts | null) => void]
->(undefined as any);
+const contractCtx = createContext<Contracts | null>(undefined as any);
 
 export default function useContracts() {
   return useContext(contractCtx);
@@ -74,7 +72,7 @@ export function ContractsProvider(props: { children: any }) {
   }, [active]);
 
   return (
-    <contractCtx.Provider value={[contracts, setContracts]}>
+    <contractCtx.Provider value={contracts}>
       {props.children}
     </contractCtx.Provider>
   );
