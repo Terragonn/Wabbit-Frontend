@@ -6,7 +6,8 @@ import config from "../config/config.json";
 import {ROUND_CONSTANT} from "./parseNumber";
 
 interface ProtocolData {
-    totalPoolPrice: ethers.BigNumber;
+    totalPoolPrice: () => Promise<ethers.BigNumber>;
+    totalBorrowedPrice: () => Promise<ethers.BigNumber>;
 }
 
 const protocolDataCtx = createContext<[ProtocolData | null, (address: string) => void]>(undefined as any);
@@ -26,6 +27,32 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function parseDecimals(num: ethers.BigNumber, address: string) {
         const decimals = await contracts?.oracle.decimals(address);
         return num.div(ethers.BigNumber.from(10).pow(decimals));
+    }
+
+    async function totalPoolPrice() {
+        let totalPoolPrice;
+        const assets = config.approved.filter((approved) => approved.leveragePool).map((approved) => approved.address);
+        totalPoolPrice = ethers.BigNumber.from(0);
+        for (const asset of assets) {
+            const totalLocked = await contracts?.lPool.tvl(asset);
+            const price = await contracts?.oracle.price(asset, totalLocked);
+            totalPoolPrice = totalPoolPrice.add(price);
+        }
+        totalPoolPrice = await parseDecimals(totalPoolPrice, await contracts?.oracle.defaultStablecoin());
+        return totalPoolPrice;
+    }
+
+    async function totalBorrowedPrice() {
+        let totalBorrowedPrice;
+        const assets = config.approved.filter((approved) => approved.leveragePool).map((approved) => approved.address);
+        totalBorrowedPrice = ethers.BigNumber.from(0);
+        for (const asset of assets) {
+            const totalBorrowed = await contracts?.lPool.utilized(asset);
+            const price = await contracts?.oracle.price(asset, totalBorrowed);
+            totalBorrowedPrice = totalBorrowedPrice.add(price);
+        }
+        totalBorrowedPrice = await parseDecimals(totalBorrowedPrice, await contracts?.oracle.defaultStablecoin());
+        return totalBorrowedPrice;
     }
 
     // Get the minimum margin level
@@ -173,19 +200,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                let totalPoolPrice;
-                if (true) {
-                    const assets = config.approved.map((approved) => approved.address);
-                    totalPoolPrice = ethers.BigNumber.from(0);
-                    for (const asset of assets) {
-                        const totalLocked = await contracts?.lPool.tvl(asset);
-                        const price = await contracts?.oracle.price(asset, totalLocked);
-                        totalPoolPrice = totalPoolPrice.add(price);
-                    }
-                    totalPoolPrice = await parseDecimals(totalPoolPrice, await contracts?.oracle.defaultStablecoin());
-                }
-
-                setProtocolData({totalPoolPrice});
+                setProtocolData({totalPoolPrice, totalBorrowedPrice});
             })();
         }
     }, [contracts]);
