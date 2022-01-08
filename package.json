@@ -46,7 +46,7 @@
   "prettier": {
     "overrides": [
       {
-        "files": "*.{sol,ts}",
+        "files": "*.{sol,ts,tsx}",
         "options": {
           "printWidth": 170,
           "tabWidth": 4,

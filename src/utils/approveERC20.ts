@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import {ethers} from "ethers";
 
 export default async function approveERC20(contract: ethers.Contract, address: string) {
     // Require that a minimum amount approved is allocated
