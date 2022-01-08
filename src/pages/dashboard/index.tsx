@@ -4,9 +4,10 @@ import TableRow from "./tableRow";
 import TableCard from "./tableCard";
 import config from "../../config/config.json";
 import useProtocolData from "../../utils/useProtocolData";
+import parseNumber from "../../utils/parseNumber";
 
 export default function Dashboard() {
-    const protocolData = useProtocolData();
+    const [protocolData, setAddress] = useProtocolData();
 
     return (
         <>
@@ -22,7 +23,7 @@ export default function Dashboard() {
                             name={data.name}
                             symbol={data.symbol}
                             icon={data.icon}
-                            tvl={protocolData?.totalPoolPrice.toString() || "-"}
+                            tvl={parseNumber(protocolData?.totalPoolPrice.toString())}
                             borrowed="431.84M"
                             stakeAPY="7.23"
                             borrowAPY="16.23"
@@ -39,7 +40,7 @@ export default function Dashboard() {
                         name={data.name}
                         symbol={data.symbol}
                         icon={data.icon}
-                        tvl="373.73M"
+                        tvl={protocolData?.totalPoolPrice.toString() || "-"}
                         borrowed="431.84M"
                         stakeAPY="7.23"
                         borrowAPY="16.23"

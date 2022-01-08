@@ -9,7 +9,7 @@ interface ProtocolData {
     totalPoolPrice: ethers.BigNumber;
 }
 
-const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
+const protocolDataCtx = createContext<[ProtocolData | null, (address: string) => void]>(undefined as any);
 
 export default function useProtocolData() {
     return useContext(protocolDataCtx);
@@ -17,8 +17,10 @@ export default function useProtocolData() {
 
 export function ProtocolDataProvider({children}: {children: any}) {
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
-    const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
     const contracts = useContracts();
+
+    const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
+    const [address, setAddress] = useState<string | null>(null);
 
     // Parse decimals
     async function parseDecimals(num: ethers.BigNumber, address: string) {
@@ -188,5 +190,5 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }, [contracts]);
 
-    return <protocolDataCtx.Provider value={protocolData}>{children}</protocolDataCtx.Provider>;
+    return <protocolDataCtx.Provider value={[protocolData, setAddress]}>{children}</protocolDataCtx.Provider>;
 }
