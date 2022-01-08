@@ -3,20 +3,21 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import config from "../config/config.json";
+import {ROUND_CONSTANT} from "./parseNumber";
 
 interface ProtocolData {
-    totalPoolPriceLocked: (address: string) => ethers.BigNumber;
-    minimumMarginLevel: (address: string) => ethers.BigNumber;
-    minimumCollateralPrice: (address: string) => ethers.BigNumber;
+    totalPoolPriceLocked: () => ethers.BigNumber;
+    minMarginLevel: () => number;
+    minCollateralPrice: (address: string) => ethers.BigNumber;
 
     totalPriceLocked: (address: string) => ethers.BigNumber;
-    totalAmountLocked: (address: string) => ethers.BigNumber;
+    totalLocked: (address: string) => ethers.BigNumber;
     totalBorrowed: (address: string) => ethers.BigNumber;
     totalBorrowedLong: (address: string) => ethers.BigNumber;
     liquidityAvailable: (address: string) => ethers.BigNumber;
-    stakeAPY: (address: string) => ethers.BigNumber;
-    borrowAPY: (address: string) => ethers.BigNumber;
-    utilizationRate: (address: string) => ethers.BigNumber;
+    stakeAPY: (address: string) => number;
+    borrowAPY: (address: string) => number;
+    utilizationRate: (address: string) => number;
 
     totalAvailable: (address: string) => ethers.BigNumber;
     collateralTotalPrice: (address: string) => ethers.BigNumber;
@@ -48,8 +49,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
     const contracts = useContracts();
 
+    // Parse decimals
+    async function parseDecimals(num: ethers.BigNumber, address: string) {
+        const decimals = await contracts?.oracle.decimals(address);
+        return num.div(ethers.BigNumber.from(10).pow(decimals));
+    }
+
     // Calculate the total price of all of the assets locked in the pool
-    async function totalPoolPriceLocked(address: string) {
+    async function totalPoolPriceLocked() {
         if (contracts) {
             const assets = config.approved.map((approved) => approved.address);
             let totalPrice = ethers.BigNumber.from(0);
@@ -58,11 +65,73 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 const price = await contracts.oracle.price(asset, totalLocked);
                 totalPrice = totalPrice.add(price);
             }
-            const decimals = contracts.oracle.decimals(contracts.oracle.defaultStablecoin());
-            totalPrice = totalPrice.div(decimals);
+            totalPrice = await parseDecimals(totalPrice, await contracts.oracle.defaultStablecoin());
             return totalPrice;
         }
     }
+
+    // Get the minimum margin level
+    async function minMarginLevel() {
+        if (contracts) {
+            const [numerator, denominator] = await contracts.marginLong.minMarginLevel();
+            return numerator.mul(ROUND_CONSTANT).div(denominator) / ROUND_CONSTANT;
+        }
+    }
+
+    // Get the minimum margin collateral price to borrow
+    async function minCollateralPrice() {
+        if (contracts) {
+            const price = await contracts.marginLong.minCollateralPrice();
+            return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
+        }
+    }
+
+    // Get the total price locked in the pool for a given asset
+    async function totalPriceLocked(address: string) {
+        if (contracts) {
+            const totalLocked = await contracts.lPool.tvl(address);
+            const price = await contracts.oracle.price(address, totalLocked);
+            return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
+        }
+    }
+
+    // Total amount of a given asset locked in the pool
+    async function totalLocked(address: string) {
+        if (contracts) {
+            const totalLocked = await contracts.lPool.tvl(address);
+            return await parseDecimals(totalLocked, address);
+        }
+    }
+
+    // Get the total amount borrowed
+    async function totalBorrowed(address: string) {
+        if (contracts) {
+            const borrowed = await contracts.marginLong.totalBorrowed(address);
+            return await parseDecimals(borrowed, address);
+        }
+    }
+
+    // Get the total amount borrowed long
+    async function totalBorrowedLong(address: string) {
+        return await totalBorrowed(address);
+    }
+
+    // Get the liquidity of a given asset available
+    async function liquidityAvailable(address: string) {
+        if (contracts) {
+            const liquidity = await contracts.lPool.liquidity(address);
+            return await parseDecimals(liquidity, address);
+        }
+    }
+
+    // Get the stake APY
+    async function stakeAPY(address: string) {
+        // **** To get this we are going to call the interest function for a given initial amount and see what it compounds into
+    }
+
+    // Get the borrow APY
+
+    // Get the utilization rate
 
     useEffect(() => {
         if (!active) setProtocolData(null);
