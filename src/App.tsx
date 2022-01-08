@@ -9,10 +9,10 @@ import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
 import AgreementModal from "./components/AgreementModal";
 
-import DashboardLeverage from "./pages/dashboard/leverage";
-import StakeLeverage from "./pages/stake/leverage";
-import Leverage from "./pages/leverage";
-import Yield from "./pages/yield";
+import Dashboard from "./pages/dashboard";
+import Stake from "./pages/stake";
+import LeverageLong from "./pages/leverage/long";
+import Yield from "./pages/reserve";
 
 function App() {
   const [navState, setNavState] = useState<boolean>(false);
@@ -35,7 +35,7 @@ function App() {
               path="dashboard"
               element={
                 <Wrapper>
-                  <DashboardLeverage />
+                  <Dashboard />
                 </Wrapper>
               }
             />
@@ -43,7 +43,7 @@ function App() {
               path="stake"
               element={
                 <Wrapper>
-                  <StakeLeverage />
+                  <Stake />
                 </Wrapper>
               }
             />
@@ -52,7 +52,7 @@ function App() {
                 path="long"
                 element={
                   <Wrapper>
-                    <Leverage />
+                    <LeverageLong />
                   </Wrapper>
                 }
               />

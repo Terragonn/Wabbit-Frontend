@@ -1,6 +1,6 @@
-import Banner from "../../../components/Banner";
-import TokenSegment from "../../../components/TokenSegment";
-import TokenSelect from "../../../components/TokenSelect";
+import Banner from "../../components/Banner";
+import TokenSegment from "../../components/TokenSegment";
+import TokenSelect from "../../components/TokenSelect";
 
 export default function StakeLeverage() {
   return (

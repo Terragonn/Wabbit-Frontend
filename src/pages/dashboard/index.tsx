@@ -1,9 +1,9 @@
-import Banner from "../../../components/Banner";
-import TableHeader from "../tableHeader";
-import TableRow from "../tableRow";
-import TableCard from "../tableCard";
+import Banner from "../../components/Banner";
+import TableHeader from "./tableHeader";
+import TableRow from "./tableRow";
+import TableCard from "./tableCard";
 
-export default function DashboardLeverage() {
+export default function Dashboard() {
   const tableData = [
     {
       name: "Dai",
