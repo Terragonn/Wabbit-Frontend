@@ -24,7 +24,9 @@ export default function NavLink({
       >
         {children}
       </Link>
-      <ul className={`ml-10 ${isDirectory ? "block" : "hidden"}`}>
+      <ul
+        className={`ml-10 mt-3 space-y-3 ${isDirectory ? "block" : "hidden"}`}
+      >
         {directories.map((directory, index) => (
           <li key={index}>
             <Link
