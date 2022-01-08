@@ -1,8 +1,12 @@
-import { injected, supportedChainIds } from "./connectors";
+import { injected } from "./connectors";
 import { useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 
+import useError from "../../utils/useError";
+
 export default function Wallet() {
+  const [, setError] = useError();
+
   const { active, activate, deactivate } = useWeb3React();
 
   const CONNECTED = "connected";
@@ -37,8 +41,8 @@ export default function Wallet() {
     localStorage.setItem(CONNECTED, JSON.stringify(true));
     try {
       await activate(injected);
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      setError(e.toString());
     }
   }
 
