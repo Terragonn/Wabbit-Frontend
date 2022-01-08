@@ -19,7 +19,7 @@ interface ProtocolData {
     borrowAPY: (address: string) => number;
     utilizationRate: (address: string) => number;
 
-    totalAvailable: (address: string) => ethers.BigNumber;
+    totalLiquidity: (address: string) => ethers.BigNumber;
     collateralTotalPrice: (address: string) => ethers.BigNumber;
     collateralPrice: (address: string) => ethers.BigNumber;
     collateralAmount: (address: string) => ethers.BigNumber;
@@ -116,6 +116,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return await totalBorrowed(address);
     }
 
+    // **** Add in some prices and total borrow price for all of the pools
+
     // Get the liquidity of a given asset available
     async function liquidityAvailable(address: string) {
         if (contracts) {
@@ -125,7 +127,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     // Get the stake APY
-    async function stakeAPY(address: string) {}
+    async function stakeAPY(address: string) {
+        if (contracts) return ((await borrowAPY(address)) as number) * ((await utilizationRate(address)) as number);
+    }
 
     // Get the borrow APY
     async function borrowAPY(address: string) {
@@ -142,7 +146,47 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
+    // **** Add in a global collateral price and collateral amount
+
     // Get the utilization rate
+    async function utilizationRate(address: string) {
+        if (contracts) {
+            const [numerator, denominator] = await contracts.lPool.utilizationRate(address);
+            return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
+        }
+    }
+
+    // Get the total liquidity of an asset
+
+    // Get the total amount locked of an asset as collateral
+
+    // Get the total collateral price of an asset
+
+    // Get the total borrowed price
+
+    // Get the borrowed amount of an asset
+
+    // Get the borrowed price of an asset
+
+    // Get the margin level of an asset
+
+    // Get the amount of available LP tokens for a given token
+
+    // Get the amount of assets for redeeming given tokens
+
+    // Get the price of redeeming the given underlying tokens
+
+    totalLiquidity: (address: string) => ethers.BigNumber;
+    collateralTotalPrice: (address: string) => ethers.BigNumber;
+    collateralPrice: (address: string) => ethers.BigNumber;
+    collateralAmount: (address: string) => ethers.BigNumber;
+    borrowedTotalPrice: (address: string) => ethers.BigNumber;
+    borrowedPrice: (address: string) => ethers.BigNumber;
+    borrowedAmount: (address: string) => ethers.BigNumber;
+    marginLevel: (address: string) => ethers.BigNumber;
+    stakeLPTokenAmount: (address: string) => ethers.BigNumber;
+    stakeRedeemValue: (address: string) => ethers.BigNumber;
+    stakeRedeemPrice: (address: string) => ethers.BigNumber;
 
     useEffect(() => {
         if (!active) setProtocolData(null);
