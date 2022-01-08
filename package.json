@@ -46,13 +46,14 @@
   "prettier": {
     "overrides": [
       {
-	"files": "*.{sol,ts}",
+        "files": "*.{sol,ts}",
         "options": {
           "printWidth": 170,
-          "trailingComma": "es5",
           "tabWidth": 4,
-          "semi": false,
-          "singleQuote": true
+          "useTabs": false,
+          "singleQuote": false,
+          "bracketSpacing": false,
+          "explicitTypes": "always"
         }
       }
     ]
