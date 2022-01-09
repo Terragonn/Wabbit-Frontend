@@ -3,6 +3,12 @@ import {ethers} from "ethers";
 export const ROUND_CONSTANT = 1e8;
 export const DISPLAY_DECIMALS = 2;
 
+export function parseNumberFloat(num?: number): string {
+    if (typeof num === "undefined") return "-";
+
+    return num.toFixed(DISPLAY_DECIMALS);
+}
+
 export default function parseNumber(num?: ethers.BigNumber | string): string {
     if (!num) return "-";
 

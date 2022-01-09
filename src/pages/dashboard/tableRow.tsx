@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import getApproved from "../../utils/getApproved";
-import parseNumber from "../../utils/parseNumber";
+import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import useProtocolData from "../../utils/useProtocolData";
 
 export default function TableRow({address}: {address: string}) {
@@ -43,14 +43,14 @@ export default function TableRow({address}: {address: string}) {
             <span className="w-full">$ {parseNumber(data?.tvl)}</span>
             <span className="w-full">$ {parseNumber(data?.borrowed)}</span>
             <div className="w-full">
-                <span>{data?.stakeAPY || "-"} %</span>
+                <span>{parseNumberFloat(data?.stakeAPY)} %</span>
                 <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
                     <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
-                    <span className="whitespace-nowrap">{data?.yieldAPR || "-"} %</span>
+                    <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>
                     <span className="text-neutral-400">APR</span>
                 </span>
             </div>
-            <span className="w-full">{data?.borrowAPY || "-"} %</span>
+            <span className="w-full">{parseNumberFloat(data?.borrowAPY)} %</span>
         </div>
     );
 }

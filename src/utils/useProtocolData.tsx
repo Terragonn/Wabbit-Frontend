@@ -102,7 +102,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         try {
             interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
         } catch (e) {
-            interest = ethers.BigNumber.from(0);
+            return 0;
         }
 
         const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
