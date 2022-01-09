@@ -8,6 +8,12 @@ import {ROUND_CONSTANT} from "./parseNumber";
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber>;
     totalBorrowedPrice: () => Promise<ethers.BigNumber>;
+
+    totalPriceLocked: (address: string) => Promise<ethers.BigNumber>;
+    totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
+    stakeAPY: (address: string) => Promise<number>;
+    TAUYieldAPR: (address: string) => Promise<number>;
+    borrowAPY: (address: string) => Promise<number>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -54,6 +60,57 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return totalBorrowedPrice;
     }
 
+    // Get the total price locked in the pool for a given asset
+    async function totalPriceLocked(address: string) {
+        const totalLocked = await contracts?.lPool.tvl(address);
+        const price = await contracts?.oracle.price(address, totalLocked);
+        return await parseDecimals(price, await contracts?.oracle.defaultStablecoin());
+    }
+
+    // Get the total amount borrowed
+    async function totalBorrowed(address: string) {
+        const borrowed = await contracts?.marginLong.totalBorrowed(address);
+        return await parseDecimals(borrowed, address);
+    }
+
+    // Get the stake APY
+    async function stakeAPY(address: string) {
+        const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
+        const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
+        const borrowBlock = currentBlock.sub(blocksPerYear);
+
+        const initialBorrow = ethers.BigNumber.from(10).pow(5);
+        const interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
+
+        const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
+
+        const apy =
+            interest.mul(ROUND_CONSTANT).mul(utilizationNumerator).div(initialBorrow).div(utilizationDenominator).sub(ROUND_CONSTANT).mul(100).toNumber() /
+            ROUND_CONSTANT;
+
+        return apy;
+    }
+
+    // Get the TAU yield APR
+    async function TAUYieldAPR(address: string) {
+        const [rateNumerator, rateDenominator] = await contracts?.reserve.getRate(address);
+        // **** In reality I would like to be able to calculate the market price of the token and return the yield in terms of the market price, however at the moment that is not possible
+        return rateNumerator.mul(ROUND_CONSTANT).div(rateDenominator).toNumber() / ROUND_CONSTANT;
+    }
+
+    // Get the borrow APY
+    async function borrowAPY(address: string) {
+        const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
+        const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
+        const borrowBlock = currentBlock.sub(blocksPerYear);
+
+        const initialBorrow = ethers.BigNumber.from(10).pow(5);
+        const interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
+
+        const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
+        return apy;
+    }
+
     // Get the minimum margin level
     // async function minMarginLevel() {
     //     if (contracts) {
@@ -70,28 +127,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
     //     }
     // }
 
-    // Get the total price locked in the pool for a given asset
-    // async function totalPriceLocked(address: string) {
-    //     if (contracts) {
-    //         const totalLocked = await contracts.lPool.tvl(address);
-    //         const price = await contracts.oracle.price(address, totalLocked);
-    //         return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
-    //     }
-    // }
-
     // Total amount of a given asset locked in the pool
     // async function totalLocked(address: string) {
     //     if (contracts) {
     //         const totalLocked = await contracts.lPool.tvl(address);
     //         return await parseDecimals(totalLocked, address);
-    //     }
-    // }
-
-    // Get the total amount borrowed
-    // async function totalBorrowed(address: string) {
-    //     if (contracts) {
-    //         const borrowed = await contracts.marginLong.totalBorrowed(address);
-    //         return await parseDecimals(borrowed, address);
     //     }
     // }
 
@@ -107,26 +147,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
     //     if (contracts) {
     //         const liquidity = await contracts.lPool.liquidity(address);
     //         return await parseDecimals(liquidity, address);
-    //     }
-    // }
-
-    // Get the stake APY
-    // async function stakeAPY(address: string) {
-    //     if (contracts) return ((await borrowAPY(address)) as number) * ((await utilizationRate(address)) as number);
-    // }
-
-    // Get the borrow APY
-    // async function borrowAPY(address: string) {
-    //     if (contracts) {
-    //         const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
-    //         const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
-    //         const borrowBlock = currentBlock.sub(blocksPerYear);
-
-    //         const initialBorrow = ethers.BigNumber.from(10).pow(5);
-    //         const interest = await contracts.lPool.interest(address, initialBorrow, borrowBlock);
-
-    //         const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
-    //         return apy;
     //     }
     // }
 
@@ -199,7 +219,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                setProtocolData({totalPoolPrice, totalBorrowedPrice});
+                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalBorrowed, stakeAPY, borrowAPY, TAUYieldAPR});
             })();
         }
     }, [contracts]);
