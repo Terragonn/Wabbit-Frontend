@@ -30,8 +30,8 @@ export default function Dashboard() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Total Value Locked", body: parseNumber(data?.tvl)},
-                        {title: "Total Value Borrowed", body: parseNumber(data?.borrowed)},
+                        {title: "Total Value Locked", body: "$ " + parseNumber(data?.tvl)},
+                        {title: "Total Value Borrowed", body: "$ " + parseNumber(data?.borrowed)},
                     ]}
                 />
                 <TableHeader />

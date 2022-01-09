@@ -21,6 +21,7 @@ export default function TableRow({address}: {address: string}) {
         if (!protocolData) setData(null);
         else {
             (async () => {
+                // **** Now I need to go and make functions to get the following data
                 setData(null);
             })();
         }
