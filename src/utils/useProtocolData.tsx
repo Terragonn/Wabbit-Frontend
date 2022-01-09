@@ -75,26 +75,18 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     // Get the stake APY
     async function stakeAPY(address: string) {
-        const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
-        const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
-        const borrowBlock = currentBlock.sub(blocksPerYear);
-
-        const initialBorrow = ethers.BigNumber.from(10).pow(5);
-        const interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
-
         const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
 
-        const apy =
-            interest.mul(ROUND_CONSTANT).mul(utilizationNumerator).div(initialBorrow).div(utilizationDenominator).sub(ROUND_CONSTANT).mul(100).toNumber() /
-            ROUND_CONSTANT;
+        const _borrowAPY = ethers.BigNumber.from((await borrowAPY(address)) * ROUND_CONSTANT);
+        if (utilizationDenominator.lte(0)) return 0;
 
-        return apy;
+        return _borrowAPY.mul(utilizationNumerator).div(utilizationDenominator).toNumber() / ROUND_CONSTANT;
     }
 
     // Get the TAU yield APR
     async function TAUYieldAPR(address: string) {
         const [rateNumerator, rateDenominator] = await contracts?.reserve.getRate(address);
-        // **** In reality I would like to be able to calculate the market price of the token and return the yield in terms of the market price, however at the moment that is not possible
+        if (rateDenominator.lte(0)) return 0;
         return rateNumerator.mul(ROUND_CONSTANT).div(rateDenominator).toNumber() / ROUND_CONSTANT;
     }
 
@@ -102,10 +94,16 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function borrowAPY(address: string) {
         const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
         const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
-        const borrowBlock = currentBlock.sub(blocksPerYear);
+        let borrowBlock = currentBlock.sub(blocksPerYear);
+        if (borrowBlock.lt(0)) borrowBlock = ethers.BigNumber.from(0);
 
         const initialBorrow = ethers.BigNumber.from(10).pow(5);
-        const interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
+        let interest;
+        try {
+            interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
+        } catch (e) {
+            interest = ethers.BigNumber.from(0);
+        }
 
         const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
         return apy;

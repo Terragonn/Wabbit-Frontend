@@ -14,7 +14,6 @@ export default function Dashboard() {
     const [data, setData] = useState<{tvl: ethers.BigNumber; borrowed: ethers.BigNumber} | null>(null);
 
     useEffect(() => {
-        console.log(protocolData);
         if (!protocolData) setData(null);
         else {
             (async () => {

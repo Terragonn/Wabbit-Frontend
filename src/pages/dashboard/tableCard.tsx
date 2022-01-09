@@ -21,7 +21,12 @@ export default function TableCard({address}: {address: string}) {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                setData(null);
+                const tvl = await protocolData.totalPriceLocked(address);
+                const borrowed = await protocolData.totalBorrowed(address);
+                const stakeAPY = await protocolData.stakeAPY(address);
+                const borrowAPY = await protocolData.borrowAPY(address);
+                const yieldAPR = await protocolData.TAUYieldAPR(address);
+                setData({tvl, borrowed, stakeAPY, borrowAPY, yieldAPR});
             })();
         }
     }, [protocolData]);
