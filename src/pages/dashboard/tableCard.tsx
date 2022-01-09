@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import getApproved from "../../utils/getApproved";
-import parseNumber from "../../utils/parseNumber";
+import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import useProtocolData from "../../utils/useProtocolData";
 
 export default function TableCard({address}: {address: string}) {
@@ -54,15 +54,15 @@ export default function TableCard({address}: {address: string}) {
                     <span>Borrow APY</span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-400 font-medium mt-2">
-                    <span>{data?.stakeAPY || "-"} %</span>
-                    <span>{data?.borrowAPY || "-"} %</span>
+                    <span>{parseNumberFloat(data?.stakeAPY)} %</span>
+                    <span>{parseNumberFloat(data?.borrowAPY)} %</span>
                 </div>
             </div>
             <div className="w-full text-xl font-medium mt-6 flex items-center justify-between">
                 <span>Yield APR:</span>
                 <div className="flex items-center justify-center space-x-3">
                     <img src={require("../../images/TOKEN.png")} width={30} alt="Torque TAU" />
-                    <span className="whitespace-nowrap">{data?.yieldAPR || "-"} %</span>
+                    <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>
                 </div>
             </div>
         </div>
