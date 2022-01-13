@@ -4,26 +4,35 @@ import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
 import useProtocolData from "../../utils/useProtocolData";
+import config from "../../config/config.json";
+import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 
 export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
-    const [data, setData] = useState<{tvl: ethers.BigNumber; borrowed: ethers.BigNumber} | null>(null);
+    const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber} | null>(null);
+    const [tokenAddress, setTokenAddress] = useState<string>(config.approved[0].address);
 
     useEffect(() => {
         if (!protocolData) setData(null);
         else {
+            (async () => {
+                const stakeAPY = await protocolData.stakeAPY(tokenAddress);
+                const amountLocked = ethers.BigNumber.from(0);
+                const valueLocked = ethers.BigNumber.from(0);
+                setData({stakeAPY, amountLocked, valueLocked});
+            })();
         }
-    }, [protocolData]);
+    }, [protocolData, tokenAddress]);
 
     return (
         <div>
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Stake APY", body: "25.36 %"},
-                        {title: "Total Locked", body: "2,361,132 DAI"},
-                        {title: "Total Value Locked", body: "$ 138,245,234"},
+                        {title: "Stake APY", body: parseNumberFloat(data?.stakeAPY)},
+                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " DAI"},
+                        {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}
                 />
             </div>
