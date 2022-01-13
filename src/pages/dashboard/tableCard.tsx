@@ -51,7 +51,7 @@ export default function TableCard({address}: {address: string}) {
             <div className="w-full text-xl pb-5 border-b-2 border-b-neutral-800 border-opacity-30">
                 <div className="flex items-center justify-between text-white font-bold">
                     <span>Stake APY</span>
-                    <span>Borrow APY</span>
+                    <span>Borrow APR</span>
                 </div>
                 <div className="flex items-center justify-between text-neutral-400 font-medium mt-2">
                     <span>{parseNumberFloat(data?.stakeAPY)} %</span>

@@ -1,8 +1,21 @@
+import {ethers} from "ethers";
+import {useEffect, useState} from "react";
 import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
+import useProtocolData from "../../utils/useProtocolData";
 
 export default function StakeLeverage() {
+    const protocolData = useProtocolData();
+
+    const [data, setData] = useState<{tvl: ethers.BigNumber; borrowed: ethers.BigNumber} | null>(null);
+
+    useEffect(() => {
+        if (!protocolData) setData(null);
+        else {
+        }
+    }, [protocolData]);
+
     return (
         <div>
             <div className="lg:block hidden">

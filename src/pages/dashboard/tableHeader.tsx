@@ -5,7 +5,7 @@ export default function TableHeader() {
             <h3 className="text-center w-full text-neutral-500 font-bold">TVL</h3>
             <h3 className="text-center w-full text-neutral-500 font-bold">Borrowed</h3>
             <h3 className="text-center w-full text-neutral-500 font-bold">Stake APY</h3>
-            <h3 className="text-center w-full text-neutral-500 font-bold">Borrow APY</h3>
+            <h3 className="text-center w-full text-neutral-500 font-bold">Borrow APR</h3>
         </div>
     );
 }
