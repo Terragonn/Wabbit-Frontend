@@ -11,7 +11,7 @@ import {Approved} from "../../utils/getApproved";
 export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
-    const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber} | null>(null);
+    const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber; available: ethers.BigNumber} | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
     useEffect(() => {
@@ -21,7 +21,8 @@ export default function StakeLeverage() {
                 const stakeAPY = await protocolData.stakeAPY(token.address);
                 const amountLocked = await protocolData.totalAmountLocked(token.address);
                 const valueLocked = await protocolData.totalPriceLocked(token.address);
-                setData({stakeAPY, amountLocked, valueLocked});
+                const available = await protocolData.getAvailableBalance(token.address);
+                setData({stakeAPY, amountLocked, valueLocked, available});
             })();
         }
     }, [protocolData, token]);
@@ -46,7 +47,7 @@ export default function StakeLeverage() {
                     <TokenSegment
                         title="Stake"
                         keys={{
-                            Available: "42.46 DAI",
+                            Available: parseNumber(data?.available) + " " + token.symbol,
                             "Staked amount": "25.36 DAI",
                             "Stake value": "$ 25.36",
                         }}

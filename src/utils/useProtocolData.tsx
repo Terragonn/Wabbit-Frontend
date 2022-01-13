@@ -4,6 +4,7 @@ import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import config from "../config/config.json";
 import {ROUND_CONSTANT} from "./parseNumber";
+import loadERC20 from "./loadERC20";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber>;
@@ -14,6 +15,8 @@ interface ProtocolData {
     totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
     stakeAPY: (address: string) => Promise<number>;
     borrowAPR: (address: string) => Promise<number>;
+
+    getAvailableBalance: (address: string) => Promise<ethers.BigNumber>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -31,7 +34,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     // Parse decimals
     async function parseDecimals(num: ethers.BigNumber, address: string) {
         const decimals = await contracts?.oracle.decimals(address);
-        return num.div(ethers.BigNumber.from(10).pow(decimals));
+        const parsed = num.div(ethers.BigNumber.from(10).pow(decimals));
+        return parsed;
     }
 
     async function totalPoolPrice() {
@@ -106,6 +110,15 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
         const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
         return apy;
+    }
+
+    // Get an ERC20 accounts balance
+    async function getAvailableBalance(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const token = loadERC20(address, signer as any);
+        const rawBalance = await token.balanceOf(signerAddress);
+        return await parseDecimals(rawBalance, address);
     }
 
     // Get the minimum margin level
@@ -208,7 +221,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalAmountLocked, totalBorrowed, stakeAPY, borrowAPR});
+                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalAmountLocked, totalBorrowed, stakeAPY, borrowAPR, getAvailableBalance});
             })();
         }
     }, [contracts]);
