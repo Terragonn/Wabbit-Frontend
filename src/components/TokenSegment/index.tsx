@@ -1,3 +1,5 @@
+import Button from "../Button";
+
 export default function TokenSegment({title, keys, cta}: {title: string; keys: {[key: string]: string}; cta: string}) {
     return (
         <>
@@ -14,7 +16,7 @@ export default function TokenSegment({title, keys, cta}: {title: string; keys: {
                         </div>
                     ))}
                 </div>
-                <button className="bg-fuchsia-700 glow text-white font-bold text-3xl px-5 py-2.5 rounded-xl mt-5 hover:bg-fuchsia-600">{cta}</button>
+                <Button>{cta}</Button>
             </div>
         </>
     );

@@ -30,7 +30,7 @@ export default function StakeLeverage() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Stake APY", body: parseNumberFloat(data?.stakeAPY)},
+                        {title: "Stake APY", body: parseNumberFloat(data?.stakeAPY) + " %"},
                         {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " DAI"},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}

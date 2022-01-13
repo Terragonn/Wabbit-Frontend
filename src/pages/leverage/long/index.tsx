@@ -1,4 +1,5 @@
 import Banner from "../../../components/Banner";
+import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
 
@@ -36,9 +37,9 @@ export default function LeverageLong() {
                             }}
                             cta="Leverage"
                         />
-                        <button className="bg-fuchsia-700 glow text-white font-bold text-3xl px-5 py-2.5 rounded-xl mt-5 hover:bg-fuchsia-600 lg:w-4/5 w-full">
-                            Repay
-                        </button>
+                        <div className="lg:w-4/5">
+                            <Button>Repay</Button>
+                        </div>
                     </div>
                 </div>
             </div>
