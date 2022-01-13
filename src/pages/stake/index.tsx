@@ -11,7 +11,7 @@ export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber} | null>(null);
-    const [tokenAddress, setTokenAddress] = useState<string>(config.approved[0].address);
+    const [token, setToken] = useState(config.approved[0].address);
 
     useEffect(() => {
         if (!protocolData) setData(null);
