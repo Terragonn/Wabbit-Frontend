@@ -11,8 +11,8 @@ export default function TableCard({address}: {address: string}) {
         tvl: ethers.BigNumber;
         borrowed: ethers.BigNumber;
         stakeAPY: number;
-        borrowAPY: number;
-        yieldAPR: number;
+        borrowAPR: number;
+        yieldAPR: undefined;
     } | null>();
 
     const approved = getApproved(address);
@@ -24,9 +24,9 @@ export default function TableCard({address}: {address: string}) {
                 const tvl = await protocolData.totalPriceLocked(address);
                 const borrowed = await protocolData.totalBorrowed(address);
                 const stakeAPY = await protocolData.stakeAPY(address);
-                const borrowAPY = await protocolData.borrowAPY(address);
-                const yieldAPR = await protocolData.TAUYieldAPR(address);
-                setData({tvl, borrowed, stakeAPY, borrowAPY, yieldAPR});
+                const borrowAPR = await protocolData.borrowAPR(address);
+                const yieldAPR = undefined;
+                setData({tvl, borrowed, stakeAPY, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -55,7 +55,7 @@ export default function TableCard({address}: {address: string}) {
                 </div>
                 <div className="flex items-center justify-between text-neutral-400 font-medium mt-2">
                     <span>{parseNumberFloat(data?.stakeAPY)} %</span>
-                    <span>{parseNumberFloat(data?.borrowAPY)} %</span>
+                    <span>{parseNumberFloat(data?.borrowAPR)} %</span>
                 </div>
             </div>
             <div className="w-full text-xl font-medium mt-6 flex items-center justify-between">

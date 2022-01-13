@@ -12,8 +12,7 @@ interface ProtocolData {
     totalPriceLocked: (address: string) => Promise<ethers.BigNumber>;
     totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
     stakeAPY: (address: string) => Promise<number>;
-    TAUYieldAPR: (address: string) => Promise<number>;
-    borrowAPY: (address: string) => Promise<number>;
+    borrowAPR: (address: string) => Promise<number>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -77,21 +76,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function stakeAPY(address: string) {
         const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
 
-        const _borrowAPY = ethers.BigNumber.from((await borrowAPY(address)) * ROUND_CONSTANT);
+        const _borrowAPY = ethers.BigNumber.from((await borrowAPR(address)) * ROUND_CONSTANT);
         if (utilizationDenominator.lte(0)) return 0;
 
         return _borrowAPY.mul(utilizationNumerator).div(utilizationDenominator).toNumber() / ROUND_CONSTANT;
     }
 
-    // Get the TAU yield APR
-    async function TAUYieldAPR(address: string) {
-        const [rateNumerator, rateDenominator] = await contracts?.reserve.getRate(address);
-        if (rateDenominator.lte(0)) return 0;
-        return rateNumerator.mul(ROUND_CONSTANT).div(rateDenominator).toNumber() / ROUND_CONSTANT;
-    }
-
     // Get the borrow APY
-    async function borrowAPY(address: string) {
+    async function borrowAPR(address: string) {
         const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
         const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
         let borrowBlock = currentBlock.sub(blocksPerYear);
@@ -217,7 +209,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalBorrowed, stakeAPY, borrowAPY, TAUYieldAPR});
+                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalBorrowed, stakeAPY, borrowAPR});
             })();
         }
     }, [contracts]);

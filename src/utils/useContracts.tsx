@@ -6,16 +6,12 @@ import config from "../config/config.json";
 
 import LPool from "../config/LPool.json";
 import Oracle from "../config/Oracle.json";
-import FlashSwapDefault from "../config/FlashSwapDefault.json";
 import MarginLong from "../config/MarginLong.json";
-import Reserve from "../config/Reserve.json";
 
 interface Contracts {
     lPool: ethers.Contract;
     oracle: ethers.Contract;
-    flashSwapDefault: ethers.Contract;
     marginLong: ethers.Contract;
-    reserve: ethers.Contract;
 }
 
 const contractCtx = createContext<Contracts | null>(undefined as any);
@@ -34,11 +30,9 @@ export function ContractsProvider(props: {children: any}) {
 
             const lPool = new ethers.Contract(config.leveragePoolAddress, LPool.abi, signer);
             const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer);
-            const flashSwapDefault = new ethers.Contract(config.flashSwapDefaultAddress, FlashSwapDefault.abi, signer);
             const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer);
-            const reserve = new ethers.Contract(config.reserveAddress, Reserve.abi, signer);
 
-            return {lPool, oracle, flashSwapDefault, marginLong, reserve};
+            return {lPool, oracle, marginLong};
         }
         return null;
     }
