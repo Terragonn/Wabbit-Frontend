@@ -10,6 +10,7 @@ interface ProtocolData {
     totalBorrowedPrice: () => Promise<ethers.BigNumber>;
 
     totalPriceLocked: (address: string) => Promise<ethers.BigNumber>;
+    totalAmountLocked: (address: string) => Promise<ethers.BigNumber>;
     totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
     stakeAPY: (address: string) => Promise<number>;
     borrowAPR: (address: string) => Promise<number>;
@@ -66,6 +67,12 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return await parseDecimals(price, await contracts?.oracle.defaultStablecoin());
     }
 
+    // Total amount of a given asset locked in the pool
+    async function totalAmountLocked(address: string) {
+        const totalLocked = await contracts?.lPool.tvl(address);
+        return await parseDecimals(totalLocked, address);
+    }
+
     // Get the total amount borrowed
     async function totalBorrowed(address: string) {
         const borrowed = await contracts?.marginLong.totalBorrowed(address);
@@ -114,14 +121,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
     //     if (contracts) {
     //         const price = await contracts.marginLong.minCollateralPrice();
     //         return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
-    //     }
-    // }
-
-    // Total amount of a given asset locked in the pool
-    // async function totalLocked(address: string) {
-    //     if (contracts) {
-    //         const totalLocked = await contracts.lPool.tvl(address);
-    //         return await parseDecimals(totalLocked, address);
     //     }
     // }
 
@@ -209,7 +208,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalBorrowed, stakeAPY, borrowAPR});
+                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalAmountLocked, totalBorrowed, stakeAPY, borrowAPR});
             })();
         }
     }, [contracts]);

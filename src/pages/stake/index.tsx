@@ -6,24 +6,25 @@ import TokenSelect from "../../components/TokenSelect";
 import useProtocolData from "../../utils/useProtocolData";
 import config from "../../config/config.json";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
+import {Approved} from "../../utils/getApproved";
 
 export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber} | null>(null);
-    const [token, setToken] = useState(config.approved[0].address);
+    const [token, setToken] = useState<Approved>(config.approved[0]);
 
     useEffect(() => {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const stakeAPY = await protocolData.stakeAPY(tokenAddress);
-                const amountLocked = ethers.BigNumber.from(0);
-                const valueLocked = ethers.BigNumber.from(0);
+                const stakeAPY = await protocolData.stakeAPY(token.address);
+                const amountLocked = await protocolData.totalAmountLocked(token.address);
+                const valueLocked = await protocolData.totalPriceLocked(token.address);
                 setData({stakeAPY, amountLocked, valueLocked});
             })();
         }
-    }, [protocolData, tokenAddress]);
+    }, [protocolData, token]);
 
     return (
         <div>

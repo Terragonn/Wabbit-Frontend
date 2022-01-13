@@ -15,7 +15,7 @@ export interface Approved {
     oracle: boolean;
 }
 
-export default function getApproved(address: string) {
+export default function getApproved(address: string): Approved | undefined {
     const item = config.approved.filter((approved) => approved.address === address);
     if (item.length === 0) return undefined;
     return item[0];
