@@ -39,7 +39,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         totalPoolPrice = ethers.BigNumber.from(0);
         for (const asset of assets) {
             const totalLocked = await contracts?.lPool.tvl(asset);
-            const price = await contracts?.oracle.price(asset, totalLocked);
+            const price = await contracts?.oracle.priceMax(asset, totalLocked);
             totalPoolPrice = totalPoolPrice.add(price);
         }
         totalPoolPrice = await parseDecimals(totalPoolPrice, await contracts?.oracle.defaultStablecoin());
@@ -52,7 +52,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         totalBorrowedPrice = ethers.BigNumber.from(0);
         for (const asset of assets) {
             const totalBorrowed = await contracts?.lPool.utilized(asset);
-            const price = await contracts?.oracle.price(asset, totalBorrowed);
+            const price = await contracts?.oracle.priceMax(asset, totalBorrowed);
             totalBorrowedPrice = totalBorrowedPrice.add(price);
         }
         totalBorrowedPrice = await parseDecimals(totalBorrowedPrice, await contracts?.oracle.defaultStablecoin());
@@ -62,7 +62,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     // Get the total price locked in the pool for a given asset
     async function totalPriceLocked(address: string) {
         const totalLocked = await contracts?.lPool.tvl(address);
-        const price = await contracts?.oracle.price(address, totalLocked);
+        const price = await contracts?.oracle.priceMax(address, totalLocked);
         return await parseDecimals(price, await contracts?.oracle.defaultStablecoin());
     }
 

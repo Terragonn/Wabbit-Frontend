@@ -17,7 +17,6 @@ import AgreementModal from "./components/AgreementModal";
 import Dashboard from "./pages/dashboard";
 import Stake from "./pages/stake";
 import LeverageLong from "./pages/leverage/long";
-import Yield from "./pages/reserve";
 
 function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -68,14 +67,14 @@ function App() {
                                             }
                                         />
                                     </Route>
-                                    <Route
+                                    {/* <Route
                                         path="/reserve"
                                         element={
                                             <Wrapper>
-                                                <Yield />
+                                                <Reserve />
                                             </Wrapper>
                                         }
-                                    />
+                                    /> */}
                                     <Route path="*" element={<Navigate to="dashboard" />} />
                                 </Routes>
                             </div>
