@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Approved} from "../../utils/getApproved";
-import {ROUND_CONSTANT} from "../../utils/parseNumber";
+import {parseNumberFloat, ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -17,7 +17,14 @@ export default function TokenSegment({
     token: Approved;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
 }) {
-    const [num, setNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+    const [num, setNum] = useState<number>(0);
+    const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+
+    useEffect(() => {
+        const padded = Math.floor(num * ROUND_CONSTANT);
+        const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
+        setBigNum(decimals);
+    }, [num]);
 
     return (
         <>
@@ -26,10 +33,12 @@ export default function TokenSegment({
                 <input
                     className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
                     type="number"
-                    value="0.00"
+                    value={parseNumberFloat(num)}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setNum(ethers.BigNumber.from(e.target.valueAsNumber * ROUND_CONSTANT))}
+                    onChange={(e) => {
+                        setNum(e.target.valueAsNumber || 0);
+                    }}
                 />
             </div>
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch justify-evenly">
@@ -41,7 +50,7 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                <Button onClick={() => (callback ? callback(num, token) : null)}>{cta}</Button>
+                <Button onClick={() => (callback ? callback(bigNum, token) : null)}>{cta}</Button>
             </div>
         </>
     );

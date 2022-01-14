@@ -31,18 +31,18 @@ export default function useProtocolData() {
     return useContext(protocolDataCtx);
 }
 
+// Parse decimals
+export function parseDecimals(num: ethers.BigNumber, address: string) {
+    const decimals = getApproved(address)?.decimals;
+    const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals as number));
+    return parsed;
+}
+
 export function ProtocolDataProvider({children}: {children: any}) {
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const contracts = useContracts();
 
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
-
-    // Parse decimals
-    function parseDecimals(num: ethers.BigNumber, address: string) {
-        const decimals = getApproved(address)?.decimals;
-        const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals as number));
-        return parsed;
-    }
 
     async function totalPoolPrice() {
         let totalPoolPrice;
