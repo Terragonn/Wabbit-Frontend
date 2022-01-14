@@ -203,15 +203,15 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function maxLeverage() {
         const leverage = await contracts?.marginLong.maxLeverage();
-        return leverage.mul(safetyThresholdNumerator).div(ethers.BigNumber.from(safetyThresholdDenominator).add(safetyThresholdNumerator));
+        console.log(leverage);
+        return leverage.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).add(safetyThresholdNumerator));
     }
 
     async function minCollateralPrice() {
         const minCollateral = await contracts?.marginLong.minCollateralPrice();
-        return parseDecimals(
-            minCollateral.mul(safetyThresholdNumerator).div(ethers.BigNumber.from(safetyThresholdDenominator).sub(safetyThresholdNumerator)),
-            await contracts?.oracle.priceDecimals()
-        );
+        const parsedPrice = parseDecimals(minCollateral, await contracts?.oracle.priceDecimals());
+        console.log(parsedPrice);
+        return parsedPrice.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).sub(safetyThresholdNumerator));
     }
 
     // Get the minimum margin level

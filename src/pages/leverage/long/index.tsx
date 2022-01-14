@@ -6,7 +6,7 @@ import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
 import config from "../../../config/config.json";
 import {Approved} from "../../../utils/getApproved";
-import parseNumber from "../../../utils/parseNumber";
+import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
 import useProtocolData from "../../../utils/useProtocolData";
 
 export default function LeverageLong() {
@@ -34,7 +34,6 @@ export default function LeverageLong() {
                 const totalValue = await protocolData.getCollateralTotalValue();
                 const collateralAmount = await protocolData.getCollateralAmount(token.address);
                 const collateralValue = await protocolData.getCollateralValue(token.address);
-                console.log("GOod");
                 const minMarginLevel = await protocolData.minMarginLevel();
                 const maxLeverage = await protocolData.maxLeverage();
                 const minCollateral = await protocolData.minCollateralPrice();
@@ -67,7 +66,7 @@ export default function LeverageLong() {
                             keys={{
                                 Available: parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Total value": "$ 45.62",
+                                "Total value": "$ " + parseNumber(data?.totalValue),
                             }}
                             cta="Deposit"
                             token={token}
@@ -77,11 +76,11 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Withdraw"
                             keys={{
-                                Available: "25.36 tlDAI",
-                                "Available value": "$ 2.53",
-                                "Min margin level": "1.25",
-                                "Maximum leverage": "10" + "x",
-                                "Minimum collateral": "$ " + "20.23",
+                                Available: parseNumber(data?.collateralAmount) + " " + token.symbol,
+                                "Available value": "$ " + parseNumber(data?.collateralValue),
+                                "Min margin level": parseNumberFloat(data?.minMarginLevel),
+                                "Maximum leverage": data?.maxLeverage.toString() + "x",
+                                "Minimum collateral": "$ " + parseNumber(data?.minCollateral),
                             }}
                             cta="Withdraw"
                             token={token}
