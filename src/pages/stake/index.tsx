@@ -11,7 +11,13 @@ import {Approved} from "../../utils/getApproved";
 export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
-    const [data, setData] = useState<{stakeAPY: number; amountLocked: ethers.BigNumber; valueLocked: ethers.BigNumber; available: ethers.BigNumber} | null>(null);
+    const [data, setData] = useState<{
+        stakeAPY: number;
+        amountLocked: ethers.BigNumber;
+        valueLocked: ethers.BigNumber;
+        available: ethers.BigNumber;
+        availableValue: ethers.BigNumber;
+    } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
     useEffect(() => {
@@ -22,7 +28,8 @@ export default function StakeLeverage() {
                 const amountLocked = await protocolData.totalAmountLocked(token.address);
                 const valueLocked = await protocolData.totalPriceLocked(token.address);
                 const available = await protocolData.getAvailableBalance(token.address);
-                setData({stakeAPY, amountLocked, valueLocked, available});
+                const availableValue = await protocolData.getAvailableBalanceValue(token.address);
+                setData({stakeAPY, amountLocked, valueLocked, available, availableValue});
             })();
         }
     }, [protocolData, token]);
@@ -48,8 +55,7 @@ export default function StakeLeverage() {
                         title="Stake"
                         keys={{
                             Available: parseNumber(data?.available) + " " + token.symbol,
-                            "Staked amount": "25.36 DAI",
-                            "Stake value": "$ 25.36",
+                            "Available value": "$ " + parseNumber(data?.availableValue),
                         }}
                         cta="Stake"
                     />

@@ -15,8 +15,6 @@ export default function parseNumber(num?: ethers.BigNumber | string): string {
     // Appreviate a number with its alphabetical representation
     if (!(num instanceof ethers.BigNumber)) num = ethers.BigNumber.from(num);
 
-    num = num.mul(ROUND_CONSTANT);
-
     // Set num as number
     if (num.div(ROUND_CONSTANT).gt(1e9))
         return (

@@ -17,6 +17,7 @@ interface ProtocolData {
     borrowAPR: (address: string) => Promise<number>;
 
     getAvailableBalance: (address: string) => Promise<ethers.BigNumber>;
+    getAvailableBalanceValue: (address: string) => Promise<ethers.BigNumber>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -34,7 +35,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     // Parse decimals
     async function parseDecimals(num: ethers.BigNumber, address: string) {
         const decimals = await contracts?.oracle.decimals(address);
-        const parsed = num.div(ethers.BigNumber.from(10).pow(decimals));
+        const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals));
         return parsed;
     }
 
@@ -119,6 +120,16 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const token = loadERC20(address, signer as any);
         const rawBalance = await token.balanceOf(signerAddress);
         return await parseDecimals(rawBalance, address);
+    }
+
+    // Get the value that an accounts tokens are worth
+    async function getAvailableBalanceValue(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const token = loadERC20(address, signer as any);
+        const rawBalance = await token.balanceOf(signerAddress);
+        const value = await contracts?.oracle.priceMax(address, rawBalance);
+        return await parseDecimals(value, await contracts?.oracle.defaultStablecoin());
     }
 
     // Get the minimum margin level
@@ -221,7 +232,17 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (!contracts) setProtocolData(null);
         else {
             (async () => {
-                setProtocolData({totalPoolPrice, totalBorrowedPrice, totalPriceLocked, totalAmountLocked, totalBorrowed, stakeAPY, borrowAPR, getAvailableBalance});
+                setProtocolData({
+                    totalPoolPrice,
+                    totalBorrowedPrice,
+                    totalPriceLocked,
+                    totalAmountLocked,
+                    totalBorrowed,
+                    stakeAPY,
+                    borrowAPR,
+                    getAvailableBalance,
+                    getAvailableBalanceValue,
+                });
             })();
         }
     }, [contracts]);
