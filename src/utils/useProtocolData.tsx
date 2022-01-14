@@ -3,9 +3,8 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import config from "../config/config.json";
-import {ROUND_CONSTANT} from "./parseNumber";
+import {parseDecimals, parseDecimalsFromAddress, ROUND_CONSTANT} from "./parseNumber";
 import loadERC20 from "./loadERC20";
-import getApproved from "./getApproved";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber>;
@@ -31,19 +30,6 @@ export default function useProtocolData() {
     return useContext(protocolDataCtx);
 }
 
-// Parse decimals
-export function parseDecimals(num: ethers.BigNumber, address: string) {
-    const decimals = getApproved(address)?.decimals;
-    const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals as number));
-    return parsed;
-}
-
-// Parse decimals to a number
-export function parseDecimalsAsNumber(num: ethers.BigNumber, address: string) {
-    const parsed = parseDecimals(num, address);
-    return parsed.toNumber() / ROUND_CONSTANT;
-}
-
 export function ProtocolDataProvider({children}: {children: any}) {
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const contracts = useContracts();
@@ -59,7 +45,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const price = await contracts?.oracle.priceMax(asset, totalLocked);
             totalPoolPrice = totalPoolPrice.add(price);
         }
-        totalPoolPrice = parseDecimals(totalPoolPrice, await contracts?.oracle.defaultStablecoin());
+        totalPoolPrice = parseDecimals(totalPoolPrice, await contracts?.oracle.priceDecimals());
         return totalPoolPrice;
     }
 
@@ -72,7 +58,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const price = await contracts?.oracle.priceMax(asset, totalBorrowed);
             totalBorrowedPrice = totalBorrowedPrice.add(price);
         }
-        totalBorrowedPrice = parseDecimals(totalBorrowedPrice, await contracts?.oracle.defaultStablecoin());
+        totalBorrowedPrice = parseDecimals(totalBorrowedPrice, await contracts?.oracle.priceDecimals());
         return totalBorrowedPrice;
     }
 
@@ -80,19 +66,19 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function totalPriceLocked(address: string) {
         const totalLocked = await contracts?.lPool.tvl(address);
         const price = await contracts?.oracle.priceMax(address, totalLocked);
-        return parseDecimals(price, await contracts?.oracle.defaultStablecoin());
+        return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
 
     // Total amount of a given asset locked in the pool
     async function totalAmountLocked(address: string) {
         const totalLocked = await contracts?.lPool.tvl(address);
-        return parseDecimals(totalLocked, address);
+        return parseDecimalsFromAddress(totalLocked, address);
     }
 
     // Get the total amount borrowed
     async function totalBorrowed(address: string) {
         const borrowed = await contracts?.marginLong.totalBorrowed(address);
-        return parseDecimals(borrowed, address);
+        return parseDecimalsFromAddress(borrowed, address);
     }
 
     // Get the stake APY
@@ -130,7 +116,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signerAddress = await signer?.getAddress();
         const token = loadERC20(address, signer as any);
         const rawBalance = await token.balanceOf(signerAddress);
-        return parseDecimals(rawBalance, address);
+        return parseDecimalsFromAddress(rawBalance, address);
     }
 
     // Get the value that an accounts tokens are worth
@@ -140,7 +126,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const token = loadERC20(address, signer as any);
         const rawBalance = await token.balanceOf(signerAddress);
         const value = await contracts?.oracle.priceMax(address, rawBalance);
-        return parseDecimals(value, await contracts?.oracle.defaultStablecoin());
+        return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
     // Get the available staked tokens
@@ -150,7 +136,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const LPTokenAddress = await contracts?.lPool.LPFromPT(address);
         const LPToken = loadERC20(LPTokenAddress, signer as any);
         const rawBalance = await LPToken.balanceOf(signerAddress);
-        return parseDecimals(rawBalance, address);
+        return parseDecimalsFromAddress(rawBalance, address);
     }
 
     // Get the value that the staked tokens are worth
@@ -167,7 +153,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         } catch (e) {
             return ethers.BigNumber.from(0);
         }
-        return parseDecimals(redeemAmount, address);
+        return parseDecimalsFromAddress(redeemAmount, address);
     }
 
     async function getStakedRedeemValue(address: string) {
@@ -184,7 +170,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             return ethers.BigNumber.from(0);
         }
         const value = await contracts?.oracle.priceMax(address, redeemAmount);
-        return parseDecimals(value, await contracts?.oracle.defaultStablecoin());
+        return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
     // Get the minimum margin level
