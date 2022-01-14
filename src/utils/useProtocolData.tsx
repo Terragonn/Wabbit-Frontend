@@ -214,6 +214,18 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
     }
 
+    // Margin level
+
+    // Margin balance
+
+    // Borrowed amounts
+
+    // Borrowed value
+
+    // Accumulated interest
+
+    // Total borrowed value (initial borrow price)
+
     useEffect(() => {
         if (!contracts) setProtocolData(null);
         else {

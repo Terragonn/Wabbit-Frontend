@@ -113,7 +113,8 @@ export default function LeverageLong() {
                                 "Margin balance": "$ 25.36",
                                 Borrowed: "27.45 DAI",
                                 "Borrowed value": "$ " + "415.36",
-                                "Total borrowed value": "$ " + "23.45", // **** This should be the initial borrow price in total
+                                "Accumulated interest": "$ " + "124.98",
+                                "Total borrowed value": "$ " + "23.45",
                             }}
                             cta="Borrow"
                             token={token}
