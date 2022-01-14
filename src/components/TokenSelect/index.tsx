@@ -1,23 +1,14 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {Approved} from "../../utils/getApproved";
+import config from "../../config/config.json";
 
-export default function TokenSelect({title}: {title: string}) {
-    const tokens = [
-        {
-            symbol: "DAI",
-            icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/4943.png",
-            address: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e",
-        },
-        {
-            symbol: "wFTM",
-            icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png",
-            address: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
-        },
-    ];
-    const [selectedToken, setSelectedToken] = useState<{
-        symbol: string;
-        icon: string;
-        address: string;
-    }>(tokens[0]);
+export default function TokenSelect({title, setToken}: {title: string; setToken: (token: Approved) => void}) {
+    const tokens = config.approved;
+    const [selectedToken, setSelectedToken] = useState<Approved>(config.approved[0]);
+
+    useEffect(() => {
+        setToken(selectedToken);
+    }, [selectedToken]);
 
     return (
         <div>

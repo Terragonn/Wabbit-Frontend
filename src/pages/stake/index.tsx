@@ -49,38 +49,40 @@ export default function StakeLeverage() {
                 <Banner
                     placeholders={[
                         {title: "Stake APY", body: parseNumberFloat(data?.stakeAPY) + " %"},
-                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " DAI"},
+                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + token.symbol},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}
                 />
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Stake</h2>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex items-start justify-evenly lg:space-y-0 space-y-20 pb-10 lg:flex-row flex-col my-5">
-                <div className="lg:w-1/5 w-full">
-                    <TokenSelect title="Token" />
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start justify-evenly pb-10 my-10">
+                <div className="w-full lg:mb-16 mb-20">
+                    <TokenSelect title="Token" setToken={setToken} />
                 </div>
-                <div className="lg:w-2/5 w-full lg:mx-10">
-                    <TokenSegment
-                        title="Stake"
-                        keys={{
-                            Available: parseNumber(data?.available) + " " + token.symbol,
-                            "Available value": "$ " + parseNumber(data?.availableValue),
-                        }}
-                        cta="Stake"
-                        token={token}
-                    />
-                </div>
-                <div className="lg:w-2/5 w-full">
-                    <TokenSegment
-                        title="Redeem"
-                        keys={{
-                            Available: parseNumber(data?.availableLP) + " " + config.LPPrefixSymbol + token.symbol,
-                            "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " DAI",
-                            "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
-                        }}
-                        cta="Redeem"
-                        token={token}
-                    />
+                <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
+                    <div className="w-full lg:mr-6">
+                        <TokenSegment
+                            title="Stake"
+                            keys={{
+                                Available: parseNumber(data?.available) + " " + token.symbol,
+                                "Available value": "$ " + parseNumber(data?.availableValue),
+                            }}
+                            cta="Stake"
+                            token={token}
+                        />
+                    </div>
+                    <div className="w-full lg:ml-6">
+                        <TokenSegment
+                            title="Redeem"
+                            keys={{
+                                Available: parseNumber(data?.availableLP) + " " + config.LPPrefixSymbol + token.symbol,
+                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + token.symbol,
+                                "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
+                            }}
+                            cta="Redeem"
+                            token={token}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
