@@ -17,6 +17,9 @@ export default function StakeLeverage() {
         valueLocked: ethers.BigNumber;
         available: ethers.BigNumber;
         availableValue: ethers.BigNumber;
+        availableLP: ethers.BigNumber;
+        LPRedeemAmount: ethers.BigNumber;
+        LPRedeemValue: ethers.BigNumber;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
@@ -27,9 +30,15 @@ export default function StakeLeverage() {
                 const stakeAPY = await protocolData.stakeAPY(token.address);
                 const amountLocked = await protocolData.totalAmountLocked(token.address);
                 const valueLocked = await protocolData.totalPriceLocked(token.address);
+
                 const available = await protocolData.getAvailableBalance(token.address);
                 const availableValue = await protocolData.getAvailableBalanceValue(token.address);
-                setData({stakeAPY, amountLocked, valueLocked, available, availableValue});
+
+                const availableLP = await protocolData.getStakedAmount(token.address);
+                const LPRedeemAmount = await protocolData.getStakedRedeemAmount(token.address);
+                const LPRedeemValue = await protocolData.getStakedRedeemValue(token.address);
+
+                setData({stakeAPY, amountLocked, valueLocked, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
             })();
         }
     }, [protocolData, token]);
@@ -61,7 +70,15 @@ export default function StakeLeverage() {
                     />
                 </div>
                 <div className="lg:w-2/5 w-full">
-                    <TokenSegment title="Redeem" keys={{Available: "25.36 tlDAI", "Total redeem value": "$ 25.36"}} cta="Redeem" />
+                    <TokenSegment
+                        title="Redeem"
+                        keys={{
+                            Available: parseNumber(data?.availableLP) + " " + config.LPPrefixSymbol + token.symbol,
+                            "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " DAI",
+                            "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
+                        }}
+                        cta="Redeem"
+                    />
                 </div>
             </div>
         </div>
