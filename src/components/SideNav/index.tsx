@@ -38,11 +38,6 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                         Leverage
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink base="reserve" directories={[]}>
-                        Reserve
-                    </NavLink>
-                </li>
             </ul>
         </nav>
     );
