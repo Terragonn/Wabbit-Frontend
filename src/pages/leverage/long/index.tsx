@@ -24,6 +24,13 @@ export default function LeverageLong() {
         minMarginLevel: number;
         maxLeverage: ethers.BigNumber;
         minCollateral: ethers.BigNumber;
+        marginLevel: number;
+        marginBalance: ethers.BigNumber;
+        currentLeverage: number;
+        borrowedAmount: ethers.BigNumber;
+        borrowedValue: ethers.BigNumber;
+        interest: ethers.BigNumber;
+        totalBorrowedValue: ethers.BigNumber;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
@@ -48,7 +55,7 @@ export default function LeverageLong() {
                 const marginLevel = await protocolData.marginLevel();
                 const marginBalance = await protocolData.marginBalance();
                 const currentLeverage = await protocolData.currentLeverage();
-                const borrowedAmount = await protocolData.borrowedAmount(token.address); // This is error
+                const borrowedAmount = await protocolData.borrowedAmount(token.address);
                 const borrowedValue = await protocolData.borrowedValue(token.address);
                 const interest = await protocolData.interest();
                 const totalBorrowedValue = await protocolData.totalBorrowedValue();
@@ -65,6 +72,13 @@ export default function LeverageLong() {
                     minMarginLevel,
                     maxLeverage,
                     minCollateral,
+                    marginLevel,
+                    marginBalance,
+                    currentLeverage,
+                    borrowedAmount,
+                    borrowedValue,
+                    interest,
+                    totalBorrowedValue,
                 });
             })();
         }
@@ -117,13 +131,13 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Leverage"
                             keys={{
-                                "Margin level": "1.35",
-                                "Margin balance": "$ 25.36",
-                                "Current leverage": "20x",
-                                Borrowed: "27.45 DAI",
-                                "Borrowed value": "$ " + "415.36",
-                                "Accumulated interest": "$ " + "124.98",
-                                "Total borrowed value": "$ " + "23.45",
+                                "Margin level": parseNumberFloat(data?.marginLevel),
+                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
+                                "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
+                                Borrowed: parseNumber(data?.borrowedAmount) + " " + token.symbol,
+                                "Borrowed value": "$ " + parseNumber(data?.borrowedValue),
+                                "Accumulated interest": "$ " + parseNumber(data?.interest),
+                                "Total borrowed value": "$ " + parseNumber(data?.totalBorrowedValue),
                             }}
                             cta="Borrow"
                             token={token}
