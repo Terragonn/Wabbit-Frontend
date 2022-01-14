@@ -38,6 +38,12 @@ export function parseDecimals(num: ethers.BigNumber, address: string) {
     return parsed;
 }
 
+// Parse decimals to a number
+export function parseDecimalsAsNumber(num: ethers.BigNumber, address: string) {
+    const parsed = parseDecimals(num, address);
+    return parsed.toNumber() / ROUND_CONSTANT;
+}
+
 export function ProtocolDataProvider({children}: {children: any}) {
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const contracts = useContracts();
