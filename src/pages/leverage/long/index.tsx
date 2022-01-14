@@ -13,6 +13,9 @@ export default function LeverageLong() {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
+        borrowAPR: number;
+        liquidity: ethers.BigNumber;
+        utilizationRate: number;
         available: ethers.BigNumber;
         availableValue: ethers.BigNumber;
         totalValue: ethers.BigNumber;
@@ -28,6 +31,10 @@ export default function LeverageLong() {
         if (!protocolData) setData(null);
         else {
             (async () => {
+                const borrowAPR = await protocolData.borrowAPR(token.address);
+                const liquidity = await protocolData.liquidity(token.address);
+                const utilizationRate = await protocolData.utilizationRate(token.address);
+
                 const available = await protocolData.getAvailableBalance(token.address);
                 const availableValue = await protocolData.getAvailableBalanceValue(token.address);
 
@@ -38,7 +45,19 @@ export default function LeverageLong() {
                 const maxLeverage = await protocolData.maxLeverage();
                 const minCollateral = await protocolData.minCollateralPrice();
 
-                setData({available, availableValue, totalValue, collateralAmount, collateralValue, minMarginLevel, maxLeverage, minCollateral});
+                setData({
+                    borrowAPR,
+                    liquidity,
+                    utilizationRate,
+                    available,
+                    availableValue,
+                    totalValue,
+                    collateralAmount,
+                    collateralValue,
+                    minMarginLevel,
+                    maxLeverage,
+                    minCollateral,
+                });
             })();
         }
     }, [protocolData, token]);
@@ -48,9 +67,9 @@ export default function LeverageLong() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Borrow APR", body: "25.36 %"},
-                        {title: "Liquidity Available", body: "2,361,132 DAI"},
-                        {title: "Utilization Rate", body: "67.34 %"},
+                        {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
+                        {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token.symbol},
+                        {title: "Utilization Rate", body: parseNumberFloat(data?.utilizationRate) + " %"},
                     ]}
                 />
             </div>
@@ -94,6 +113,7 @@ export default function LeverageLong() {
                                 "Margin balance": "$ 25.36",
                                 Borrowed: "27.45 DAI",
                                 "Borrowed value": "$ " + "415.36",
+                                "Total borrowed value": "$ " + "23.45", // **** This should be the initial borrow price
                             }}
                             cta="Leverage"
                             token={token}

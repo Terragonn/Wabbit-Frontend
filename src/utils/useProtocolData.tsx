@@ -23,6 +23,9 @@ interface ProtocolData {
     getStakedRedeemAmount: (address: string) => Promise<ethers.BigNumber>;
     getStakedRedeemValue: (address: string) => Promise<ethers.BigNumber>;
 
+    liquidity: (address: string) => Promise<ethers.BigNumber>;
+    utilizationRate: (address: string) => Promise<number>;
+
     getCollateralTotalValue: () => Promise<ethers.BigNumber>;
     getCollateralAmount: (address: string) => Promise<ethers.BigNumber>;
     getCollateralValue: (address: string) => Promise<ethers.BigNumber>;
@@ -97,21 +100,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowAPR(address: string) {
-        const blocksPerYear = ethers.BigNumber.from(10).pow(4).mul(3154).div(config.avgBlockTime);
-        const currentBlock = ethers.BigNumber.from(await library?.getBlockNumber());
-        let borrowBlock = currentBlock.sub(blocksPerYear);
-        if (borrowBlock.lt(0)) borrowBlock = ethers.BigNumber.from(0);
-
-        const initialBorrow = ethers.BigNumber.from(10).pow(5);
-        let interest;
-        try {
-            interest = await contracts?.lPool.interest(address, initialBorrow, borrowBlock);
-        } catch (e) {
-            return 0;
-        }
-
-        const apy = interest.mul(ROUND_CONSTANT).div(initialBorrow).sub(ROUND_CONSTANT).mul(100).toNumber() / ROUND_CONSTANT;
-        return apy;
+        const [numerator, denominator] = await contracts?.lPool.interestRate(address);
+        if (denominator.eq(0)) return 0;
+        return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
     }
 
     async function getAvailableBalance(address: string) {
@@ -203,112 +194,25 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function maxLeverage() {
         const leverage = await contracts?.marginLong.maxLeverage();
-        console.log(leverage);
         return leverage.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).add(safetyThresholdNumerator));
     }
 
     async function minCollateralPrice() {
         const minCollateral = await contracts?.marginLong.minCollateralPrice();
         const parsedPrice = parseDecimals(minCollateral, await contracts?.oracle.priceDecimals());
-        console.log(parsedPrice);
         return parsedPrice.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).sub(safetyThresholdNumerator));
     }
 
-    // Get the minimum margin level
-    // async function minMarginLevel() {
-    //     if (contracts) {
-    //         const [numerator, denominator] = await contracts.marginLong.minMarginLevel();
-    //         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
-    //     }
-    // }
+    async function liquidity(address: string) {
+        const available = await contracts?.lPool.liquidity(address);
+        return parseDecimalsFromAddress(available, address);
+    }
 
-    // Get the minimum margin collateral price to borrow
-    // async function minCollateralPrice() {
-    //     if (contracts) {
-    //         const price = await contracts.marginLong.minCollateralPrice();
-    //         return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
-    //     }
-    // }
-
-    // Get the total amount borrowed long
-    // async function totalBorrowedLong(address: string) {
-    //     return await totalBorrowed(address);
-    // }
-
-    // **** Add in some prices and total borrow price for all of the pools
-
-    // Get the liquidity of a given asset available
-    // async function liquidityAvailable(address: string) {
-    //     if (contracts) {
-    //         const liquidity = await contracts.lPool.liquidity(address);
-    //         return await parseDecimals(liquidity, address);
-    //     }
-    // }
-
-    // Get the utilization rate
-    // async function utilizationRate(address: string) {
-    //     if (contracts) {
-    //         const [numerator, denominator] = await contracts.lPool.utilizationRate(address);
-    //         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
-    //     }
-    // }
-
-    // Get the total liquidity of an asset
-    // async function totalLiquidity(address: string) {
-    //     if (contracts) {
-    //         const liquidity = await contracts.lPool.liquidity(address);
-    //         return await parseDecimals(liquidity, address);
-    //     }
-    // }
-
-    // Get the total amount locked of an asset as collateral
-    // async function totalLockedCollateral(address: string) {
-    //     if (contracts) {
-    //         const lockedCollateral = await contracts.marginLong.totalCollateral(address);
-    //         return await parseDecimals(lockedCollateral, address);
-    //     }
-    // }
-
-    // Get the total collateral price of an asset
-    // async function totalCollateralPrice(address: string) {
-    //     if (contracts) {
-    //         const lockedCollateral = await contracts.marginLong.totalCollateral(address);
-    //         const price = await contracts.oracle.price(address, lockedCollateral);
-    //         return await parseDecimals(price, await contracts.oracle.defaultStablecoin());
-    //     }
-    // }
-
-    // Get the total borrowed amount of an asset
-    // async function totalBorrowAmount(address: string) {
-    //     if (contracts) {
-    //         const borrowed = await contracts.marginLong
-    //     }
-    // }
-
-    // Get the borrowed price of an asset
-    // async function totalBorrowPrice(address: string) {}
-
-    // Get the borrowed price of an asset
-
-    // Get the margin level of an asset
-
-    // Get the amount of available LP tokens for a given token
-
-    // Get the amount of assets for redeeming given tokens
-
-    // Get the price of redeeming the given underlying tokens
-
-    // Get the reserve yield APR
-
-    // Get the total amount staked in the reserve
-
-    // Get the total TAU supply
-
-    // Get the backing price per TAU
-
-    // Get the total amount of TAU locked
-
-    // Get the total assets in reserve for a given token
+    async function utilizationRate(address: string) {
+        const [numerator, denominator] = await contracts?.lPool.utilizationRate(address);
+        if (denominator.eq(0)) return 0;
+        return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
+    }
 
     useEffect(() => {
         if (!contracts) setProtocolData(null);
@@ -327,6 +231,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
                     getStakedAmount,
                     getStakedRedeemAmount,
                     getStakedRedeemValue,
+                    liquidity,
+                    utilizationRate,
                     getCollateralTotalValue,
                     getCollateralAmount,
                     getCollateralValue,
