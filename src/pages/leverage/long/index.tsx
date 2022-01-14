@@ -111,6 +111,7 @@ export default function LeverageLong() {
                             keys={{
                                 "Margin level": "1.35",
                                 "Margin balance": "$ 25.36",
+                                "Current leverage": "20x",
                                 Borrowed: "27.45 DAI",
                                 "Borrowed value": "$ " + "415.36",
                                 "Accumulated interest": "$ " + "124.98",

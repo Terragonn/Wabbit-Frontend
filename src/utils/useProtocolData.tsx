@@ -214,17 +214,62 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
     }
 
-    // Margin level
+    async function marginLevel() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const [numerator, denominator] = await contracts?.marginLong.marginLevel(signerAddress);
+        const level = numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
+        return level;
+    }
 
-    // Margin balance
+    async function marginBalance() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const interest = await contracts?.lPool.interest(signerAddress);
+        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
+        const collateralPrice = await contracts?.lPool.collateralPrice(signerAddress);
+        const borrowPrice = await contracts?.lPool.borrowPrice(signerAddress);
+        const balance = collateralPrice.add(borrowPrice).sub(initialPrice).sub(interest);
+        return parseDecimals(balance, await contracts?.oracle.priceDecimals());
+    }
 
-    // Borrowed amounts
+    async function currentLeverage() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
+        const collateralPrice = await contracts?.lPool.collateralPrice(signerAddress);
+        return initialPrice.mul(ROUND_CONSTANT).div(collateralPrice).toNumber() / ROUND_CONSTANT;
+    }
 
-    // Borrowed value
+    async function borrowedAmounts(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const amount = await contracts?.lPool.borrowed(signerAddress);
+        return parseDecimalsFromAddress(amount, address);
+    }
 
-    // Accumulated interest
+    async function borrowedValue(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const amount = await contracts?.lPool.borrowed(signerAddress);
+        const price = await contracts?.oracle.priceMin(address, amount);
+        return parseDecimals(price, await contracts?.oracle.priceDecimals());
+    }
+
+    async function interest() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const interest = await contracts?.lPool.interest(signerAddress);
+        return parseDecimals(interest, await contracts?.oracle.priceDecimals());
+    }
 
     // Total borrowed value (initial borrow price)
+    async function totalBorrowedValue() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
+        return parseDecimals(initialPrice, await contracts?.oracle.priceDecimals());
+    }
 
     useEffect(() => {
         if (!contracts) setProtocolData(null);
