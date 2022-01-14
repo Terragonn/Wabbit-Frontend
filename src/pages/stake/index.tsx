@@ -67,6 +67,7 @@ export default function StakeLeverage() {
                             "Available value": "$ " + parseNumber(data?.availableValue),
                         }}
                         cta="Stake"
+                        token={token}
                     />
                 </div>
                 <div className="lg:w-2/5 w-full">
@@ -78,6 +79,7 @@ export default function StakeLeverage() {
                             "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
                         }}
                         cta="Redeem"
+                        token={token}
                     />
                 </div>
             </div>
