@@ -33,7 +33,7 @@ export default function TokenSegment({
                 <input
                     className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
                     type="number"
-                    value={parseNumberFloat(num)}
+                    placeholder="0.00"
                     min={0}
                     step={0.01}
                     onChange={(e) => {
