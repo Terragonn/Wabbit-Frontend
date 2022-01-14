@@ -32,6 +32,14 @@ interface ProtocolData {
     minMarginLevel: () => Promise<number>;
     maxLeverage: () => Promise<ethers.BigNumber>;
     minCollateralPrice: () => Promise<ethers.BigNumber>;
+
+    marginLevel: () => Promise<number>;
+    marginBalance: () => Promise<ethers.BigNumber>;
+    currentLeverage: () => Promise<number>;
+    borrowedAmount: (address: string) => Promise<ethers.BigNumber>;
+    borrowedValue: (address: string) => Promise<ethers.BigNumber>;
+    interest: () => Promise<ethers.BigNumber>;
+    totalBorrowedValue: () => Promise<ethers.BigNumber>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -218,6 +226,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const [numerator, denominator] = await contracts?.marginLong.marginLevel(signerAddress);
+        if (denominator.eq(0)) return 0;
         const level = numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
         return level;
     }
@@ -225,10 +234,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function marginBalance() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const interest = await contracts?.lPool.interest(signerAddress);
-        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
-        const collateralPrice = await contracts?.lPool.collateralPrice(signerAddress);
-        const borrowPrice = await contracts?.lPool.borrowPrice(signerAddress);
+        const interest = await contracts?.marginLong["interest(address)"](signerAddress);
+        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address)"](signerAddress);
+        const collateralPrice = await contracts?.marginLong.collateralPrice(signerAddress);
+        const borrowPrice = await contracts?.marginLong.borrowedPrice(signerAddress);
         const balance = collateralPrice.add(borrowPrice).sub(initialPrice).sub(interest);
         return parseDecimals(balance, await contracts?.oracle.priceDecimals());
     }
@@ -236,22 +245,23 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function currentLeverage() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
-        const collateralPrice = await contracts?.lPool.collateralPrice(signerAddress);
+        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address)"](signerAddress);
+        const collateralPrice = await contracts?.marginLong.collateralPrice(signerAddress);
+        if (collateralPrice.eq(0)) return 0;
         return initialPrice.mul(ROUND_CONSTANT).div(collateralPrice).toNumber() / ROUND_CONSTANT;
     }
 
-    async function borrowedAmounts(address: string) {
+    async function borrowedAmount(address: string) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const amount = await contracts?.lPool.borrowed(signerAddress);
+        const amount = await contracts?.marginLong.borrowed(address, signerAddress);
         return parseDecimalsFromAddress(amount, address);
     }
 
     async function borrowedValue(address: string) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const amount = await contracts?.lPool.borrowed(signerAddress);
+        const amount = await contracts?.marginLong.borrowed(address, signerAddress);
         const price = await contracts?.oracle.priceMin(address, amount);
         return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
@@ -259,15 +269,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function interest() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const interest = await contracts?.lPool.interest(signerAddress);
+        const interest = await contracts?.marginLong["interest(address)"](signerAddress);
         return parseDecimals(interest, await contracts?.oracle.priceDecimals());
     }
 
-    // Total borrowed value (initial borrow price)
     async function totalBorrowedValue() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const initialPrice = await contracts?.lPool.initialBorrowPrice(signerAddress);
+        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address)"](signerAddress);
         return parseDecimals(initialPrice, await contracts?.oracle.priceDecimals());
     }
 
@@ -296,6 +305,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
                     minMarginLevel,
                     maxLeverage,
                     minCollateralPrice,
+                    marginLevel,
+                    marginBalance,
+                    currentLeverage,
+                    borrowedAmount,
+                    borrowedValue,
+                    interest,
+                    totalBorrowedValue,
                 });
             })();
         }

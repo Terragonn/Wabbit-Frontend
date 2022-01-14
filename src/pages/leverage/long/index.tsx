@@ -45,6 +45,14 @@ export default function LeverageLong() {
                 const maxLeverage = await protocolData.maxLeverage();
                 const minCollateral = await protocolData.minCollateralPrice();
 
+                const marginLevel = await protocolData.marginLevel();
+                const marginBalance = await protocolData.marginBalance();
+                const currentLeverage = await protocolData.currentLeverage();
+                const borrowedAmount = await protocolData.borrowedAmount(token.address); // This is error
+                const borrowedValue = await protocolData.borrowedValue(token.address);
+                const interest = await protocolData.interest();
+                const totalBorrowedValue = await protocolData.totalBorrowedValue();
+
                 setData({
                     borrowAPR,
                     liquidity,
