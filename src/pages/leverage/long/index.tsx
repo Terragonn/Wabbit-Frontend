@@ -15,6 +15,12 @@ export default function LeverageLong() {
     const [data, setData] = useState<{
         available: ethers.BigNumber;
         availableValue: ethers.BigNumber;
+        totalValue: ethers.BigNumber;
+        collateralAmount: ethers.BigNumber;
+        collateralValue: ethers.BigNumber;
+        minMarginLevel: number;
+        maxLeverage: ethers.BigNumber;
+        minCollateral: ethers.BigNumber;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
@@ -25,7 +31,15 @@ export default function LeverageLong() {
                 const available = await protocolData.getAvailableBalance(token.address);
                 const availableValue = await protocolData.getAvailableBalanceValue(token.address);
 
-                setData({available, availableValue});
+                const totalValue = await protocolData.getCollateralTotalValue();
+                const collateralAmount = await protocolData.getCollateralAmount(token.address);
+                const collateralValue = await protocolData.getCollateralValue(token.address);
+                console.log("GOod");
+                const minMarginLevel = await protocolData.minMarginLevel();
+                const maxLeverage = await protocolData.maxLeverage();
+                const minCollateral = await protocolData.minCollateralPrice();
+
+                setData({available, availableValue, totalValue, collateralAmount, collateralValue, minMarginLevel, maxLeverage, minCollateral});
             })();
         }
     }, [protocolData, token]);
@@ -53,6 +67,7 @@ export default function LeverageLong() {
                             keys={{
                                 Available: parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
+                                "Total value": "$ 45.62",
                             }}
                             cta="Deposit"
                             token={token}
@@ -61,7 +76,13 @@ export default function LeverageLong() {
                     <div className="w-full lg:mx-12">
                         <TokenSegment
                             title="Withdraw"
-                            keys={{Available: "25.36 tlDAI", "Min margin level": "1.25", "Maximum leverage": "10" + "x", "Minimum collateral": "$ " + "20.23"}}
+                            keys={{
+                                Available: "25.36 tlDAI",
+                                "Available value": "$ 2.53",
+                                "Min margin level": "1.25",
+                                "Maximum leverage": "10" + "x",
+                                "Minimum collateral": "$ " + "20.23",
+                            }}
                             cta="Withdraw"
                             token={token}
                         />
