@@ -13,7 +13,7 @@ interface ProtocolData {
     totalPriceLocked: (address: string) => Promise<ethers.BigNumber>;
     totalAmountLocked: (address: string) => Promise<ethers.BigNumber>;
     totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
-    stakeAPY: (address: string) => Promise<number>;
+    stakeAPR: (address: string) => Promise<number>;
     borrowAPR: (address: string) => Promise<number>;
 
     getAvailableBalance: (address: string) => Promise<ethers.BigNumber>;
@@ -98,13 +98,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimalsFromAddress(borrowed, address);
     }
 
-    async function stakeAPY(address: string) {
+    async function stakeAPR(address: string) {
         const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
+        if (utilizationDenominator.eq(0)) return 0;
 
-        const _borrowAPY = ethers.BigNumber.from((await borrowAPR(address)) * ROUND_CONSTANT);
-        if (utilizationDenominator.lte(0)) return 0;
-
-        return _borrowAPY.mul(utilizationNumerator).div(utilizationDenominator).toNumber() / ROUND_CONSTANT;
+        const _borrowAPR = ethers.BigNumber.from((await borrowAPR(address)) * ROUND_CONSTANT);
+        const stakeAPR = _borrowAPR.mul(utilizationNumerator).div(utilizationDenominator).toNumber() / ROUND_CONSTANT;
+        return stakeAPR;
     }
 
     async function borrowAPR(address: string) {
@@ -226,7 +226,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const [numerator, denominator] = await contracts?.marginLong.marginLevel(signerAddress);
-        if (denominator.eq(0)) return 0;
+        if (denominator.eq(0)) return 999;
         const level = numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
         return level;
     }
@@ -290,7 +290,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                     totalPriceLocked,
                     totalAmountLocked,
                     totalBorrowed,
-                    stakeAPY,
+                    stakeAPR,
                     borrowAPR,
                     getAvailableBalance,
                     getAvailableBalanceValue,

@@ -10,7 +10,7 @@ export default function TableRow({address}: {address: string}) {
     const [data, setData] = useState<{
         tvl: ethers.BigNumber;
         borrowed: ethers.BigNumber;
-        stakeAPY: number;
+        stakeAPR: number;
         borrowAPR: number;
         yieldAPR: undefined;
     } | null>();
@@ -23,10 +23,10 @@ export default function TableRow({address}: {address: string}) {
             (async () => {
                 const tvl = await protocolData.totalPriceLocked(address);
                 const borrowed = await protocolData.totalBorrowed(address);
-                const stakeAPY = await protocolData.stakeAPY(address);
+                const stakeAPR = await protocolData.stakeAPR(address);
                 const borrowAPR = await protocolData.borrowAPR(address);
                 const yieldAPR = undefined;
-                setData({tvl, borrowed, stakeAPY, borrowAPR, yieldAPR});
+                setData({tvl, borrowed, stakeAPR, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -43,7 +43,7 @@ export default function TableRow({address}: {address: string}) {
             <span className="w-full">$ {parseNumber(data?.tvl)}</span>
             <span className="w-full">$ {parseNumber(data?.borrowed)}</span>
             <div className="w-full">
-                <span>{parseNumberFloat(data?.stakeAPY)} %</span>
+                <span>{parseNumberFloat(data?.stakeAPR)} %</span>
                 <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
                     <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
                     <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>

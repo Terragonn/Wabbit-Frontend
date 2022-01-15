@@ -12,7 +12,7 @@ export default function StakeLeverage() {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
-        stakeAPY: number;
+        stakeAPR: number;
         amountLocked: ethers.BigNumber;
         valueLocked: ethers.BigNumber;
         available: ethers.BigNumber;
@@ -27,7 +27,7 @@ export default function StakeLeverage() {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const stakeAPY = await protocolData.stakeAPY(token.address);
+                const stakeAPR = await protocolData.stakeAPR(token.address);
                 const amountLocked = await protocolData.totalAmountLocked(token.address);
                 const valueLocked = await protocolData.totalPriceLocked(token.address);
 
@@ -38,7 +38,7 @@ export default function StakeLeverage() {
                 const LPRedeemAmount = await protocolData.getStakedRedeemAmount(token.address);
                 const LPRedeemValue = await protocolData.getStakedRedeemValue(token.address);
 
-                setData({stakeAPY, amountLocked, valueLocked, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
+                setData({stakeAPR, amountLocked, valueLocked, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
             })();
         }
     }, [protocolData, token]);
@@ -48,7 +48,7 @@ export default function StakeLeverage() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Stake APY", body: parseNumberFloat(data?.stakeAPY) + " %"},
+                        {title: "Stake APR", body: parseNumberFloat(data?.stakeAPR) + " %"},
                         {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + token.symbol},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}
