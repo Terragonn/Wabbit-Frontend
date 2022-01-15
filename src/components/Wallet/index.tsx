@@ -4,6 +4,28 @@ import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
 
+function switchNetwork() {
+    // @ts-ignore
+    window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+            {
+                chainId: "0xFA",
+                rpcUrls: ["https://rpc.ftm.tools/"],
+                chainName: "Fantom Opera",
+                nativeCurrency: {
+                    name: "FTM",
+                    symbol: "FTM",
+                    decimals: 18,
+                },
+                blockExplorerUrls: ["https://ftmscan.com/"],
+            },
+        ],
+    });
+}
+
+// **** How can I turn connect and disconnect into their own components which can be imported AND used here ?
+
 export default function Wallet() {
     const [, setError] = useError();
 
@@ -15,26 +37,6 @@ export default function Wallet() {
         const connected = localStorage.getItem(CONNECTED);
         if (connected && JSON.parse(connected) && !active) connect();
     }, []);
-
-    function switchNetwork() {
-        // @ts-ignore
-        window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-                {
-                    chainId: "0xFA",
-                    rpcUrls: ["https://rpc.ftm.tools/"],
-                    chainName: "Fantom Opera",
-                    nativeCurrency: {
-                        name: "FTM",
-                        symbol: "FTM",
-                        decimals: 18,
-                    },
-                    blockExplorerUrls: ["https://ftmscan.com/"],
-                },
-            ],
-        });
-    }
 
     async function connect() {
         // switchNetwork();

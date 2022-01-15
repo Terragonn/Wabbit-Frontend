@@ -283,37 +283,35 @@ export function ProtocolDataProvider({children}: {children: any}) {
     useEffect(() => {
         if (!contracts) setProtocolData(null);
         else {
-            (async () => {
-                setProtocolData({
-                    totalPoolPrice,
-                    totalBorrowedPrice,
-                    totalPriceLocked,
-                    totalAmountLocked,
-                    totalBorrowed,
-                    stakeAPR,
-                    borrowAPR,
-                    getAvailableBalance,
-                    getAvailableBalanceValue,
-                    getStakedAmount,
-                    getStakedRedeemAmount,
-                    getStakedRedeemValue,
-                    liquidity,
-                    utilizationRate,
-                    getCollateralTotalValue,
-                    getCollateralAmount,
-                    getCollateralValue,
-                    minMarginLevel,
-                    maxLeverage,
-                    minCollateralPrice,
-                    marginLevel,
-                    marginBalance,
-                    currentLeverage,
-                    borrowedAmount,
-                    borrowedValue,
-                    interest,
-                    totalBorrowedValue,
-                });
-            })();
+            setProtocolData({
+                totalPoolPrice,
+                totalBorrowedPrice,
+                totalPriceLocked,
+                totalAmountLocked,
+                totalBorrowed,
+                stakeAPR,
+                borrowAPR,
+                getAvailableBalance,
+                getAvailableBalanceValue,
+                getStakedAmount,
+                getStakedRedeemAmount,
+                getStakedRedeemValue,
+                liquidity,
+                utilizationRate,
+                getCollateralTotalValue,
+                getCollateralAmount,
+                getCollateralValue,
+                minMarginLevel,
+                maxLeverage,
+                minCollateralPrice,
+                marginLevel,
+                marginBalance,
+                currentLeverage,
+                borrowedAmount,
+                borrowedValue,
+                interest,
+                totalBorrowedValue,
+            });
         }
     }, [contracts]);
 
