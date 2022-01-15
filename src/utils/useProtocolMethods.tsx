@@ -6,7 +6,14 @@ import approveERC20 from "./approveERC20";
 import useContracts from "./useContracts";
 import useError from "./useError";
 
-interface ProtocolMethods {}
+interface ProtocolMethods {
+    stake: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    redeem: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    depositCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    withdrawCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    borrowLong: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    repayLong: () => Promise<void>;
+}
 
 const protocolMethodsCtx = createContext<ProtocolMethods | null>(undefined as any);
 
@@ -32,6 +39,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             await fn();
         } catch (e: any) {
             setError(e.data?.message || null);
+            window.scroll(0, 0);
         }
     }
 
@@ -45,7 +53,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     async function redeem(address: string, amount: ethers.BigNumber) {
         await connect();
 
-        const redeemToken = await contracts?.lPool.PTToLP(address);
+        const redeemToken = await contracts?.lPool.LPFromPT(address);
         approve(redeemToken, amount);
 
         handleError(async () => await contracts?.lPool.redeem(redeemToken, amount));
@@ -55,19 +63,38 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         await connect();
         approve(address, amount);
 
-        handleError(async () => await console.log("Lol"));
+        handleError(async () => await contracts?.marginLong.addCollateral(address, amount));
     }
 
-    async function withdrawCollateral(address: string, amount: ethers.BigNumber) {}
+    async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
+        await connect();
 
-    async function borrowLong(address: string, amount: ethers.BigNumber) {}
+        handleError(async () => await contracts?.marginLong.removeCollateral(address, amount));
+    }
 
-    async function repayLong() {}
+    async function borrowLong(address: string, amount: ethers.BigNumber) {
+        await connect();
+
+        handleError(async () => await contracts?.marginLong.borrow(address, amount));
+    }
+
+    async function repayLong() {
+        await connect();
+
+        handleError(async () => await contracts?.marginLong.repayAccount());
+    }
 
     useEffect(() => {
         if (!contracts) setProtocolMethods(null);
         else {
-            setProtocolMethods({});
+            setProtocolMethods({
+                stake,
+                redeem,
+                depositCollateral,
+                withdrawCollateral,
+                borrowLong,
+                repayLong,
+            });
         }
     }, [contracts]);
 

@@ -7,9 +7,11 @@ import useProtocolData from "../../utils/useProtocolData";
 import config from "../../config/config.json";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import {Approved} from "../../utils/getApproved";
+import useProtocolMethods from "../../utils/useProtocolMethods";
 
 export default function StakeLeverage() {
     const protocolData = useProtocolData();
+    const protocolMethods = useProtocolMethods();
 
     const [data, setData] = useState<{
         stakeAPR: number;
@@ -69,6 +71,7 @@ export default function StakeLeverage() {
                             }}
                             cta="Stake"
                             token={token}
+                            callback={(num, token) => protocolMethods?.stake(token.address, num)}
                         />
                     </div>
                     <div className="w-full lg:ml-6">
@@ -81,6 +84,7 @@ export default function StakeLeverage() {
                             }}
                             cta="Redeem"
                             token={token}
+                            callback={(num, token) => protocolMethods?.redeem(token.address, num)}
                         />
                     </div>
                 </div>

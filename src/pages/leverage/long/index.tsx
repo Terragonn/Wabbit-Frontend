@@ -8,9 +8,11 @@ import config from "../../../config/config.json";
 import {Approved} from "../../../utils/getApproved";
 import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
 import useProtocolData from "../../../utils/useProtocolData";
+import useProtocolMethods from "../../../utils/useProtocolMethods";
 
 export default function LeverageLong() {
     const protocolData = useProtocolData();
+    const protocolMethods = useProtocolMethods();
 
     const [data, setData] = useState<{
         borrowAPR: number;
@@ -111,6 +113,7 @@ export default function LeverageLong() {
                             }}
                             cta="Deposit"
                             token={token}
+                            callback={(num, token) => protocolMethods?.depositCollateral(token.address, num)}
                         />
                     </div>
                     <div className="w-full lg:mx-12">
@@ -125,6 +128,7 @@ export default function LeverageLong() {
                             }}
                             cta="Withdraw"
                             token={token}
+                            callback={(num, token) => protocolMethods?.withdrawCollateral(token.address, num)}
                         />
                     </div>
                     <div className="w-full flex flex-col lg:items-center items-stretch justify-center">
@@ -141,9 +145,10 @@ export default function LeverageLong() {
                             }}
                             cta="Borrow"
                             token={token}
+                            callback={(num, token) => protocolMethods?.borrowLong(token.address, num)}
                         />
                         <div className="lg:w-4/5">
-                            <Button>Repay</Button>
+                            <Button onClick={async () => protocolMethods?.repayLong()}>Repay</Button>
                         </div>
                     </div>
                 </div>
