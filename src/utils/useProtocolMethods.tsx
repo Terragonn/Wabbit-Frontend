@@ -30,8 +30,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     const connect = useConnect();
     const [, setError] = useError();
 
-    function approve(address: string, amount: ethers.BigNumber) {
-        approveERC20(amount, address, library?.getSigner() as ethers.providers.JsonRpcSigner);
+    async function approve(tokenAddress: string, address: string, amount: ethers.BigNumber) {
+        await approveERC20(tokenAddress, amount, address, library?.getSigner() as ethers.providers.JsonRpcSigner);
     }
 
     async function handleError(fn: (...args: any[]) => Promise<void>) {
@@ -45,43 +45,43 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function stake(address: string, amount: ethers.BigNumber) {
         await connect();
-        approve(address, amount);
+        await approve(address, contracts?.lPool.address as string, amount);
 
-        handleError(async () => await contracts?.lPool.stake(address, amount));
+        await handleError(async () => await contracts?.lPool.stake(address, amount));
     }
 
     async function redeem(address: string, amount: ethers.BigNumber) {
         await connect();
 
         const redeemToken = await contracts?.lPool.LPFromPT(address);
-        approve(redeemToken, amount);
+        await approve(redeemToken, contracts?.lPool.address as string, amount);
 
-        handleError(async () => await contracts?.lPool.redeem(redeemToken, amount));
+        await handleError(async () => await contracts?.lPool.redeem(redeemToken, amount));
     }
 
     async function depositCollateral(address: string, amount: ethers.BigNumber) {
         await connect();
-        approve(address, amount);
+        await approve(address, contracts?.marginLong.address as string, amount);
 
-        handleError(async () => await contracts?.marginLong.addCollateral(address, amount));
+        await handleError(async () => await contracts?.marginLong.addCollateral(address, amount));
     }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
         await connect();
 
-        handleError(async () => await contracts?.marginLong.removeCollateral(address, amount));
+        await handleError(async () => await contracts?.marginLong.removeCollateral(address, amount));
     }
 
     async function borrowLong(address: string, amount: ethers.BigNumber) {
         await connect();
 
-        handleError(async () => await contracts?.marginLong.borrow(address, amount));
+        await handleError(async () => await contracts?.marginLong.borrow(address, amount));
     }
 
     async function repayLong() {
         await connect();
 
-        handleError(async () => await contracts?.marginLong.repayAccount());
+        await handleError(async () => await contracts?.marginLong.repayAccount());
     }
 
     useEffect(() => {
