@@ -27,15 +27,19 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         approveERC20(amount, address, library?.getSigner() as ethers.providers.JsonRpcSigner);
     }
 
+    async function handleError(fn: (...args: any[]) => Promise<void>) {
+        try {
+            await fn();
+        } catch (e: any) {
+            setError(e.data?.message || null);
+        }
+    }
+
     async function stake(address: string, amount: ethers.BigNumber) {
         await connect();
         approve(address, amount);
 
-        try {
-            await contracts?.lPool.stake(address, amount);
-        } catch (e: any) {
-            setError(e.data?.message || null);
-        }
+        handleError(async () => await contracts?.lPool.stake(address, amount));
     }
 
     async function redeem(address: string, amount: ethers.BigNumber) {
@@ -44,14 +48,15 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         const redeemToken = await contracts?.lPool.PTToLP(address);
         approve(redeemToken, amount);
 
-        try {
-            await contracts?.lPool.redeem(redeemToken, amount);
-        } catch (e: any) {
-            setError(e.data?.message || null);
-        }
+        handleError(async () => await contracts?.lPool.redeem(redeemToken, amount));
     }
 
-    async function depositCollateral(address: string, amount: ethers.BigNumber) {}
+    async function depositCollateral(address: string, amount: ethers.BigNumber) {
+        await connect();
+        approve(address, amount);
+
+        handleError(async () => await console.log("LOl"));
+    }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {}
 
