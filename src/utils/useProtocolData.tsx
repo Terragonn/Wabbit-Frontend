@@ -99,11 +99,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function stakeAPR(address: string) {
+        const [interestNumerator, interestDenominator] = await contracts?.lPool.interestRate(address);
         const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
         if (utilizationDenominator.eq(0)) return 0;
 
-        const _borrowAPR = ethers.BigNumber.from((await borrowAPR(address)) * ROUND_CONSTANT);
-        const stakeAPR = _borrowAPR.mul(utilizationNumerator).div(utilizationDenominator).toNumber() / ROUND_CONSTANT;
+        const stakeAPR = interestNumerator.mul(utilizationNumerator).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
         return stakeAPR;
     }
 
