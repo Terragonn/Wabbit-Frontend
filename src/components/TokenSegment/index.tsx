@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import {Approved} from "../../utils/getApproved";
-import {parseNumberFloat, ROUND_CONSTANT} from "../../utils/parseNumber";
+import {ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";
 
 export default function TokenSegment({
