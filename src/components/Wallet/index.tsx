@@ -24,21 +24,14 @@ function switchNetwork() {
     });
 }
 
-// **** How can I turn connect and disconnect into their own components which can be imported AND used here ?
+const CONNECTED = "connected";
 
-export default function Wallet() {
+export function useConnect() {
     const [, setError] = useError();
 
-    const {active, activate, deactivate} = useWeb3React();
+    const {activate} = useWeb3React();
 
-    const CONNECTED = "connected";
-
-    useEffect(() => {
-        const connected = localStorage.getItem(CONNECTED);
-        if (connected && JSON.parse(connected) && !active) connect();
-    }, []);
-
-    async function connect() {
+    return async () => {
         // switchNetwork();
         localStorage.setItem(CONNECTED, JSON.stringify(true));
         try {
@@ -46,12 +39,27 @@ export default function Wallet() {
         } catch (e: any) {
             setError(e.toString());
         }
-    }
+    };
+}
 
-    function disconnect() {
+export function useDisconnect() {
+    const {deactivate} = useWeb3React();
+
+    return () => {
         localStorage.setItem(CONNECTED, JSON.stringify(false));
         deactivate();
-    }
+    };
+}
+
+export default function Wallet() {
+    const {active} = useWeb3React();
+
+    const [connect, disconnect] = [useConnect(), useDisconnect()];
+
+    useEffect(() => {
+        const connected = localStorage.getItem(CONNECTED);
+        if (connected && JSON.parse(connected) && !active) connect();
+    }, []);
 
     return (
         <button
