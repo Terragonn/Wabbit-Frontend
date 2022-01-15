@@ -34,7 +34,7 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="leverage" directories={["long", "short"]}>
+                    <NavLink base="leverage" directories={["long"]}>
                         Leverage
                     </NavLink>
                 </li>

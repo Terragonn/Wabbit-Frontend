@@ -17,6 +17,7 @@ import AgreementModal from "./components/AgreementModal";
 import Dashboard from "./pages/dashboard";
 import Stake from "./pages/stake";
 import LeverageLong from "./pages/leverage/long";
+import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
 function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -30,44 +31,45 @@ function App() {
             <ErrorProvider>
                 <ContractsProvider>
                     <ProtocolDataProvider>
-                        <HashRouter>
-                            <div className="background pb-10">
-                                <AgreementModal />
-                                <Wrapper>
-                                    <Nav setNavState={setNavState} />
-                                </Wrapper>
-                                <Wrapper>
-                                    <Error />
-                                </Wrapper>
-                                <SideNav navState={navState} setNavState={setNavState} />
-                                <Routes>
-                                    <Route
-                                        path="dashboard"
-                                        element={
-                                            <Wrapper>
-                                                <Dashboard />
-                                            </Wrapper>
-                                        }
-                                    />
-                                    <Route
-                                        path="stake"
-                                        element={
-                                            <Wrapper>
-                                                <Stake />
-                                            </Wrapper>
-                                        }
-                                    />
-                                    <Route path="leverage">
+                        <ProtocolMethodsProvider>
+                            <HashRouter>
+                                <div className="background pb-10">
+                                    <AgreementModal />
+                                    <Wrapper>
+                                        <Nav setNavState={setNavState} />
+                                    </Wrapper>
+                                    <Wrapper>
+                                        <Error />
+                                    </Wrapper>
+                                    <SideNav navState={navState} setNavState={setNavState} />
+                                    <Routes>
                                         <Route
-                                            path="long"
+                                            path="dashboard"
                                             element={
                                                 <Wrapper>
-                                                    <LeverageLong />
+                                                    <Dashboard />
                                                 </Wrapper>
                                             }
                                         />
-                                    </Route>
-                                    {/* <Route
+                                        <Route
+                                            path="stake"
+                                            element={
+                                                <Wrapper>
+                                                    <Stake />
+                                                </Wrapper>
+                                            }
+                                        />
+                                        <Route path="leverage">
+                                            <Route
+                                                path="long"
+                                                element={
+                                                    <Wrapper>
+                                                        <LeverageLong />
+                                                    </Wrapper>
+                                                }
+                                            />
+                                        </Route>
+                                        {/* <Route
                                         path="/reserve"
                                         element={
                                             <Wrapper>
@@ -75,10 +77,11 @@ function App() {
                                             </Wrapper>
                                         }
                                     /> */}
-                                    <Route path="*" element={<Navigate to="dashboard" />} />
-                                </Routes>
-                            </div>
-                        </HashRouter>
+                                        <Route path="*" element={<Navigate to="dashboard" />} />
+                                    </Routes>
+                                </div>
+                            </HashRouter>
+                        </ProtocolMethodsProvider>
                     </ProtocolDataProvider>
                 </ContractsProvider>
             </ErrorProvider>
