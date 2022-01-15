@@ -55,7 +55,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         await connect();
         approve(address, amount);
 
-        handleError(async () => await console.log("LOl"));
+        handleError(async () => await console.log("Lol"));
     }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {}
