@@ -52,10 +52,6 @@ article.returns section {
   align-items: flex-end;
 }
 
-article.returns h2 {
-  white-space: nowrap;
-}
-
 article.returns p {
   text-align: right;
 }
@@ -104,10 +100,6 @@ article.returns img {
   article.returns {
     flex-direction: column-reverse;
     margin: 100px auto;
-  }
-
-  article.returns h2 {
-    white-space: normal;
   }
 
   article.returns section {
