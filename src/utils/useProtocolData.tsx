@@ -38,6 +38,7 @@ interface ProtocolData {
     currentLeverage: () => Promise<number>;
     borrowedAmount: (address: string) => Promise<ethers.BigNumber>;
     borrowedValue: (address: string) => Promise<ethers.BigNumber>;
+    totalBorrowedValue: () => Promise<ethers.BigNumber>;
     interest: (address: string) => Promise<ethers.BigNumber>;
     interestAll: () => Promise<ethers.BigNumber>;
     initialBorrowedValue: (address: string) => Promise<ethers.BigNumber>;
@@ -268,6 +269,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
 
+    async function totalBorrowedValue() {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const value = await contracts?.marginLong.borrowedPrice(signerAddress);
+        return parseDecimals(value, await contracts?.oracle.priceDecimals());
+    }
+
     async function interest(address: string) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
@@ -330,6 +338,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 currentLeverage,
                 borrowedAmount,
                 borrowedValue,
+                totalBorrowedValue,
                 interest,
                 interestAll,
                 initialBorrowedValue,

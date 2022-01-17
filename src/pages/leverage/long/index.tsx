@@ -31,6 +31,7 @@ export default function LeverageLong() {
         currentLeverage: number;
         borrowedAmount: ethers.BigNumber;
         borrowedValue: ethers.BigNumber;
+        totalBorrowedValue: ethers.BigNumber;
         interest: ethers.BigNumber;
         interestAll: ethers.BigNumber;
         initialBorrowedValue: ethers.BigNumber;
@@ -61,6 +62,7 @@ export default function LeverageLong() {
                 const currentLeverage = await protocolData.currentLeverage();
                 const borrowedAmount = await protocolData.borrowedAmount(token.address);
                 const borrowedValue = await protocolData.borrowedValue(token.address);
+                const totalBorrowedValue = await protocolData.totalBorrowedValue();
                 const interest = await protocolData.interest(token.address);
                 const interestAll = await protocolData.interestAll();
                 const initialBorrowedValue = await protocolData.initialBorrowedValue(token.address);
@@ -83,6 +85,7 @@ export default function LeverageLong() {
                     currentLeverage,
                     borrowedAmount,
                     borrowedValue,
+                    totalBorrowedValue,
                     interest,
                     interestAll,
                     initialBorrowedValue,
@@ -115,7 +118,6 @@ export default function LeverageLong() {
                             keys={{
                                 "Available amount": parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Total value": "$ " + parseNumber(data?.totalValue),
                             }}
                             cta="Deposit"
                             token={token}
@@ -164,7 +166,9 @@ export default function LeverageLong() {
                                 "Margin balance": "$ " + parseNumber(data?.marginBalance),
                                 "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
                                 "Total accumulated interest": "$ " + parseNumber(data?.interestAll),
-                                "Total borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
+                                "Total initial borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
+                                "Total borrowed value": "$ " + parseNumber(data?.totalBorrowedValue),
+                                "Total collateral value": "$ " + parseNumber(data?.totalValue),
                             }}
                             cta="Repay All"
                             token={token}
