@@ -32,7 +32,9 @@ export default function LeverageLong() {
         borrowedAmount: ethers.BigNumber;
         borrowedValue: ethers.BigNumber;
         interest: ethers.BigNumber;
-        totalBorrowedValue: ethers.BigNumber;
+        interestAll: ethers.BigNumber;
+        initialBorrowedValue: ethers.BigNumber;
+        initialBorrowedValueAll: ethers.BigNumber;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved[0]);
 
@@ -59,8 +61,10 @@ export default function LeverageLong() {
                 const currentLeverage = await protocolData.currentLeverage();
                 const borrowedAmount = await protocolData.borrowedAmount(token.address);
                 const borrowedValue = await protocolData.borrowedValue(token.address);
-                const interest = await protocolData.interest();
-                const totalBorrowedValue = await protocolData.totalBorrowedValue();
+                const interest = await protocolData.interest(token.address);
+                const interestAll = await protocolData.interestAll();
+                const initialBorrowedValue = await protocolData.initialBorrowedValue(token.address);
+                const initialBorrowedValueAll = await protocolData.initialBorrowedValueAll();
 
                 setData({
                     borrowAPR,
@@ -80,7 +84,9 @@ export default function LeverageLong() {
                     borrowedAmount,
                     borrowedValue,
                     interest,
-                    totalBorrowedValue,
+                    interestAll,
+                    initialBorrowedValue,
+                    initialBorrowedValueAll,
                 });
             })();
         }
@@ -103,11 +109,11 @@ export default function LeverageLong() {
                     <TokenSelect title="Token" setToken={setToken} />
                 </div>
                 <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
-                    <div className="w-full">
+                    <div className="w-full lg:mr-6">
                         <TokenSegment
                             title="Deposit"
                             keys={{
-                                Available: parseNumber(data?.available) + " " + token.symbol,
+                                "Available amount": parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
                                 "Total value": "$ " + parseNumber(data?.totalValue),
                             }}
@@ -116,11 +122,11 @@ export default function LeverageLong() {
                             callback={(num, token) => protocolMethods?.depositCollateral(token.address, num)}
                         />
                     </div>
-                    <div className="w-full lg:mx-12">
+                    <div className="w-full lg:ml-6">
                         <TokenSegment
                             title="Withdraw"
                             keys={{
-                                Available: parseNumber(data?.collateralAmount) + " " + token.symbol,
+                                "Available amount": parseNumber(data?.collateralAmount) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.collateralValue),
                                 "Min margin level": parseNumberFloat(data?.minMarginLevel),
                                 "Maximum leverage": data?.maxLeverage.toString() + "x",
@@ -131,17 +137,16 @@ export default function LeverageLong() {
                             callback={(num, token) => protocolMethods?.withdrawCollateral(token.address, num)}
                         />
                     </div>
-                    <div className="w-full flex flex-col lg:items-center items-stretch justify-center">
+                </div>
+                <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-20">
+                    <div className="w-full flex flex-col lg:items-center items-stretch justify-center mr-6">
                         <TokenSegment
                             title="Leverage"
                             keys={{
-                                "Margin level": parseNumberFloat(data?.marginLevel),
-                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
-                                "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
-                                Borrowed: parseNumber(data?.borrowedAmount) + " " + token.symbol,
-                                "Borrowed value": "$ " + parseNumber(data?.borrowedValue),
+                                "Borrowed amount": parseNumber(data?.borrowedAmount) + " " + token.symbol,
+                                "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
+                                "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
                                 "Accumulated interest": "$ " + parseNumber(data?.interest),
-                                "Total borrowed value": "$ " + parseNumber(data?.totalBorrowedValue),
                             }}
                             cta="Borrow"
                             token={token}
@@ -150,6 +155,21 @@ export default function LeverageLong() {
                         <div className="lg:w-4/5">
                             <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>
                         </div>
+                    </div>
+                    <div className="w-full ml-6">
+                        <TokenSegment
+                            title="Total Leverage"
+                            keys={{
+                                "Margin level": parseNumberFloat(data?.marginLevel),
+                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
+                                "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
+                                "Total accumulated interest": "$ " + parseNumber(data?.interestAll),
+                                "Total borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
+                            }}
+                            cta="Repay All"
+                            token={token}
+                            callback={(num, token) => protocolMethods?.repayLongAll()}
+                        />
                     </div>
                 </div>
             </div>

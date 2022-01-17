@@ -38,8 +38,10 @@ interface ProtocolData {
     currentLeverage: () => Promise<number>;
     borrowedAmount: (address: string) => Promise<ethers.BigNumber>;
     borrowedValue: (address: string) => Promise<ethers.BigNumber>;
-    interest: () => Promise<ethers.BigNumber>;
-    totalBorrowedValue: () => Promise<ethers.BigNumber>;
+    interest: (address: string) => Promise<ethers.BigNumber>;
+    interestAll: () => Promise<ethers.BigNumber>;
+    initialBorrowedValue: (address: string) => Promise<ethers.BigNumber>;
+    initialBorrowedValueAll: () => Promise<ethers.BigNumber>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -266,14 +268,33 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
 
-    async function interest() {
+    async function interest(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        let interest;
+        try {
+            interest = await contracts?.marginLong["interest(address,address)"](address, signerAddress);
+        } catch {
+            interest = ethers.BigNumber.from(0);
+        }
+        return parseDecimals(interest, await contracts?.oracle.priceDecimals());
+    }
+
+    async function interestAll() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const interest = await contracts?.marginLong["interest(address)"](signerAddress);
         return parseDecimals(interest, await contracts?.oracle.priceDecimals());
     }
 
-    async function totalBorrowedValue() {
+    async function initialBorrowedValue(address: string) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address,address)"](address, signerAddress);
+        return parseDecimals(initialPrice, await contracts?.oracle.priceDecimals());
+    }
+
+    async function initialBorrowedValueAll() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const initialPrice = await contracts?.marginLong["initialBorrowPrice(address)"](signerAddress);
@@ -310,7 +331,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 borrowedAmount,
                 borrowedValue,
                 interest,
-                totalBorrowedValue,
+                interestAll,
+                initialBorrowedValue,
+                initialBorrowedValueAll,
             });
         }
     }, [contracts]);
