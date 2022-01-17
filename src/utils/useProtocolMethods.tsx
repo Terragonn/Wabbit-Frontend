@@ -12,7 +12,8 @@ interface ProtocolMethods {
     depositCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
     withdrawCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
     borrowLong: (address: string, amount: ethers.BigNumber) => Promise<void>;
-    repayLong: () => Promise<void>;
+    repayLong: (address: string) => Promise<void>;
+    repayLongAll: () => Promise<void>;
 }
 
 const protocolMethodsCtx = createContext<ProtocolMethods | null>(undefined as any);
@@ -78,10 +79,16 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         await handleError(async () => await contracts?.marginLong.borrow(address, amount));
     }
 
-    async function repayLong() {
+    async function repayLong(address: string) {
         await connect();
 
-        await handleError(async () => await contracts?.marginLong.repayAccount());
+        await handleError(async () => await contracts?.marginLong.repayAccount(address));
+    }
+
+    async function repayLongAll() {
+        await connect();
+
+        await handleError(async () => await contracts?.marginLong.repayAccountAll());
     }
 
     useEffect(() => {
@@ -94,6 +101,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 withdrawCollateral,
                 borrowLong,
                 repayLong,
+                repayLongAll,
             });
         }
     }, [contracts]);

@@ -148,7 +148,7 @@ export default function LeverageLong() {
                             callback={(num, token) => protocolMethods?.borrowLong(token.address, num)}
                         />
                         <div className="lg:w-4/5">
-                            <Button onClick={async () => protocolMethods?.repayLong()}>Repay</Button>
+                            <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>
                         </div>
                     </div>
                 </div>
