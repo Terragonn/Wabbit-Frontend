@@ -167,7 +167,7 @@ export default function LeverageLong() {
                                 "Total collateral value": "$ " + parseNumber(data?.totalValue),
                                 "Total accumulated interest": "$ " + parseNumber(data?.interestAll),
                                 "Total initial borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
-                                "Total borrowed value": "$ " + parseNumber(data?.totalBorrowedValue),
+                                "Total borrowed current value": "$ " + parseNumber(data?.totalBorrowedValue),
                                 "Total margin balance": "$ " + parseNumber(data?.marginBalanceAll),
                             }}
                             cta="Repay All"
