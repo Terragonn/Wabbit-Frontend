@@ -28,6 +28,7 @@ export default function LeverageLong() {
         minCollateral: ethers.BigNumber;
         marginLevel: number;
         marginBalance: ethers.BigNumber;
+        marginBalanceAll: ethers.BigNumber;
         currentLeverage: number;
         borrowedAmount: ethers.BigNumber;
         borrowedValue: ethers.BigNumber;
@@ -58,7 +59,8 @@ export default function LeverageLong() {
                 const minCollateral = await protocolData.minCollateralPrice();
 
                 const marginLevel = await protocolData.marginLevel();
-                const marginBalance = await protocolData.marginBalance();
+                const marginBalance = await protocolData.marginBalance(token.address);
+                const marginBalanceAll = await protocolData.marginBalanceAll();
                 const currentLeverage = await protocolData.currentLeverage();
                 const borrowedAmount = await protocolData.borrowedAmount(token.address);
                 const borrowedValue = await protocolData.borrowedValue(token.address);
@@ -82,6 +84,7 @@ export default function LeverageLong() {
                     minCollateral,
                     marginLevel,
                     marginBalance,
+                    marginBalanceAll,
                     currentLeverage,
                     borrowedAmount,
                     borrowedValue,
@@ -118,6 +121,7 @@ export default function LeverageLong() {
                             keys={{
                                 "Available amount": parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
+                                "Minimum collateral to borrow": "$ " + parseNumber(data?.minCollateral),
                             }}
                             cta="Deposit"
                             token={token}
@@ -132,7 +136,6 @@ export default function LeverageLong() {
                                 "Available value": "$ " + parseNumber(data?.collateralValue),
                                 "Min margin level": parseNumberFloat(data?.minMarginLevel),
                                 "Maximum leverage": data?.maxLeverage.toString() + "x",
-                                "Minimum collateral": "$ " + parseNumber(data?.minCollateral),
                             }}
                             cta="Withdraw"
                             token={token}
@@ -146,11 +149,12 @@ export default function LeverageLong() {
                             title="Leverage"
                             keys={{
                                 "Borrowed amount": parseNumber(data?.borrowedAmount) + " " + token.symbol,
-                                "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
-                                "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
                                 "Accumulated interest": "$ " + parseNumber(data?.interest),
+                                "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
+                                "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
+                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
                             }}
-                            cta="Borrow"
+                            cta="Leverage"
                             token={token}
                             callback={(num, token) => protocolMethods?.borrowLong(token.address, num)}
                         />
@@ -163,12 +167,12 @@ export default function LeverageLong() {
                             title="Total Leverage"
                             keys={{
                                 "Margin level": parseNumberFloat(data?.marginLevel),
-                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
                                 "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
+                                "Total collateral value": "$ " + parseNumber(data?.totalValue),
                                 "Total accumulated interest": "$ " + parseNumber(data?.interestAll),
                                 "Total initial borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
                                 "Total borrowed value": "$ " + parseNumber(data?.totalBorrowedValue),
-                                "Total collateral value": "$ " + parseNumber(data?.totalValue),
+                                "Total margin balance": "$ " + parseNumber(data?.marginBalanceAll),
                             }}
                             cta="Repay All"
                             token={token}
