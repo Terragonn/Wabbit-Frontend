@@ -104,7 +104,6 @@ nav ul li {
 }
 
 nav ul li:not(.ignore):hover {
-  transition: all 0.1s ease 0s;
   border-bottom: 5px solid #921ebb;
 }
 
