@@ -1,7 +1,8 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import {Approved} from "../../utils/getApproved";
-import {ROUND_CONSTANT} from "../../utils/parseNumber";
+import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
+import useContracts from "../../utils/useContracts";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -17,19 +18,28 @@ export default function TokenSegment({
     token: Approved;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
 }) {
+    const contracts = useContracts();
+
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+    const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
 
     useEffect(() => {
         const padded = Math.floor(num * ROUND_CONSTANT);
         const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
         setBigNum(decimals);
+
+        (async () => {
+            const price = await contracts?.oracle.priceMin(token.address, decimals);
+            const parsed = parseDecimals(price, await contracts?.oracle.priceDecimals());
+            setPriceNum(parsed);
+        })();
     }, [num]);
 
     return (
         <>
             <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
-            <div className="bg-neutral-900 rounded-3xl p-3 glow w-full text-center">
+            <div className="bg-neutral-900 rounded-3xl p-3 glow w-full text-center flex items-center justify-between space-x-2">
                 <input
                     className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
                     type="number"
@@ -40,6 +50,7 @@ export default function TokenSegment({
                         setNum(e.target.valueAsNumber || 0);
                     }}
                 />
+                <p className="mx-auto w-1/8 text-neutral-600 font-bold text-xl whitespace-nowrap">($ {parseNumber(priceNum)})</p>
             </div>
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch justify-evenly">
                 <div>
