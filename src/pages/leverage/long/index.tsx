@@ -27,7 +27,6 @@ export default function LeverageLong() {
         maxLeverage: ethers.BigNumber;
         minCollateral: ethers.BigNumber;
         marginLevel: number;
-        marginBalance: ethers.BigNumber;
         marginBalanceAll: ethers.BigNumber;
         currentLeverage: number;
         borrowedAmount: ethers.BigNumber;
@@ -59,7 +58,6 @@ export default function LeverageLong() {
                 const minCollateral = await protocolData.minCollateralPrice();
 
                 const marginLevel = await protocolData.marginLevel();
-                const marginBalance = await protocolData.marginBalance(token.address);
                 const marginBalanceAll = await protocolData.marginBalanceAll();
                 const currentLeverage = await protocolData.currentLeverage();
                 const borrowedAmount = await protocolData.borrowedAmount(token.address);
@@ -83,7 +81,6 @@ export default function LeverageLong() {
                     maxLeverage,
                     minCollateral,
                     marginLevel,
-                    marginBalance,
                     marginBalanceAll,
                     currentLeverage,
                     borrowedAmount,
@@ -152,7 +149,6 @@ export default function LeverageLong() {
                                 "Accumulated interest": "$ " + parseNumber(data?.interest),
                                 "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
                                 "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
-                                "Margin balance": "$ " + parseNumber(data?.marginBalance),
                             }}
                             cta="Leverage"
                             token={token}

@@ -34,7 +34,6 @@ interface ProtocolData {
     minCollateralPrice: () => Promise<ethers.BigNumber>;
 
     marginLevel: () => Promise<number>;
-    marginBalance: (address: string) => Promise<ethers.BigNumber>;
     marginBalanceAll: () => Promise<ethers.BigNumber>;
     currentLeverage: () => Promise<number>;
     borrowedAmount: (address: string) => Promise<ethers.BigNumber>;
@@ -235,22 +234,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return level;
     }
 
-    async function marginBalance(address: string) {
-        const signer = library?.getSigner();
-        const signerAddress = await signer?.getAddress();
-        let balance;
-        try {
-            const interest = await contracts?.marginLong["interest(address,address)"](address, signerAddress);
-            const initialPrice = await contracts?.marginLong["initialBorrowPrice(address,address)"](address, signerAddress);
-            const collateralPrice = await contracts?.marginLong["collateralPrice(address,address)"](address, signerAddress);
-            const borrowPrice = await contracts?.marginLong["borrowedPrice(address,address)"](address, signerAddress);
-            balance = collateralPrice.add(borrowPrice).sub(initialPrice).sub(interest);
-        } catch {
-            balance = ethers.BigNumber.from(0);
-        }
-        return parseDecimals(balance, await contracts?.oracle.priceDecimals());
-    }
-
     async function marginBalanceAll() {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
@@ -351,7 +334,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 maxLeverage,
                 minCollateralPrice,
                 marginLevel,
-                marginBalance,
                 marginBalanceAll,
                 currentLeverage,
                 borrowedAmount,
