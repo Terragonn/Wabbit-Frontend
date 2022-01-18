@@ -39,6 +39,24 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                     </NavLink>
                 </li>
             </ul>
+
+            <ul>
+                <li>
+                    <a href="https://twitter.com/torque_money">Twitter</a>
+                </li>
+                <li>
+                    <a href="https://docs.torque.money/">Docs</a>
+                </li>
+                <li>
+                    <a href="https://github.com/Torque-Money">GitHub</a>
+                </li>
+                <li>
+                    <a href="https://discord.gg/Wk33hnKtvx">Discord</a>
+                </li>
+                <li>
+                    <a href="https://app.torque.money/">App</a>
+                </li>
+            </ul>
         </nav>
     );
 }
