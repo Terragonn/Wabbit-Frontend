@@ -12,7 +12,6 @@ export interface Approved {
     marginLongCollateral: boolean;
     marginLongBorrow: boolean;
     leveragePool: boolean;
-    oracle: boolean;
 }
 
 export default function getApproved(address: string): Approved | undefined {
