@@ -39,7 +39,7 @@ export default function TokenSegment({
     return (
         <>
             <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
-            <div className="bg-neutral-900 rounded-3xl p-3 glow w-full text-center flex items-center justify-between space-x-2">
+            <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-2">
                 <input
                     className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
                     type="number"
