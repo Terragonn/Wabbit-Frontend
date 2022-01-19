@@ -74,7 +74,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function totalBorrowedPrice() {
         let totalBorrowedPrice;
-        const assets = config.approved.filter((approved) => approved.leveragePool).map((approved) => approved.address);
+        const assets = config.approved.filter((approved) => approved.marginLongBorrow).map((approved) => approved.address);
         totalBorrowedPrice = ethers.BigNumber.from(0);
         for (const asset of assets) {
             const totalBorrowed = await contracts?.lPool.utilized(asset);
