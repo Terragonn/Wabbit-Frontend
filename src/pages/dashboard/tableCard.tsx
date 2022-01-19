@@ -35,7 +35,7 @@ export default function TableCard({address}: {address: string}) {
         <div className="bg-neutral-900 rounded-xl flex flex-col items-center justify-start py-9 px-10 text-center text-white mb-10 glow">
             <span className="flex items-center justify-start w-full space-x-3 font-bold text-xl">
                 <img src={approved?.icon} width={40} className="rounded-xl" alt={approved?.name} />
-                <span>{approved?.name}</span>
+                <a href={`https://ftmscan.com/token/${approved?.address}`}>{approved?.name}</a>
                 <span className=" text-neutral-500">({approved?.symbol})</span>
             </span>
             <div className="my-8 w-full space-y-2 text-lg font-medium">

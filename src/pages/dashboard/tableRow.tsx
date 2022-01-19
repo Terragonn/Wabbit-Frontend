@@ -36,7 +36,7 @@ export default function TableRow({address}: {address: string}) {
             <span className="flex items-center justify-start w-full space-x-5 font-medium text-xl">
                 <img src={approved?.icon} width={40} className="rounded-xl" alt={approved?.name} />
                 <div className="flex flex-col items-center justify-evenly">
-                    <span>{approved?.name}</span>
+                    <a href={`https://ftmscan.com/token/${approved?.address}`}>{approved?.name}</a>
                     <span className="text-neutral-500">({approved?.symbol})</span>
                 </div>
             </span>
