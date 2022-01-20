@@ -12,22 +12,18 @@ export default function TokenSelect({
 }) {
     const {config} = useChainData();
 
-    const getTokens = (config: Config) =>
-        config.approved.filter(
-            (approved) =>
-                approved.oracle &&
-                ((approved.leveragePool && allowed.includes("leveragePool")) ||
-                    (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
-                    (approved.marginLongBorrow && allowed.includes("marginLongBorrow")))
-        );
+    const tokens = config.approved.filter(
+        (approved) =>
+            approved.oracle &&
+            ((approved.leveragePool && allowed.includes("leveragePool")) ||
+                (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
+                (approved.marginLongBorrow && allowed.includes("marginLongBorrow")))
+    );
 
-    const [tokens, setTokens] = useState<Approved[]>(getTokens(config));
     const [selectedToken, setSelectedToken] = useState<Approved>(tokens[0]);
 
     useEffect(() => {
-        const newTokens = getTokens(config);
-        setTokens(newTokens);
-        setSelectedToken(newTokens[0]);
+        setSelectedToken(tokens[0]);
     }, [config]);
 
     useEffect(() => {
