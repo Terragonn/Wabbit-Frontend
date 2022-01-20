@@ -2,11 +2,10 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import {useWeb3React} from "@web3-react/core";
 
-import config from "../config/config.json";
-
 import LPool from "../config/LPool.json";
 import Oracle from "../config/Oracle.json";
 import MarginLong from "../config/MarginLong.json";
+import useChainData from "./useChainData";
 
 interface Contracts {
     lPool: ethers.Contract;
@@ -22,6 +21,7 @@ export default function useContracts() {
 
 export function ContractsProvider({children}: {children: any}) {
     const {active, library} = useWeb3React();
+    const {config} = useChainData();
 
     async function getContracts() {
         if (active) {
