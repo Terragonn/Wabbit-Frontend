@@ -30,9 +30,6 @@ export default function Stake() {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                console.log(token); // **** Its doing this because there literally isnt anything to display for the given token
-                // **** Why does it give up when the token is reset though ????
-
                 const stakeAPR = await protocolData.stakeAPR(token);
                 const amountLocked = await protocolData.totalAmountLocked(token);
                 const valueLocked = await protocolData.totalPriceLocked(token);

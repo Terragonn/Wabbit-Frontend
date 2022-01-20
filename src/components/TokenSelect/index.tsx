@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import useChainData, {Approved} from "../../utils/useChainData";
+import useChainData, {Approved, Config} from "../../utils/useChainData";
 
 export default function TokenSelect({
     title,
@@ -12,13 +12,22 @@ export default function TokenSelect({
 }) {
     const {config} = useChainData();
 
-    const tokens = config.approved.filter(
-        (approved) =>
-            (approved.leveragePool && allowed.includes("leveragePool")) ||
-            (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
-            (approved.marginLongBorrow && allowed.includes("marginLongBorrow"))
-    );
+    const getTokens = (config: Config) =>
+        config.approved.filter(
+            (approved) =>
+                (approved.leveragePool && allowed.includes("leveragePool")) ||
+                (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
+                (approved.marginLongBorrow && allowed.includes("marginLongBorrow"))
+        );
+
+    const [tokens, setTokens] = useState<Approved[]>(getTokens(config));
     const [selectedToken, setSelectedToken] = useState<Approved>(tokens[0]);
+
+    useEffect(() => {
+        const newTokens = getTokens(config);
+        setTokens(newTokens);
+        setSelectedToken(newTokens[0]);
+    }, [config]);
 
     useEffect(() => {
         setToken(selectedToken);
