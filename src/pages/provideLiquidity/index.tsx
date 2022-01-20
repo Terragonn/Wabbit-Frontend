@@ -70,7 +70,7 @@ export default function ProvideLiquidity() {
                                 Available: parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
                             }}
-                            cta="Provide Liquidity"
+                            cta="Provide"
                             token={token}
                             callback={(num, token) => protocolMethods?.provideLiquidity(token.address, num)}
                         />
