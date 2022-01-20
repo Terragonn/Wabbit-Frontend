@@ -18,7 +18,7 @@ export default function TokenSelect({
             (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
             (approved.marginLongBorrow && allowed.includes("marginLongBorrow"))
     );
-    const [selectedToken, setSelectedToken] = useState<Approved>(config.approved[0]);
+    const [selectedToken, setSelectedToken] = useState<Approved>(tokens[0]);
 
     useEffect(() => {
         setToken(selectedToken);
