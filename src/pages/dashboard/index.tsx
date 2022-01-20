@@ -2,13 +2,15 @@ import Banner from "../../components/Banner";
 import TableHeader from "./tableHeader";
 import TableRow from "./tableRow";
 import TableCard from "./tableCard";
-import config from "../../config/config.json";
 import useProtocolData from "../../utils/useProtocolData";
 import parseNumber from "../../utils/parseNumber";
 import {useEffect, useState} from "react";
 import {ethers} from "ethers";
+import useChainData from "../../utils/useChainData";
 
 export default function Dashboard() {
+    const {blockExplorer, config} = useChainData();
+
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{tvl: ethers.BigNumber; borrowed: ethers.BigNumber} | null>(null);
@@ -36,14 +38,16 @@ export default function Dashboard() {
                 <TableHeader />
             </div>
             <div className="lg:block hidden">
-                {config.approved.map((data, index) => {
-                    return <TableRow key={index} address={data.address} />;
-                })}
+                {config.approved
+                    .filter((approved) => approved.leveragePool)
+                    .map((data, index) => {
+                        return <TableRow key={index} address={data.address} config={config} blockExplorer={blockExplorer} />;
+                    })}
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Dashboard</h2>
             <div className="lg:hidden my-10">
                 {config.approved.map((data, index) => (
-                    <TableCard key={index} address={data.address} />
+                    <TableCard key={index} address={data.address} config={config} blockExplorer={blockExplorer} />
                 ))}
             </div>
         </>

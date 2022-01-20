@@ -4,12 +4,13 @@ import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
 import useProtocolData from "../../utils/useProtocolData";
-import config from "../../config/config.json";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import {Approved} from "../../utils/getApproved";
 import useProtocolMethods from "../../utils/useProtocolMethods";
+import useChainData, {Approved} from "../../utils/useChainData";
 
 export default function StakeLeverage() {
+    const {config} = useChainData();
+
     const protocolData = useProtocolData();
     const protocolMethods = useProtocolMethods();
 

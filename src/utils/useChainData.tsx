@@ -21,7 +21,7 @@ export interface Approved {
     leveragePool: boolean;
 }
 
-interface Config {
+export interface Config {
     avgBlockTime: number;
     routerAddress: string;
     gelatoPokeMe: string;
@@ -35,7 +35,7 @@ interface Config {
     resolverAddress: string;
 }
 
-interface ChainData {
+export interface ChainData {
     blockExplorer: string;
     config: Config;
 }

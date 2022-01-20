@@ -62,20 +62,8 @@ export function parseDecimals(num: ethers.BigNumber, decimals: number) {
     return parsed;
 }
 
-// Parse decimals from an address
-export function parseDecimalsFromAddress(num: ethers.BigNumber, address: string) {
-    const decimals = getApproved(address)?.decimals;
-    return parseDecimals(num, decimals as number);
-}
-
 // Parse decimals to a number
 export function parseDecimalsAsNumber(num: ethers.BigNumber, decimals: number) {
     const parsed = parseDecimals(num, decimals);
     return parsed.toNumber() / ROUND_CONSTANT;
-}
-
-// Parse decimals to a number from an address
-export function parseDecimalsAsNumberFromAddress(num: ethers.BigNumber, address: string) {
-    const decimals = getApproved(address)?.decimals;
-    return parseDecimalsAsNumber(num, decimals as number);
 }

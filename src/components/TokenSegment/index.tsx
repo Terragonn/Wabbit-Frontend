@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-import {Approved} from "../../utils/getApproved";
 import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
+import {Approved} from "../../utils/useChainData";
 import useContracts from "../../utils/useContracts";
 import Button from "../Button";
 

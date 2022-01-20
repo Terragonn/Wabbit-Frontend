@@ -4,13 +4,14 @@ import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
-import config from "../../../config/config.json";
-import {Approved} from "../../../utils/getApproved";
 import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
+import useChainData, {Approved} from "../../../utils/useChainData";
 import useProtocolData from "../../../utils/useProtocolData";
 import useProtocolMethods from "../../../utils/useProtocolMethods";
 
 export default function LeverageLong() {
+    const {config} = useChainData();
+
     const protocolData = useProtocolData();
     const protocolMethods = useProtocolMethods();
 

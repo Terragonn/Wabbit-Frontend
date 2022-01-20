@@ -2,9 +2,10 @@ import {useWeb3React} from "@web3-react/core";
 import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
-import config from "../config/config.json";
-import {parseDecimals, parseDecimalsFromAddress, ROUND_CONSTANT} from "./parseNumber";
+import {parseDecimals, ROUND_CONSTANT} from "./parseNumber";
 import loadERC20 from "./loadERC20";
+import useChainData from "./useChainData";
+import getApproved from "./getApproved";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber>;
@@ -55,6 +56,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const contracts = useContracts();
 
+    const {config} = useChainData();
+
     const [safetyThresholdNumerator, safetyThresholdDenominator] = [20, 100];
 
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
@@ -93,12 +96,16 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function totalAmountLocked(address: string) {
         const totalLocked = await contracts?.lPool.tvl(address);
-        return parseDecimalsFromAddress(totalLocked, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(totalLocked, approved?.decimals as number);
     }
 
     async function totalBorrowed(address: string) {
         const borrowed = await contracts?.marginLong.totalBorrowed(address);
-        return parseDecimalsFromAddress(borrowed, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(borrowed, approved?.decimals as number);
     }
 
     async function stakeAPR(address: string) {
@@ -121,7 +128,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signerAddress = await signer?.getAddress();
         const token = loadERC20(address, signer as any);
         const rawBalance = await token.balanceOf(signerAddress);
-        return parseDecimalsFromAddress(rawBalance, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(rawBalance, approved?.decimals as number);
     }
 
     async function getAvailableBalanceValue(address: string) {
@@ -139,7 +148,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const LPTokenAddress = await contracts?.lPool.LPFromPT(address);
         const LPToken = loadERC20(LPTokenAddress, signer as any);
         const rawBalance = await LPToken.balanceOf(signerAddress);
-        return parseDecimalsFromAddress(rawBalance, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(rawBalance, approved?.decimals as number);
     }
 
     async function getStakedRedeemAmount(address: string) {
@@ -155,7 +166,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         } catch (e) {
             return ethers.BigNumber.from(0);
         }
-        return parseDecimalsFromAddress(redeemAmount, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(redeemAmount, approved?.decimals as number);
     }
 
     async function getStakedRedeemValue(address: string) {
@@ -186,7 +199,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const collateralAmount = await contracts?.marginLong.collateral(address, signerAddress);
-        return parseDecimalsFromAddress(collateralAmount, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(collateralAmount, approved?.decimals as number);
     }
 
     async function getCollateralValue(address: string) {
@@ -216,7 +231,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function liquidity(address: string) {
         const available = await contracts?.lPool.liquidity(address);
-        return parseDecimalsFromAddress(available, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(available, approved?.decimals as number);
     }
 
     async function utilizationRate(address: string) {
@@ -258,7 +275,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         const amount = await contracts?.marginLong.borrowed(address, signerAddress);
-        return parseDecimalsFromAddress(amount, address);
+
+        const approved = getApproved(config, address);
+        return parseDecimals(amount, approved?.decimals as number);
     }
 
     async function borrowedValue(address: string) {
