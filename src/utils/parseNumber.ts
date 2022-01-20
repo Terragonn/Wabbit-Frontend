@@ -58,7 +58,7 @@ export default function parseNumber(num?: ethers.BigNumber | string): string {
 
 // Parse decimals
 export function parseDecimals(num: ethers.BigNumber, decimals: number) {
-    const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals as number));
+    const parsed = num.mul(ROUND_CONSTANT).div(ethers.BigNumber.from(10).pow(decimals));
     return parsed;
 }
 

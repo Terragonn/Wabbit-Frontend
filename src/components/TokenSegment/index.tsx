@@ -30,9 +30,11 @@ export default function TokenSegment({
         setBigNum(decimals);
 
         (async () => {
-            const price = await contracts?.oracle.priceMin(token.address, decimals);
-            const parsed = parseDecimals(price, await contracts?.oracle.priceDecimals());
-            setPriceNum(parsed);
+            if (contracts) {
+                const price = await contracts?.oracle.priceMin(token.address, decimals);
+                const parsed = parseDecimals(price, await contracts?.oracle.priceDecimals());
+                setPriceNum(parsed);
+            }
         })();
     }, [num]);
 
