@@ -102,6 +102,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
         // **** We can see that initially, the address "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83" is passed in which breaks it, then on second rerun correct token LINK gets passed
 
+        // **** One way of fixing this I believe is to have the config be passed in with the function itself instead of having two differing functions OR just wrap in try catch ???
+
         console.log(config.approved.map((approved) => [approved.symbol, approved.address]));
         console.log(address);
 
