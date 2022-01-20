@@ -44,16 +44,16 @@ export default function LeverageLong() {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const borrowAPR = await protocolData.borrowAPR(token.address);
-                const liquidity = await protocolData.liquidity(token.address);
-                const utilizationRate = await protocolData.utilizationRate(token.address);
+                const borrowAPR = await protocolData.borrowAPR(token);
+                const liquidity = await protocolData.liquidity(token);
+                const utilizationRate = await protocolData.utilizationRate(token);
 
-                const available = await protocolData.getAvailableBalance(token.address);
-                const availableValue = await protocolData.getAvailableBalanceValue(token.address);
+                const available = await protocolData.getAvailableBalance(token);
+                const availableValue = await protocolData.getAvailableBalanceValue(token);
 
                 const totalValue = await protocolData.getCollateralTotalValue();
-                const collateralAmount = await protocolData.getCollateralAmount(token.address);
-                const collateralValue = await protocolData.getCollateralValue(token.address);
+                const collateralAmount = await protocolData.getCollateralAmount(token);
+                const collateralValue = await protocolData.getCollateralValue(token);
                 const minMarginLevel = await protocolData.minMarginLevel();
                 const maxLeverage = await protocolData.maxLeverage();
                 const minCollateral = await protocolData.minCollateralPrice();
@@ -61,12 +61,12 @@ export default function LeverageLong() {
                 const marginLevel = await protocolData.marginLevel();
                 const marginBalanceAll = await protocolData.marginBalanceAll();
                 const currentLeverage = await protocolData.currentLeverage();
-                const borrowedAmount = await protocolData.borrowedAmount(token.address);
-                const borrowedValue = await protocolData.borrowedValue(token.address);
+                const borrowedAmount = await protocolData.borrowedAmount(token);
+                const borrowedValue = await protocolData.borrowedValue(token);
                 const totalBorrowedValue = await protocolData.totalBorrowedValue();
-                const interest = await protocolData.interest(token.address);
+                const interest = await protocolData.interest(token);
                 const interestAll = await protocolData.interestAll();
-                const initialBorrowedValue = await protocolData.initialBorrowedValue(token.address);
+                const initialBorrowedValue = await protocolData.initialBorrowedValue(token);
                 const initialBorrowedValueAll = await protocolData.initialBorrowedValueAll();
 
                 setData({

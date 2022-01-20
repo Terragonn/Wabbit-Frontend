@@ -4,32 +4,32 @@ import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "./parseNumber";
 import loadERC20 from "./loadERC20";
-import useChainData from "./useChainData";
+import useChainData, {Approved} from "./useChainData";
 import getApproved from "./getApproved";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber>;
     totalBorrowedPrice: () => Promise<ethers.BigNumber>;
 
-    totalPriceLocked: (address: string) => Promise<ethers.BigNumber>;
-    totalAmountLocked: (address: string) => Promise<ethers.BigNumber>;
-    totalBorrowed: (address: string) => Promise<ethers.BigNumber>;
-    stakeAPR: (address: string) => Promise<number>;
-    borrowAPR: (address: string) => Promise<number>;
+    totalPriceLocked: (token: Approved) => Promise<ethers.BigNumber>;
+    totalAmountLocked: (token: Approved) => Promise<ethers.BigNumber>;
+    totalBorrowed: (token: Approved) => Promise<ethers.BigNumber>;
+    stakeAPR: (token: Approved) => Promise<number>;
+    borrowAPR: (token: Approved) => Promise<number>;
 
-    getAvailableBalance: (address: string) => Promise<ethers.BigNumber>;
-    getAvailableBalanceValue: (address: string) => Promise<ethers.BigNumber>;
+    getAvailableBalance: (token: Approved) => Promise<ethers.BigNumber>;
+    getAvailableBalanceValue: (token: Approved) => Promise<ethers.BigNumber>;
 
-    getStakedAmount: (address: string) => Promise<ethers.BigNumber>;
-    getStakedRedeemAmount: (address: string) => Promise<ethers.BigNumber>;
-    getStakedRedeemValue: (address: string) => Promise<ethers.BigNumber>;
+    getStakedAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    getStakedRedeemAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    getStakedRedeemValue: (token: Approved) => Promise<ethers.BigNumber>;
 
-    liquidity: (address: string) => Promise<ethers.BigNumber>;
-    utilizationRate: (address: string) => Promise<number>;
+    liquidity: (token: Approved) => Promise<ethers.BigNumber>;
+    utilizationRate: (token: Approved) => Promise<number>;
 
     getCollateralTotalValue: () => Promise<ethers.BigNumber>;
-    getCollateralAmount: (address: string) => Promise<ethers.BigNumber>;
-    getCollateralValue: (address: string) => Promise<ethers.BigNumber>;
+    getCollateralAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    getCollateralValue: (token: Approved) => Promise<ethers.BigNumber>;
     minMarginLevel: () => Promise<number>;
     maxLeverage: () => Promise<ethers.BigNumber>;
     minCollateralPrice: () => Promise<ethers.BigNumber>;
@@ -37,12 +37,12 @@ interface ProtocolData {
     marginLevel: () => Promise<number>;
     marginBalanceAll: () => Promise<ethers.BigNumber>;
     currentLeverage: () => Promise<number>;
-    borrowedAmount: (address: string) => Promise<ethers.BigNumber>;
-    borrowedValue: (address: string) => Promise<ethers.BigNumber>;
+    borrowedAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    borrowedValue: (token: Approved) => Promise<ethers.BigNumber>;
     totalBorrowedValue: () => Promise<ethers.BigNumber>;
-    interest: (address: string) => Promise<ethers.BigNumber>;
+    interest: (token: Approved) => Promise<ethers.BigNumber>;
     interestAll: () => Promise<ethers.BigNumber>;
-    initialBorrowedValue: (address: string) => Promise<ethers.BigNumber>;
+    initialBorrowedValue: (token: Approved) => Promise<ethers.BigNumber>;
     initialBorrowedValueAll: () => Promise<ethers.BigNumber>;
 }
 
@@ -88,85 +88,67 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return totalBorrowedPrice;
     }
 
-    async function totalPriceLocked(address: string) {
-        const totalLocked = await contracts?.lPool.tvl(address);
-        const price = await contracts?.oracle.priceMax(address, totalLocked);
+    async function totalPriceLocked(token: Approved) {
+        const totalLocked = await contracts?.lPool.tvl(token.address);
+        const price = await contracts?.oracle.priceMax(token.address, totalLocked);
         return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
 
-    async function totalAmountLocked(address: string) {
-        const totalLocked = await contracts?.lPool.tvl(address);
-
-        // **** So clearly it is initially not parsing the correct config value to the stake page ?
-        // **** If I had to guess what is happening, it is because the default token is loading in before the chainId and therefore it is sending it to the wrong one ???
-
-        // **** We can see that initially, the address "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83" is passed in which breaks it, then on second rerun correct token LINK gets passed
-
-        // **** One way of fixing this I believe is to have the config be passed in with the function itself instead of having two differing functions OR just wrap in try catch ???
-
-        console.log(config.approved.map((approved) => [approved.symbol, approved.address]));
-        console.log(address);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(totalLocked, approved?.decimals as number);
+    async function totalAmountLocked(token: Approved) {
+        const totalLocked = await contracts?.lPool.tvl(token.address);
+        return parseDecimals(totalLocked, token.decimals);
     }
 
-    async function totalBorrowed(address: string) {
-        const borrowed = await contracts?.marginLong.totalBorrowed(address);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(borrowed, approved?.decimals as number);
+    async function totalBorrowed(token: Approved) {
+        const borrowed = await contracts?.marginLong.totalBorrowed(token.address);
+        return parseDecimals(borrowed, token.decimals);
     }
 
-    async function stakeAPR(address: string) {
-        const [interestNumerator, interestDenominator] = await contracts?.lPool.interestRate(address);
-        const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(address);
+    async function stakeAPR(token: Approved) {
+        const [interestNumerator, interestDenominator] = await contracts?.lPool.interestRate(token.address);
+        const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(token.address);
         if (utilizationDenominator.eq(0)) return 0;
 
         const stakeAPR = interestNumerator.mul(utilizationNumerator).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
         return stakeAPR;
     }
 
-    async function borrowAPR(address: string) {
-        const [numerator, denominator] = await contracts?.lPool.interestRate(address);
+    async function borrowAPR(token: Approved) {
+        const [numerator, denominator] = await contracts?.lPool.interestRate(token.address);
         if (denominator.eq(0)) return 0;
         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
     }
 
-    async function getAvailableBalance(address: string) {
+    async function getAvailableBalance(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const token = loadERC20(address, signer as any);
-        const rawBalance = await token.balanceOf(signerAddress);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(rawBalance, approved?.decimals as number);
+        const tokenContract = loadERC20(token.address, signer as any);
+        const rawBalance = await tokenContract.balanceOf(signerAddress);
+        return parseDecimals(rawBalance, token.decimals);
     }
 
-    async function getAvailableBalanceValue(address: string) {
+    async function getAvailableBalanceValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const token = loadERC20(address, signer as any);
-        const rawBalance = await token.balanceOf(signerAddress);
-        const value = await contracts?.oracle.priceMax(address, rawBalance);
+        const tokenContract = loadERC20(token.address, signer as any);
+        const rawBalance = await tokenContract.balanceOf(signerAddress);
+        const value = await contracts?.oracle.priceMax(token.address, rawBalance);
         return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
-    async function getStakedAmount(address: string) {
+    async function getStakedAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const LPTokenAddress = await contracts?.lPool.LPFromPT(address);
+        const LPTokenAddress = await contracts?.lPool.LPFromPT(token.address);
         const LPToken = loadERC20(LPTokenAddress, signer as any);
         const rawBalance = await LPToken.balanceOf(signerAddress);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(rawBalance, approved?.decimals as number);
+        return parseDecimals(rawBalance, token.decimals);
     }
 
-    async function getStakedRedeemAmount(address: string) {
+    async function getStakedRedeemAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const LPTokenAddress = await contracts?.lPool.LPFromPT(address);
+        const LPTokenAddress = await contracts?.lPool.LPFromPT(token.address);
         const LPToken = loadERC20(LPTokenAddress, signer as any);
         const rawBalance = await LPToken.balanceOf(signerAddress);
 
@@ -177,14 +159,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
             return ethers.BigNumber.from(0);
         }
 
-        const approved = getApproved(config, address);
-        return parseDecimals(redeemAmount, approved?.decimals as number);
+        return parseDecimals(redeemAmount, token.decimals);
     }
 
-    async function getStakedRedeemValue(address: string) {
+    async function getStakedRedeemValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const LPTokenAddress = await contracts?.lPool.LPFromPT(address);
+        const LPTokenAddress = await contracts?.lPool.LPFromPT(token.address);
         const LPToken = loadERC20(LPTokenAddress, signer as any);
         const rawBalance = await LPToken.balanceOf(signerAddress);
 
@@ -194,7 +175,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         } catch (e) {
             return ethers.BigNumber.from(0);
         }
-        const value = await contracts?.oracle.priceMax(address, redeemAmount);
+        const value = await contracts?.oracle.priceMax(token.address, redeemAmount);
         return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
@@ -205,20 +186,19 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(totalPrice, await contracts?.oracle.priceDecimals());
     }
 
-    async function getCollateralAmount(address: string) {
+    async function getCollateralAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const collateralAmount = await contracts?.marginLong.collateral(address, signerAddress);
+        const collateralAmount = await contracts?.marginLong.collateral(token.address, signerAddress);
 
-        const approved = getApproved(config, address);
-        return parseDecimals(collateralAmount, approved?.decimals as number);
+        return parseDecimals(collateralAmount, token.decimals);
     }
 
-    async function getCollateralValue(address: string) {
+    async function getCollateralValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const collateralAmount = await contracts?.marginLong.collateral(address, signerAddress);
-        const collateralPrice = await contracts?.oracle.priceMin(address, collateralAmount);
+        const collateralAmount = await contracts?.marginLong.collateral(token.address, signerAddress);
+        const collateralPrice = await contracts?.oracle.priceMin(token.address, collateralAmount);
         return parseDecimals(collateralPrice, await contracts?.oracle.priceDecimals());
     }
 
@@ -239,15 +219,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parsedPrice.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).sub(safetyThresholdNumerator));
     }
 
-    async function liquidity(address: string) {
-        const available = await contracts?.lPool.liquidity(address);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(available, approved?.decimals as number);
+    async function liquidity(token: Approved) {
+        const available = await contracts?.lPool.liquidity(token.address);
+        return parseDecimals(available, token.decimals);
     }
 
-    async function utilizationRate(address: string) {
-        const [numerator, denominator] = await contracts?.lPool.utilizationRate(address);
+    async function utilizationRate(token: Approved) {
+        const [numerator, denominator] = await contracts?.lPool.utilizationRate(token.address);
         if (denominator.eq(0)) return 0;
         return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
     }
@@ -281,20 +259,18 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return initialPrice.mul(ROUND_CONSTANT).div(collateralPrice).toNumber() / ROUND_CONSTANT;
     }
 
-    async function borrowedAmount(address: string) {
+    async function borrowedAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const amount = await contracts?.marginLong.borrowed(address, signerAddress);
-
-        const approved = getApproved(config, address);
-        return parseDecimals(amount, approved?.decimals as number);
+        const amount = await contracts?.marginLong.borrowed(token.address, signerAddress);
+        return parseDecimals(amount, token.decimals);
     }
 
-    async function borrowedValue(address: string) {
+    async function borrowedValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const amount = await contracts?.marginLong.borrowed(address, signerAddress);
-        const price = await contracts?.oracle.priceMin(address, amount);
+        const amount = await contracts?.marginLong.borrowed(token.address, signerAddress);
+        const price = await contracts?.oracle.priceMin(token.address, amount);
         return parseDecimals(price, await contracts?.oracle.priceDecimals());
     }
 
@@ -305,12 +281,12 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
-    async function interest(address: string) {
+    async function interest(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
         let interest;
         try {
-            interest = await contracts?.marginLong["interest(address,address)"](address, signerAddress);
+            interest = await contracts?.marginLong["interest(address,address)"](token.address, signerAddress);
         } catch {
             interest = ethers.BigNumber.from(0);
         }
@@ -324,10 +300,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(interest, await contracts?.oracle.priceDecimals());
     }
 
-    async function initialBorrowedValue(address: string) {
+    async function initialBorrowedValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
-        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address,address)"](address, signerAddress);
+        const initialPrice = await contracts?.marginLong["initialBorrowPrice(address,address)"](token.address, signerAddress);
         return parseDecimals(initialPrice, await contracts?.oracle.priceDecimals());
     }
 

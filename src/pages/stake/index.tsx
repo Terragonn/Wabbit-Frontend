@@ -30,16 +30,16 @@ export default function StakeLeverage() {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const stakeAPR = await protocolData.stakeAPR(token.address);
-                const amountLocked = await protocolData.totalAmountLocked(token.address);
-                const valueLocked = await protocolData.totalPriceLocked(token.address);
+                const stakeAPR = await protocolData.stakeAPR(token);
+                const amountLocked = await protocolData.totalAmountLocked(token);
+                const valueLocked = await protocolData.totalPriceLocked(token);
 
-                const available = await protocolData.getAvailableBalance(token.address);
-                const availableValue = await protocolData.getAvailableBalanceValue(token.address);
+                const available = await protocolData.getAvailableBalance(token);
+                const availableValue = await protocolData.getAvailableBalanceValue(token);
 
-                const availableLP = await protocolData.getStakedAmount(token.address);
-                const LPRedeemAmount = await protocolData.getStakedRedeemAmount(token.address);
-                const LPRedeemValue = await protocolData.getStakedRedeemValue(token.address);
+                const availableLP = await protocolData.getStakedAmount(token);
+                const LPRedeemAmount = await protocolData.getStakedRedeemAmount(token);
+                const LPRedeemValue = await protocolData.getStakedRedeemValue(token);
 
                 setData({stakeAPR, amountLocked, valueLocked, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
             })();

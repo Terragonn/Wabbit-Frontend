@@ -19,13 +19,13 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
     const approved = getApproved(config, address);
 
     useEffect(() => {
-        if (!protocolData) setData(null);
+        if (!protocolData || !approved) setData(null);
         else {
             (async () => {
-                const tvl = await protocolData.totalPriceLocked(address);
-                const borrowed = await protocolData.totalBorrowed(address);
-                const stakeAPR = await protocolData.stakeAPR(address);
-                const borrowAPR = await protocolData.borrowAPR(address);
+                const tvl = await protocolData.totalPriceLocked(approved);
+                const borrowed = await protocolData.totalBorrowed(approved);
+                const stakeAPR = await protocolData.stakeAPR(approved);
+                const borrowAPR = await protocolData.borrowAPR(approved);
                 const yieldAPR = undefined;
                 setData({tvl, borrowed, stakeAPR, borrowAPR, yieldAPR});
             })();
