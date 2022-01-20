@@ -16,6 +16,7 @@ export interface Approved {
     decimals: number;
     priceFeed: string;
     reservePriceFeed: string;
+    oracle: boolean;
     marginLongCollateral: boolean;
     marginLongBorrow: boolean;
     leveragePool: boolean;

@@ -15,9 +15,10 @@ export default function TokenSelect({
     const getTokens = (config: Config) =>
         config.approved.filter(
             (approved) =>
-                (approved.leveragePool && allowed.includes("leveragePool")) ||
-                (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
-                (approved.marginLongBorrow && allowed.includes("marginLongBorrow"))
+                approved.oracle &&
+                ((approved.leveragePool && allowed.includes("leveragePool")) ||
+                    (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
+                    (approved.marginLongBorrow && allowed.includes("marginLongBorrow")))
         );
 
     const [tokens, setTokens] = useState<Approved[]>(getTokens(config));
