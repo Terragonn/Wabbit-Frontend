@@ -35,9 +35,9 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         await approveERC20(tokenAddress, amount, address, library?.getSigner() as ethers.providers.JsonRpcSigner);
     }
 
-    async function handleError(fn: (...args: any[]) => Promise<void>) {
+    async function handleError(fn: (...args: any[]) => Promise<any>) {
         try {
-            await fn();
+            return await fn();
         } catch (e: any) {
             setError(e.data?.message || null);
             window.scroll(0, 0);
@@ -45,50 +45,66 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     }
 
     async function provideLiquidity(address: string, amount: ethers.BigNumber) {
-        await connect();
-        await approve(address, contracts?.lPool.address as string, amount);
+        if (contracts) {
+            await approve(address, contracts.lPool.address as string, amount);
 
-        await handleError(async () => await contracts?.lPool.provideLiquidity(address, amount));
+            await handleError(async () => await contracts.lPool.provideLiquidity(address, amount));
+        } else {
+            await connect();
+        }
     }
 
     async function redeem(address: string, amount: ethers.BigNumber) {
-        await connect();
+        if (contracts) {
+            const redeemToken = await contracts.lPool.LPFromPT(address);
+            await approve(redeemToken, contracts.lPool.address as string, amount);
 
-        const redeemToken = await contracts?.lPool.LPFromPT(address);
-        await approve(redeemToken, contracts?.lPool.address as string, amount);
-
-        await handleError(async () => await contracts?.lPool.redeemLiquidity(redeemToken, amount));
+            await handleError(async () => await contracts.lPool.redeemLiquidity(redeemToken, amount));
+        } else {
+            await connect();
+        }
     }
 
     async function depositCollateral(address: string, amount: ethers.BigNumber) {
-        await connect();
-        await approve(address, contracts?.marginLong.address as string, amount);
+        if (contracts) {
+            await approve(address, contracts.marginLong.address as string, amount);
 
-        await handleError(async () => await contracts?.marginLong.addCollateral(address, amount));
+            await handleError(async () => await contracts.marginLong.addCollateral(address, amount));
+        } else {
+            await connect();
+        }
     }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
-        await connect();
-
-        await handleError(async () => await contracts?.marginLong.removeCollateral(address, amount));
+        if (contracts) {
+            await handleError(async () => await contracts.marginLong.removeCollateral(address, amount));
+        } else {
+            await connect();
+        }
     }
 
     async function borrowLong(address: string, amount: ethers.BigNumber) {
-        await connect();
-
-        await handleError(async () => await contracts?.marginLong.borrow(address, amount));
+        if (contracts) {
+            await handleError(async () => await contracts.marginLong.borrow(address, amount));
+        } else {
+            await connect();
+        }
     }
 
     async function repayLong(address: string) {
-        await connect();
-
-        await handleError(async () => await contracts?.marginLong.repayAccount(address));
+        if (contracts) {
+            await handleError(async () => await contracts?.marginLong.repayAccount(address));
+        } else {
+            await connect();
+        }
     }
 
     async function repayLongAll() {
-        await connect();
-
-        await handleError(async () => await contracts?.marginLong.repayAccountAll());
+        if (contracts) {
+            await handleError(async () => await contracts?.marginLong.repayAccountAll());
+        } else {
+            await connect();
+        }
     }
 
     useEffect(() => {
