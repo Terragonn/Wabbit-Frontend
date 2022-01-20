@@ -39,7 +39,7 @@ export default function Dashboard() {
             </div>
             <div className="lg:block hidden">
                 {config.approved
-                    .filter((approved) => approved.oracle && approved.leveragePool)
+                    .filter((approved) => approved.leveragePool)
                     .map((data, index) => (
                         <TableRow key={index} address={data.address} config={config} blockExplorer={blockExplorer} />
                     ))}
@@ -47,7 +47,7 @@ export default function Dashboard() {
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Dashboard</h2>
             <div className="lg:hidden my-10">
                 {config.approved
-                    .filter((approved) => approved.oracle && approved.leveragePool)
+                    .filter((approved) => approved.leveragePool)
                     .map((data, index) => (
                         <TableCard key={index} address={data.address} config={config} blockExplorer={blockExplorer} />
                     ))}
