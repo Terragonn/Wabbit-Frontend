@@ -20,7 +20,7 @@ export default function useContracts() {
     return useContext(contractCtx);
 }
 
-export function ContractsProvider(props: {children: any}) {
+export function ContractsProvider({children}: {children: any}) {
     const {active, library} = useWeb3React();
 
     async function getContracts() {
@@ -45,5 +45,5 @@ export function ContractsProvider(props: {children: any}) {
         })();
     }, [active]);
 
-    return <contractCtx.Provider value={contracts}>{props.children}</contractCtx.Provider>;
+    return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }

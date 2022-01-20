@@ -1,19 +1,5 @@
 import config from "../config/config.json";
 
-export interface Approved {
-    name: string;
-    symbol: string;
-    icon: string;
-    address: string;
-    whale: string;
-    decimals: number;
-    priceFeed: string;
-    reservePriceFeed: string;
-    marginLongCollateral: boolean;
-    marginLongBorrow: boolean;
-    leveragePool: boolean;
-}
-
 export default function getApproved(address: string): Approved | undefined {
     address = address.toLowerCase();
     const item = config.approved.filter((approved) => approved.address === address);

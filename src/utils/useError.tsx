@@ -6,8 +6,8 @@ export default function useError() {
     return useContext(errorCtx);
 }
 
-export function ErrorProvider(props: {children: any}) {
+export function ErrorProvider({children}: {children: any}) {
     const [error, setError] = useState<string | null>(null);
 
-    return <errorCtx.Provider value={[error, setError]}>{props.children}</errorCtx.Provider>;
+    return <errorCtx.Provider value={[error, setError]}>{children}</errorCtx.Provider>;
 }
