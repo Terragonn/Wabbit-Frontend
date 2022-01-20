@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import useChainData, {Approved, Config} from "../../utils/useChainData";
+import useChainData, {Approved} from "../../utils/useChainData";
 
 export default function TokenSelect({
     title,

@@ -1,5 +1,4 @@
 import {ethers} from "ethers";
-import getApproved from "./getApproved";
 
 export const ROUND_CONSTANT = 1e3;
 export const DISPLAY_DECIMALS = 2;
