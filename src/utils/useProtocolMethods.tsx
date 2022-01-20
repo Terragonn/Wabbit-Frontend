@@ -7,7 +7,7 @@ import useContracts from "./useContracts";
 import useError from "./useError";
 
 interface ProtocolMethods {
-    stake: (address: string, amount: ethers.BigNumber) => Promise<void>;
+    provideLiquidity: (address: string, amount: ethers.BigNumber) => Promise<void>;
     redeem: (address: string, amount: ethers.BigNumber) => Promise<void>;
     depositCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
     withdrawCollateral: (address: string, amount: ethers.BigNumber) => Promise<void>;
@@ -44,11 +44,11 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         }
     }
 
-    async function stake(address: string, amount: ethers.BigNumber) {
+    async function provideLiquidity(address: string, amount: ethers.BigNumber) {
         await connect();
         await approve(address, contracts?.lPool.address as string, amount);
 
-        await handleError(async () => await contracts?.lPool.stake(address, amount));
+        await handleError(async () => await contracts?.lPool.provideLiquidity(address, amount));
     }
 
     async function redeem(address: string, amount: ethers.BigNumber) {
@@ -95,7 +95,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (!contracts) setProtocolMethods(null);
         else {
             setProtocolMethods({
-                stake,
+                provideLiquidity,
                 redeem,
                 depositCollateral,
                 withdrawCollateral,

@@ -11,7 +11,7 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
     const [data, setData] = useState<{
         tvl: ethers.BigNumber;
         borrowed: ethers.BigNumber;
-        stakeAPR: number;
+        provideLiquidityAPR: number;
         borrowAPR: number;
         yieldAPR: undefined;
     } | null>();
@@ -24,10 +24,10 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
             (async () => {
                 const tvl = await protocolData.totalPriceLocked(approved);
                 const borrowed = await protocolData.totalBorrowed(approved);
-                const stakeAPR = await protocolData.stakeAPR(approved);
+                const provideLiquidityAPR = await protocolData.provideLiquidityAPR(approved);
                 const borrowAPR = await protocolData.borrowAPR(approved);
                 const yieldAPR = undefined;
-                setData({tvl, borrowed, stakeAPR, borrowAPR, yieldAPR});
+                setData({tvl, borrowed, provideLiquidityAPR, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -52,11 +52,11 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
                 </div>
                 <div className="w-full text-xl pb-5 border-b-2 border-b-neutral-800 border-opacity-30">
                     <div className="flex items-center justify-between text-white font-bold">
-                        <span>Stake APR</span>
+                        <span>Provide Liquidity APR</span>
                         <span>Borrow APR</span>
                     </div>
                     <div className="flex items-center justify-between text-neutral-400 font-medium mt-2">
-                        <span>{parseNumberFloat(data?.stakeAPR)} %</span>
+                        <span>{parseNumberFloat(data?.provideLiquidityAPR)} %</span>
                         <span>{parseNumberFloat(data?.borrowAPR)} %</span>
                     </div>
                 </div>

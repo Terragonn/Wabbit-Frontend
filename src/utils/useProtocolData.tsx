@@ -13,15 +13,15 @@ interface ProtocolData {
     totalPriceLocked: (token: Approved) => Promise<ethers.BigNumber>;
     totalAmountLocked: (token: Approved) => Promise<ethers.BigNumber>;
     totalBorrowed: (token: Approved) => Promise<ethers.BigNumber>;
-    stakeAPR: (token: Approved) => Promise<number>;
+    provideLiquidityAPR: (token: Approved) => Promise<number>;
     borrowAPR: (token: Approved) => Promise<number>;
 
     getAvailableBalance: (token: Approved) => Promise<ethers.BigNumber>;
     getAvailableBalanceValue: (token: Approved) => Promise<ethers.BigNumber>;
 
-    getStakedAmount: (token: Approved) => Promise<ethers.BigNumber>;
-    getStakedRedeemAmount: (token: Approved) => Promise<ethers.BigNumber>;
-    getStakedRedeemValue: (token: Approved) => Promise<ethers.BigNumber>;
+    getLiquidityProvidedAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    getRedeemLiquidityAmount: (token: Approved) => Promise<ethers.BigNumber>;
+    getRedeemLiquidityValue: (token: Approved) => Promise<ethers.BigNumber>;
 
     liquidity: (token: Approved) => Promise<ethers.BigNumber>;
     utilizationRate: (token: Approved) => Promise<number>;
@@ -110,14 +110,15 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(borrowed, token.decimals);
     }
 
-    async function stakeAPR(token: Approved) {
+    async function provideLiquidityAPR(token: Approved) {
         const [utilizationNumerator, utilizationDenominator] = await contracts?.lPool.utilizationRate(token.address);
         if (utilizationDenominator.eq(0)) return 0;
 
         const [interestNumerator, interestDenominator] = await contracts?.lPool.interestRate(token.address);
 
-        const stakeAPR = interestNumerator.mul(utilizationNumerator).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
-        return stakeAPR;
+        const provideLiquidityAPR =
+            interestNumerator.mul(utilizationNumerator).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
+        return provideLiquidityAPR;
     }
 
     async function borrowAPR(token: Approved) {
@@ -148,7 +149,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(value, await contracts?.oracle.priceDecimals());
     }
 
-    async function getStakedAmount(token: Approved) {
+    async function getLiquidityProvidedAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
 
@@ -159,7 +160,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(rawBalance, token.decimals);
     }
 
-    async function getStakedRedeemAmount(token: Approved) {
+    async function getRedeemLiquidityAmount(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
 
@@ -177,7 +178,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         return parseDecimals(redeemAmount, token.decimals);
     }
 
-    async function getStakedRedeemValue(token: Approved) {
+    async function getRedeemLiquidityValue(token: Approved) {
         const signer = library?.getSigner();
         const signerAddress = await signer?.getAddress();
 
@@ -371,13 +372,13 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalPriceLocked,
                 totalAmountLocked,
                 totalBorrowed,
-                stakeAPR,
+                provideLiquidityAPR,
                 borrowAPR,
                 getAvailableBalance,
                 getAvailableBalanceValue,
-                getStakedAmount,
-                getStakedRedeemAmount,
-                getStakedRedeemValue,
+                getLiquidityProvidedAmount,
+                getRedeemLiquidityAmount,
+                getRedeemLiquidityValue,
                 liquidity,
                 utilizationRate,
                 getCollateralTotalValue,

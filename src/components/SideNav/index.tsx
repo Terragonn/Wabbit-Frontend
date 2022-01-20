@@ -29,8 +29,8 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="stake" directories={[]}>
-                        Stake
+                    <NavLink base="provide-liquidity" directories={[]}>
+                        Provide Liquidity
                     </NavLink>
                 </li>
                 <li>

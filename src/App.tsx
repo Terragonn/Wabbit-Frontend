@@ -16,7 +16,7 @@ import Nav from "./components/Nav";
 import AgreementModal from "./components/AgreementModal";
 
 import Dashboard from "./pages/dashboard";
-import Stake from "./pages/stake";
+import ProvideLiquidity from "./pages/provideLiquidity";
 import LeverageLong from "./pages/leverage/long";
 import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
@@ -54,10 +54,10 @@ function App() {
                                                 }
                                             />
                                             <Route
-                                                path="stake"
+                                                path="provide-liquidity"
                                                 element={
                                                     <Wrapper>
-                                                        <Stake />
+                                                        <ProvideLiquidity />
                                                     </Wrapper>
                                                 }
                                             />

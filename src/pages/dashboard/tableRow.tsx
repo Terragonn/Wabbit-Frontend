@@ -11,7 +11,7 @@ export default function TableRow({blockExplorer, config, address}: ChainData & {
     const [data, setData] = useState<{
         tvl: ethers.BigNumber;
         borrowed: ethers.BigNumber;
-        stakeAPR: number;
+        provideLiquidityAPR: number;
         borrowAPR: number;
         yieldAPR: undefined;
     } | null>();
@@ -24,10 +24,10 @@ export default function TableRow({blockExplorer, config, address}: ChainData & {
             (async () => {
                 const tvl = await protocolData.totalPriceLocked(approved);
                 const borrowed = await protocolData.totalBorrowed(approved);
-                const stakeAPR = await protocolData.stakeAPR(approved);
+                const provideLiquidityAPR = await protocolData.provideLiquidityAPR(approved);
                 const borrowAPR = await protocolData.borrowAPR(approved);
                 const yieldAPR = undefined;
-                setData({tvl, borrowed, stakeAPR, borrowAPR, yieldAPR});
+                setData({tvl, borrowed, provideLiquidityAPR, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -45,7 +45,7 @@ export default function TableRow({blockExplorer, config, address}: ChainData & {
                 <span className="w-full">$ {parseNumber(data?.tvl)}</span>
                 <span className="w-full">$ {parseNumber(data?.borrowed)}</span>
                 <div className="w-full">
-                    <span>{parseNumberFloat(data?.stakeAPR)} %</span>
+                    <span>{parseNumberFloat(data?.provideLiquidityAPR)} %</span>
                     <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
                         <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
                         <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>
