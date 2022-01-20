@@ -38,7 +38,7 @@ export default function LeverageLong() {
         initialBorrowedValue: ethers.BigNumber;
         initialBorrowedValueAll: ethers.BigNumber;
     } | null>(null);
-    const [token, setToken] = useState<Approved>(config.approved[0]);
+    const [token, setToken] = useState<Approved>(config.approved.filter((approved) => approved.marginLongCollateral)[0]);
 
     useEffect(() => {
         if (!protocolData) setData(null);

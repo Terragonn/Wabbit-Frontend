@@ -24,7 +24,7 @@ export default function StakeLeverage() {
         LPRedeemAmount: ethers.BigNumber;
         LPRedeemValue: ethers.BigNumber;
     } | null>(null);
-    const [token, setToken] = useState<Approved>(config.approved[0]);
+    const [token, setToken] = useState<Approved>(config.approved.filter((approved) => approved.leveragePool)[0]);
 
     useEffect(() => {
         if (!protocolData) setData(null);

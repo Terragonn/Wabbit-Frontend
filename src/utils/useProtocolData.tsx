@@ -97,6 +97,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function totalAmountLocked(address: string) {
         const totalLocked = await contracts?.lPool.tvl(address);
 
+        // **** So clearly it is initially not parsing the correct config value to the stake page ?
+        // **** If I had to guess what is happening, it is because the default token is loading in before the chainId and therefore it is sending it to the wrong one ???
+
+        // **** We can see that initially, the address "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83" is passed in which breaks it, then on second rerun correct token LINK gets passed
+
+        console.log(config.approved.map((approved) => [approved.symbol, approved.address]));
+        console.log(address);
+
         const approved = getApproved(config, address);
         return parseDecimals(totalLocked, approved?.decimals as number);
     }
