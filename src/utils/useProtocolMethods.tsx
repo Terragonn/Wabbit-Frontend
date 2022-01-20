@@ -57,7 +57,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         const redeemToken = await contracts?.lPool.LPFromPT(address);
         await approve(redeemToken, contracts?.lPool.address as string, amount);
 
-        await handleError(async () => await contracts?.lPool.redeem(redeemToken, amount));
+        await handleError(async () => await contracts?.lPool.redeemLiquidity(redeemToken, amount));
     }
 
     async function depositCollateral(address: string, amount: ethers.BigNumber) {

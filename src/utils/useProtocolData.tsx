@@ -170,7 +170,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
         let redeemAmount;
         try {
-            redeemAmount = await contracts?.lPool.redeemValue(LPTokenAddress, rawBalance);
+            redeemAmount = await contracts?.lPool.redeemLiquidityValue(LPTokenAddress, rawBalance);
         } catch (e) {
             return ethers.BigNumber.from(0);
         }
@@ -188,7 +188,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
         let redeemAmount;
         try {
-            redeemAmount = await contracts?.lPool.redeemValue(LPTokenAddress, rawBalance);
+            redeemAmount = await contracts?.lPool.redeemLiquidityValue(LPTokenAddress, rawBalance);
         } catch (e) {
             return ethers.BigNumber.from(0);
         }
