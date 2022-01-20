@@ -19,6 +19,7 @@ interface ProtocolData {
     getAvailableBalance: (token: Approved) => Promise<ethers.BigNumber>;
     getAvailableBalanceValue: (token: Approved) => Promise<ethers.BigNumber>;
 
+    getLPTokenAmount: (token: Approved) => Promise<ethers.BigNumber>;
     getLiquidityProvidedAmount: (token: Approved) => Promise<ethers.BigNumber>;
     getRedeemLiquidityAmount: (token: Approved) => Promise<ethers.BigNumber>;
     getRedeemLiquidityValue: (token: Approved) => Promise<ethers.BigNumber>;
@@ -147,6 +148,17 @@ export function ProtocolDataProvider({children}: {children: any}) {
         const value = await contracts?.oracle.priceMax(token.address, rawBalance);
 
         return parseDecimals(value, await contracts?.oracle.priceDecimals());
+    }
+
+    async function getLPTokenAmount(token: Approved) {
+        const signer = library?.getSigner();
+        const signerAddress = await signer?.getAddress();
+
+        const tokenContract = loadERC20(token.address, signer as any);
+        const rawBalance = await tokenContract.balanceOf(signerAddress);
+        const LPAmount = await contracts?.lPool.provideLiquidityValue(token.address, rawBalance);
+
+        return parseDecimals(LPAmount, token.decimals);
     }
 
     async function getLiquidityProvidedAmount(token: Approved) {
@@ -376,6 +388,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 borrowAPR,
                 getAvailableBalance,
                 getAvailableBalanceValue,
+                getLPTokenAmount,
                 getLiquidityProvidedAmount,
                 getRedeemLiquidityAmount,
                 getRedeemLiquidityValue,

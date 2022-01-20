@@ -18,6 +18,7 @@ export default function ProvideLiquidity() {
         provideLiquidityAPR: number;
         amountLocked: ethers.BigNumber;
         valueLocked: ethers.BigNumber;
+        totalPotentialLP: ethers.BigNumber;
         available: ethers.BigNumber;
         availableValue: ethers.BigNumber;
         availableLP: ethers.BigNumber;
@@ -34,6 +35,7 @@ export default function ProvideLiquidity() {
                 const amountLocked = await protocolData.totalAmountLocked(token);
                 const valueLocked = await protocolData.totalPriceLocked(token);
 
+                const totalPotentialLP = await protocolData.getLPTokenAmount(token);
                 const available = await protocolData.getAvailableBalance(token);
                 const availableValue = await protocolData.getAvailableBalanceValue(token);
 
@@ -41,7 +43,7 @@ export default function ProvideLiquidity() {
                 const LPRedeemAmount = await protocolData.getRedeemLiquidityAmount(token);
                 const LPRedeemValue = await protocolData.getRedeemLiquidityValue(token);
 
-                setData({provideLiquidityAPR, amountLocked, valueLocked, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
+                setData({provideLiquidityAPR, amountLocked, valueLocked, totalPotentialLP, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
             })();
         }
     }, [protocolData, token]);
@@ -69,6 +71,7 @@ export default function ProvideLiquidity() {
                             keys={{
                                 Available: parseNumber(data?.available) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
+                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + config.LPPrefixSymbol + token.symbol,
                             }}
                             cta="Provide"
                             token={token}
