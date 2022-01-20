@@ -18,7 +18,7 @@ export default function LeverageLong() {
     const [data, setData] = useState<{
         borrowAPR: number | undefined;
         liquidity: ethers.BigNumber | undefined;
-        utilizationRate: number | undefined;
+        totalCollateral: ethers.BigNumber | undefined;
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
         totalValue: ethers.BigNumber | undefined;
@@ -46,7 +46,7 @@ export default function LeverageLong() {
             (async () => {
                 const borrowAPR = await protocolData.borrowAPR(token);
                 const liquidity = await protocolData.liquidity(token);
-                const utilizationRate = await protocolData.utilizationRate(token);
+                const totalCollateral = await protocolData.totalCollateral(token);
 
                 const available = await protocolData.getAvailableBalance(token);
                 const availableValue = await protocolData.getAvailableBalanceValue(token);
@@ -72,7 +72,7 @@ export default function LeverageLong() {
                 setData({
                     borrowAPR,
                     liquidity,
-                    utilizationRate,
+                    totalCollateral,
                     available,
                     availableValue,
                     totalValue,
@@ -103,7 +103,7 @@ export default function LeverageLong() {
                     placeholders={[
                         {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
                         {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token.symbol},
-                        {title: "Utilization Rate", body: parseNumberFloat(data?.utilizationRate) + " %"},
+                        {title: "Total Collateral", body: parseNumber(data?.totalCollateral) + " " + token.symbol},
                     ]}
                 />
             </div>

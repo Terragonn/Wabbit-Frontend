@@ -25,7 +25,7 @@ interface ProtocolData {
     getRedeemLiquidityValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
     liquidity: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    utilizationRate: (token: Approved) => Promise<number | undefined>;
+    totalCollateral: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
     getCollateralTotalValue: () => Promise<ethers.BigNumber | undefined>;
     getCollateralAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
@@ -303,12 +303,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function utilizationRate(token: Approved) {
+    async function totalCollateral(token: Approved) {
         if (contracts) {
-            const [numerator, denominator] = await contracts.lPool.utilizationRate(token.address);
-            if (denominator.eq(0)) return 0;
+            const collateral = await contracts.marginLong.totalCollateral(token.address);
 
-            return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
+            return parseDecimals(collateral, token.decimals);
         }
     }
 
@@ -455,7 +454,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 getRedeemLiquidityAmount,
                 getRedeemLiquidityValue,
                 liquidity,
-                utilizationRate,
+                totalCollateral,
                 getCollateralTotalValue,
                 getCollateralAmount,
                 getCollateralValue,
