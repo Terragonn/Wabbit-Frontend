@@ -5,12 +5,17 @@ import {useWeb3React} from "@web3-react/core";
 import LPool from "../config/LPool.json";
 import Oracle from "../config/Oracle.json";
 import MarginLong from "../config/MarginLong.json";
+
+import {LPool as LPoolType} from "../typechain-types";
+import {Oracle as OracleType} from "../typechain-types";
+import {MarginLong as MarginLongType} from "../typechain-types";
+
 import useChainData from "./useChainData";
 
 interface Contracts {
-    lPool: ethers.Contract;
-    oracle: ethers.Contract;
-    marginLong: ethers.Contract;
+    lPool: LPoolType;
+    oracle: OracleType;
+    marginLong: MarginLongType;
 }
 
 const contractCtx = createContext<Contracts | null>(undefined as any);
@@ -28,9 +33,9 @@ export function ContractsProvider({children}: {children: any}) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
 
-            const lPool = new ethers.Contract(config.leveragePoolAddress, LPool.abi, signer);
-            const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer);
-            const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer);
+            const lPool = new ethers.Contract(config.leveragePoolAddress, LPool.abi, signer) as LPoolType;
+            const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer) as OracleType;
+            const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer) as MarginLongType;
 
             return {lPool, oracle, marginLong};
         }
