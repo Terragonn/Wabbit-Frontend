@@ -8,7 +8,7 @@ import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import useProtocolMethods from "../../utils/useProtocolMethods";
 import useChainData, {Approved} from "../../utils/useChainData";
 
-export default function StakeLeverage() {
+export default function Stake() {
     const {config} = useChainData();
 
     const protocolData = useProtocolData();
@@ -30,6 +30,9 @@ export default function StakeLeverage() {
         if (!protocolData) setData(null);
         else {
             (async () => {
+                console.log(token); // **** Its doing this because there literally isnt anything to display for the given token
+                // **** Why does it give up when the token is reset though ????
+
                 const stakeAPR = await protocolData.stakeAPR(token);
                 const amountLocked = await protocolData.totalAmountLocked(token);
                 const valueLocked = await protocolData.totalPriceLocked(token);
