@@ -16,27 +16,27 @@ export default function LeverageLong() {
     const protocolMethods = useProtocolMethods();
 
     const [data, setData] = useState<{
-        borrowAPR: number;
-        liquidity: ethers.BigNumber;
-        utilizationRate: number;
-        available: ethers.BigNumber;
-        availableValue: ethers.BigNumber;
-        totalValue: ethers.BigNumber;
-        collateralAmount: ethers.BigNumber;
-        collateralValue: ethers.BigNumber;
-        minMarginLevel: number;
-        maxLeverage: ethers.BigNumber;
-        minCollateral: ethers.BigNumber;
-        marginLevel: number;
-        marginBalanceAll: ethers.BigNumber;
-        currentLeverage: number;
-        borrowedAmount: ethers.BigNumber;
-        borrowedValue: ethers.BigNumber;
-        totalBorrowedValue: ethers.BigNumber;
-        interest: ethers.BigNumber;
-        interestAll: ethers.BigNumber;
-        initialBorrowedValue: ethers.BigNumber;
-        initialBorrowedValueAll: ethers.BigNumber;
+        borrowAPR: number | undefined;
+        liquidity: ethers.BigNumber | undefined;
+        utilizationRate: number | undefined;
+        available: ethers.BigNumber | undefined;
+        availableValue: ethers.BigNumber | undefined;
+        totalValue: ethers.BigNumber | undefined;
+        collateralAmount: ethers.BigNumber | undefined;
+        collateralValue: ethers.BigNumber | undefined;
+        minMarginLevel: number | undefined;
+        maxLeverage: ethers.BigNumber | undefined;
+        minCollateral: ethers.BigNumber | undefined;
+        marginLevel: number | undefined;
+        marginBalanceAll: ethers.BigNumber | undefined;
+        currentLeverage: number | undefined;
+        borrowedAmount: ethers.BigNumber | undefined;
+        borrowedValue: ethers.BigNumber | undefined;
+        totalBorrowedValue: ethers.BigNumber | undefined;
+        interest: ethers.BigNumber | undefined;
+        interestAll: ethers.BigNumber | undefined;
+        initialBorrowedValue: ethers.BigNumber | undefined;
+        initialBorrowedValueAll: ethers.BigNumber | undefined;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0]);
 
@@ -133,7 +133,7 @@ export default function LeverageLong() {
                                 "Available amount": parseNumber(data?.collateralAmount) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.collateralValue),
                                 "Min margin level": parseNumberFloat(data?.minMarginLevel),
-                                "Maximum leverage": data?.maxLeverage.toString() + "x",
+                                "Maximum leverage": parseNumber(data?.maxLeverage) + "x",
                             }}
                             cta="Withdraw"
                             token={token}

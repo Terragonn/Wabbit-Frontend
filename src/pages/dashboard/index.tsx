@@ -13,7 +13,7 @@ export default function Dashboard() {
 
     const protocolData = useProtocolData();
 
-    const [data, setData] = useState<{tvl: ethers.BigNumber; borrowed: ethers.BigNumber} | null>(null);
+    const [data, setData] = useState<{tvl: ethers.BigNumber | undefined; borrowed: ethers.BigNumber | undefined} | null>(null);
 
     useEffect(() => {
         if (!protocolData) setData(null);

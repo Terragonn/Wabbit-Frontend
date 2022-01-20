@@ -9,11 +9,11 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
-        tvl: ethers.BigNumber;
-        borrowed: ethers.BigNumber;
-        provideLiquidityAPR: number;
-        borrowAPR: number;
-        yieldAPR: undefined;
+        tvl: ethers.BigNumber | undefined;
+        borrowed: ethers.BigNumber | undefined;
+        provideLiquidityAPR: number | undefined;
+        borrowAPR: number | undefined;
+        yieldAPR: undefined | undefined;
     } | null>();
 
     const approved = getApproved(config, address);

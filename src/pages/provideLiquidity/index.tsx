@@ -15,15 +15,15 @@ export default function ProvideLiquidity() {
     const protocolMethods = useProtocolMethods();
 
     const [data, setData] = useState<{
-        provideLiquidityAPR: number;
-        amountLocked: ethers.BigNumber;
-        valueLocked: ethers.BigNumber;
-        totalPotentialLP: ethers.BigNumber;
-        available: ethers.BigNumber;
-        availableValue: ethers.BigNumber;
-        availableLP: ethers.BigNumber;
-        LPRedeemAmount: ethers.BigNumber;
-        LPRedeemValue: ethers.BigNumber;
+        provideLiquidityAPR: number | undefined;
+        amountLocked: ethers.BigNumber | undefined;
+        valueLocked: ethers.BigNumber | undefined;
+        totalPotentialLP: ethers.BigNumber | undefined;
+        available: ethers.BigNumber | undefined;
+        availableValue: ethers.BigNumber | undefined;
+        availableLP: ethers.BigNumber | undefined;
+        LPRedeemAmount: ethers.BigNumber | undefined;
+        LPRedeemValue: ethers.BigNumber | undefined;
     } | null>(null);
     const [token, setToken] = useState<Approved>(config.approved.filter((approved) => approved.oracle && approved.leveragePool)[0]);
 
