@@ -58,7 +58,7 @@ export default function Wallet() {
 
     useEffect(() => {
         const connected = localStorage.getItem(CONNECTED);
-        if (connected && JSON.parse(connected) && !active) connect();
+        if (connected && JSON.parse(connected)) connect();
     }, []);
 
     return (
