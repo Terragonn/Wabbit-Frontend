@@ -4,7 +4,7 @@ import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
-import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
+import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
 import useChainData, {Approved} from "../../../utils/useChainData";
 import useProtocolData from "../../../utils/useProtocolData";
 import useProtocolMethods from "../../../utils/useProtocolMethods";
@@ -133,7 +133,7 @@ export default function LeverageLong() {
                                 "Available amount": parseNumber(data?.collateralAmount) + " " + token.symbol,
                                 "Available value": "$ " + parseNumber(data?.collateralValue),
                                 "Min margin level": parseNumberFloat(data?.minMarginLevel),
-                                "Maximum leverage": parseNumber(data?.maxLeverage) + "x",
+                                "Maximum leverage": parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x",
                             }}
                             cta="Withdraw"
                             token={token}
