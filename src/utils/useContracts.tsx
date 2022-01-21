@@ -48,7 +48,7 @@ export function ContractsProvider({children}: {children: any}) {
         (async () => {
             setContracts(await getContracts());
         })();
-    }, [active]);
+    }, [active, config]);
 
     return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }

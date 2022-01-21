@@ -7,6 +7,7 @@ import {ChainDataProvider} from "./utils/useChainData";
 import {ErrorProvider} from "./utils/useError";
 import {ContractsProvider} from "./utils/useContracts";
 import {ProtocolDataProvider} from "./utils/useProtocolData";
+import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
 import Wrapper from "./pages/wrapper";
 
@@ -18,7 +19,6 @@ import AgreementModal from "./components/AgreementModal";
 import Dashboard from "./pages/dashboard";
 import ProvideLiquidity from "./pages/provideLiquidity";
 import LeverageLong from "./pages/leverage/long";
-import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
 function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -34,6 +34,7 @@ function App() {
                     <ContractsProvider>
                         <ProtocolDataProvider>
                             <ProtocolMethodsProvider>
+                                {/* <TestComponent /> */}
                                 <HashRouter>
                                     <div className="background pb-10">
                                         <AgreementModal />
@@ -71,14 +72,6 @@ function App() {
                                                     }
                                                 />
                                             </Route>
-                                            {/* <Route
-                                            path="/reserve"
-                                            element={
-                                                <Wrapper>
-                                                    <Reserve />
-                                                </Wrapper>
-                                            }
-                                        /> */}
                                             <Route path="*" element={<Navigate to="dashboard" />} />
                                         </Routes>
                                     </div>
