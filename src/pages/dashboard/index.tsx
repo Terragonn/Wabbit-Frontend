@@ -37,7 +37,7 @@ export default function Dashboard() {
                 />
                 <TableHeader />
             </div>
-            <div className="lg:block hidden">
+            {/* <div className="lg:block hidden">
                 {config
                     ? config.approved
                           .filter((approved) => approved.oracle && approved.leveragePool)
@@ -51,7 +51,7 @@ export default function Dashboard() {
                           .filter((approved) => approved.oracle && approved.leveragePool)
                           .map((data, index) => <TableCard key={index} address={data.address} config={config} blockExplorer={blockExplorer} />)
                     : null}
-            </div>
+            </div> */}
         </>
     );
 }
