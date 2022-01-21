@@ -63,7 +63,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
 
     async function totalPoolPrice() {
-        if (contracts) {
+        if (contracts && config) {
             let totalPoolPrice = ethers.BigNumber.from(0);
 
             const assets = config.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
@@ -80,7 +80,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalBorrowedPrice() {
-        if (contracts) {
+        if (contracts && config) {
             let totalBorrowedPrice = ethers.BigNumber.from(0);
 
             const assets = config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);

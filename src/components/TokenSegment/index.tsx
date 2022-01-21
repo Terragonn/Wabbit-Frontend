@@ -15,7 +15,7 @@ export default function TokenSegment({
     title: string;
     keys: {[key: string]: string};
     cta: string;
-    token: Approved;
+    token: Approved | null;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
 }) {
     const contracts = useContracts();
@@ -25,17 +25,19 @@ export default function TokenSegment({
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
 
     useEffect(() => {
-        const padded = Math.floor(num * ROUND_CONSTANT);
-        const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
-        setBigNum(decimals);
+        if (token) {
+            const padded = Math.floor(num * ROUND_CONSTANT);
+            const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
+            setBigNum(decimals);
 
-        (async () => {
-            if (contracts) {
-                const price = await contracts?.oracle.priceMin(token.address, decimals);
-                const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
-                setPriceNum(parsed);
-            }
-        })();
+            (async () => {
+                if (contracts) {
+                    const price = await contracts?.oracle.priceMin(token.address, decimals);
+                    const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
+                    setPriceNum(parsed);
+                }
+            })();
+        }
     }, [num]);
 
     return (
@@ -63,7 +65,7 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                <Button onClick={() => (callback ? callback(bigNum, token) : null)}>{cta}</Button>
+                {token ? <Button onClick={() => (callback ? callback(bigNum, token) : null)}>{cta}</Button> : null}
             </div>
         </>
     );

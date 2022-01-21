@@ -25,10 +25,10 @@ export default function ProvideLiquidity() {
         LPRedeemAmount: ethers.BigNumber | undefined;
         LPRedeemValue: ethers.BigNumber | undefined;
     } | null>(null);
-    const [token, setToken] = useState<Approved>(config.approved.filter((approved) => approved.oracle && approved.leveragePool)[0]);
+    const [token, setToken] = useState<Approved | null>(config?.approved.filter((approved) => approved.oracle && approved.leveragePool)[0] || null);
 
     useEffect(() => {
-        if (!protocolData) setData(null);
+        if (!protocolData || !token) setData(null);
         else {
             (async () => {
                 const provideLiquidityAPR = await protocolData.provideLiquidityAPR(token);
@@ -54,7 +54,7 @@ export default function ProvideLiquidity() {
                 <Banner
                     placeholders={[
                         {title: "Provide Liquidity APR", body: parseNumberFloat(data?.provideLiquidityAPR) + " %"},
-                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + token.symbol},
+                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + token?.symbol},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}
                 />
@@ -69,9 +69,9 @@ export default function ProvideLiquidity() {
                         <TokenSegment
                             title="Provide Liquidity"
                             keys={{
-                                Available: parseNumber(data?.available) + " " + token.symbol,
+                                Available: parseNumber(data?.available) + " " + token?.symbol,
                                 "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + config.LPPrefixSymbol + token.symbol,
+                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + config?.LPPrefixSymbol + token?.symbol,
                             }}
                             cta="Provide"
                             token={token}
@@ -82,8 +82,8 @@ export default function ProvideLiquidity() {
                         <TokenSegment
                             title="Redeem"
                             keys={{
-                                Available: parseNumber(data?.availableLP) + " " + config.LPPrefixSymbol + token.symbol,
-                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + token.symbol,
+                                Available: parseNumber(data?.availableLP) + " " + config?.LPPrefixSymbol + token?.symbol,
+                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + token?.symbol,
                                 "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
                             }}
                             cta="Redeem"
