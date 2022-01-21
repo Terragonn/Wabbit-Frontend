@@ -34,7 +34,6 @@ function App() {
                     <ContractsProvider>
                         <ProtocolDataProvider>
                             <ProtocolMethodsProvider>
-                                {/* <TestComponent /> */}
                                 <HashRouter>
                                     <div className="background pb-10">
                                         <AgreementModal />
