@@ -69,6 +69,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const assets = config.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalLocked = await contracts.lPool.tvl(asset);
+                console.log("Here");
                 const price = await contracts.oracle.priceMax(asset, totalLocked);
                 totalPoolPrice = totalPoolPrice.add(price);
             }
