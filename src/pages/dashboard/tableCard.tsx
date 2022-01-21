@@ -2,7 +2,7 @@ import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import getApproved from "../../utils/getApproved";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import {ChainData} from "../../utils/useChainData";
+import {ChainData, Config} from "../../utils/useChainData";
 import useProtocolData from "../../utils/useProtocolData";
 
 export default function TableCard({blockExplorer, config, address}: ChainData & {address: string}) {
@@ -16,7 +16,7 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
         yieldAPR: undefined | undefined;
     } | null>();
 
-    const approved = getApproved(config, address);
+    const approved = getApproved(config as Config, address);
 
     useEffect(() => {
         if (!protocolData || !approved) setData(null);

@@ -29,7 +29,7 @@ export function ContractsProvider({children}: {children: any}) {
     const {config} = useChainData();
 
     async function getContracts() {
-        if (active) {
+        if (active && config) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
 

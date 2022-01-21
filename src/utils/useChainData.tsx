@@ -38,7 +38,7 @@ export interface Config {
 
 export interface ChainData {
     blockExplorer: string;
-    config: Config;
+    config: Config | null;
 }
 
 const chainDataCtx = createContext<ChainData>(undefined as any);
@@ -65,7 +65,7 @@ export function ChainDataProvider({children}: {children: any}) {
         },
     };
 
-    const [chainData, setChainData] = useState<ChainData>(chainDataConfig[250]);
+    const [chainData, setChainData] = useState<ChainData>({blockExplorer: "", config: null});
 
     useEffect(() => {
         let newChainId: SupportedChainIds = chainId as any;
