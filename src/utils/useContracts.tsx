@@ -47,9 +47,10 @@ export function ContractsProvider({children}: {children: any}) {
 
     useEffect(() => {
         (async () => {
-            setContracts(await getContracts());
+            const newContracts = await getContracts();
+            setContracts(newContracts);
         })();
-    }, [active, config]);
+    }, [config]);
 
     return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }

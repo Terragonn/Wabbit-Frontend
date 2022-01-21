@@ -69,7 +69,10 @@ export function ChainDataProvider({children}: {children: any}) {
 
     useEffect(() => {
         let newChainId: SupportedChainIds = chainId as any;
-        if (chainId && SUPPORTED_CHAIN_IDS.includes(newChainId)) setChainData(chainDataConfig[newChainId]);
+        if (chainId && SUPPORTED_CHAIN_IDS.includes(newChainId)) {
+            const newChainDataConfig = chainDataConfig[newChainId];
+            setChainData(newChainDataConfig);
+        }
     }, [chainId]);
 
     return <chainDataCtx.Provider value={chainData}>{children}</chainDataCtx.Provider>;
