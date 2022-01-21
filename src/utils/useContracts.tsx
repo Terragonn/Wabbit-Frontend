@@ -13,6 +13,7 @@ import {MarginLong as MarginLongType} from "../typechain-types";
 import useChainData from "./useChainData";
 
 interface Contracts {
+    signer: ethers.providers.JsonRpcSigner;
     lPool: LPoolType;
     oracle: OracleType;
     marginLong: MarginLongType;
@@ -31,13 +32,13 @@ export function ContractsProvider({children}: {children: any}) {
     async function getContracts() {
         if (active && config) {
             const provider = new ethers.providers.Web3Provider(library.provider);
-            const signer = provider.getSigner();
 
+            const signer = provider.getSigner();
             const lPool = new ethers.Contract(config.leveragePoolAddress, LPool.abi, signer) as LPoolType;
             const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer) as OracleType;
             const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer) as MarginLongType;
 
-            return {lPool, oracle, marginLong};
+            return {signer, lPool, oracle, marginLong};
         }
         return null;
     }

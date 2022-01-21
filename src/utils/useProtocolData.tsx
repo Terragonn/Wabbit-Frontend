@@ -1,4 +1,3 @@
-import {useWeb3React} from "@web3-react/core";
 import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
@@ -53,7 +52,6 @@ export default function useProtocolData() {
 }
 
 export function ProtocolDataProvider({children}: {children: any}) {
-    const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
     const contracts = useContracts();
 
     const {config} = useChainData();
@@ -144,11 +142,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getAvailableBalance(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
-            const tokenContract = loadERC20(token.address, signer as any);
+            const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
 
             return parseDecimals(rawBalance, token.decimals);
@@ -156,11 +153,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getAvailableBalanceValue(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
-            const tokenContract = loadERC20(token.address, signer as any);
+            const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
             const value = await contracts.oracle.priceMax(token.address, rawBalance);
 
@@ -169,11 +165,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getLPTokenAmount(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
-            const tokenContract = loadERC20(token.address, signer as any);
+            const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
             const LPAmount = await contracts.lPool.provideLiquidityValue(token.address, rawBalance);
 
@@ -182,12 +177,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getLiquidityProvidedAmount(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
-            const LPToken = loadERC20(LPTokenAddress, signer as any);
+            const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
             return parseDecimals(rawBalance, token.decimals);
@@ -195,12 +189,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getRedeemLiquidityAmount(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
-            const LPToken = loadERC20(LPTokenAddress, signer as any);
+            const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
             let redeemAmount;
@@ -215,12 +208,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getRedeemLiquidityValue(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
-            const LPToken = loadERC20(LPTokenAddress, signer as any);
+            const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
             let redeemAmount;
@@ -236,9 +228,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getCollateralTotalValue() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const totalPrice = await contracts.marginLong.collateralPrice(signerAddress);
 
@@ -247,9 +238,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getCollateralAmount(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
 
@@ -258,9 +248,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getCollateralValue(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
             const collateralPrice = await contracts.oracle.priceMin(token.address, collateralAmount);
@@ -312,9 +301,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function marginLevel() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const [numerator, denominator] = await contracts.marginLong.marginLevel(signerAddress);
             if (denominator.eq(0)) return 999;
@@ -325,9 +313,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function marginBalanceAll() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const interest = await contracts.marginLong["interest(address)"](signerAddress);
             const initialPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
@@ -341,9 +328,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function currentLeverage() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const initialPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
             const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
@@ -354,9 +340,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowedAmount(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const amount = await contracts.marginLong.borrowed(token.address, signerAddress);
 
@@ -365,9 +350,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowedValue(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const amount = await contracts.marginLong.borrowed(token.address, signerAddress);
             const price = await contracts.oracle.priceMin(token.address, amount);
@@ -377,9 +361,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalBorrowedValue() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const value = await contracts.marginLong.borrowedPrice(signerAddress);
 
@@ -388,9 +371,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function interest(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             let interest;
             try {
@@ -404,9 +386,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function interestAll() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const interest = await contracts.marginLong["interest(address)"](signerAddress);
 
@@ -415,9 +396,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function initialBorrowedValue(token: Approved) {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const initialPrice = await contracts.marginLong["initialBorrowPrice(address,address)"](token.address, signerAddress);
 
@@ -426,9 +406,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function initialBorrowedValueAll() {
-        if (contracts && library) {
-            const signer = library.getSigner();
-            const signerAddress = await signer.getAddress();
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
 
             const initialPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
 
