@@ -147,6 +147,7 @@ nav ul li:not(.ignore):hover {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  text-align: center;
 }
 
 .title li {
@@ -207,11 +208,11 @@ nav ul li:not(.ignore):hover {
 
 @media screen and (max-width: 900px) {
   .title ul {
-    margin-top: 20px;
+    margin-top: 40px;
     flex-direction: column;
   }
 
   .title li {
-    margin-bottom: 30px;
+    margin-bottom: 75px;
   }
 }
