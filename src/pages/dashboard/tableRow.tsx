@@ -2,10 +2,10 @@ import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import getApproved from "../../utils/getApproved";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import {ChainData, Config} from "../../utils/useChainData";
+import {Approved, Config} from "../../utils/useChainData";
 import useProtocolData from "../../utils/useProtocolData";
 
-export default function TableRow({blockExplorer, config, address}: ChainData & {address: string}) {
+export default function TableRow({blockExplorer, config, approved}: {blockExplorer: string; config: Config; approved: Approved}) {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
@@ -15,8 +15,6 @@ export default function TableRow({blockExplorer, config, address}: ChainData & {
         borrowAPR: number | undefined;
         yieldAPR: undefined | undefined;
     } | null>();
-
-    const approved = getApproved(config as Config, address);
 
     useEffect(() => {
         if (!protocolData || !approved) setData(null);

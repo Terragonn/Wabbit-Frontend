@@ -1,11 +1,10 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-import getApproved from "../../utils/getApproved";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import {ChainData, Config} from "../../utils/useChainData";
+import {Approved, Config} from "../../utils/useChainData";
 import useProtocolData from "../../utils/useProtocolData";
 
-export default function TableCard({blockExplorer, config, address}: ChainData & {address: string}) {
+export default function TableCard({blockExplorer, config, approved}: {blockExplorer: string; config: Config; approved: Approved}) {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
@@ -16,10 +15,8 @@ export default function TableCard({blockExplorer, config, address}: ChainData & 
         yieldAPR: undefined | undefined;
     } | null>();
 
-    const approved = getApproved(config as Config, address);
-
     useEffect(() => {
-        if (!protocolData || !approved) setData(null);
+        if (!protocolData) setData(null);
         else {
             (async () => {
                 const tvl = await protocolData.totalPriceLocked(approved);
