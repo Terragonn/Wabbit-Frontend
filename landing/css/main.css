@@ -1,9 +1,11 @@
+/* Main content */
 main {
   width: 80%;
   margin: 0 auto;
   padding-bottom: 20px;
 }
 
+/* Main article */
 article {
   margin: 80px auto 200px auto;
   font-size: 30px;
@@ -41,6 +43,7 @@ article p {
   color: #27272a;
 }
 
+/* Article limits section */
 article.no-limits img {
   max-width: min(55%, 600px);
   margin: 0 0 0 100px;
@@ -48,6 +51,7 @@ article.no-limits img {
   box-shadow: 4px 8px 12px #921ebb;
 }
 
+/* Article returns section */
 article.returns section {
   align-items: flex-end;
 }
@@ -63,10 +67,12 @@ article.returns img {
 }
 
 @media screen and (max-width: 1400px) {
+  /* Main content */
   main {
     width: 90%;
   }
 
+  /* Article content */
   article {
     flex-direction: column;
     align-items: center;
@@ -92,11 +98,13 @@ article.returns img {
     font-size: 35px;
   }
 
+  /* Article limits section */
   article.no-limits img {
     margin: 40px 0;
     max-width: min(100%, 600px);
   }
 
+  /* Article returns section */
   article.returns {
     flex-direction: column-reverse;
     margin: 100px auto;
