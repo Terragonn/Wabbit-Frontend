@@ -7,6 +7,7 @@ import useProtocolData from "../../utils/useProtocolData";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import useProtocolMethods from "../../utils/useProtocolMethods";
 import useChainData, {Approved} from "../../utils/useChainData";
+import displayString from "../../utils/displayString";
 
 export default function ProvideLiquidity() {
     const {config} = useChainData();
@@ -54,7 +55,7 @@ export default function ProvideLiquidity() {
                 <Banner
                     placeholders={[
                         {title: "Provide Liquidity APR", body: parseNumberFloat(data?.provideLiquidityAPR) + " %"},
-                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + token?.symbol},
+                        {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + displayString(token?.symbol)},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}
                 />
@@ -69,9 +70,9 @@ export default function ProvideLiquidity() {
                         <TokenSegment
                             title="Provide Liquidity"
                             keys={{
-                                Available: parseNumber(data?.available) + " " + token?.symbol,
+                                Available: parseNumber(data?.available) + " " + displayString(token?.symbol),
                                 "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + config?.LPPrefixSymbol + token?.symbol,
+                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol),
                             }}
                             cta="Provide"
                             token={token}
@@ -82,8 +83,8 @@ export default function ProvideLiquidity() {
                         <TokenSegment
                             title="Redeem"
                             keys={{
-                                Available: parseNumber(data?.availableLP) + " " + config?.LPPrefixSymbol + token?.symbol,
-                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + token?.symbol,
+                                Available: parseNumber(data?.availableLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol),
+                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + displayString(token?.symbol),
                                 "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
                             }}
                             cta="Redeem"
