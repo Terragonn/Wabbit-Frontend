@@ -214,6 +214,14 @@ nav ul li:not(.ignore):hover {
   }
 
   .title li {
-    margin-bottom: 75px;
+    margin: 37.5px auto;
+  }
+
+  .header {
+    width: 90%;
+  }
+
+  .header ul {
+    width: 50%;
   }
 }
