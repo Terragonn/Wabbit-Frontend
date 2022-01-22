@@ -4,6 +4,7 @@ import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
+import displayString from "../../../utils/displayString";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
 import useChainData, {Approved} from "../../../utils/useChainData";
 import useProtocolData from "../../../utils/useProtocolData";
@@ -102,8 +103,8 @@ export default function LeverageLong() {
                 <Banner
                     placeholders={[
                         {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
-                        {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token?.symbol},
-                        {title: "Total Collateral", body: parseNumber(data?.totalCollateral) + " " + token?.symbol},
+                        {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + displayString(token?.symbol)},
+                        {title: "Total Collateral", body: parseNumber(data?.totalCollateral) + " " + displayString(token?.symbol)},
                     ]}
                 />
             </div>
@@ -117,7 +118,7 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Deposit"
                             keys={{
-                                "Available amount": parseNumber(data?.available) + " " + token?.symbol,
+                                "Available amount": parseNumber(data?.available) + " " + displayString(token?.symbol),
                                 "Available value": "$ " + parseNumber(data?.availableValue),
                                 "Minimum collateral to borrow": "$ " + parseNumber(data?.minCollateral),
                             }}
@@ -130,7 +131,7 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Withdraw"
                             keys={{
-                                "Available amount": parseNumber(data?.collateralAmount) + " " + token?.symbol,
+                                "Available amount": parseNumber(data?.collateralAmount) + " " + displayString(token?.symbol),
                                 "Available value": "$ " + parseNumber(data?.collateralValue),
                                 "Min margin level": parseNumberFloat(data?.minMarginLevel),
                                 "Maximum leverage": parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x",
@@ -146,7 +147,7 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Leverage"
                             keys={{
-                                "Borrowed amount": parseNumber(data?.borrowedAmount) + " " + token?.symbol,
+                                "Borrowed amount": parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol),
                                 "Accumulated interest": "$ " + parseNumber(data?.interest),
                                 "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
                                 "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
