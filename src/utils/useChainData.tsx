@@ -52,7 +52,7 @@ export function ChainDataProvider({children}: {children: any}) {
 
     const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         4: {
-            blockExplorer: "https://ropsten.etherscan.io/address/",
+            blockExplorer: "https://rinkeby.etherscan.io/address/",
             config: testConfig,
         },
         250: {
