@@ -1,3 +1,4 @@
+/* Background of header */
 header {
   background-image: linear-gradient(
       45deg,
@@ -31,6 +32,7 @@ header {
   padding-bottom: 10vw;
 }
 
+/* Waves */
 .wave {
   position: absolute;
   bottom: 0;
@@ -54,6 +56,7 @@ header {
   fill: #ffffff;
 }
 
+/* Dropdown nav */
 .nav {
   display: none;
 }
@@ -73,6 +76,7 @@ header {
   font-weight: 800;
 }
 
+/* Main nav bar */
 nav {
   padding: 20px 0;
   width: 70%;
@@ -108,6 +112,7 @@ nav ul li:not(.ignore):hover {
   border-bottom: 5px solid #921ebb;
 }
 
+/* Header with title */
 .header {
   width: 70%;
   margin: 10px auto;
@@ -121,6 +126,7 @@ nav ul li:not(.ignore):hover {
   filter: drop-shadow(10px 10px 10px rgba(146, 30, 187, 0.2));
 }
 
+/* Title text and call to actions */
 .title {
   margin: 0 auto;
   width: 100%;
@@ -158,10 +164,12 @@ nav ul li:not(.ignore):hover {
 }
 
 @media screen and (max-width: 1400px) {
+  /* All header */
   header {
     padding-bottom: 20vh;
   }
 
+  /* Hamburger button for showing nav */
   .hamburger {
     display: flex;
     flex-direction: column;
@@ -178,6 +186,7 @@ nav ul li:not(.ignore):hover {
     border-radius: 3px;
   }
 
+  /* Dropdown */
   .nav {
     display: contents;
   }
@@ -186,6 +195,7 @@ nav ul li:not(.ignore):hover {
     font-size: 30px;
   }
 
+  /* Main nav */
   nav {
     margin-bottom: 30px;
   }
@@ -194,10 +204,12 @@ nav ul li:not(.ignore):hover {
     display: none;
   }
 
+  /* Header image */
   .header img {
     display: none;
   }
 
+  /* Title text and call to actions */
   .title h1 {
     font-size: max(60px, min(10vw, 80px));
   }
@@ -208,6 +220,16 @@ nav ul li:not(.ignore):hover {
 }
 
 @media screen and (max-width: 900px) {
+  /* Total header */
+  .header {
+    width: 90%;
+  }
+
+  .header ul {
+    width: 50%;
+  }
+
+  /* Title call to actions */
   .title ul {
     margin-top: 40px;
     flex-direction: column;
@@ -215,13 +237,5 @@ nav ul li:not(.ignore):hover {
 
   .title li {
     margin: 37.5px auto;
-  }
-
-  .header {
-    width: 90%;
-  }
-
-  .header ul {
-    width: 50%;
   }
 }
