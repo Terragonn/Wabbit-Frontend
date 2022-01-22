@@ -20,7 +20,8 @@ export default function Dashboard() {
         else {
             (async () => {
                 const tvl = await protocolData.totalPoolPrice();
-                const borrowed = await protocolData.totalBorrowedPrice();
+                // const borrowed = await protocolData.totalBorrowedPrice();
+                const borrowed = undefined;
                 setData({tvl, borrowed});
             })();
         }
