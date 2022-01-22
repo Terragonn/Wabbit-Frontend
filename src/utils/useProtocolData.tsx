@@ -4,6 +4,7 @@ import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "./parseNumber";
 import loadERC20 from "./loadERC20";
 import {Approved} from "./useChainData";
+import getApproved from "./getApproved";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
@@ -93,7 +94,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalPriceLocked(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const totalLocked = await contracts.lPool.tvl(token.address);
             const price = await contracts.oracle.priceMax(token.address, totalLocked);
 
@@ -102,7 +103,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalAmountLocked(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const totalLocked = await contracts.lPool.tvl(token.address);
 
             return parseDecimals(totalLocked, token.decimals);
@@ -110,7 +111,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalBorrowed(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const borrowed = await contracts.marginLong.totalBorrowed(token.address);
 
             return parseDecimals(borrowed, token.decimals);
@@ -118,7 +119,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function provideLiquidityAPR(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const [utilizationNumerator, utilizationDenominator] = await contracts.lPool.utilizationRate(token.address);
             if (utilizationDenominator.eq(0)) return 0;
 
@@ -131,7 +132,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowAPR(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const [numerator, denominator] = await contracts.lPool.interestRate(token.address);
             if (denominator.eq(0)) return 0;
 
@@ -140,7 +141,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getAvailableBalance(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const tokenContract = loadERC20(token.address, contracts.signer);
@@ -151,7 +152,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getAvailableBalanceValue(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const tokenContract = loadERC20(token.address, contracts.signer);
@@ -163,7 +164,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getLPTokenAmount(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const tokenContract = loadERC20(token.address, contracts.signer);
@@ -175,7 +176,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getLiquidityProvidedAmount(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
@@ -187,7 +188,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getRedeemLiquidityAmount(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
@@ -206,7 +207,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getRedeemLiquidityValue(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const LPTokenAddress = await contracts.lPool.LPFromPT(token.address);
@@ -236,7 +237,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getCollateralAmount(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
@@ -246,7 +247,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function getCollateralValue(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
@@ -283,7 +284,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function liquidity(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const available = await contracts.lPool.liquidity(token.address);
 
             return parseDecimals(available, token.decimals);
@@ -291,7 +292,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalCollateral(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const collateral = await contracts.marginLong.totalCollateral(token.address);
 
             return parseDecimals(collateral, token.decimals);
@@ -338,7 +339,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowedAmount(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const amount = await contracts.marginLong.borrowed(token.address, signerAddress);
@@ -348,7 +349,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function borrowedValue(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const amount = await contracts.marginLong.borrowed(token.address, signerAddress);
@@ -369,7 +370,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function interest(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             let interest;
@@ -394,7 +395,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function initialBorrowedValue(token: Approved) {
-        if (contracts) {
+        if (contracts && getApproved(contracts.config, token.address)) {
             const signerAddress = await contracts.signer.getAddress();
 
             const initialPrice = await contracts.marginLong["initialBorrowPrice(address,address)"](token.address, signerAddress);
