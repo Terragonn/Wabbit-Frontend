@@ -44,10 +44,7 @@ function App() {
                                             <Error />
                                         </Wrapper>
                                         <SideNav navState={navState} setNavState={setNavState} />
-                                        <Wrapper>
-                                            <Dashboard />
-                                        </Wrapper>
-                                        {/* <Routes>
+                                        <Routes>
                                             <Route
                                                 path="dashboard"
                                                 element={
@@ -75,7 +72,7 @@ function App() {
                                                 />
                                             </Route>
                                             <Route path="*" element={<Navigate to="dashboard" />} />
-                                        </Routes> */}
+                                        </Routes>
                                     </div>
                                 </HashRouter>
                             </ProtocolMethodsProvider>
