@@ -10,10 +10,11 @@ import {LPool as LPoolType} from "../typechain-types";
 import {Oracle as OracleType} from "../typechain-types";
 import {MarginLong as MarginLongType} from "../typechain-types";
 
-import useChainData from "./useChainData";
+import useChainData, {Config} from "./useChainData";
 
 interface Contracts {
     signer: ethers.providers.JsonRpcSigner;
+    config: Config;
     lPool: LPoolType;
     oracle: OracleType;
     marginLong: MarginLongType;
@@ -38,7 +39,7 @@ export function ContractsProvider({children}: {children: any}) {
             const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer) as OracleType;
             const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer) as MarginLongType;
 
-            return {signer, lPool, oracle, marginLong};
+            return {signer, config, lPool, oracle, marginLong};
         }
         return null;
     }

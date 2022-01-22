@@ -3,7 +3,7 @@ import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "./parseNumber";
 import loadERC20 from "./loadERC20";
-import useChainData, {Approved} from "./useChainData";
+import {Approved} from "./useChainData";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
@@ -54,20 +54,18 @@ export default function useProtocolData() {
 export function ProtocolDataProvider({children}: {children: any}) {
     const contracts = useContracts();
 
-    const {config} = useChainData();
-
     const [safetyThresholdNumerator, safetyThresholdDenominator] = [20, 100];
 
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
 
     async function totalPoolPrice() {
-        if (contracts && config) {
+        if (contracts) {
             let totalPoolPrice = ethers.BigNumber.from(0);
 
-            const assets = config.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
+            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalLocked = await contracts.lPool.tvl(asset);
-                const price = await contracts.oracle.priceMax(asset, totalLocked); // **** It is this line that is breaking
+                const price = await contracts.oracle.priceMax(asset, totalLocked);
                 totalPoolPrice = totalPoolPrice.add(price);
             }
 
@@ -78,10 +76,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function totalBorrowedPrice() {
-        if (contracts && config) {
+        if (contracts) {
             let totalBorrowedPrice = ethers.BigNumber.from(0);
 
-            const assets = config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
+            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalBorrowed = await contracts.lPool.utilized(asset);
                 const price = await contracts.oracle.priceMax(asset, totalBorrowed);
