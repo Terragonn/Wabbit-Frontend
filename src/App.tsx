@@ -21,7 +21,7 @@ import Dashboard from "./pages/dashboard";
 import ProvideLiquidity from "./pages/provideLiquidity";
 import LeverageLong from "./pages/leverage/long";
 
-function App() {
+export default function App() {
     const [navState, setNavState] = useState<boolean>(false);
 
     return (
@@ -90,5 +90,3 @@ function App() {
         </Web3ReactProvider>
     );
 }
-
-export default App;
