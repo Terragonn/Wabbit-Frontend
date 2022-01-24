@@ -32,7 +32,7 @@ export function useConnect() {
     const {activate} = useWeb3React();
 
     return async () => {
-        switchNetwork();
+        switchNetwork(); // **** This probs isnt going to work with the wallet connect connector
         localStorage.setItem(CONNECTED, JSON.stringify(true));
         try {
             await activate(injected);
@@ -72,3 +72,5 @@ export default function Wallet() {
         </button>
     );
 }
+
+// **** Perhaps use a custom wallet type provider so that I can choose between metamask and walletconnect with a popup
