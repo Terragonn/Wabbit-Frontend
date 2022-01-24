@@ -169,7 +169,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
-            const LPAmount = await contracts.lPool.provideLiquidityValue(token.address, rawBalance);
+            const LPAmount = await contracts.lPool.addLiquidityOutLPTokens(token.address, rawBalance);
 
             return parseDecimals(LPAmount, token.decimals);
         }
@@ -197,7 +197,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             let redeemAmount;
             try {
-                redeemAmount = await contracts.lPool.redeemLiquidityValue(LPTokenAddress, rawBalance);
+                redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
             } catch (e) {
                 return ethers.BigNumber.from(0);
             }
@@ -216,7 +216,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             let redeemAmount;
             try {
-                redeemAmount = await contracts.lPool.redeemLiquidityValue(LPTokenAddress, rawBalance);
+                redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
             } catch (e) {
                 return ethers.BigNumber.from(0);
             }

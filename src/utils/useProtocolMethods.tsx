@@ -48,7 +48,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             await approve(address, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.provideLiquidity(address, amount));
+            await handleError(async () => await contracts.lPool.addLiquidity(address, amount));
         } else {
             await connect();
         }
@@ -59,7 +59,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             const redeemToken = await contracts.lPool.LPFromPT(address);
             await approve(redeemToken, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.redeemLiquidity(redeemToken, amount));
+            await handleError(async () => await contracts.lPool.removeLiquidity(redeemToken, amount));
         } else {
             await connect();
         }
