@@ -10,6 +10,7 @@ import {ProtocolDataProvider} from "./utils/useProtocolData";
 import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
 import Wrapper from "./components/Wrapper";
+import PageWrapper from "./pages/PageWrapper";
 
 import Error from "./components/Error";
 import SideNav from "./components/SideNav";
@@ -49,7 +50,9 @@ function App() {
                                                 path="dashboard"
                                                 element={
                                                     <Wrapper>
-                                                        <Dashboard />
+                                                        <PageWrapper>
+                                                            <Dashboard />
+                                                        </PageWrapper>
                                                     </Wrapper>
                                                 }
                                             />
@@ -57,7 +60,9 @@ function App() {
                                                 path="provide-liquidity"
                                                 element={
                                                     <Wrapper>
-                                                        <ProvideLiquidity />
+                                                        <PageWrapper>
+                                                            <ProvideLiquidity />
+                                                        </PageWrapper>
                                                     </Wrapper>
                                                 }
                                             />
@@ -66,7 +71,9 @@ function App() {
                                                     path="long"
                                                     element={
                                                         <Wrapper>
-                                                            <LeverageLong />
+                                                            <PageWrapper>
+                                                                <LeverageLong />
+                                                            </PageWrapper>
                                                         </Wrapper>
                                                     }
                                                 />
