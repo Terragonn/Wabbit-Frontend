@@ -7,5 +7,5 @@ export const injected = new InjectedConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
-    supportedChainIds: [...SUPPORTED_CHAIN_IDS],
+    // supportedChainIds: [...SUPPORTED_CHAIN_IDS],
 });

@@ -1,4 +1,4 @@
-import {injected} from "./connectors";
+import {injected, walletConnect} from "./connectors";
 import {useEffect} from "react";
 import {useWeb3React} from "@web3-react/core";
 
@@ -32,10 +32,12 @@ export function useConnect() {
     const {activate} = useWeb3React();
 
     return async () => {
-        switchNetwork(); // **** This probs isnt going to work with the wallet connect connector
-        localStorage.setItem(CONNECTED, JSON.stringify(true));
         try {
-            await activate(injected);
+            // switchNetwork(); // **** This probs isnt going to work with the wallet connect connector
+            // await activate(injected); // **** The if statement depending on if metamask or wallet connect is chosen will decide what switch network and activate we use
+
+            await activate(walletConnect);
+            localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
         }
@@ -46,8 +48,8 @@ export function useDisconnect() {
     const {deactivate} = useWeb3React();
 
     return () => {
-        localStorage.setItem(CONNECTED, JSON.stringify(false));
         deactivate();
+        localStorage.setItem(CONNECTED, JSON.stringify(false));
     };
 }
 
