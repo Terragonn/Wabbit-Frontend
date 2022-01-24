@@ -7,7 +7,7 @@ export const injected = new InjectedConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
-    rpc: {250: "https://rpc.ftm.tools/"},
     // supportedChainIds: [...SUPPORTED_CHAIN_IDS],
-    // qrcode: true,
+    rpc: {250: "https://rpc.ftm.tools/"},
+    qrcode: true,
 });
