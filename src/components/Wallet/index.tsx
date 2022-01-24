@@ -3,7 +3,6 @@ import {useEffect} from "react";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
-import {SUPPORTED_CHAIN_IDS} from "../../utils/useChainData";
 
 function switchNetwork() {
     // @ts-ignore
@@ -35,9 +34,10 @@ export function useConnect() {
     return async () => {
         try {
             // switchNetwork(); // **** This probs isnt going to work with the wallet connect connector
-            await activate(injected); // **** The if statement depending on if metamask or wallet connect is chosen will decide what switch network and activate we use
+            // await activate(injected); // **** The if statement depending on if metamask or wallet connect is chosen will decide what switch network and activate we use
 
-            // await activate(walletConnect);
+            walletConnect.walletConnectProvider = undefined;
+            await activate(walletConnect);
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
