@@ -9,7 +9,7 @@ import {ContractsProvider} from "./utils/useContracts";
 import {ProtocolDataProvider} from "./utils/useProtocolData";
 import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 
-import Wrapper from "./pages/wrapper";
+import Wrapper from "./components/Wrapper";
 
 import Error from "./components/Error";
 import SideNav from "./components/SideNav";

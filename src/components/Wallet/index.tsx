@@ -32,7 +32,7 @@ export function useConnect() {
     const {activate} = useWeb3React();
 
     return async () => {
-        // switchNetwork();
+        switchNetwork();
         localStorage.setItem(CONNECTED, JSON.stringify(true));
         try {
             await activate(injected);
