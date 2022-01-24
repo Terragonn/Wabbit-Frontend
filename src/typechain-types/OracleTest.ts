@@ -17,23 +17,50 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface OracleTokensInterface extends utils.Interface {
-  contractName: "OracleTokens";
+export interface OracleTestInterface extends utils.Interface {
+  contractName: "OracleTest";
   functions: {
+    "amountMax(address,uint256)": FunctionFragment;
+    "amountMin(address,uint256)": FunctionFragment;
     "decimals(address)": FunctionFragment;
     "isSupported(address)": FunctionFragment;
     "owner()": FunctionFragment;
+    "priceDecimals()": FunctionFragment;
     "priceFeed(address)": FunctionFragment;
+    "priceMax(address,uint256)": FunctionFragment;
+    "priceMin(address,uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "reservePriceFeed(address)": FunctionFragment;
+    "setPrice(address,uint256)": FunctionFragment;
     "setPriceFeed(address[],address[],address[],uint256[],bool[])": FunctionFragment;
+    "threshold()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "amountMax",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "amountMin",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "decimals", values: [string]): string;
   encodeFunctionData(functionFragment: "isSupported", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "priceDecimals",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "priceFeed", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "priceMax",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "priceMin",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -43,21 +70,34 @@ export interface OracleTokensInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setPrice",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setPriceFeed",
     values: [string[], string[], string[], BigNumberish[], boolean[]]
   ): string;
+  encodeFunctionData(functionFragment: "threshold", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
+  decodeFunctionResult(functionFragment: "amountMax", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "amountMin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isSupported",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "priceDecimals",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "priceFeed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "priceMax", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "priceMin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -66,10 +106,12 @@ export interface OracleTokensInterface extends utils.Interface {
     functionFragment: "reservePriceFeed",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setPriceFeed",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "threshold", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -90,13 +132,13 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface OracleTokens extends BaseContract {
-  contractName: "OracleTokens";
+export interface OracleTest extends BaseContract {
+  contractName: "OracleTest";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: OracleTokensInterface;
+  interface: OracleTestInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -118,13 +160,39 @@ export interface OracleTokens extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    amountMax(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    amountMin(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     decimals(token_: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     isSupported(token_: string, overrides?: CallOverrides): Promise<[boolean]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
+    priceDecimals(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     priceFeed(token_: string, overrides?: CallOverrides): Promise<[string]>;
+
+    priceMax(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    priceMin(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -135,6 +203,12 @@ export interface OracleTokens extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    setPrice(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setPriceFeed(
       token_: string[],
       priceFeed_: string[],
@@ -144,11 +218,25 @@ export interface OracleTokens extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    threshold(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  amountMax(
+    token_: string,
+    price_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  amountMin(
+    token_: string,
+    price_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -156,13 +244,33 @@ export interface OracleTokens extends BaseContract {
 
   owner(overrides?: CallOverrides): Promise<string>;
 
+  priceDecimals(overrides?: CallOverrides): Promise<BigNumber>;
+
   priceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
+
+  priceMax(
+    token_: string,
+    amount_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  priceMin(
+    token_: string,
+    amount_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   reservePriceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
+
+  setPrice(
+    token_: string,
+    price_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   setPriceFeed(
     token_: string[],
@@ -173,19 +281,47 @@ export interface OracleTokens extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  threshold(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
   transferOwnership(
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    amountMax(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    amountMin(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     isSupported(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
+    priceDecimals(overrides?: CallOverrides): Promise<BigNumber>;
+
     priceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
+
+    priceMax(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    priceMin(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -193,6 +329,12 @@ export interface OracleTokens extends BaseContract {
       token_: string,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    setPrice(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setPriceFeed(
       token_: string[],
@@ -202,6 +344,8 @@ export interface OracleTokens extends BaseContract {
       supported_: boolean[],
       overrides?: CallOverrides
     ): Promise<void>;
+
+    threshold(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     transferOwnership(
       newOwner: string,
@@ -221,13 +365,39 @@ export interface OracleTokens extends BaseContract {
   };
 
   estimateGas: {
+    amountMax(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    amountMin(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     isSupported(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    priceDecimals(overrides?: CallOverrides): Promise<BigNumber>;
+
     priceFeed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    priceMax(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    priceMin(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -236,6 +406,12 @@ export interface OracleTokens extends BaseContract {
     reservePriceFeed(
       token_: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setPrice(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setPriceFeed(
@@ -247,6 +423,8 @@ export interface OracleTokens extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    threshold(overrides?: CallOverrides): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -254,6 +432,18 @@ export interface OracleTokens extends BaseContract {
   };
 
   populateTransaction: {
+    amountMax(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    amountMin(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     decimals(
       token_: string,
       overrides?: CallOverrides
@@ -266,8 +456,22 @@ export interface OracleTokens extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    priceDecimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     priceFeed(
       token_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    priceMax(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    priceMin(
+      token_: string,
+      amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -280,6 +484,12 @@ export interface OracleTokens extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    setPrice(
+      token_: string,
+      price_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setPriceFeed(
       token_: string[],
       priceFeed_: string[],
@@ -288,6 +498,8 @@ export interface OracleTokens extends BaseContract {
       supported_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    threshold(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
