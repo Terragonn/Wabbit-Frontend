@@ -1,5 +1,5 @@
 {
-  "name": "wabbit-frontend",
+  "name": "torque-frontend",
   "version": "1.0.0",
   "dependencies": {
     "@web3-react/core": "^6.1.9",
