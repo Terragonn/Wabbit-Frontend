@@ -1,6 +1,8 @@
 import {injected, walletConnect} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
+import WalletConnectProvider from "@walletconnect/web3-provider";
+
 import useError from "../../utils/useError";
 import {useEffect} from "react";
 
@@ -36,7 +38,15 @@ export function useConnect() {
             // switchNetwork();
             // await activate(injected);
 
-            await activate(walletConnect);
+            const provider = new WalletConnectProvider({
+                rpc: {
+                    250: "https://rpc.ftm.tools/",
+                },
+                qrcode: true,
+            });
+            await provider.enable();
+
+            // await activate(walletConnect);
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {

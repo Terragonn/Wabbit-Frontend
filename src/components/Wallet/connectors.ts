@@ -11,6 +11,5 @@ export const walletConnect = new WalletConnectConnector({
     rpc: {
         250: "https://rpc.ftm.tools/",
     },
-    bridge: "https://bridge.walletconnect.org",
     qrcode: true,
 });
