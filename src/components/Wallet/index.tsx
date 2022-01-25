@@ -33,11 +33,10 @@ export function useConnect() {
 
     return async () => {
         try {
-            // await activate(injected);
-            // walletConnect.walletConnectProvider = undefined;
-            // await activate(walletConnect); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
+            walletConnect.walletConnectProvider = undefined;
+            await activate(walletConnect); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
 
-            await activate(injected); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
+            // await activate(injected); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
 
             switchNetwork(); // **** Maybe remove this and just replace it with a dropdown which shows the selected network which prompts the user to switch
 
