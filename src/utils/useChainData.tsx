@@ -68,9 +68,9 @@ export function ChainDataProvider({children}: {children: any}) {
     const [chainData, setChainData] = useState<ChainData>({blockExplorer: "", config: null});
 
     useEffect(() => {
-        let newChainId: SupportedChainIds = chainId as any;
-        if (chainId && SUPPORTED_CHAIN_IDS.includes(newChainId)) {
-            const newChainDataConfig = chainDataConfig[newChainId];
+        let newChainId = chainId;
+        if (chainId && Object.keys(chainDataConfig).includes(newChainId?.toString() as string)) {
+            const newChainDataConfig = chainDataConfig[newChainId as SupportedChainIds];
             setChainData(newChainDataConfig);
         }
     }, [chainId]);
