@@ -34,9 +34,9 @@ export function useConnect() {
     return async () => {
         try {
             // switchNetwork();
-            // await activate(injected);
+            await activate(injected);
 
-            await activate(walletConnect);
+            // await activate(walletConnect);
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
