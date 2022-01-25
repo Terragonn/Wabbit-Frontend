@@ -33,11 +33,8 @@ export function useConnect() {
 
     return async () => {
         try {
-            // switchNetwork(); // **** This probs isnt going to work with the wallet connect connector
-            // await activate(injected); // **** The if statement depending on if metamask or wallet connect is chosen will decide what switch network and activate we use
-
-            walletConnect.walletConnectProvider = undefined;
-            await activate(walletConnect);
+            switchNetwork();
+            await activate(injected);
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
