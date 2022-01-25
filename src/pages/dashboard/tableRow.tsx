@@ -1,6 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import getApproved from "../../utils/getApproved";
+import parseError from "../../utils/parseError";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import {Approved, Config} from "../../utils/useChainData";
 import useProtocolData from "../../utils/useProtocolData";
@@ -20,10 +21,10 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
         if (!protocolData || !approved) setData(null);
         else {
             (async () => {
-                const tvl = await protocolData.totalPriceLocked(approved);
-                const borrowed = await protocolData.totalBorrowed(approved);
-                const provideLiquidityAPR = await protocolData.provideLiquidityAPR(approved);
-                const borrowAPR = await protocolData.borrowAPR(approved);
+                const tvl = await parseError(async () => await protocolData.totalPriceLocked(approved));
+                const borrowed = await parseError(async () => await protocolData.totalBorrowed(approved));
+                const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(approved));
+                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
                 const yieldAPR = undefined;
                 setData({tvl, borrowed, provideLiquidityAPR, borrowAPR, yieldAPR});
             })();

@@ -7,6 +7,7 @@ import parseNumber from "../../utils/parseNumber";
 import {useEffect, useState} from "react";
 import {ethers} from "ethers";
 import useChainData from "../../utils/useChainData";
+import parseError from "../../utils/parseError";
 
 export default function Dashboard() {
     const {blockExplorer, config} = useChainData();
@@ -19,8 +20,8 @@ export default function Dashboard() {
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const tvl = await protocolData.totalPoolPrice();
-                const borrowed = await protocolData.totalBorrowedPrice();
+                const tvl = await parseError(async () => await protocolData.totalPoolPrice());
+                const borrowed = await parseError(async () => await protocolData.totalBorrowedPrice());
                 setData({tvl, borrowed});
             })();
         }

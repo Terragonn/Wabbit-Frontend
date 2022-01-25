@@ -8,6 +8,7 @@ import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 import useProtocolMethods from "../../utils/useProtocolMethods";
 import useChainData, {Approved} from "../../utils/useChainData";
 import displayString from "../../utils/displayString";
+import parseError from "../../utils/parseError";
 
 export default function ProvideLiquidity() {
     const {config} = useChainData();
@@ -32,17 +33,17 @@ export default function ProvideLiquidity() {
         if (!protocolData || !token) setData(null);
         else {
             (async () => {
-                const provideLiquidityAPR = await protocolData.provideLiquidityAPR(token);
-                const amountLocked = await protocolData.totalAmountLocked(token);
-                const valueLocked = await protocolData.totalPriceLocked(token);
+                const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(token));
+                const amountLocked = await parseError(async () => await protocolData.totalAmountLocked(token));
+                const valueLocked = await parseError(async () => await protocolData.totalPriceLocked(token));
 
-                const totalPotentialLP = await protocolData.getLPTokenAmount(token);
-                const available = await protocolData.getAvailableBalance(token);
-                const availableValue = await protocolData.getAvailableBalanceValue(token);
+                const totalPotentialLP = await parseError(async () => await protocolData.getLPTokenAmount(token));
+                const available = await parseError(async () => await protocolData.getAvailableBalance(token));
+                const availableValue = await parseError(async () => await protocolData.getAvailableBalanceValue(token));
 
-                const availableLP = await protocolData.getLiquidityProvidedAmount(token);
-                const LPRedeemAmount = await protocolData.getRedeemLiquidityAmount(token);
-                const LPRedeemValue = await protocolData.getRedeemLiquidityValue(token);
+                const availableLP = await parseError(async () => await protocolData.getLiquidityProvidedAmount(token));
+                const LPRedeemAmount = await parseError(async () => await protocolData.getRedeemLiquidityAmount(token));
+                const LPRedeemValue = await parseError(async () => await protocolData.getRedeemLiquidityValue(token));
 
                 setData({provideLiquidityAPR, amountLocked, valueLocked, totalPotentialLP, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
             })();

@@ -5,6 +5,7 @@ import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
 import displayString from "../../../utils/displayString";
+import parseError from "../../../utils/parseError";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
 import useChainData, {Approved} from "../../../utils/useChainData";
 import useProtocolData from "../../../utils/useProtocolData";
@@ -45,31 +46,30 @@ export default function LeverageLong() {
         if (!protocolData || !token) setData(null);
         else {
             (async () => {
-                const borrowAPR = await protocolData.borrowAPR(token);
-                console.log("GOod here");
-                const liquidity = await protocolData.liquidity(token);
-                const totalCollateral = await protocolData.totalCollateral(token);
+                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
+                const liquidity = await parseError(async () => await protocolData.liquidity(token));
+                const totalCollateral = await parseError(async () => await protocolData.totalCollateral(token));
 
-                const available = await protocolData.getAvailableBalance(token);
-                const availableValue = await protocolData.getAvailableBalanceValue(token);
+                const available = await parseError(async () => await protocolData.getAvailableBalance(token));
+                const availableValue = await parseError(async () => await protocolData.getAvailableBalanceValue(token));
 
-                const totalValue = await protocolData.getCollateralTotalValue();
-                const collateralAmount = await protocolData.getCollateralAmount(token);
-                const collateralValue = await protocolData.getCollateralValue(token);
-                const minMarginLevel = await protocolData.minMarginLevel();
-                const maxLeverage = await protocolData.maxLeverage();
-                const minCollateral = await protocolData.minCollateralPrice();
+                const totalValue = await parseError(async () => await protocolData.getCollateralTotalValue());
+                const collateralAmount = await parseError(async () => await protocolData.getCollateralAmount(token));
+                const collateralValue = await parseError(async () => await protocolData.getCollateralValue(token));
+                const minMarginLevel = await parseError(async () => await protocolData.minMarginLevel());
+                const maxLeverage = await parseError(async () => await protocolData.maxLeverage());
+                const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
 
-                const marginLevel = await protocolData.marginLevel();
-                const marginBalanceAll = await protocolData.marginBalanceAll();
-                const currentLeverage = await protocolData.currentLeverage();
-                const borrowedAmount = await protocolData.borrowedAmount(token);
-                const borrowedValue = await protocolData.borrowedValue(token);
-                const totalBorrowedValue = await protocolData.totalBorrowedValue();
-                const interest = await protocolData.interest(token);
-                const interestAll = await protocolData.interestAll();
-                const initialBorrowedValue = await protocolData.initialBorrowedValue(token);
-                const initialBorrowedValueAll = await protocolData.initialBorrowedValueAll();
+                const marginLevel = await parseError(async () => await protocolData.marginLevel());
+                const marginBalanceAll = await parseError(async () => await protocolData.marginBalanceAll());
+                const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
+                const borrowedAmount = await parseError(async () => await protocolData.borrowedAmount(token));
+                const borrowedValue = await parseError(async () => await protocolData.borrowedValue(token));
+                const totalBorrowedValue = await parseError(async () => await protocolData.totalBorrowedValue());
+                const interest = await parseError(async () => await protocolData.interest(token));
+                const interestAll = await parseError(async () => await protocolData.interestAll());
+                const initialBorrowedValue = await parseError(async () => await protocolData.initialBorrowedValue(token));
+                const initialBorrowedValueAll = await parseError(async () => await protocolData.initialBorrowedValueAll());
 
                 setData({
                     borrowAPR,
