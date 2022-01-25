@@ -8,7 +8,7 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
         <nav className={`fixed top-0 h-full w-80 bg-neutral-900 p-5 xl:glow xl:left-0 left-[-20rem] ${navState ? "!left-0 !glow" : ""}`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 mb-8 cursor-pointer xl:hidden"
+                className="w-12 mb-8 cursor-pointer xl:hidden"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="white"

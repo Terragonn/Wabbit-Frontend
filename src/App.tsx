@@ -20,6 +20,7 @@ import AgreementModal from "./components/AgreementModal";
 import Dashboard from "./pages/dashboard";
 import ProvideLiquidity from "./pages/provideLiquidity";
 import LeverageLong from "./pages/leverage/long";
+import WalletSelector from "./components/WalletSelector";
 
 export default function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -38,6 +39,7 @@ export default function App() {
                                 <HashRouter>
                                     <div className="background pb-10">
                                         <AgreementModal />
+                                        <WalletSelector />
                                         <Wrapper>
                                             <Nav setNavState={setNavState} />
                                         </Wrapper>
