@@ -1,4 +1,4 @@
-import {injected} from "./connectors";
+import {injected, walletConnect} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
@@ -33,9 +33,11 @@ export function useConnect() {
 
     return async () => {
         try {
-            await activate(injected);
+            // await activate(injected);
+            walletConnect.walletConnectProvider = undefined;
+            await activate(walletConnect); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
 
-            switchNetwork();
+            switchNetwork(); // **** Maybe remove this and just replace it with a dropdown which shows the selected network which prompts the user to switch
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
