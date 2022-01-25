@@ -74,5 +74,3 @@ export default function Wallet() {
         </button>
     );
 }
-
-// **** Perhaps use a custom wallet type provider so that I can choose between metamask and walletconnect with a popup
