@@ -46,6 +46,7 @@ export default function LeverageLong() {
         else {
             (async () => {
                 const borrowAPR = await protocolData.borrowAPR(token);
+                console.log("GOod here");
                 const liquidity = await protocolData.liquidity(token);
                 const totalCollateral = await protocolData.totalCollateral(token);
 

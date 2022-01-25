@@ -33,8 +33,10 @@ export function useConnect() {
 
     return async () => {
         try {
-            switchNetwork();
             await activate(injected);
+
+            switchNetwork();
+
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
