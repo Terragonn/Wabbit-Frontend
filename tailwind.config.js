@@ -1,7 +1,19 @@
+// module.exports = {
+//   content: ["./src/**/*.{js,jsx,tsx}"],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [require("@tailwindcss/forms")],
+// };
+
 module.exports = {
-    content: ["./src/**/*.{js,jsx,tsx}"],
-    theme: {
-        extend: {},
-    },
-    plugins: [require("@tailwindcss/forms")],
+  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  darkMode: false,
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [require("@tailwindcss/forms")],
 };
