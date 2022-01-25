@@ -8,6 +8,7 @@ import {ErrorProvider} from "./utils/useError";
 import {ContractsProvider} from "./utils/useContracts";
 import {ProtocolDataProvider} from "./utils/useProtocolData";
 import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
+import {WalletSelectorProvider} from "./components/WalletSelector";
 
 import Wrapper from "./components/Wrapper";
 import PageWrapper from "./pages/PageWrapper";
@@ -32,62 +33,64 @@ export default function App() {
             }}
         >
             <ErrorProvider>
-                <ChainDataProvider>
-                    <ContractsProvider>
-                        <ProtocolDataProvider>
-                            <ProtocolMethodsProvider>
-                                <HashRouter>
-                                    <div className="background pb-10">
-                                        <AgreementModal />
-                                        <WalletSelector />
-                                        <Wrapper>
-                                            <Nav setNavState={setNavState} />
-                                        </Wrapper>
-                                        <Wrapper>
-                                            <Error />
-                                        </Wrapper>
-                                        <SideNav navState={navState} setNavState={setNavState} />
-                                        <Routes>
-                                            <Route
-                                                path="dashboard"
-                                                element={
-                                                    <Wrapper>
-                                                        <PageWrapper>
-                                                            <Dashboard />
-                                                        </PageWrapper>
-                                                    </Wrapper>
-                                                }
-                                            />
-                                            <Route
-                                                path="provide-liquidity"
-                                                element={
-                                                    <Wrapper>
-                                                        <PageWrapper>
-                                                            <ProvideLiquidity />
-                                                        </PageWrapper>
-                                                    </Wrapper>
-                                                }
-                                            />
-                                            <Route path="leverage">
+                <WalletSelectorProvider>
+                    <ChainDataProvider>
+                        <ContractsProvider>
+                            <ProtocolDataProvider>
+                                <ProtocolMethodsProvider>
+                                    <HashRouter>
+                                        <div className="background pb-10">
+                                            <AgreementModal />
+                                            <WalletSelector />
+                                            <Wrapper>
+                                                <Nav setNavState={setNavState} />
+                                            </Wrapper>
+                                            <Wrapper>
+                                                <Error />
+                                            </Wrapper>
+                                            <SideNav navState={navState} setNavState={setNavState} />
+                                            <Routes>
                                                 <Route
-                                                    path="long"
+                                                    path="dashboard"
                                                     element={
                                                         <Wrapper>
                                                             <PageWrapper>
-                                                                <LeverageLong />
+                                                                <Dashboard />
                                                             </PageWrapper>
                                                         </Wrapper>
                                                     }
                                                 />
-                                            </Route>
-                                            <Route path="*" element={<Navigate to="dashboard" />} />
-                                        </Routes>
-                                    </div>
-                                </HashRouter>
-                            </ProtocolMethodsProvider>
-                        </ProtocolDataProvider>
-                    </ContractsProvider>
-                </ChainDataProvider>
+                                                <Route
+                                                    path="provide-liquidity"
+                                                    element={
+                                                        <Wrapper>
+                                                            <PageWrapper>
+                                                                <ProvideLiquidity />
+                                                            </PageWrapper>
+                                                        </Wrapper>
+                                                    }
+                                                />
+                                                <Route path="leverage">
+                                                    <Route
+                                                        path="long"
+                                                        element={
+                                                            <Wrapper>
+                                                                <PageWrapper>
+                                                                    <LeverageLong />
+                                                                </PageWrapper>
+                                                            </Wrapper>
+                                                        }
+                                                    />
+                                                </Route>
+                                                <Route path="*" element={<Navigate to="dashboard" />} />
+                                            </Routes>
+                                        </div>
+                                    </HashRouter>
+                                </ProtocolMethodsProvider>
+                            </ProtocolDataProvider>
+                        </ContractsProvider>
+                    </ChainDataProvider>
+                </WalletSelectorProvider>
             </ErrorProvider>
         </Web3ReactProvider>
     );

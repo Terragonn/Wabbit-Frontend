@@ -19,7 +19,12 @@ export default function ChainSelector() {
         >
             {Object.entries(chainConfig).map(([key, value]) => {
                 return (
-                    <option selected={chainId?.toString() === key || (!chainId && key === "0")} disabled={true} className={`${value.color} font-medium bg-neutral-900`}>
+                    <option
+                        key={key}
+                        selected={chainId?.toString() === key || (!chainId && key === "0")}
+                        disabled={true}
+                        className={`${value.color} font-medium bg-neutral-900`}
+                    >
                         {value.name}
                     </option>
                 );
