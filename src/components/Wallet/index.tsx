@@ -1,28 +1,8 @@
-import {injected, walletConnect} from "./connectors";
+import {injected} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
 import {useEffect} from "react";
-
-function switchNetwork() {
-    // @ts-ignore
-    window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-            {
-                chainId: "0xFA",
-                rpcUrls: ["https://rpc.ftm.tools/"],
-                chainName: "Fantom Opera",
-                nativeCurrency: {
-                    name: "FTM",
-                    symbol: "FTM",
-                    decimals: 18,
-                },
-                blockExplorerUrls: ["https://ftmscan.com/"],
-            },
-        ],
-    });
-}
 
 const CONNECTED = "connected";
 
@@ -33,12 +13,7 @@ export function useConnect() {
 
     return async () => {
         try {
-            walletConnect.walletConnectProvider = undefined;
-            await activate(walletConnect); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
-
-            // await activate(injected); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
-
-            switchNetwork(); // **** Maybe remove this and just replace it with a dropdown which shows the selected network which prompts the user to switch
+            await activate(injected); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
