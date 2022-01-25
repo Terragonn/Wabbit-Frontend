@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import {ethers} from "ethers";
+import {ethers, Overrides} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import {useConnect} from "../components/Wallet";
 import approveERC20 from "./approveERC20";
@@ -22,6 +22,8 @@ export default function useProtocolMethods() {
     return useContext(protocolMethodsCtx);
 }
 
+export const OVERRIDE: Overrides = {gasLimit: 230000};
+
 export function ProtocolMethodsProvider({children}: {children: any}) {
     const [protocolMethods, setProtocolMethods] = useState<ProtocolMethods | null>(null);
     const contracts = useContracts();
@@ -32,7 +34,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     const [, setError] = useError();
 
     async function approve(tokenAddress: string, address: string, amount: ethers.BigNumber) {
-        await approveERC20(tokenAddress, amount, address, library?.getSigner() as ethers.providers.JsonRpcSigner);
+        if (library) await approveERC20(tokenAddress, amount, address, library?.getSigner());
     }
 
     async function handleError(fn: (...args: any[]) => Promise<any>) {
@@ -48,7 +50,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             await approve(address, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.addLiquidity(address, amount));
+            await handleError(async () => await contracts.lPool.addLiquidity(address, amount, OVERRIDE));
         } else {
             await connect();
         }
@@ -59,7 +61,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             const redeemToken = await contracts.lPool.LPFromPT(address);
             await approve(redeemToken, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.removeLiquidity(redeemToken, amount));
+            await handleError(async () => await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE));
         } else {
             await connect();
         }
@@ -69,7 +71,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             await approve(address, contracts.marginLong.address as string, amount);
 
-            await handleError(async () => await contracts.marginLong.addCollateral(address, amount));
+            await handleError(async () => await contracts.marginLong.addCollateral(address, amount, OVERRIDE));
         } else {
             await connect();
         }
@@ -77,7 +79,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await contracts.marginLong.removeCollateral(address, amount));
+            await handleError(async () => await contracts.marginLong.removeCollateral(address, amount, OVERRIDE));
         } else {
             await connect();
         }
@@ -85,7 +87,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function borrowLong(address: string, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await contracts.marginLong.borrow(address, amount));
+            await handleError(async () => await contracts.marginLong.borrow(address, amount, OVERRIDE));
         } else {
             await connect();
         }
@@ -93,7 +95,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function repayLong(address: string) {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong.repayAccount(address));
+            await handleError(async () => await contracts?.marginLong.repayAccount(address, OVERRIDE));
         } else {
             await connect();
         }
@@ -101,7 +103,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function repayLongAll() {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong.repayAccountAll());
+            await handleError(async () => await contracts?.marginLong.repayAccountAll(OVERRIDE));
         } else {
             await connect();
         }

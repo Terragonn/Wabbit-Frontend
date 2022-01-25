@@ -1,5 +1,6 @@
 import {ethers} from "ethers";
 import loadERC20 from "./loadERC20";
+import {OVERRIDE} from "./useProtocolMethods";
 
 export default async function approveERC20(tokenAddress: string, amount: ethers.BigNumber, address: string, signer: ethers.providers.JsonRpcSigner) {
     const contract = loadERC20(tokenAddress, signer);
@@ -8,5 +9,5 @@ export default async function approveERC20(tokenAddress: string, amount: ethers.
 
     const signerAddress = await contract.signer.getAddress();
     const approved = await contract.allowance(signerAddress, address);
-    if (approved.lt(amount)) await contract.approve(address, toApprove);
+    if (approved.lt(amount)) await contract.approve(address, toApprove, OVERRIDE);
 }
