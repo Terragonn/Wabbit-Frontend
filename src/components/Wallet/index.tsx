@@ -4,18 +4,14 @@ import {useWeb3React} from "@web3-react/core";
 import useError from "../../utils/useError";
 import {useEffect} from "react";
 
-const CONNECTED = "connected";
-
-export function useConnect() {
+export function useMetamaskConnect() {
     const [, setError] = useError();
 
     const {activate} = useWeb3React();
 
     return async () => {
         try {
-            await activate(injected); // **** Also add a modal for walletconnect even though it doesnt work as of yet (try and fix)
-
-            localStorage.setItem(CONNECTED, JSON.stringify(true));
+            await activate(injected);
         } catch (e: any) {
             setError(e.toString());
         }
@@ -27,19 +23,14 @@ export function useDisconnect() {
 
     return () => {
         deactivate();
-        localStorage.setItem(CONNECTED, JSON.stringify(false));
     };
 }
 
 export default function Wallet() {
     const {active} = useWeb3React();
 
-    const [connect, disconnect] = [useConnect(), useDisconnect()];
-
-    useEffect(() => {
-        const connected = localStorage.getItem(CONNECTED);
-        if (connected && JSON.parse(connected)) connect();
-    }, []);
+    const [walletSelector, setWalletSelector] = useWalletSelector();
+    const disconnect = useDisconnect();
 
     return (
         <button
