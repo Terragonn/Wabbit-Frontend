@@ -6,7 +6,7 @@ import forkConfig from "../config/config.fork.json";
 import {useWeb3React} from "@web3-react/core";
 
 export const SUPPORTED_CHAIN_IDS = [4, 250, 31337] as const;
-type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
+export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
 
 export interface Approved {
     name: string;
