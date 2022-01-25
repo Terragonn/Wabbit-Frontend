@@ -1,4 +1,4 @@
-import {injected, walletConnect} from "./connectors";
+import {injected} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
@@ -33,11 +33,8 @@ export function useConnect() {
 
     return async () => {
         try {
-            // switchNetwork();
+            switchNetwork();
             await activate(injected);
-
-            // await activate(walletConnect);
-
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
