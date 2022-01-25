@@ -1,8 +1,8 @@
-import {injected} from "./connectors";
-import {useEffect} from "react";
+import {injected, walletConnect} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
+import {useEffect} from "react";
 
 function switchNetwork() {
     // @ts-ignore
@@ -33,8 +33,10 @@ export function useConnect() {
 
     return async () => {
         try {
-            switchNetwork();
-            await activate(injected);
+            // switchNetwork();
+            // await activate(injected);
+
+            await activate(walletConnect);
 
             localStorage.setItem(CONNECTED, JSON.stringify(true));
         } catch (e: any) {
@@ -57,10 +59,10 @@ export default function Wallet() {
 
     const [connect, disconnect] = [useConnect(), useDisconnect()];
 
-    // useEffect(() => {
-    //     const connected = localStorage.getItem(CONNECTED);
-    //     if (connected && JSON.parse(connected)) connect();
-    // }, []);
+    useEffect(() => {
+        const connected = localStorage.getItem(CONNECTED);
+        if (connected && JSON.parse(connected)) connect();
+    }, []);
 
     return (
         <button

@@ -7,6 +7,7 @@ export const injected = new InjectedConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
+    supportedChainIds: [...SUPPORTED_CHAIN_IDS],
     rpc: {
         250: "https://rpc.ftm.tools/",
     },
