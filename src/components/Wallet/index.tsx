@@ -1,4 +1,4 @@
-import {injected} from "./connectors";
+import {injected, walletConnect} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
@@ -13,6 +13,25 @@ export function useConnectMetamask() {
     return async () => {
         try {
             await activate(injected);
+
+            setWalletSelector(false);
+        } catch (e: any) {
+            setError(e.toString());
+        }
+    };
+}
+
+export function useConnectWalletConnect() {
+    const [, setError] = useError();
+    const [, setWalletSelector] = useWalletSelector();
+
+    const {activate} = useWeb3React();
+
+    return async () => {
+        try {
+            walletConnect.walletConnectProvider = undefined;
+            await activate(walletConnect);
+
             setWalletSelector(false);
         } catch (e: any) {
             setError(e.toString());

@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import {useConnectMetamask} from "../Wallet";
+import {useConnectMetamask, useConnectWalletConnect} from "../Wallet";
 import Card from "./card";
 
 export const walletSelectorCtx = createContext<[boolean, (walletSelector: boolean) => void]>(undefined as any);
@@ -18,6 +18,7 @@ export default function WalletSelector() {
     const [walletSelector, setWalletSelector] = useWalletSelector();
 
     const connectMetamask = useConnectMetamask();
+    const connectWalletConnect = useConnectWalletConnect();
 
     return (
         <div className={`${walletSelector ? "" : "hidden"} bg-black bg-opacity-80 fixed inset-0 flex items-center justify-center z-50 modal`}>
@@ -39,6 +40,11 @@ export default function WalletSelector() {
                     name="Metamask"
                     icon="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
                     fn={() => connectMetamask()}
+                />
+                <Card
+                    name="WalletConnect (DISABLED)"
+                    icon="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/bftsslxvhe2yaih6nyl9"
+                    fn={() => connectWalletConnect()}
                 />
             </div>
         </div>
