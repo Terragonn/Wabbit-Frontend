@@ -39,52 +39,50 @@ export default function App() {
                             <ProtocolDataProvider>
                                 <ProtocolMethodsProvider>
                                     <HashRouter>
-                                        <div className="background pb-10">
-                                            <AgreementModal />
-                                            <WalletSelector />
-                                            <Wrapper>
-                                                <Nav setNavState={setNavState} />
-                                            </Wrapper>
-                                            <Wrapper>
-                                                <Error />
-                                            </Wrapper>
-                                            <SideNav navState={navState} setNavState={setNavState} />
-                                            <Routes>
+                                        <AgreementModal />
+                                        <WalletSelector />
+                                        <Wrapper>
+                                            <Nav setNavState={setNavState} />
+                                        </Wrapper>
+                                        <Wrapper>
+                                            <Error />
+                                        </Wrapper>
+                                        <SideNav navState={navState} setNavState={setNavState} />
+                                        <Routes>
+                                            <Route
+                                                path="dashboard"
+                                                element={
+                                                    <Wrapper>
+                                                        <PageWrapper>
+                                                            <Dashboard />
+                                                        </PageWrapper>
+                                                    </Wrapper>
+                                                }
+                                            />
+                                            <Route
+                                                path="provide-liquidity"
+                                                element={
+                                                    <Wrapper>
+                                                        <PageWrapper>
+                                                            <ProvideLiquidity />
+                                                        </PageWrapper>
+                                                    </Wrapper>
+                                                }
+                                            />
+                                            <Route path="leverage">
                                                 <Route
-                                                    path="dashboard"
+                                                    path="long"
                                                     element={
                                                         <Wrapper>
                                                             <PageWrapper>
-                                                                <Dashboard />
+                                                                <LeverageLong />
                                                             </PageWrapper>
                                                         </Wrapper>
                                                     }
                                                 />
-                                                <Route
-                                                    path="provide-liquidity"
-                                                    element={
-                                                        <Wrapper>
-                                                            <PageWrapper>
-                                                                <ProvideLiquidity />
-                                                            </PageWrapper>
-                                                        </Wrapper>
-                                                    }
-                                                />
-                                                <Route path="leverage">
-                                                    <Route
-                                                        path="long"
-                                                        element={
-                                                            <Wrapper>
-                                                                <PageWrapper>
-                                                                    <LeverageLong />
-                                                                </PageWrapper>
-                                                            </Wrapper>
-                                                        }
-                                                    />
-                                                </Route>
-                                                <Route path="*" element={<Navigate to="dashboard" />} />
-                                            </Routes>
-                                        </div>
+                                            </Route>
+                                            <Route path="*" element={<Navigate to="dashboard" />} />
+                                        </Routes>
                                     </HashRouter>
                                 </ProtocolMethodsProvider>
                             </ProtocolDataProvider>
