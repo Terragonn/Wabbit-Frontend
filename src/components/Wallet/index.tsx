@@ -29,8 +29,8 @@ export function useConnectWalletConnect() {
 
     return async () => {
         try {
-            walletConnect.walletConnectProvider = undefined;
-            await activate(walletConnect);
+            // walletConnect.walletConnectProvider = undefined;
+            // await activate(walletConnect);
 
             setWalletSelector(false);
         } catch (e: any) {
