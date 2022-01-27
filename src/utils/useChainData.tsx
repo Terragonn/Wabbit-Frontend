@@ -31,7 +31,6 @@ export interface Approved {
 }
 
 export interface Config {
-    avgBlockTime: number;
     routerAddress: string;
     gelatoPokeMe: string;
     LPPrefixName: string;
@@ -42,6 +41,7 @@ export interface Config {
     converterAddress: string;
     marginLongAddress: string;
     resolverAddress: string;
+    timelockAddress: string;
 }
 
 export interface ChainData {
