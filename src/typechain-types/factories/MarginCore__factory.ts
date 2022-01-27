@@ -27,11 +27,29 @@ const _abi = [
     type: "event",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool_",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracle_",
+        type: "address",
+      },
+    ],
+    name: "initializeMarginCore",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "oracle",
     outputs: [
       {
-        internalType: "contract IOracle",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -57,7 +75,7 @@ const _abi = [
     name: "pool",
     outputs: [
       {
-        internalType: "contract LPool",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -75,7 +93,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IOracle",
+        internalType: "address",
         name: "oracle_",
         type: "address",
       },
@@ -88,7 +106,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract LPool",
+        internalType: "address",
         name: "pool_",
         type: "address",
       },

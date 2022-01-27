@@ -10,7 +10,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
@@ -34,7 +34,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
@@ -44,7 +44,7 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenOut_",
         type: "address",
       },
@@ -63,7 +63,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
@@ -87,12 +87,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenOut_",
         type: "address",
       },
@@ -116,7 +116,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
@@ -140,7 +140,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },
@@ -150,7 +150,7 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenOut_",
         type: "address",
       },

@@ -12,13 +12,13 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token",
         type: "address",
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "LPToken",
         type: "address",
       },
@@ -37,7 +37,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token",
         type: "address",
       },
@@ -62,7 +62,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "tokenIn",
         type: "address",
       },
@@ -74,7 +74,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "convertedToken",
         type: "address",
       },
@@ -174,7 +174,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token",
         type: "address",
       },
@@ -199,7 +199,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token",
         type: "address",
       },
@@ -229,7 +229,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -237,7 +237,7 @@ const _abi = [
     name: "LPFromPT",
     outputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -274,7 +274,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -282,7 +282,7 @@ const _abi = [
     name: "PTFromLP",
     outputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -293,7 +293,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20[]",
+        internalType: "address[]",
         name: "token_",
         type: "address[]",
       },
@@ -327,22 +327,9 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "blocksPerInterestApplication",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -360,7 +347,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -386,7 +373,7 @@ const _abi = [
     name: "converter",
     outputs: [
       {
-        internalType: "contract IConverter",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -397,7 +384,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -476,7 +463,56 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
+        name: "converter_",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "oracle_",
+        type: "address",
+      },
+    ],
+    name: "initializeLPoolCore",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "timePerInterestApplication_",
+        type: "uint256",
+      },
+    ],
+    name: "initializeLPoolInterest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "taxPercentNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "taxPercentDenominator_",
+        type: "uint256",
+      },
+    ],
+    name: "initializeLPoolTax",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -487,7 +523,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "borrowBlock_",
+        name: "borrowTime_",
         type: "uint256",
       },
     ],
@@ -505,7 +541,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -529,7 +565,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -548,7 +584,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -567,7 +603,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -586,7 +622,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -605,7 +641,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -624,7 +660,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -648,7 +684,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -672,7 +708,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -698,7 +734,7 @@ const _abi = [
     name: "oracle",
     outputs: [
       {
-        internalType: "contract IOracle",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -758,7 +794,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20[]",
+        internalType: "address[]",
         name: "token_",
         type: "address[]",
       },
@@ -776,20 +812,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "blocksPerInterestApplication_",
-        type: "uint256",
-      },
-    ],
-    name: "setBlocksPerInterestApplication",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract IConverter",
+        internalType: "address",
         name: "converter_",
         type: "address",
       },
@@ -802,7 +825,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20[]",
+        internalType: "address[]",
         name: "token_",
         type: "address[]",
       },
@@ -825,7 +848,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20[]",
+        internalType: "address[]",
         name: "token_",
         type: "address[]",
       },
@@ -848,7 +871,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20[]",
+        internalType: "address[]",
         name: "token_",
         type: "address[]",
       },
@@ -871,7 +894,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IOracle",
+        internalType: "address",
         name: "oracle_",
         type: "address",
       },
@@ -895,6 +918,19 @@ const _abi = [
       },
     ],
     name: "setTaxPercentage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "timePerInterestApplication_",
+        type: "uint256",
+      },
+    ],
+    name: "setTimePerInterestApplication",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -937,9 +973,22 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "timePerInterestApplication",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -958,7 +1007,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -977,7 +1026,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -995,7 +1044,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -1019,7 +1068,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -1038,7 +1087,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "address",
         name: "token_",
         type: "address",
       },

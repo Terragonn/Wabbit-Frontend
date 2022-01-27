@@ -20,6 +20,14 @@ export interface Approved {
     marginLongCollateral: boolean;
     marginLongBorrow: boolean;
     leveragePool: boolean;
+    setup: {
+        maxInterestMinNumerator: number;
+        maxInterestMinDenominator: number;
+        maxInterestMaxNumerator: number;
+        maxInterestMaxDenominator: number;
+        maxUtilizationNumerator: number;
+        maxUtilizationDenominator: number;
+    };
 }
 
 export interface Config {

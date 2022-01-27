@@ -26,8 +26,10 @@ export interface MarginLevelInterface extends utils.Interface {
     "borrowedPrice(address)": FunctionFragment;
     "collateral(address,address)": FunctionFragment;
     "collateralPrice(address)": FunctionFragment;
-    "initialBorrowBlock(address,address)": FunctionFragment;
     "initialBorrowPrice(address,address)": FunctionFragment;
+    "initialBorrowTime(address,address)": FunctionFragment;
+    "initializeMarginCore(address,address)": FunctionFragment;
+    "initializeMarginLevel(uint256,uint256)": FunctionFragment;
     "interest(address)": FunctionFragment;
     "isApprovedBorrowedToken(address)": FunctionFragment;
     "isApprovedCollateralToken(address)": FunctionFragment;
@@ -76,12 +78,20 @@ export interface MarginLevelInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "initialBorrowBlock",
+    functionFragment: "initialBorrowPrice",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "initialBorrowPrice",
+    functionFragment: "initialBorrowTime",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initializeMarginCore",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initializeMarginLevel",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "interest", values: [string]): string;
   encodeFunctionData(
@@ -166,11 +176,19 @@ export interface MarginLevelInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "initialBorrowBlock",
+    functionFragment: "initialBorrowPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "initialBorrowPrice",
+    functionFragment: "initialBorrowTime",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "initializeMarginCore",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "initializeMarginLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "interest", data: BytesLike): Result;
@@ -329,12 +347,6 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    initialBorrowBlock(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -345,6 +357,24 @@ export interface MarginLevel extends BaseContract {
       account_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    initialBorrowTime(
+      token_: string,
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    initializeMarginCore(
+      pool_: string,
+      oracle_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    initializeMarginLevel(
+      minMarginLevelNumerator_: BigNumberish,
+      minMarginLevelDenominator_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     "interest(address)"(
       account_: string,
@@ -486,12 +516,6 @@ export interface MarginLevel extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  initialBorrowBlock(
-    token_: string,
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   "initialBorrowPrice(address,address)"(
     token_: string,
     account_: string,
@@ -502,6 +526,24 @@ export interface MarginLevel extends BaseContract {
     account_: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  initialBorrowTime(
+    token_: string,
+    account_: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  initializeMarginCore(
+    pool_: string,
+    oracle_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  initializeMarginLevel(
+    minMarginLevelNumerator_: BigNumberish,
+    minMarginLevelDenominator_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   "interest(address)"(
     account_: string,
@@ -634,12 +676,6 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    initialBorrowBlock(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -650,6 +686,24 @@ export interface MarginLevel extends BaseContract {
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    initialBorrowTime(
+      token_: string,
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    initializeMarginCore(
+      pool_: string,
+      oracle_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    initializeMarginLevel(
+      minMarginLevelNumerator_: BigNumberish,
+      minMarginLevelDenominator_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     "interest(address)"(
       account_: string,
@@ -798,12 +852,6 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    initialBorrowBlock(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -813,6 +861,24 @@ export interface MarginLevel extends BaseContract {
     "initialBorrowPrice(address)"(
       account_: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    initialBorrowTime(
+      token_: string,
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    initializeMarginCore(
+      pool_: string,
+      oracle_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    initializeMarginLevel(
+      minMarginLevelNumerator_: BigNumberish,
+      minMarginLevelDenominator_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "interest(address)"(
@@ -956,12 +1022,6 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    initialBorrowBlock(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -971,6 +1031,24 @@ export interface MarginLevel extends BaseContract {
     "initialBorrowPrice(address)"(
       account_: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    initialBorrowTime(
+      token_: string,
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    initializeMarginCore(
+      pool_: string,
+      oracle_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    initializeMarginLevel(
+      minMarginLevelNumerator_: BigNumberish,
+      minMarginLevelDenominator_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "interest(address)"(
