@@ -330,11 +330,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const initialPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
-            const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
-            if (collateralPrice.eq(0)) return 0;
+            const [leverageNumerator, leverageDenominator] = await contracts.marginLong.leverageLevel(signerAddress);
 
-            return initialPrice.mul(ROUND_CONSTANT).div(collateralPrice).toNumber() / ROUND_CONSTANT;
+            return leverageNumerator.mul(ROUND_CONSTANT).div(leverageDenominator).toNumber() / ROUND_CONSTANT;
         }
     }
 
