@@ -10,15 +10,15 @@ export default function TokenSegment({
     keys,
     cta,
     token,
-    getMax,
+    max,
     callback,
 }: {
     title: string;
     keys: {[key: string]: string};
     cta: string;
     token: Approved | null;
-    getMax?: () => Promise<[ethers.BigNumber, number]>;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
+    max?: [ethers.BigNumber, number];
 }) {
     const contracts = useContracts();
 
@@ -61,10 +61,9 @@ export default function TokenSegment({
                 <span
                     className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
                     onClick={async () => {
-                        if (getMax) {
-                            const [maxNum, maxParsed] = await getMax();
-                            setNum(maxParsed);
-                            setBigNum(maxNum);
+                        if (max) {
+                            setNum(max[1]);
+                            setBigNum(max[0]);
                         }
                     }}
                 >
