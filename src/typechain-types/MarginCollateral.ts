@@ -38,6 +38,7 @@ export interface MarginCollateralInterface extends utils.Interface {
     "isBorrowedToken(address)": FunctionFragment;
     "isBorrowing(address,address)": FunctionFragment;
     "isCollateralToken(address)": FunctionFragment;
+    "leverageLevel(address)": FunctionFragment;
     "liquidatable(address)": FunctionFragment;
     "marginLevel(address)": FunctionFragment;
     "maxLeverage()": FunctionFragment;
@@ -130,6 +131,10 @@ export interface MarginCollateralInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isCollateralToken",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "leverageLevel",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -265,6 +270,10 @@ export interface MarginCollateralInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isCollateralToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "leverageLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -533,6 +542,11 @@ export interface MarginCollateral extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
     liquidatable(
       account_: string,
       overrides?: CallOverrides
@@ -743,6 +757,11 @@ export interface MarginCollateral extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  leverageLevel(
+    account_: string,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
+
   liquidatable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
   marginLevel(
@@ -949,6 +968,11 @@ export interface MarginCollateral extends BaseContract {
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     liquidatable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -1192,6 +1216,11 @@ export interface MarginCollateral extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     liquidatable(
       account_: string,
       overrides?: CallOverrides
@@ -1403,6 +1432,11 @@ export interface MarginCollateral extends BaseContract {
 
     isCollateralToken(
       token_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    leverageLevel(
+      account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

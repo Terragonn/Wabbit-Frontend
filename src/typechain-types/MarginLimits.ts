@@ -36,6 +36,7 @@ export interface MarginLimitsInterface extends utils.Interface {
     "isBorrowedToken(address)": FunctionFragment;
     "isBorrowing(address,address)": FunctionFragment;
     "isCollateralToken(address)": FunctionFragment;
+    "leverageLevel(address)": FunctionFragment;
     "maxLeverage()": FunctionFragment;
     "maxLeverageReached(address)": FunctionFragment;
     "minCollateralPrice()": FunctionFragment;
@@ -115,6 +116,10 @@ export interface MarginLimitsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isCollateralToken",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "leverageLevel",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -225,6 +230,10 @@ export interface MarginLimitsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isCollateralToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "leverageLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -442,6 +451,11 @@ export interface MarginLimits extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
     maxLeverage(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     maxLeverageReached(
@@ -616,6 +630,11 @@ export interface MarginLimits extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  leverageLevel(
+    account_: string,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
+
   maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
 
   maxLeverageReached(
@@ -789,6 +808,11 @@ export interface MarginLimits extends BaseContract {
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -977,6 +1001,11 @@ export interface MarginLimits extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    leverageLevel(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxLeverageReached(
@@ -1152,6 +1181,11 @@ export interface MarginLimits extends BaseContract {
 
     isCollateralToken(
       token_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    leverageLevel(
+      account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
