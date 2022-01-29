@@ -13,7 +13,7 @@ export default function ChainSelector() {
 
     return (
         <select
-            className={`mr-4 font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center ${
+            className={`font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center pr-12 ${
                 chainId && Object.keys(chainConfig).includes(chainId.toString()) ? chainConfig[chainId as SupportedChainIds | 0].color : chainConfig[0].color
             }`}
         >
