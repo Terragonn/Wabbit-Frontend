@@ -22,7 +22,7 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
         else {
             (async () => {
                 const tvl = await parseError(async () => await protocolData.totalPriceLocked(approved));
-                const borrowed = await parseError(async () => await protocolData.totalBorrowed(approved));
+                const borrowed = await parseError(async () => await protocolData.totalValueBorrowed(approved));
                 const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(approved));
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
                 const yieldAPR = undefined;

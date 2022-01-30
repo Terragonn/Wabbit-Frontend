@@ -13,6 +13,7 @@ interface ProtocolData {
     totalPriceLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalAmountLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalValueBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     provideLiquidityAPR: (token: Approved) => Promise<number | undefined>;
     borrowAPR: (token: Approved) => Promise<number | undefined>;
 
@@ -118,6 +119,16 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
+    async function totalValueBorrowed(token: Approved) {
+        if (contracts && getApproved(contracts.config, token.address)) {
+            const borrowed = await contracts.marginLong.totalBorrowed(token.address);
+
+            const price = await contracts.oracle.priceMax(token.address, borrowed);
+
+            return parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
+        }
+    }
+
     async function provideLiquidityAPR(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const [utilizationNumerator, utilizationDenominator] = await contracts.lPool.utilizationRate(token.address);
@@ -134,6 +145,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function borrowAPR(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const [numerator, denominator] = await contracts.lPool.interestRate(token.address);
+
             if (denominator.eq(0)) return 0;
 
             return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
@@ -421,6 +433,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalPriceLocked,
                 totalAmountLocked,
                 totalBorrowed,
+                totalValueBorrowed,
                 provideLiquidityAPR,
                 borrowAPR,
                 getAvailableBalance,
