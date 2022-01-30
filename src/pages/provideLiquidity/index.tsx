@@ -9,12 +9,14 @@ import useProtocolMethods from "../../utils/useProtocolMethods";
 import useChainData, {Approved} from "../../utils/useChainData";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
+import useProtocolMax from "../../utils/useProtocolMax";
 
 export default function ProvideLiquidity() {
     const {config} = useChainData();
 
     const protocolData = useProtocolData();
     const protocolMethods = useProtocolMethods();
+    const protocolMax = useProtocolMax();
 
     const [data, setData] = useState<{
         provideLiquidityAPR: number | undefined;
@@ -26,11 +28,13 @@ export default function ProvideLiquidity() {
         availableLP: ethers.BigNumber | undefined;
         LPRedeemAmount: ethers.BigNumber | undefined;
         LPRedeemValue: ethers.BigNumber | undefined;
+        maxAvailableToken: [ethers.BigNumber, number] | undefined;
+        maxAvailableLPToken: [ethers.BigNumber, number] | undefined;
     } | null>(null);
     const [token, setToken] = useState<Approved | null>(config?.approved.filter((approved) => approved.oracle && approved.leveragePool)[0] || null);
 
     useEffect(() => {
-        if (!protocolData || !token) setData(null);
+        if (!protocolData || !protocolMax || !token) setData(null);
         else {
             (async () => {
                 const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(token));
@@ -45,10 +49,25 @@ export default function ProvideLiquidity() {
                 const LPRedeemAmount = await parseError(async () => await protocolData.getRedeemLiquidityAmount(token));
                 const LPRedeemValue = await parseError(async () => await protocolData.getRedeemLiquidityValue(token));
 
-                setData({provideLiquidityAPR, amountLocked, valueLocked, totalPotentialLP, available, availableValue, availableLP, LPRedeemAmount, LPRedeemValue});
+                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
+
+                setData({
+                    provideLiquidityAPR,
+                    amountLocked,
+                    valueLocked,
+                    totalPotentialLP,
+                    available,
+                    availableValue,
+                    availableLP,
+                    LPRedeemAmount,
+                    LPRedeemValue,
+                    maxAvailableToken,
+                    maxAvailableLPToken,
+                });
             })();
         }
-    }, [protocolData, token]);
+    }, [protocolData, protocolMax, token]);
 
     return (
         <div>
@@ -77,6 +96,7 @@ export default function ProvideLiquidity() {
                             }}
                             cta="Provide"
                             token={token}
+                            max={data?.maxAvailableToken}
                             callback={(num, token) => protocolMethods?.provideLiquidity(token.address, num)}
                         />
                     </div>
@@ -90,6 +110,7 @@ export default function ProvideLiquidity() {
                             }}
                             cta="Redeem"
                             token={token}
+                            max={data?.maxAvailableLPToken}
                             callback={(num, token) => protocolMethods?.redeem(token.address, num)}
                         />
                     </div>

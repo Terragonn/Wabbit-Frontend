@@ -9,6 +9,7 @@ import {ContractsProvider} from "./utils/useContracts";
 import {ProtocolDataProvider} from "./utils/useProtocolData";
 import {ProtocolMethodsProvider} from "./utils/useProtocolMethods";
 import {WalletSelectorProvider} from "./components/WalletSelector";
+import {ProtocolMaxProvider} from "./utils/useProtocolMax";
 
 import Wrapper from "./components/Wrapper";
 import PageWrapper from "./pages/PageWrapper";
@@ -38,52 +39,54 @@ export default function App() {
                         <ContractsProvider>
                             <ProtocolDataProvider>
                                 <ProtocolMethodsProvider>
-                                    <HashRouter>
-                                        <AgreementModal />
-                                        <WalletSelector />
-                                        <Wrapper>
-                                            <Nav setNavState={setNavState} />
-                                        </Wrapper>
-                                        <Wrapper>
-                                            <Error />
-                                        </Wrapper>
-                                        <SideNav navState={navState} setNavState={setNavState} />
-                                        <Routes>
-                                            <Route
-                                                path="dashboard"
-                                                element={
-                                                    <Wrapper>
-                                                        <PageWrapper>
-                                                            <Dashboard />
-                                                        </PageWrapper>
-                                                    </Wrapper>
-                                                }
-                                            />
-                                            <Route
-                                                path="provide-liquidity"
-                                                element={
-                                                    <Wrapper>
-                                                        <PageWrapper>
-                                                            <ProvideLiquidity />
-                                                        </PageWrapper>
-                                                    </Wrapper>
-                                                }
-                                            />
-                                            <Route path="leverage">
+                                    <ProtocolMaxProvider>
+                                        <HashRouter>
+                                            <AgreementModal />
+                                            <WalletSelector />
+                                            <Wrapper>
+                                                <Nav setNavState={setNavState} />
+                                            </Wrapper>
+                                            <Wrapper>
+                                                <Error />
+                                            </Wrapper>
+                                            <SideNav navState={navState} setNavState={setNavState} />
+                                            <Routes>
                                                 <Route
-                                                    path="long"
+                                                    path="dashboard"
                                                     element={
                                                         <Wrapper>
                                                             <PageWrapper>
-                                                                <LeverageLong />
+                                                                <Dashboard />
                                                             </PageWrapper>
                                                         </Wrapper>
                                                     }
                                                 />
-                                            </Route>
-                                            <Route path="*" element={<Navigate to="dashboard" />} />
-                                        </Routes>
-                                    </HashRouter>
+                                                <Route
+                                                    path="provide-liquidity"
+                                                    element={
+                                                        <Wrapper>
+                                                            <PageWrapper>
+                                                                <ProvideLiquidity />
+                                                            </PageWrapper>
+                                                        </Wrapper>
+                                                    }
+                                                />
+                                                <Route path="leverage">
+                                                    <Route
+                                                        path="long"
+                                                        element={
+                                                            <Wrapper>
+                                                                <PageWrapper>
+                                                                    <LeverageLong />
+                                                                </PageWrapper>
+                                                            </Wrapper>
+                                                        }
+                                                    />
+                                                </Route>
+                                                <Route path="*" element={<Navigate to="dashboard" />} />
+                                            </Routes>
+                                        </HashRouter>
+                                    </ProtocolMaxProvider>
                                 </ProtocolMethodsProvider>
                             </ProtocolDataProvider>
                         </ContractsProvider>

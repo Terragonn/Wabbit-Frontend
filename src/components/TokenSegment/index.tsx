@@ -10,14 +10,16 @@ export default function TokenSegment({
     keys,
     cta,
     token,
-    max,
     callback,
+    hideInput,
+    max,
 }: {
     title: string;
     keys: {[key: string]: string};
     cta: string;
     token: Approved | null;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
+    hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
     const contracts = useContracts();
@@ -45,31 +47,33 @@ export default function TokenSegment({
     return (
         <>
             <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
-            <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-3">
-                <input
-                    className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
-                    type="number"
-                    placeholder="0.00"
-                    value={num === 0 ? undefined : num}
-                    min={0}
-                    step={0.01}
-                    onChange={(e) => {
-                        setNum(e.target.valueAsNumber || 0);
-                    }}
-                />
-                <p className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap">($ {parseNumber(priceNum)})</p>
-                <span
-                    className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
-                    onClick={async () => {
-                        if (max) {
-                            setNum(max[1]);
-                            setBigNum(max[0]);
-                        }
-                    }}
-                >
-                    max
-                </span>
-            </div>
+            {!hideInput ? (
+                <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-3">
+                    <input
+                        className="bg-transparent border-none rounded-xl text-center text-white text-xl font-bold w-full"
+                        type="number"
+                        placeholder="0.00"
+                        value={num === 0 ? undefined : num}
+                        min={0}
+                        step={0.01}
+                        onChange={(e) => {
+                            setNum(e.target.valueAsNumber || 0);
+                        }}
+                    />
+                    <p className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap">($ {parseNumber(priceNum)})</p>
+                    <span
+                        className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
+                        onClick={async () => {
+                            if (max) {
+                                setNum(max[1]);
+                                setBigNum(max[0]);
+                            }
+                        }}
+                    >
+                        max
+                    </span>
+                </div>
+            ) : null}
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch justify-evenly">
                 <div>
                     {Object.entries(keys).map(([key, value], index) => (
@@ -79,7 +83,7 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                {token ? <Button onClick={() => (callback ? callback(bigNum, token) : null)}>{cta}</Button> : null}
+                {cta.length > 0 ? <Button onClick={() => (callback && token ? callback(bigNum, token) : null)}>{cta}</Button> : null}
             </div>
         </>
     );

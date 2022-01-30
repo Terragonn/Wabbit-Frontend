@@ -9,6 +9,7 @@ import parseError from "../../../utils/parseError";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
 import useChainData, {Approved} from "../../../utils/useChainData";
 import useProtocolData from "../../../utils/useProtocolData";
+import useProtocolMax from "../../../utils/useProtocolMax";
 import useProtocolMethods from "../../../utils/useProtocolMethods";
 
 export default function LeverageLong() {
@@ -16,6 +17,7 @@ export default function LeverageLong() {
 
     const protocolData = useProtocolData();
     const protocolMethods = useProtocolMethods();
+    const protocolMax = useProtocolMax();
 
     const [data, setData] = useState<{
         borrowAPR: number | undefined;
@@ -39,11 +41,14 @@ export default function LeverageLong() {
         interestAll: ethers.BigNumber | undefined;
         initialBorrowedValue: ethers.BigNumber | undefined;
         initialBorrowedValueAll: ethers.BigNumber | undefined;
+        maxAvailableToken: [ethers.BigNumber, number] | undefined;
+        maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
+        maxAvailableLeverage: [ethers.BigNumber, number] | undefined;
     } | null>(null);
     const [token, setToken] = useState<Approved | null>(config?.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0] || null);
 
     useEffect(() => {
-        if (!protocolData || !token) setData(null);
+        if (!protocolData || !protocolMax || !token) setData(null);
         else {
             (async () => {
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
@@ -71,6 +76,10 @@ export default function LeverageLong() {
                 const initialBorrowedValue = await parseError(async () => await protocolData.initialBorrowedValue(token));
                 const initialBorrowedValueAll = await parseError(async () => await protocolData.initialBorrowedValueAll());
 
+                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
+                const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
+
                 setData({
                     borrowAPR,
                     liquidity,
@@ -93,10 +102,13 @@ export default function LeverageLong() {
                     interestAll,
                     initialBorrowedValue,
                     initialBorrowedValueAll,
+                    maxAvailableToken,
+                    maxAvailableCollateral,
+                    maxAvailableLeverage,
                 });
             })();
         }
-    }, [protocolData, token]);
+    }, [protocolData, protocolMax, token]);
 
     return (
         <div>
@@ -125,6 +137,7 @@ export default function LeverageLong() {
                             }}
                             cta="Deposit"
                             token={token}
+                            max={data?.maxAvailableToken}
                             callback={(num, token) => protocolMethods?.depositCollateral(token.address, num)}
                         />
                     </div>
@@ -139,6 +152,7 @@ export default function LeverageLong() {
                             }}
                             cta="Withdraw"
                             token={token}
+                            max={data?.maxAvailableCollateral}
                             callback={(num, token) => protocolMethods?.withdrawCollateral(token.address, num)}
                         />
                     </div>
@@ -155,6 +169,7 @@ export default function LeverageLong() {
                             }}
                             cta="Leverage"
                             token={token}
+                            max={data?.maxAvailableLeverage}
                             callback={(num, token) => protocolMethods?.borrowLong(token.address, num)}
                         />
                         <div className="lg:w-4/5">
@@ -175,6 +190,7 @@ export default function LeverageLong() {
                             }}
                             cta="Repay All"
                             token={token}
+                            hideInput={true}
                             callback={(num, token) => protocolMethods?.repayLongAll()}
                         />
                     </div>
