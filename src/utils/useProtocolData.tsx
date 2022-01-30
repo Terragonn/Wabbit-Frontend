@@ -342,7 +342,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const [leverageNumerator, leverageDenominator] = await contracts.marginLong.leverageLevel(signerAddress);
+            const [leverageNumerator, leverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
 
             return leverageNumerator.mul(ROUND_CONSTANT).div(leverageDenominator).toNumber() / ROUND_CONSTANT;
         }

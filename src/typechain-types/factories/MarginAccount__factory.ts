@@ -55,6 +55,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "account_",
+        type: "address",
+      },
+    ],
+    name: "accountPrice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address[]",
         name: "token_",
         type: "address[]",

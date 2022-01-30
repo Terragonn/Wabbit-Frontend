@@ -20,6 +20,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface MarginLongRepayCoreInterface extends utils.Interface {
   contractName: "MarginLongRepayCore";
   functions: {
+    "accountPrice(address)": FunctionFragment;
     "addBorrowedToken(address[])": FunctionFragment;
     "addCollateral(address,uint256)": FunctionFragment;
     "addCollateralToken(address[])": FunctionFragment;
@@ -27,6 +28,7 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     "borrowedPrice(address)": FunctionFragment;
     "collateral(address,address)": FunctionFragment;
     "collateralPrice(address)": FunctionFragment;
+    "currentLeverage(address)": FunctionFragment;
     "getBorrowingAccounts()": FunctionFragment;
     "initialBorrowPrice(address,address)": FunctionFragment;
     "initialBorrowTime(address,address)": FunctionFragment;
@@ -39,7 +41,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     "isBorrowedToken(address)": FunctionFragment;
     "isBorrowing(address,address)": FunctionFragment;
     "isCollateralToken(address)": FunctionFragment;
-    "leverageLevel(address)": FunctionFragment;
     "liquidatable(address)": FunctionFragment;
     "liquidationFeePercent()": FunctionFragment;
     "marginLevel(address)": FunctionFragment;
@@ -67,6 +68,10 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   };
 
   encodeFunctionData(
+    functionFragment: "accountPrice",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "addBorrowedToken",
     values: [string[]]
   ): string;
@@ -92,6 +97,10 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "collateralPrice",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentLeverage",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -137,10 +146,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isCollateralToken",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "leverageLevel",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -220,6 +225,10 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "accountPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "addBorrowedToken",
     data: BytesLike
   ): Result;
@@ -239,6 +248,10 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "collateral", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "collateralPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentLeverage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -284,10 +297,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isCollateralToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "leverageLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -469,6 +478,11 @@ export interface MarginLongRepayCore extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -506,6 +520,11 @@ export interface MarginLongRepayCore extends BaseContract {
       account_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     getBorrowingAccounts(overrides?: CallOverrides): Promise<[string[]]>;
 
@@ -585,11 +604,6 @@ export interface MarginLongRepayCore extends BaseContract {
       token_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    leverageLevel(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
 
     liquidatable(
       account_: string,
@@ -693,6 +707,8 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  accountPrice(account_: string, overrides?: CallOverrides): Promise<BigNumber>;
+
   addBorrowedToken(
     token_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -730,6 +746,11 @@ export interface MarginLongRepayCore extends BaseContract {
     account_: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  currentLeverage(
+    account_: string,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
 
   getBorrowingAccounts(overrides?: CallOverrides): Promise<string[]>;
 
@@ -806,11 +827,6 @@ export interface MarginLongRepayCore extends BaseContract {
     token_: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  leverageLevel(
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, BigNumber]>;
 
   liquidatable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -908,6 +924,11 @@ export interface MarginLongRepayCore extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: CallOverrides
@@ -945,6 +966,11 @@ export interface MarginLongRepayCore extends BaseContract {
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     getBorrowingAccounts(overrides?: CallOverrides): Promise<string[]>;
 
@@ -1024,11 +1050,6 @@ export interface MarginLongRepayCore extends BaseContract {
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    leverageLevel(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
 
     liquidatable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -1176,6 +1197,11 @@ export interface MarginLongRepayCore extends BaseContract {
   };
 
   estimateGas: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1210,6 +1236,11 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<BigNumber>;
 
     collateralPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    currentLeverage(
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1290,11 +1321,6 @@ export interface MarginLongRepayCore extends BaseContract {
 
     isCollateralToken(
       token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    leverageLevel(
-      account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1399,6 +1425,11 @@ export interface MarginLongRepayCore extends BaseContract {
   };
 
   populateTransaction: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1433,6 +1464,11 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     collateralPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    currentLeverage(
       account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1515,11 +1551,6 @@ export interface MarginLongRepayCore extends BaseContract {
 
     isCollateralToken(
       token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    leverageLevel(
-      account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

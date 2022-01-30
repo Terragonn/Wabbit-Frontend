@@ -20,6 +20,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface MarginLevelInterface extends utils.Interface {
   contractName: "MarginLevel";
   functions: {
+    "accountPrice(address)": FunctionFragment;
     "addBorrowedToken(address[])": FunctionFragment;
     "addCollateralToken(address[])": FunctionFragment;
     "borrowed(address,address)": FunctionFragment;
@@ -53,6 +54,10 @@ export interface MarginLevelInterface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "accountPrice",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "addBorrowedToken",
     values: [string[]]
@@ -157,6 +162,10 @@ export interface MarginLevelInterface extends utils.Interface {
     values: [string]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "accountPrice",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "addBorrowedToken",
     data: BytesLike
@@ -315,6 +324,11 @@ export interface MarginLevel extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -484,6 +498,8 @@ export interface MarginLevel extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  accountPrice(account_: string, overrides?: CallOverrides): Promise<BigNumber>;
+
   addBorrowedToken(
     token_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -644,6 +660,11 @@ export interface MarginLevel extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: CallOverrides
@@ -820,6 +841,11 @@ export interface MarginLevel extends BaseContract {
   };
 
   estimateGas: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -990,6 +1016,11 @@ export interface MarginLevel extends BaseContract {
   };
 
   populateTransaction: {
+    accountPrice(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     addBorrowedToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }

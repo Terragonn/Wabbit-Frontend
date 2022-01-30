@@ -87,7 +87,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
             const isBorrowing = await contracts.marginLong["isBorrowing(address)"](signerAddress);
             if (isBorrowing) {
                 const borrowedPrice = await contracts.marginLong.collateralPrice(signerAddress);
-                const [leverageNumerator, leverageDenominator] = await contracts.marginLong.leverageLevel(signerAddress);
+                const [leverageNumerator, leverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
 
                 const maxPrice = borrowedPrice.mul(maxLeverage.mul(leverageDenominator).sub(leverageNumerator)).div(leverageNumerator);
                 return await maxPriceToAmount(maxPrice);
