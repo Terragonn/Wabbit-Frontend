@@ -48,14 +48,14 @@ interface ProtocolData {
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
 
+export const SAFETY_THRESHOLD = [20, 100] as const;
+
 export default function useProtocolData() {
     return useContext(protocolDataCtx);
 }
 
 export function ProtocolDataProvider({children}: {children: any}) {
     const contracts = useContracts();
-
-    const [safetyThresholdNumerator, safetyThresholdDenominator] = [20, 100];
 
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
 
@@ -270,7 +270,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const leverage = await contracts.marginLong.maxLeverage();
 
-            return leverage.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).add(safetyThresholdNumerator));
+            return leverage.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0]));
         }
     }
 
@@ -279,7 +279,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const minCollateral = await contracts.marginLong.minCollateralPrice();
             const parsedPrice = parseDecimals(minCollateral, (await contracts.oracle.priceDecimals()).toNumber());
 
-            return parsedPrice.mul(safetyThresholdDenominator).div(ethers.BigNumber.from(safetyThresholdDenominator).sub(safetyThresholdNumerator));
+            return parsedPrice.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).sub(SAFETY_THRESHOLD[0]));
         }
     }
 
