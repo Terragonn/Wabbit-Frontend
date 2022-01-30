@@ -9,42 +9,42 @@ import getApproved from "./getApproved";
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
     totalBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
+    totalCollateralPrice: () => Promise<ethers.BigNumber | undefined>;
 
-    totalPriceLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    totalAmountLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    totalBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    totalValueBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalTokenAmountLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalTokenPriceLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalTokenAmountBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalTokenPriceBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+
     provideLiquidityAPR: (token: Approved) => Promise<number | undefined>;
     borrowAPR: (token: Approved) => Promise<number | undefined>;
 
-    getAvailableBalance: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    getAvailableBalanceValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    availableTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    availableTokenPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
-    getLPTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    getLiquidityProvidedAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    getRedeemLiquidityAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    getRedeemLiquidityValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    LPTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    liquidityProvidedTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    redeemLiquidityTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    redeemLiquidityTokenPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
-    liquidity: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    totalCollateral: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    liquidityTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
-    getCollateralTotalValue: () => Promise<ethers.BigNumber | undefined>;
-    getCollateralAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    getCollateralValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     minMarginLevel: () => Promise<number | undefined>;
     maxLeverage: () => Promise<ethers.BigNumber | undefined>;
     minCollateralPrice: () => Promise<ethers.BigNumber | undefined>;
 
+    collateralAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    collateralPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    accountPrice: () => Promise<ethers.BigNumber | undefined>;
+    totalAccountBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
+    accountBorrowedAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    accountBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     marginLevel: () => Promise<number | undefined>;
-    marginBalanceAll: () => Promise<ethers.BigNumber | undefined>;
     currentLeverage: () => Promise<number | undefined>;
-    borrowedAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    borrowedValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    totalBorrowedValue: () => Promise<ethers.BigNumber | undefined>;
     interest: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    interestAll: () => Promise<ethers.BigNumber | undefined>;
-    initialBorrowedValue: (token: Approved) => Promise<ethers.BigNumber | undefined>;
-    initialBorrowedValueAll: () => Promise<ethers.BigNumber | undefined>;
+    totalInterest: () => Promise<ethers.BigNumber | undefined>;
+    initialBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalInitialBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -82,9 +82,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalPoolPrice = totalPoolPrice.add(price);
             }
 
-            totalPoolPrice = parseDecimals(totalPoolPrice, (await contracts.oracle.priceDecimals()).toNumber());
-
-            return totalPoolPrice;
+            return parseDecimals(totalPoolPrice, (await contracts.oracle.priceDecimals()).toNumber());
         }
     }
 
@@ -99,13 +97,34 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalBorrowedPrice = totalBorrowedPrice.add(price);
             }
 
-            totalBorrowedPrice = parseDecimals(totalBorrowedPrice, (await contracts.oracle.priceDecimals()).toNumber());
-
-            return totalBorrowedPrice;
+            return parseDecimals(totalBorrowedPrice, (await contracts.oracle.priceDecimals()).toNumber());
         }
     }
 
-    async function totalPriceLocked(token: Approved) {
+    async function totalCollateralPrice() {
+        if (contracts) {
+            let totalPrice = ethers.BigNumber.from(0);
+
+            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
+            for (const asset of assets) {
+                const totalCollateral = await contracts.marginLong.totalCollateral(asset);
+                const price = await contracts.oracle.priceMax(asset, totalCollateral);
+                totalPrice = totalPrice.add(price);
+            }
+
+            return parseDecimals(totalPrice, (await contracts.oracle.priceDecimals()).toNumber());
+        }
+    }
+
+    async function totalTokenAmountLocked(token: Approved) {
+        if (contracts && getApproved(contracts.config, token.address)) {
+            const totalLocked = await contracts.lPool.tvl(token.address);
+
+            return parseDecimals(totalLocked, token.decimals);
+        }
+    }
+
+    async function totalTokenPriceLocked(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const totalLocked = await contracts.lPool.tvl(token.address);
             const price = await contracts.oracle.priceMax(token.address, totalLocked);
@@ -114,15 +133,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function totalAmountLocked(token: Approved) {
-        if (contracts && getApproved(contracts.config, token.address)) {
-            const totalLocked = await contracts.lPool.tvl(token.address);
-
-            return parseDecimals(totalLocked, token.decimals);
-        }
-    }
-
-    async function totalBorrowed(token: Approved) {
+    async function totalTokenAmountBorrowed(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const borrowed = await contracts.marginLong.totalBorrowed(token.address);
 
@@ -130,10 +141,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function totalValueBorrowed(token: Approved) {
+    async function totalTokenPriceBorrowed(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const borrowed = await contracts.marginLong.totalBorrowed(token.address);
-
             const price = await contracts.oracle.priceMax(token.address, borrowed);
 
             return parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
@@ -314,14 +324,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function totalCollateral(token: Approved) {
-        if (contracts && getApproved(contracts.config, token.address)) {
-            const collateral = await contracts.marginLong.totalCollateral(token.address);
-
-            return parseDecimals(collateral, token.decimals);
-        }
-    }
-
     async function marginLevel() {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
@@ -436,36 +438,36 @@ export function ProtocolDataProvider({children}: {children: any}) {
             setProtocolData({
                 totalPoolPrice,
                 totalBorrowedPrice,
-                totalPriceLocked,
-                totalAmountLocked,
-                totalBorrowed,
-                totalValueBorrowed,
+                totalCollateralPrice,
+                totalTokenAmountLocked,
+                totalTokenPriceLocked,
+                totalTokenAmountBorrowed,
+                totalTokenPriceBorrowed,
+                totalCollateralAmountLocked,
                 provideLiquidityAPR,
                 borrowAPR,
-                getAvailableBalance,
-                getAvailableBalanceValue,
-                getLPTokenAmount,
-                getLiquidityProvidedAmount,
-                getRedeemLiquidityAmount,
-                getRedeemLiquidityValue,
-                liquidity,
-                totalCollateral,
-                getCollateralTotalValue,
-                getCollateralAmount,
-                getCollateralValue,
+                availableTokenAmount,
+                availableTokenPrice,
+                LPTokenAmount,
+                liquidityProvidedTokenAmount,
+                redeemLiquidityTokenAmount,
+                redeemLiquidityTokenPrice,
+                liquidityTokenAmount,
                 minMarginLevel,
                 maxLeverage,
                 minCollateralPrice,
+                collateralAmount,
+                collateralPrice,
+                accountPrice,
+                totalAccountBorrowedPrice,
+                accountBorrowedAmount,
+                accountBorrowedPrice,
                 marginLevel,
-                marginBalanceAll,
                 currentLeverage,
-                borrowedAmount,
-                borrowedValue,
-                totalBorrowedValue,
                 interest,
-                interestAll,
-                initialBorrowedValue,
-                initialBorrowedValueAll,
+                totalInterest,
+                initialBorrowedPrice,
+                totalInitialBorrowedPrice,
             });
         }
     }, [contracts, updateData]);
