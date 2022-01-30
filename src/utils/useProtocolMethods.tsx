@@ -39,6 +39,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         try {
             return await fn();
         } catch (e: any) {
+            console.log(e);
             setError(e.data?.message || null);
             window.scroll(0, 0);
         }
