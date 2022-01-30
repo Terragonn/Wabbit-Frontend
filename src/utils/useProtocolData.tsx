@@ -327,12 +327,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const interest = await contracts.marginLong["interest(address)"](signerAddress);
-            const initialPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
-            const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
-            const borrowPrice = await contracts.marginLong.borrowedPrice(signerAddress);
-
-            const balance = collateralPrice.add(borrowPrice).sub(initialPrice).sub(interest);
+            const balance = await contracts.marginLong.accountPrice(signerAddress);
 
             return parseDecimals(balance, (await contracts.oracle.priceDecimals()).toNumber());
         }
