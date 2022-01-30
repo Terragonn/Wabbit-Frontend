@@ -58,7 +58,6 @@ export interface MarginLongInterface extends utils.Interface {
     "removeCollateral(address,uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "repayAccount(address)": FunctionFragment;
-    "repayAccountAll()": FunctionFragment;
     "resetAccount(address)": FunctionFragment;
     "resettable(address)": FunctionFragment;
     "setApprovedBorrowedToken(address[],bool[])": FunctionFragment;
@@ -220,10 +219,6 @@ export interface MarginLongInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "repayAccount",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "repayAccountAll",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "resetAccount",
@@ -399,10 +394,6 @@ export interface MarginLongInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "repayAccount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "repayAccountAll",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -768,12 +759,12 @@ export interface MarginLong extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    repayAccount(
+    "repayAccount(address)"(
       token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    repayAccountAll(
+    "repayAccount()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1037,12 +1028,12 @@ export interface MarginLong extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  repayAccount(
+  "repayAccount(address)"(
     token_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  repayAccountAll(
+  "repayAccount()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1307,9 +1298,12 @@ export interface MarginLong extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    repayAccount(token_: string, overrides?: CallOverrides): Promise<void>;
+    "repayAccount(address)"(
+      token_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    repayAccountAll(overrides?: CallOverrides): Promise<void>;
+    "repayAccount()"(overrides?: CallOverrides): Promise<void>;
 
     resetAccount(
       account_: string,
@@ -1647,12 +1641,12 @@ export interface MarginLong extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    repayAccount(
+    "repayAccount(address)"(
       token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    repayAccountAll(
+    "repayAccount()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1930,12 +1924,12 @@ export interface MarginLong extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    repayAccount(
+    "repayAccount(address)"(
       token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    repayAccountAll(
+    "repayAccount()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

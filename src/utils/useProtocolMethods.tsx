@@ -92,14 +92,14 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function repayLong(address: string) {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong.repayAccount(address, OVERRIDE));
+            await handleError(async () => await contracts?.marginLong["repayAccount(address)"](address, OVERRIDE));
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function repayLongAll() {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong.repayAccountAll(OVERRIDE));
+            await handleError(async () => await contracts?.marginLong["repayAccount()"](OVERRIDE));
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }

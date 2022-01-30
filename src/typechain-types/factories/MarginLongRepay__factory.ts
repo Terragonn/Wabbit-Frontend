@@ -828,7 +828,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "repayAccountAll",
+    name: "repayAccount",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
