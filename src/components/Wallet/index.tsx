@@ -3,6 +3,12 @@ import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../utils/useError";
 import {useWalletSelector} from "../WalletSelector";
+import {useEffect} from "react";
+
+const connectedIndicators = {
+    metamask: "CONNECTED_METAMASK",
+    walletConnect: "CONNECTED_WALLETCONNECT",
+};
 
 export function useConnectMetamask() {
     const [, setError] = useError();
@@ -15,6 +21,7 @@ export function useConnectMetamask() {
             await activate(injected);
 
             setWalletSelector(false);
+            localStorage.setItem(connectedIndicators.metamask, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
         }
@@ -31,8 +38,7 @@ export function useConnectWalletConnect() {
         try {
             // walletConnect.walletConnectProvider = undefined;
             // await activate(walletConnect);
-
-            setWalletSelector(false);
+            // setWalletSelector(false);
         } catch (e: any) {
             setError(e.toString());
         }
@@ -44,6 +50,7 @@ export function useDisconnect() {
 
     return () => {
         deactivate();
+        for (const value of Object.values(connectedIndicators)) localStorage.removeItem(value);
     };
 }
 
@@ -52,6 +59,14 @@ export default function Wallet() {
 
     const [, setWalletSelector] = useWalletSelector();
     const disconnect = useDisconnect();
+
+    const connectMetamask = useConnectMetamask();
+    const connectWalletConnect = useConnectWalletConnect();
+
+    useEffect(() => {
+        if (localStorage.getItem(connectedIndicators.metamask)) connectMetamask();
+        if (localStorage.getItem(connectedIndicators.walletConnect)) connectWalletConnect();
+    }, []);
 
     return (
         <button
