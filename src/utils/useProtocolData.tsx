@@ -55,10 +55,21 @@ export default function useProtocolData() {
     return useContext(protocolDataCtx);
 }
 
+const updateDataCtx = createContext<[number, (update: (num: number) => number) => void]>(undefined as any);
+
+export function useUpdateData() {
+    const [, setUpdate] = useContext(updateDataCtx);
+
+    return async function updateData() {
+        setUpdate((data) => data + 1);
+    };
+}
+
 export function ProtocolDataProvider({children}: {children: any}) {
     const contracts = useContracts();
 
     const [protocolData, setProtocolData] = useState<ProtocolData | null>(null);
+    const [updateData, setUpdateData] = useState<number>(0);
 
     async function totalPoolPrice() {
         if (contracts) {
@@ -457,7 +468,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 initialBorrowedValueAll,
             });
         }
-    }, [contracts]);
+    }, [contracts, updateData]);
 
     return <protocolDataCtx.Provider value={protocolData}>{children}</protocolDataCtx.Provider>;
 }
