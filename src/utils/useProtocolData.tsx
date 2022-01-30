@@ -55,12 +55,12 @@ export default function useProtocolData() {
     return useContext(protocolDataCtx);
 }
 
-const updateDataCtx = createContext<[number, (update: (num: number) => number) => void]>(undefined as any);
+const updateProtocolDataCtx = createContext<[number, (update: (num: number) => number) => void]>(undefined as any);
 
-export function useUpdateData() {
-    const [, setUpdate] = useContext(updateDataCtx);
+export function useUpdateProtocolData() {
+    const [, setUpdate] = useContext(updateProtocolDataCtx);
 
-    return async function updateData() {
+    return function updateProtocolData() {
         setUpdate((data) => data + 1);
     };
 }
@@ -470,5 +470,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }, [contracts, updateData]);
 
-    return <protocolDataCtx.Provider value={protocolData}>{children}</protocolDataCtx.Provider>;
+    return (
+        <updateProtocolDataCtx.Provider value={[updateData, setUpdateData]}>
+            <protocolDataCtx.Provider value={protocolData}>{children}</protocolDataCtx.Provider>{" "}
+        </updateProtocolDataCtx.Provider>
+    );
 }

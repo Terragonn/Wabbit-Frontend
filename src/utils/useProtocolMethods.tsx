@@ -4,6 +4,7 @@ import {createContext, useContext, useEffect, useState} from "react";
 import approveERC20 from "./approveERC20";
 import useContracts from "./useContracts";
 import useError from "./useError";
+import {useUpdateProtocolData} from "./useProtocolData";
 
 interface ProtocolMethods {
     provideLiquidity: (address: string, amount: ethers.BigNumber) => Promise<void>;
@@ -24,8 +25,10 @@ export default function useProtocolMethods() {
 export const OVERRIDE: Overrides = {}; // Might have to change gas limit in future
 
 export function ProtocolMethodsProvider({children}: {children: any}) {
-    const [protocolMethods, setProtocolMethods] = useState<ProtocolMethods | null>(null);
     const contracts = useContracts();
+
+    const [protocolMethods, setProtocolMethods] = useState<ProtocolMethods | null>(null);
+    const updateProtocolData = useUpdateProtocolData();
 
     const {library}: {library?: ethers.providers.JsonRpcProvider} = useWeb3React();
 
@@ -50,6 +53,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             await approve(address, contracts.lPool.address as string, amount);
 
             await handleError(async () => await contracts.lPool.addLiquidity(address, amount, OVERRIDE));
+            updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
@@ -59,6 +63,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             await approve(redeemToken, contracts.lPool.address as string, amount);
 
             await handleError(async () => await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE));
+            updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
@@ -67,27 +72,36 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             await approve(address, contracts.marginLong.address as string, amount);
 
             await handleError(async () => await contracts.marginLong.addCollateral(address, amount, OVERRIDE));
+            updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
-        if (contracts) await handleError(async () => await contracts.marginLong.removeCollateral(address, amount, OVERRIDE));
-        else setError("Your wallet is not connected. Please connect your wallet then try again.");
+        if (contracts) {
+            await handleError(async () => await contracts.marginLong.removeCollateral(address, amount, OVERRIDE));
+            updateProtocolData();
+        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function borrowLong(address: string, amount: ethers.BigNumber) {
-        if (contracts) await handleError(async () => await contracts.marginLong.borrow(address, amount, OVERRIDE));
-        else setError("Your wallet is not connected. Please connect your wallet then try again.");
+        if (contracts) {
+            await handleError(async () => await contracts.marginLong.borrow(address, amount, OVERRIDE));
+            updateProtocolData();
+        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function repayLong(address: string) {
-        if (contracts) await handleError(async () => await contracts?.marginLong.repayAccount(address, OVERRIDE));
-        else setError("Your wallet is not connected. Please connect your wallet then try again.");
+        if (contracts) {
+            await handleError(async () => await contracts?.marginLong.repayAccount(address, OVERRIDE));
+            updateProtocolData();
+        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function repayLongAll() {
-        if (contracts) await handleError(async () => await contracts?.marginLong.repayAccountAll(OVERRIDE));
-        else setError("Your wallet is not connected. Please connect your wallet then try again.");
+        if (contracts) {
+            await handleError(async () => await contracts?.marginLong.repayAccountAll(OVERRIDE));
+            updateProtocolData();
+        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     useEffect(() => {
