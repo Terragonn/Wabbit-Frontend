@@ -43,7 +43,6 @@ interface ProtocolData {
 
     marginLevel: () => Promise<number | undefined>;
     currentLeverage: () => Promise<number | undefined>;
-    interest: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalInterest: () => Promise<ethers.BigNumber | undefined>;
     initialBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalInitialBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
@@ -236,12 +235,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            let redeemAmount;
-            try {
-                redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
-            } catch (e) {
-                return ethers.BigNumber.from(0);
-            }
+            const redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
 
             return parseDecimals(redeemAmount, token.decimals);
         }
@@ -255,12 +249,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            let redeemAmount;
-            try {
-                redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
-            } catch (e) {
-                return ethers.BigNumber.from(0);
-            }
+            const redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
+
             const value = await contracts.oracle.priceMax(token.address, redeemAmount);
 
             return parseDecimals(value, (await contracts.oracle.priceDecimals()).toNumber());
@@ -387,21 +377,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function interest(token: Approved) {
-        if (contracts && getApproved(contracts.config, token.address)) {
-            const signerAddress = await contracts.signer.getAddress();
-
-            let interest;
-            try {
-                interest = await contracts.marginLong["interest(address,address)"](token.address, signerAddress);
-            } catch {
-                interest = ethers.BigNumber.from(0);
-            }
-
-            return parseDecimals(interest, (await contracts.oracle.priceDecimals()).toNumber());
-        }
-    }
-
     async function totalInterest() {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
@@ -464,7 +439,6 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 accountBorrowedTotalPrice,
                 marginLevel,
                 currentLeverage,
-                interest,
                 totalInterest,
                 initialBorrowedPrice,
                 totalInitialBorrowedPrice,

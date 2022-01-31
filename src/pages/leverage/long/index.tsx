@@ -156,9 +156,9 @@ export default function LeverageLong() {
                             title="Leverage"
                             keys={[
                                 ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol)],
-                                ["Accumulated interest", "$ " + parseNumber(data?.interest)],
                                 ["Initial borrowed value", "$ " + parseNumber(data?.borrowedValue)],
                                 ["Current borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
+                                ["", ""],
                                 ["Min margin level", parseNumberFloat(data?.minMarginLevel)],
                                 ["Maximum leverage", parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x"],
                             ]}
@@ -176,6 +176,7 @@ export default function LeverageLong() {
                             title="Total Leverage"
                             keys={[
                                 ["Total account value", "$ " + parseNumber(data?.marginBalanceAll)],
+                                ["", ""],
                                 ["Total collateral value", "$ " + parseNumber(data?.totalValue)],
                                 ["Total accumulated interest", "$ " + parseNumber(data?.interestAll)],
                                 ["Total initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValueAll)],
