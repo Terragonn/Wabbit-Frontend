@@ -59,53 +59,55 @@ export default function LeverageLong() {
                 const liquidity = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
                 const totalCollateralValue = await parseError(async () => await protocolData.totalCollateralPrice());
 
-                // const available = await parseError(async () => await protocolData.availableTokenAmount(token));
-                // const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
-                // const totalValue = await parseError(async () => await protocolData.getCollateralTotalValue());
-                // const collateralAmount = await parseError(async () => await protocolData.getCollateralAmount(token));
-                // const collateralValue = await parseError(async () => await protocolData.getCollateralValue(token));
-                // const minMarginLevel = await parseError(async () => await protocolData.minMarginLevel());
-                // const maxLeverage = await parseError(async () => await protocolData.maxLeverage());
-                // const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
-                // const marginLevel = await parseError(async () => await protocolData.marginLevel());
-                // const marginBalanceAll = await parseError(async () => await protocolData.marginBalanceAll());
-                // const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
-                // const borrowedAmount = await parseError(async () => await protocolData.borrowedAmount(token));
-                // const borrowedValue = await parseError(async () => await protocolData.borrowedValue(token));
-                // const totalBorrowedValue = await parseError(async () => await protocolData.totalBorrowedValue());
-                // const interest = await parseError(async () => await protocolData.interest(token));
-                // const interestAll = await parseError(async () => await protocolData.interestAll());
-                // const initialBorrowedValue = await parseError(async () => await protocolData.initialBorrowedValue(token));
-                // const initialBorrowedValueAll = await parseError(async () => await protocolData.initialBorrowedValueAll());
-                // const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
-                // const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
-                // const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
-                // setData({
-                //     borrowAPR,
-                //     liquidity,
-                //     totalCollateral,
-                //     available,
-                //     availableValue,
-                //     totalValue,
-                //     collateralAmount,
-                //     collateralValue,
-                //     minMarginLevel,
-                //     maxLeverage,
-                //     minCollateral,
-                //     marginLevel,
-                //     marginBalanceAll,
-                //     currentLeverage,
-                //     borrowedAmount,
-                //     borrowedValue,
-                //     totalBorrowedValue,
-                //     interest,
-                //     interestAll,
-                //     initialBorrowedValue,
-                //     initialBorrowedValueAll,
-                //     maxAvailableToken,
-                //     maxAvailableCollateral,
-                //     maxAvailableLeverage,
-                // });
+                const available = await parseError(async () => await protocolData.availableTokenAmount(token));
+                const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
+                const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
+
+                const collateralAmount = await parseError(async () => await protocolData.accountCollateralAmount(token));
+                const collateralValue = await parseError(async () => await protocolData.accountCollateralPrice(token));
+
+                const borrowedAmount = await parseError(async () => await protocolData.accountBorrowedAmount(token));
+                const currentBorrowedValue = await parseError(async () => await protocolData.accountBorrowedPrice(token));
+                const initialBorrowedValue = await parseError(async () => await protocolData.initialBorrowedPrice(token));
+                const minMarginLevel = await parseError(async () => await protocolData.minMarginLevel());
+                const maxLeverage = await parseError(async () => await protocolData.maxLeverage());
+
+                const totalAccountValue = await parseError(async () => await protocolData.accountTotalPrice());
+                const totalAccountCollateralValue = await parseError(async () => await protocolData.accountCollateralTotalPrice());
+                const totalAccountInterest = await parseError(async () => await protocolData.totalInterest());
+                const totalAccountInitialBorrowedValue = await parseError(async () => await protocolData.totalInitialBorrowedPrice());
+                const totalAccountBorrowedValue = await parseError(async () => await protocolData.accountBorrowedTotalPrice());
+                const marginLevel = await parseError(async () => await protocolData.marginLevel());
+                const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
+
+                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
+                const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
+                setData({
+                    borrowAPR,
+                    liquidity,
+                    totalCollateralValue,
+                    available,
+                    availableValue,
+                    minCollateral,
+                    collateralAmount,
+                    collateralValue,
+                    borrowedAmount,
+                    currentBorrowedValue,
+                    initialBorrowedValue,
+                    minMarginLevel,
+                    maxLeverage,
+                    totalAccountValue,
+                    totalAccountCollateralValue,
+                    totalAccountInterest,
+                    totalAccountInitialBorrowedValue,
+                    totalAccountBorrowedValue,
+                    marginLevel,
+                    currentLeverage,
+                    maxAvailableToken,
+                    maxAvailableCollateral,
+                    maxAvailableLeverage,
+                });
             })();
         }
     }, [protocolData, protocolMax, token]);
@@ -117,7 +119,7 @@ export default function LeverageLong() {
                     placeholders={[
                         {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
                         {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + displayString(token?.symbol)},
-                        {title: "Total Collateral Value", body: parseNumber(data?.totalCollateralValue) + " " + displayString(token?.symbol)},
+                        {title: "Total Collateral Value", body: "$ " + parseNumber(data?.totalCollateralValue)},
                     ]}
                 />
             </div>
