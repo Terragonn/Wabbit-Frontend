@@ -22,25 +22,29 @@ export default function LeverageLong() {
     const [data, setData] = useState<{
         borrowAPR: number | undefined;
         liquidity: ethers.BigNumber | undefined;
-        totalCollateral: ethers.BigNumber | undefined;
+        totalCollateralValue: ethers.BigNumber | undefined;
+
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
-        totalValue: ethers.BigNumber | undefined;
+        minCollateral: ethers.BigNumber | undefined;
+
         collateralAmount: ethers.BigNumber | undefined;
         collateralValue: ethers.BigNumber | undefined;
+
+        borrowedAmount: ethers.BigNumber | undefined;
+        currentBorrowedValue: ethers.BigNumber | undefined;
+        initialBorrowedValue: ethers.BigNumber | undefined;
         minMarginLevel: number | undefined;
         maxLeverage: ethers.BigNumber | undefined;
-        minCollateral: ethers.BigNumber | undefined;
+
+        totalAccountValue: ethers.BigNumber | undefined;
+        totalAccountCollateralValue: ethers.BigNumber | undefined;
+        totalAccountInterest: ethers.BigNumber | undefined;
+        totalAccountInitialBorrowedValue: ethers.BigNumber | undefined;
+        totalAccountBorrowedValue: ethers.BigNumber | undefined;
         marginLevel: number | undefined;
-        marginBalanceAll: ethers.BigNumber | undefined;
         currentLeverage: number | undefined;
-        borrowedAmount: ethers.BigNumber | undefined;
-        borrowedValue: ethers.BigNumber | undefined;
-        totalBorrowedValue: ethers.BigNumber | undefined;
-        interest: ethers.BigNumber | undefined;
-        interestAll: ethers.BigNumber | undefined;
-        initialBorrowedValue: ethers.BigNumber | undefined;
-        initialBorrowedValueAll: ethers.BigNumber | undefined;
+
         maxAvailableToken: [ethers.BigNumber, number] | undefined;
         maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
         maxAvailableLeverage: [ethers.BigNumber, number] | undefined;
@@ -51,9 +55,10 @@ export default function LeverageLong() {
         if (!protocolData || !protocolMax || !token) setData(null);
         else {
             (async () => {
-                // const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
-                // const liquidity = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
-                // const totalCollateral = await parseError(async () => await protocolData.totalCollateralPrice());
+                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
+                const liquidity = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
+                const totalCollateralValue = await parseError(async () => await protocolData.totalCollateralPrice());
+
                 // const available = await parseError(async () => await protocolData.availableTokenAmount(token));
                 // const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
                 // const totalValue = await parseError(async () => await protocolData.getCollateralTotalValue());
@@ -112,7 +117,7 @@ export default function LeverageLong() {
                     placeholders={[
                         {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
                         {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + displayString(token?.symbol)},
-                        {title: "Total Collateral", body: parseNumber(data?.totalCollateral) + " " + displayString(token?.symbol)},
+                        {title: "Total Collateral Value", body: parseNumber(data?.totalCollateralValue) + " " + displayString(token?.symbol)},
                     ]}
                 />
             </div>
@@ -156,8 +161,8 @@ export default function LeverageLong() {
                             title="Leverage"
                             keys={[
                                 ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol)],
-                                ["Initial borrowed value", "$ " + parseNumber(data?.borrowedValue)],
-                                ["Current borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
+                                ["Initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
+                                ["Current borrowed value", "$ " + parseNumber(data?.currentBorrowedValue)],
                                 ["", ""],
                                 ["Min margin level", parseNumberFloat(data?.minMarginLevel)],
                                 ["Maximum leverage", parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x"],
@@ -175,12 +180,12 @@ export default function LeverageLong() {
                         <TokenSegment
                             title="Total Leverage"
                             keys={[
-                                ["Total account value", "$ " + parseNumber(data?.marginBalanceAll)],
+                                ["Total account value", "$ " + parseNumber(data?.totalAccountValue)],
                                 ["", ""],
-                                ["Total collateral value", "$ " + parseNumber(data?.totalValue)],
-                                ["Total accumulated interest", "$ " + parseNumber(data?.interestAll)],
-                                ["Total initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValueAll)],
-                                ["Total borrowed current value", "$ " + parseNumber(data?.totalBorrowedValue)],
+                                ["Total collateral value", "$ " + parseNumber(data?.totalAccountCollateralValue)],
+                                ["Total accumulated interest", "$ " + parseNumber(data?.totalAccountInterest)],
+                                ["Total initial borrowed value", "$ " + parseNumber(data?.totalAccountInitialBorrowedValue)],
+                                ["Total borrowed current value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
                                 ["", ""],
                                 ["Margin level", parseNumberFloat(data?.marginLevel)],
                                 ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
