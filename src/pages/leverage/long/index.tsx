@@ -52,11 +52,11 @@ export default function LeverageLong() {
         else {
             (async () => {
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
-                const liquidity = await parseError(async () => await protocolData.liquidity(token));
-                const totalCollateral = await parseError(async () => await protocolData.totalCollateral(token));
+                const liquidity = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
+                const totalCollateral = await parseError(async () => await protocolData.totalCollateralPrice());
 
-                const available = await parseError(async () => await protocolData.getAvailableBalance(token));
-                const availableValue = await parseError(async () => await protocolData.getAvailableBalanceValue(token));
+                const available = await parseError(async () => await protocolData.availableTokenAmount(token));
+                const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
 
                 const totalValue = await parseError(async () => await protocolData.getCollateralTotalValue());
                 const collateralAmount = await parseError(async () => await protocolData.getCollateralAmount(token));

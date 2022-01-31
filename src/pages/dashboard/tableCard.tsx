@@ -20,8 +20,8 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const tvl = await parseError(async () => await protocolData.totalPriceLocked(approved));
-                const borrowed = await parseError(async () => await protocolData.totalValueBorrowed(approved));
+                const tvl = await parseError(async () => await protocolData.totalTokenPriceLocked(approved));
+                const borrowed = await parseError(async () => await protocolData.totalTokenPriceBorrowed(approved));
                 const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(approved));
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
                 const yieldAPR = undefined;
