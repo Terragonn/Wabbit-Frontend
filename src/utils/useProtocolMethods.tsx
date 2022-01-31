@@ -42,8 +42,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         try {
             return await fn();
         } catch (e: any) {
-            console.log(e);
-            setError(e.data?.message || null);
+            setError(e.data?.message || e.message || null);
             window.scroll(0, 0);
         }
     }
@@ -52,7 +51,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             await approve(address, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.addLiquidity(address, amount, OVERRIDE));
+            await handleError(async () => await (await contracts.lPool.addLiquidity(address, amount, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
@@ -62,7 +61,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             const redeemToken = await contracts.lPool.LPFromPT(address);
             await approve(redeemToken, contracts.lPool.address as string, amount);
 
-            await handleError(async () => await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE));
+            await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
@@ -71,35 +70,35 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             await approve(address, contracts.marginLong.address as string, amount);
 
-            await handleError(async () => await contracts.marginLong.addCollateral(address, amount, OVERRIDE));
+            await handleError(async () => await (await contracts.marginLong.addCollateral(address, amount, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function withdrawCollateral(address: string, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await contracts.marginLong.removeCollateral(address, amount, OVERRIDE));
+            await handleError(async () => await (await contracts.marginLong.removeCollateral(address, amount, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function borrowLong(address: string, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await contracts.marginLong.borrow(address, amount, OVERRIDE));
+            await handleError(async () => await (await contracts.marginLong.borrow(address, amount, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function repayLong(address: string) {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong["repayAccount(address)"](address, OVERRIDE));
+            await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](address, OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function repayLongAll() {
         if (contracts) {
-            await handleError(async () => await contracts?.marginLong["repayAccount()"](OVERRIDE));
+            await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
             updateProtocolData();
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
