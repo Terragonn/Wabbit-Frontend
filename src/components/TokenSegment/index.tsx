@@ -15,7 +15,7 @@ export default function TokenSegment({
     max,
 }: {
     title: string;
-    keys: {[key: string]: string};
+    keys: [string, string][];
     cta: string;
     token: Approved | null;
     callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
@@ -76,10 +76,14 @@ export default function TokenSegment({
             ) : null}
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch justify-evenly">
                 <div>
-                    {Object.entries(keys).map(([key, value], index) => (
+                    {keys.map(([key, value], index) => (
                         <div key={index} className="flex items-center justify-between text-neutral-400 font-medium text-lg mb-6">
-                            <span>{key}:</span>
-                            <span className="whitespace-nowrap text-white font-bold">{value}</span>
+                            {key.length == 0 && key.length == 0 ? null : (
+                                <>
+                                    <span>{key}:</span>
+                                    <span className="whitespace-nowrap text-white font-bold">{value}</span>
+                                </>
+                            )}
                         </div>
                     ))}
                 </div>

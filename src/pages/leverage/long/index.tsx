@@ -125,11 +125,11 @@ export default function LeverageLong() {
                     <div className="w-full lg:mr-6">
                         <TokenSegment
                             title="Deposit"
-                            keys={{
-                                "Available amount": parseNumber(data?.available) + " " + displayString(token?.symbol),
-                                "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Minimum collateral to borrow": "$ " + parseNumber(data?.minCollateral),
-                            }}
+                            keys={[
+                                ["Available amount", parseNumber(data?.available) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(data?.availableValue)],
+                                ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateral)],
+                            ]}
                             cta="Deposit"
                             token={token}
                             max={data?.maxAvailableToken}
@@ -139,12 +139,10 @@ export default function LeverageLong() {
                     <div className="w-full lg:ml-6">
                         <TokenSegment
                             title="Withdraw"
-                            keys={{
-                                "Available amount": parseNumber(data?.collateralAmount) + " " + displayString(token?.symbol),
-                                "Available value": "$ " + parseNumber(data?.collateralValue),
-                                "Min margin level": parseNumberFloat(data?.minMarginLevel),
-                                "Maximum leverage": parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x",
-                            }}
+                            keys={[
+                                ["Available amount", parseNumber(data?.collateralAmount) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(data?.collateralValue)],
+                            ]}
                             cta="Withdraw"
                             token={token}
                             max={data?.maxAvailableCollateral}
@@ -156,12 +154,14 @@ export default function LeverageLong() {
                     <div className="w-full flex flex-col lg:items-center items-stretch justify-center mr-6">
                         <TokenSegment
                             title="Leverage"
-                            keys={{
-                                "Borrowed amount": parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol),
-                                "Accumulated interest": "$ " + parseNumber(data?.interest),
-                                "Initial borrowed value": "$ " + parseNumber(data?.borrowedValue),
-                                "Current borrowed value": "$ " + parseNumber(data?.initialBorrowedValue),
-                            }}
+                            keys={[
+                                ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol)],
+                                ["Accumulated interest", "$ " + parseNumber(data?.interest)],
+                                ["Initial borrowed value", "$ " + parseNumber(data?.borrowedValue)],
+                                ["Current borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
+                                ["Min margin level", parseNumberFloat(data?.minMarginLevel)],
+                                ["Maximum leverage", parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x"],
+                            ]}
                             cta="Leverage"
                             token={token}
                             max={data?.maxAvailableLeverage}
@@ -174,15 +174,16 @@ export default function LeverageLong() {
                     <div className="w-full ml-6">
                         <TokenSegment
                             title="Total Leverage"
-                            keys={{
-                                "Margin level": parseNumberFloat(data?.marginLevel),
-                                "Current leverage": parseNumberFloat(data?.currentLeverage) + "x",
-                                "Total collateral value": "$ " + parseNumber(data?.totalValue),
-                                "Total accumulated interest": "$ " + parseNumber(data?.interestAll),
-                                "Total initial borrowed value": "$ " + parseNumber(data?.initialBorrowedValueAll),
-                                "Total borrowed current value": "$ " + parseNumber(data?.totalBorrowedValue),
-                                "Total margin balance": "$ " + parseNumber(data?.marginBalanceAll),
-                            }}
+                            keys={[
+                                ["Total account value", "$ " + parseNumber(data?.marginBalanceAll)],
+                                ["Total collateral value", "$ " + parseNumber(data?.totalValue)],
+                                ["Total accumulated interest", "$ " + parseNumber(data?.interestAll)],
+                                ["Total initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValueAll)],
+                                ["Total borrowed current value", "$ " + parseNumber(data?.totalBorrowedValue)],
+                                ["", ""],
+                                ["Margin level", parseNumberFloat(data?.marginLevel)],
+                                ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
+                            ]}
                             cta="Repay All"
                             token={token}
                             hideInput={true}

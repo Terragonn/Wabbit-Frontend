@@ -85,11 +85,11 @@ export default function ProvideLiquidity() {
                     <div className="w-full lg:mr-6">
                         <TokenSegment
                             title="Provide Liquidity"
-                            keys={{
-                                Available: parseNumber(data?.available) + " " + displayString(token?.symbol),
-                                "Available value": "$ " + parseNumber(data?.availableValue),
-                                "Potential LP tokens": parseNumber(data?.totalPotentialLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol),
-                            }}
+                            keys={[
+                                ["Available", parseNumber(data?.available) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(data?.availableValue)],
+                                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol)],
+                            ]}
                             cta="Provide"
                             token={token}
                             max={data?.maxAvailableToken}
@@ -99,11 +99,11 @@ export default function ProvideLiquidity() {
                     <div className="w-full lg:ml-6">
                         <TokenSegment
                             title="Redeem"
-                            keys={{
-                                Available: parseNumber(data?.availableLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol),
-                                "Total redeem amount": parseNumber(data?.LPRedeemAmount) + " " + displayString(token?.symbol),
-                                "Total redeem value": "$ " + parseNumber(data?.LPRedeemValue),
-                            }}
+                            keys={[
+                                ["Available", parseNumber(data?.availableLP) + " " + displayString(config?.LPPrefixSymbol) + displayString(token?.symbol)],
+                                ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + displayString(token?.symbol)],
+                                ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
+                            ]}
                             cta="Redeem"
                             token={token}
                             max={data?.maxAvailableLPToken}
