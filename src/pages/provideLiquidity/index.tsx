@@ -19,7 +19,7 @@ export default function ProvideLiquidity() {
     const protocolMax = useProtocolMax();
 
     const [data, setData] = useState<{
-        provideLiquidityAPR: number | undefined;
+        provideLiquidityAPY: number | undefined;
         amountLocked: ethers.BigNumber | undefined;
         valueLocked: ethers.BigNumber | undefined;
         totalPotentialLP: ethers.BigNumber | undefined;
@@ -70,7 +70,7 @@ export default function ProvideLiquidity() {
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Provide Liquidity APR", body: parseNumberFloat(data?.provideLiquidityAPR) + " %"},
+                        {title: "Provide Liquidity APY", body: parseNumberFloat(data?.provideLiquidityAPY) + " %"},
                         {title: "Total Amount Locked", body: parseNumber(data?.amountLocked) + " " + displayString(token?.symbol)},
                         {title: "Total Value Locked", body: "$ " + parseNumber(data?.valueLocked)},
                     ]}

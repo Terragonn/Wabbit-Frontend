@@ -11,7 +11,7 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
     const [data, setData] = useState<{
         tvl: ethers.BigNumber | undefined;
         borrowed: ethers.BigNumber | undefined;
-        provideLiquidityAPR: number | undefined;
+        provideLiquidityAPY: number | undefined;
         borrowAPR: number | undefined;
         yieldAPR: undefined | undefined;
     } | null>();
@@ -22,10 +22,10 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
             (async () => {
                 const tvl = await parseError(async () => await protocolData.totalTokenPriceLocked(approved));
                 const borrowed = await parseError(async () => await protocolData.totalTokenPriceBorrowed(approved));
-                const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(approved));
+                const provideLiquidityAPY = await parseError(async () => await protocolData.provideLiquidityAPY(approved));
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
                 const yieldAPR = undefined;
-                setData({tvl, borrowed, provideLiquidityAPR, borrowAPR, yieldAPR});
+                setData({tvl, borrowed, provideLiquidityAPY, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -50,11 +50,11 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
                 </div>
                 <div className="w-full text-xl pb-5 border-b-2 border-b-neutral-800 border-opacity-30">
                     <div className="flex items-center justify-between text-white font-bold">
-                        <span>Provide Liquidity APR</span>
+                        <span>Provide Liquidity APY</span>
                         <span>Borrow APR</span>
                     </div>
                     <div className="flex items-center justify-between text-neutral-400 font-medium mt-2">
-                        <span>{parseNumberFloat(data?.provideLiquidityAPR)} %</span>
+                        <span>{parseNumberFloat(data?.provideLiquidityAPY)} %</span>
                         <span>{parseNumberFloat(data?.borrowAPR)} %</span>
                     </div>
                 </div>

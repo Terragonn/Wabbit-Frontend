@@ -12,7 +12,7 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
     const [data, setData] = useState<{
         tvl: ethers.BigNumber | undefined;
         borrowed: ethers.BigNumber | undefined;
-        provideLiquidityAPR: number | undefined;
+        provideLiquidityAPY: number | undefined;
         borrowAPR: number | undefined;
         yieldAPR: undefined | undefined;
     } | null>();
@@ -23,10 +23,10 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
             (async () => {
                 const tvl = await parseError(async () => await protocolData.totalTokenPriceLocked(approved));
                 const borrowed = await parseError(async () => await protocolData.totalTokenPriceBorrowed(approved));
-                const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(approved));
+                const provideLiquidityAPY = await parseError(async () => await protocolData.provideLiquidityAPY(approved));
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
                 const yieldAPR = undefined;
-                setData({tvl, borrowed, provideLiquidityAPR, borrowAPR, yieldAPR});
+                setData({tvl, borrowed, provideLiquidityAPY, borrowAPR, yieldAPR});
             })();
         }
     }, [protocolData]);
@@ -44,7 +44,7 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
                 <span className="w-full">$ {parseNumber(data?.tvl)}</span>
                 <span className="w-full">$ {parseNumber(data?.borrowed)}</span>
                 <div className="w-full">
-                    <span>{parseNumberFloat(data?.provideLiquidityAPR)} %</span>
+                    <span>{parseNumberFloat(data?.provideLiquidityAPY)} %</span>
                     <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
                         <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
                         <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>

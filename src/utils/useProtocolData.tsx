@@ -17,7 +17,7 @@ interface ProtocolData {
     totalTokenAmountBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalTokenPriceBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
-    provideLiquidityAPR: (token: Approved) => Promise<number | undefined>;
+    provideLiquidityAPY: (token: Approved) => Promise<number | undefined>;
     borrowAPR: (token: Approved) => Promise<number | undefined>;
 
     availableTokenAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
@@ -159,7 +159,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    async function provideLiquidityAPR(token: Approved) {
+    async function provideLiquidityAPY(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const [utilizationNumerator, utilizationDenominator] = await contracts.lPool.utilizationRate(token.address);
             if (utilizationDenominator.eq(0)) return 0;
@@ -419,7 +419,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalTokenPriceLocked,
                 totalTokenAmountBorrowed,
                 totalTokenPriceBorrowed,
-                provideLiquidityAPR,
+                provideLiquidityAPY,
                 borrowAPR,
                 availableTokenAmount,
                 availableTokenPrice,
