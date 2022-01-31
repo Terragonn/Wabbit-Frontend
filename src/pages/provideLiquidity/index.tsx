@@ -37,34 +37,30 @@ export default function ProvideLiquidity() {
         if (!protocolData || !protocolMax || !token) setData(null);
         else {
             (async () => {
-                const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(token));
-                const amountLocked = await parseError(async () => await protocolData.totalAmountLocked(token));
-                const valueLocked = await parseError(async () => await protocolData.totalPriceLocked(token));
-
-                const totalPotentialLP = await parseError(async () => await protocolData.getLPTokenAmount(token));
-                const available = await parseError(async () => await protocolData.getAvailableBalance(token));
-                const availableValue = await parseError(async () => await protocolData.getAvailableBalanceValue(token));
-
-                const availableLP = await parseError(async () => await protocolData.getLiquidityProvidedAmount(token));
-                const LPRedeemAmount = await parseError(async () => await protocolData.getRedeemLiquidityAmount(token));
-                const LPRedeemValue = await parseError(async () => await protocolData.getRedeemLiquidityValue(token));
-
-                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
-                const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
-
-                setData({
-                    provideLiquidityAPR,
-                    amountLocked,
-                    valueLocked,
-                    totalPotentialLP,
-                    available,
-                    availableValue,
-                    availableLP,
-                    LPRedeemAmount,
-                    LPRedeemValue,
-                    maxAvailableToken,
-                    maxAvailableLPToken,
-                });
+                // const provideLiquidityAPR = await parseError(async () => await protocolData.provideLiquidityAPR(token));
+                // const amountLocked = await parseError(async () => await protocolData.totalAmountLocked(token));
+                // const valueLocked = await parseError(async () => await protocolData.totalPriceLocked(token));
+                // const totalPotentialLP = await parseError(async () => await protocolData.getLPTokenAmount(token));
+                // const available = await parseError(async () => await protocolData.getAvailableBalance(token));
+                // const availableValue = await parseError(async () => await protocolData.getAvailableBalanceValue(token));
+                // const availableLP = await parseError(async () => await protocolData.getLiquidityProvidedAmount(token));
+                // const LPRedeemAmount = await parseError(async () => await protocolData.getRedeemLiquidityAmount(token));
+                // const LPRedeemValue = await parseError(async () => await protocolData.getRedeemLiquidityValue(token));
+                // const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                // const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
+                // setData({
+                //     provideLiquidityAPR,
+                //     amountLocked,
+                //     valueLocked,
+                //     totalPotentialLP,
+                //     available,
+                //     availableValue,
+                //     availableLP,
+                //     LPRedeemAmount,
+                //     LPRedeemValue,
+                //     maxAvailableToken,
+                //     maxAvailableLPToken,
+                // });
             })();
         }
     }, [protocolData, protocolMax, token]);
