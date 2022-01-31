@@ -27,6 +27,7 @@ export interface MarginLevelInterface extends utils.Interface {
     "borrowedPrice(address)": FunctionFragment;
     "collateral(address,address)": FunctionFragment;
     "collateralPrice(address)": FunctionFragment;
+    "currentLeverage(address)": FunctionFragment;
     "initialBorrowPrice(address,address)": FunctionFragment;
     "initialBorrowTime(address,address)": FunctionFragment;
     "initializeMarginCore(address,address)": FunctionFragment;
@@ -39,6 +40,7 @@ export interface MarginLevelInterface extends utils.Interface {
     "isCollateralToken(address)": FunctionFragment;
     "liquidatable(address)": FunctionFragment;
     "marginLevel(address)": FunctionFragment;
+    "maxLeverage()": FunctionFragment;
     "minMarginLevel()": FunctionFragment;
     "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -46,7 +48,7 @@ export interface MarginLevelInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setApprovedBorrowedToken(address[],bool[])": FunctionFragment;
     "setApprovedCollateralToken(address[],bool[])": FunctionFragment;
-    "setMinMarginLevel(uint256,uint256)": FunctionFragment;
+    "setMaxLeverage(uint256,uint256)": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setPool(address)": FunctionFragment;
     "totalBorrowed(address)": FunctionFragment;
@@ -80,6 +82,10 @@ export interface MarginLevelInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "collateralPrice",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentLeverage",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -125,6 +131,10 @@ export interface MarginLevelInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "marginLevel", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "maxLeverage",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "minMarginLevel",
     values?: undefined
   ): string;
@@ -144,7 +154,7 @@ export interface MarginLevelInterface extends utils.Interface {
     values: [string[], boolean[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "setMinMarginLevel",
+    functionFragment: "setMaxLeverage",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
@@ -182,6 +192,10 @@ export interface MarginLevelInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "collateral", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "collateralPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "currentLeverage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -230,6 +244,10 @@ export interface MarginLevelInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "maxLeverage",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "minMarginLevel",
     data: BytesLike
   ): Result;
@@ -249,7 +267,7 @@ export interface MarginLevelInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMinMarginLevel",
+    functionFragment: "setMaxLeverage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
@@ -361,6 +379,11 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -385,8 +408,8 @@ export interface MarginLevel extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -442,6 +465,8 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
+    maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
     minMarginLevel(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
@@ -466,9 +491,9 @@ export interface MarginLevel extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+    setMaxLeverage(
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -532,6 +557,11 @@ export interface MarginLevel extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  currentLeverage(
+    account_: string,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
+
   "initialBorrowPrice(address,address)"(
     token_: string,
     account_: string,
@@ -556,8 +586,8 @@ export interface MarginLevel extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initializeMarginLevel(
-    minMarginLevelNumerator_: BigNumberish,
-    minMarginLevelDenominator_: BigNumberish,
+    maxLeverageNumerator_: BigNumberish,
+    maxLeverageDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -607,6 +637,8 @@ export interface MarginLevel extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
+  maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
   minMarginLevel(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   oracle(overrides?: CallOverrides): Promise<string>;
@@ -631,9 +663,9 @@ export interface MarginLevel extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMinMarginLevel(
-    minMarginLevelNumerator_: BigNumberish,
-    minMarginLevelDenominator_: BigNumberish,
+  setMaxLeverage(
+    maxLeverageNumerator_: BigNumberish,
+    maxLeverageDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -697,6 +729,11 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -721,8 +758,8 @@ export interface MarginLevel extends BaseContract {
     ): Promise<void>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -775,6 +812,8 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
+    maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
     minMarginLevel(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     oracle(overrides?: CallOverrides): Promise<string>;
@@ -797,9 +836,9 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+    setMaxLeverage(
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -878,6 +917,11 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -902,8 +946,8 @@ export interface MarginLevel extends BaseContract {
     ): Promise<BigNumber>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -959,6 +1003,8 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
+
     minMarginLevel(overrides?: CallOverrides): Promise<BigNumber>;
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
@@ -983,9 +1029,9 @@ export interface MarginLevel extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+    setMaxLeverage(
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1053,6 +1099,11 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    currentLeverage(
+      account_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -1077,8 +1128,8 @@ export interface MarginLevel extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1134,6 +1185,8 @@ export interface MarginLevel extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    maxLeverage(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     minMarginLevel(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1158,9 +1211,9 @@ export interface MarginLevel extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+    setMaxLeverage(
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

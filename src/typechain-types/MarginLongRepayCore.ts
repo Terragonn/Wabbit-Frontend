@@ -34,7 +34,7 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     "initialBorrowTime(address,address)": FunctionFragment;
     "initializeMarginCore(address,address)": FunctionFragment;
     "initializeMarginLevel(uint256,uint256)": FunctionFragment;
-    "initializeMarginLimits(uint256,uint256)": FunctionFragment;
+    "initializeMarginLimits(uint256)": FunctionFragment;
     "interest(address)": FunctionFragment;
     "isApprovedBorrowedToken(address)": FunctionFragment;
     "isApprovedCollateralToken(address)": FunctionFragment;
@@ -45,7 +45,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     "liquidationFeePercent()": FunctionFragment;
     "marginLevel(address)": FunctionFragment;
     "maxLeverage()": FunctionFragment;
-    "maxLeverageReached(address)": FunctionFragment;
     "minCollateralPrice()": FunctionFragment;
     "minMarginLevel()": FunctionFragment;
     "oracle()": FunctionFragment;
@@ -56,9 +55,8 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     "resettable(address)": FunctionFragment;
     "setApprovedBorrowedToken(address[],bool[])": FunctionFragment;
     "setApprovedCollateralToken(address[],bool[])": FunctionFragment;
-    "setMaxLeverage(uint256)": FunctionFragment;
+    "setMaxLeverage(uint256,uint256)": FunctionFragment;
     "setMinCollateralPrice(uint256)": FunctionFragment;
-    "setMinMarginLevel(uint256,uint256)": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setPool(address)": FunctionFragment;
     "sufficientCollateralPrice(address)": FunctionFragment;
@@ -125,7 +123,7 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initializeMarginLimits",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "interest", values: [string]): string;
   encodeFunctionData(
@@ -162,10 +160,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "maxLeverageReached",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "minCollateralPrice",
     values?: undefined
   ): string;
@@ -195,15 +189,11 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setMaxLeverage",
-    values: [BigNumberish]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setMinCollateralPrice",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setMinMarginLevel",
-    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
   encodeFunctionData(functionFragment: "setPool", values: [string]): string;
@@ -316,10 +306,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "maxLeverageReached",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "minCollateralPrice",
     data: BytesLike
   ): Result;
@@ -353,10 +339,6 @@ export interface MarginLongRepayCoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setMinCollateralPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setMinMarginLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
@@ -552,14 +534,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     initializeMarginLimits(
       minCollateralPrice_: BigNumberish,
-      maxLeverage_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -619,12 +600,7 @@ export interface MarginLongRepayCore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
-    maxLeverage(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    maxLeverageReached(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     minCollateralPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -661,18 +637,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setMaxLeverage(
-      maxLeverage_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setMinCollateralPrice(
       minCollateralPrice_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -778,14 +749,13 @@ export interface MarginLongRepayCore extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initializeMarginLevel(
-    minMarginLevelNumerator_: BigNumberish,
-    minMarginLevelDenominator_: BigNumberish,
+    maxLeverageNumerator_: BigNumberish,
+    maxLeverageDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   initializeMarginLimits(
     minCollateralPrice_: BigNumberish,
-    maxLeverage_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -839,12 +809,7 @@ export interface MarginLongRepayCore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
-  maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
-
-  maxLeverageReached(
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   minCollateralPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -881,18 +846,13 @@ export interface MarginLongRepayCore extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setMaxLeverage(
-    maxLeverage_: BigNumberish,
+    maxLeverageNumerator_: BigNumberish,
+    maxLeverageDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setMinCollateralPrice(
     minCollateralPrice_: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setMinMarginLevel(
-    minMarginLevelNumerator_: BigNumberish,
-    minMarginLevelDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -998,14 +958,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<void>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     initializeMarginLimits(
       minCollateralPrice_: BigNumberish,
-      maxLeverage_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1062,12 +1021,7 @@ export interface MarginLongRepayCore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
-    maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
-
-    maxLeverageReached(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    maxLeverage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     minCollateralPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1102,18 +1056,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<void>;
 
     setMaxLeverage(
-      maxLeverage_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setMinCollateralPrice(
       minCollateralPrice_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1271,14 +1220,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<BigNumber>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     initializeMarginLimits(
       minCollateralPrice_: BigNumberish,
-      maxLeverage_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1338,11 +1286,6 @@ export interface MarginLongRepayCore extends BaseContract {
 
     maxLeverage(overrides?: CallOverrides): Promise<BigNumber>;
 
-    maxLeverageReached(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     minCollateralPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     minMarginLevel(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1378,18 +1321,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<BigNumber>;
 
     setMaxLeverage(
-      maxLeverage_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setMinCollateralPrice(
       minCollateralPrice_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1501,14 +1439,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initializeMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     initializeMarginLimits(
       minCollateralPrice_: BigNumberish,
-      maxLeverage_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1570,11 +1507,6 @@ export interface MarginLongRepayCore extends BaseContract {
 
     maxLeverage(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    maxLeverageReached(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     minCollateralPrice(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1615,18 +1547,13 @@ export interface MarginLongRepayCore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setMaxLeverage(
-      maxLeverage_: BigNumberish,
+      maxLeverageNumerator_: BigNumberish,
+      maxLeverageDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setMinCollateralPrice(
       minCollateralPrice_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setMinMarginLevel(
-      minMarginLevelNumerator_: BigNumberish,
-      minMarginLevelDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

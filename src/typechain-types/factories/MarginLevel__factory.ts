@@ -187,6 +187,30 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "account_",
+        type: "address",
+      },
+    ],
+    name: "currentLeverage",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "token_",
         type: "address",
       },
@@ -272,12 +296,12 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "minMarginLevelNumerator_",
+        name: "maxLeverageNumerator_",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "minMarginLevelDenominator_",
+        name: "maxLeverageDenominator_",
         type: "uint256",
       },
     ],
@@ -493,6 +517,24 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "maxLeverage",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "minMarginLevel",
     outputs: [
       {
@@ -595,16 +637,16 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "minMarginLevelNumerator_",
+        name: "maxLeverageNumerator_",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "minMarginLevelDenominator_",
+        name: "maxLeverageDenominator_",
         type: "uint256",
       },
     ],
-    name: "setMinMarginLevel",
+    name: "setMaxLeverage",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

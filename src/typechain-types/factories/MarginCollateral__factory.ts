@@ -367,12 +367,12 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "minMarginLevelNumerator_",
+        name: "maxLeverageNumerator_",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "minMarginLevelDenominator_",
+        name: "maxLeverageDenominator_",
         type: "uint256",
       },
     ],
@@ -386,11 +386,6 @@ const _abi = [
       {
         internalType: "uint256",
         name: "minCollateralPrice_",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "maxLeverage_",
         type: "uint256",
       },
     ],
@@ -613,24 +608,10 @@ const _abi = [
         name: "",
         type: "uint256",
       },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
       {
-        internalType: "address",
-        name: "account_",
-        type: "address",
-      },
-    ],
-    name: "maxLeverageReached",
-    outputs: [
-      {
-        internalType: "bool",
+        internalType: "uint256",
         name: "",
-        type: "bool",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -790,7 +771,12 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "maxLeverage_",
+        name: "maxLeverageNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxLeverageDenominator_",
         type: "uint256",
       },
     ],
@@ -808,24 +794,6 @@ const _abi = [
       },
     ],
     name: "setMinCollateralPrice",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "minMarginLevelNumerator_",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "minMarginLevelDenominator_",
-        type: "uint256",
-      },
-    ],
-    name: "setMinMarginLevel",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
