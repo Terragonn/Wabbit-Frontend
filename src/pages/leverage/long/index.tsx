@@ -135,6 +135,7 @@ export default function LeverageLong() {
                             keys={[
                                 ["Available amount", parseNumber(data?.available) + " " + displayString(token?.symbol)],
                                 ["Available value", "$ " + parseNumber(data?.availableValue)],
+                                ["", ""],
                                 ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateral)],
                             ]}
                             cta="Deposit"
