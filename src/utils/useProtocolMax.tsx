@@ -68,8 +68,11 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            let maxLeverage = await contracts.marginLong.maxLeverage();
-            maxLeverage = maxLeverage.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0]));
+            let [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
+            const maxLeverage = maxLeverageNumerator
+                .mul(SAFETY_THRESHOLD[1])
+                .div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0]))
+                .div(maxLeverageDenominator);
 
             const maxPriceToAmount = async (maxPrice: ethers.BigNumber) => {
                 const amount = await contracts.oracle.amountMin(token.address, maxPrice);

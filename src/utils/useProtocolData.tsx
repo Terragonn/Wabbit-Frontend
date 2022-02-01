@@ -268,9 +268,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function maxLeverage() {
         if (contracts) {
-            const leverage = await contracts.marginLong.maxLeverage();
+            const [leverageNumerator, leverageDenominator] = await contracts.marginLong.maxLeverage();
 
-            return leverage.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0]));
+            return leverageNumerator.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0])).div(leverageDenominator);
         }
     }
 
