@@ -209,7 +209,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
+            console.log("Here");
+            console.log(contracts.lPool.address);
+            console.log(token.address);
             const LPAmount = await contracts.lPool.addLiquidityOutLPTokens(token.address, rawBalance);
+            console.log("After");
 
             return parseDecimals(LPAmount, token.decimals);
         }
