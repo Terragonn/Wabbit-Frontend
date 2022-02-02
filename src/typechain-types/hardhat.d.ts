@@ -85,13 +85,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IConverter__factory>;
     getContractFactory(
-      name: "IPokeMe",
+      name: "ITaskTreasury",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IPokeMe__factory>;
-    getContractFactory(
-      name: "PokeMeReady",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PokeMeReady__factory>;
+    ): Promise<Contracts.ITaskTreasury__factory>;
     getContractFactory(
       name: "Resolver",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -316,15 +312,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IConverter>;
     getContractAt(
-      name: "IPokeMe",
+      name: "ITaskTreasury",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IPokeMe>;
-    getContractAt(
-      name: "PokeMeReady",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PokeMeReady>;
+    ): Promise<Contracts.ITaskTreasury>;
     getContractAt(
       name: "Resolver",
       address: string,

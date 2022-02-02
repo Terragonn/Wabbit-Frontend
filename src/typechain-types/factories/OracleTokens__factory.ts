@@ -88,7 +88,7 @@ const _abi = [
     name: "priceFeed",
     outputs: [
       {
-        internalType: "contract AggregatorV3Interface",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -114,7 +114,7 @@ const _abi = [
     name: "reservePriceFeed",
     outputs: [
       {
-        internalType: "contract AggregatorV3Interface",
+        internalType: "address",
         name: "",
         type: "address",
       },
@@ -130,12 +130,12 @@ const _abi = [
         type: "address[]",
       },
       {
-        internalType: "contract AggregatorV3Interface[]",
+        internalType: "address[]",
         name: "priceFeed_",
         type: "address[]",
       },
       {
-        internalType: "contract AggregatorV3Interface[]",
+        internalType: "address[]",
         name: "reservePriceFeed_",
         type: "address[]",
       },

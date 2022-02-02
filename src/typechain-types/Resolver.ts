@@ -19,25 +19,22 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ResolverInterface extends utils.Interface {
   contractName: "Resolver";
   functions: {
-    "ETH()": FunctionFragment;
     "checkLiquidate()": FunctionFragment;
     "checkReset()": FunctionFragment;
     "converter()": FunctionFragment;
     "executeLiquidate(address)": FunctionFragment;
     "executeReset(address)": FunctionFragment;
-    "gelato()": FunctionFragment;
     "marginLong()": FunctionFragment;
     "owner()": FunctionFragment;
-    "pokeMe()": FunctionFragment;
-    "pool()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setConverter(address)": FunctionFragment;
+    "setDepositReceiver(address)": FunctionFragment;
     "setMarginLong(address)": FunctionFragment;
-    "setPool(address)": FunctionFragment;
+    "setTaskTreasury(address)": FunctionFragment;
+    "taskTreasury()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "ETH", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "checkLiquidate",
     values?: undefined
@@ -55,14 +52,11 @@ export interface ResolverInterface extends utils.Interface {
     functionFragment: "executeReset",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "gelato", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "marginLong",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(functionFragment: "pokeMe", values?: undefined): string;
-  encodeFunctionData(functionFragment: "pool", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -72,16 +66,26 @@ export interface ResolverInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setDepositReceiver",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setMarginLong",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "setPool", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setTaskTreasury",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "taskTreasury",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "ETH", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "checkLiquidate",
     data: BytesLike
@@ -96,11 +100,8 @@ export interface ResolverInterface extends utils.Interface {
     functionFragment: "executeReset",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "gelato", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "marginLong", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pokeMe", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pool", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -110,10 +111,21 @@ export interface ResolverInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setDepositReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setMarginLong",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setPool", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setTaskTreasury",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "taskTreasury",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -162,15 +174,9 @@ export interface Resolver extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    ETH(overrides?: CallOverrides): Promise<[string]>;
+    checkLiquidate(overrides?: CallOverrides): Promise<[boolean, string]>;
 
-    checkLiquidate(
-      overrides?: CallOverrides
-    ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
-
-    checkReset(
-      overrides?: CallOverrides
-    ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
+    checkReset(overrides?: CallOverrides): Promise<[boolean, string]>;
 
     converter(overrides?: CallOverrides): Promise<[string]>;
 
@@ -184,15 +190,9 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    gelato(overrides?: CallOverrides): Promise<[string]>;
-
     marginLong(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
-
-    pokeMe(overrides?: CallOverrides): Promise<[string]>;
-
-    pool(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -203,15 +203,22 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setDepositReceiver(
+      depositReceiver_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setMarginLong(
       marginLong_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setPool(
-      pool_: string,
+    setTaskTreasury(
+      taskTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    taskTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     transferOwnership(
       newOwner: string,
@@ -219,15 +226,9 @@ export interface Resolver extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  ETH(overrides?: CallOverrides): Promise<string>;
+  checkLiquidate(overrides?: CallOverrides): Promise<[boolean, string]>;
 
-  checkLiquidate(
-    overrides?: CallOverrides
-  ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
-
-  checkReset(
-    overrides?: CallOverrides
-  ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
+  checkReset(overrides?: CallOverrides): Promise<[boolean, string]>;
 
   converter(overrides?: CallOverrides): Promise<string>;
 
@@ -241,15 +242,9 @@ export interface Resolver extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  gelato(overrides?: CallOverrides): Promise<string>;
-
   marginLong(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
-
-  pokeMe(overrides?: CallOverrides): Promise<string>;
-
-  pool(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -260,15 +255,22 @@ export interface Resolver extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setDepositReceiver(
+    depositReceiver_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setMarginLong(
     marginLong_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setPool(
-    pool_: string,
+  setTaskTreasury(
+    taskTreasury_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  taskTreasury(overrides?: CallOverrides): Promise<string>;
 
   transferOwnership(
     newOwner: string,
@@ -276,15 +278,9 @@ export interface Resolver extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    ETH(overrides?: CallOverrides): Promise<string>;
+    checkLiquidate(overrides?: CallOverrides): Promise<[boolean, string]>;
 
-    checkLiquidate(
-      overrides?: CallOverrides
-    ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
-
-    checkReset(
-      overrides?: CallOverrides
-    ): Promise<[boolean, string] & { canExec: boolean; execPayload: string }>;
+    checkReset(overrides?: CallOverrides): Promise<[boolean, string]>;
 
     converter(overrides?: CallOverrides): Promise<string>;
 
@@ -295,26 +291,30 @@ export interface Resolver extends BaseContract {
 
     executeReset(account_: string, overrides?: CallOverrides): Promise<void>;
 
-    gelato(overrides?: CallOverrides): Promise<string>;
-
     marginLong(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
-    pokeMe(overrides?: CallOverrides): Promise<string>;
-
-    pool(overrides?: CallOverrides): Promise<string>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     setConverter(converter_: string, overrides?: CallOverrides): Promise<void>;
+
+    setDepositReceiver(
+      depositReceiver_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setMarginLong(
       marginLong_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setPool(pool_: string, overrides?: CallOverrides): Promise<void>;
+    setTaskTreasury(
+      taskTreasury_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    taskTreasury(overrides?: CallOverrides): Promise<string>;
 
     transferOwnership(
       newOwner: string,
@@ -334,8 +334,6 @@ export interface Resolver extends BaseContract {
   };
 
   estimateGas: {
-    ETH(overrides?: CallOverrides): Promise<BigNumber>;
-
     checkLiquidate(overrides?: CallOverrides): Promise<BigNumber>;
 
     checkReset(overrides?: CallOverrides): Promise<BigNumber>;
@@ -352,15 +350,9 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    gelato(overrides?: CallOverrides): Promise<BigNumber>;
-
     marginLong(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pokeMe(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pool(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -371,15 +363,22 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setDepositReceiver(
+      depositReceiver_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setMarginLong(
       marginLong_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setPool(
-      pool_: string,
+    setTaskTreasury(
+      taskTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    taskTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -388,8 +387,6 @@ export interface Resolver extends BaseContract {
   };
 
   populateTransaction: {
-    ETH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     checkLiquidate(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     checkReset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -406,15 +403,9 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    gelato(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     marginLong(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pokeMe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -425,15 +416,22 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setDepositReceiver(
+      depositReceiver_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setMarginLong(
       marginLong_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setPool(
-      pool_: string,
+    setTaskTreasury(
+      taskTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    taskTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
