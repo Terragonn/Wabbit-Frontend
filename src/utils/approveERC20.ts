@@ -9,5 +9,5 @@ export default async function approveERC20(tokenAddress: string, amount: ethers.
 
     const signerAddress = await contract.signer.getAddress();
     const approved = await contract.allowance(signerAddress, address);
-    if (approved.lt(amount)) await contract.approve(address, toApprove, OVERRIDE);
+    if (approved.lt(amount)) await (await contract.approve(address, toApprove, OVERRIDE)).wait();
 }
