@@ -117,6 +117,25 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "tokenOut_",
+        type: "address",
+      },
+    ],
+    name: "swapMaxEthIn",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "tokenIn_",
         type: "address",
       },

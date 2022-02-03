@@ -9,6 +9,7 @@ import {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -28,6 +29,7 @@ export interface ConverterInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "router()": FunctionFragment;
     "setRouter(address)": FunctionFragment;
+    "swapMaxEthIn(address)": FunctionFragment;
     "swapMaxEthOut(address,uint256)": FunctionFragment;
     "swapMaxTokenOut(address,uint256,address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -56,6 +58,10 @@ export interface ConverterInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "router", values?: undefined): string;
   encodeFunctionData(functionFragment: "setRouter", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "swapMaxEthIn",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "swapMaxEthOut",
     values: [string, BigNumberish]
@@ -92,6 +98,10 @@ export interface ConverterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "router", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setRouter", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "swapMaxEthIn",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "swapMaxEthOut",
     data: BytesLike
@@ -187,6 +197,11 @@ export interface Converter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    swapMaxEthIn(
+      tokenOut_: string,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     swapMaxEthOut(
       tokenIn_: string,
       amountIn_: BigNumberish,
@@ -245,6 +260,11 @@ export interface Converter extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  swapMaxEthIn(
+    tokenOut_: string,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   swapMaxEthOut(
     tokenIn_: string,
     amountIn_: BigNumberish,
@@ -297,6 +317,11 @@ export interface Converter extends BaseContract {
     router(overrides?: CallOverrides): Promise<string>;
 
     setRouter(router_: string, overrides?: CallOverrides): Promise<void>;
+
+    swapMaxEthIn(
+      tokenOut_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     swapMaxEthOut(
       tokenIn_: string,
@@ -368,6 +393,11 @@ export interface Converter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    swapMaxEthIn(
+      tokenOut_: string,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     swapMaxEthOut(
       tokenIn_: string,
       amountIn_: BigNumberish,
@@ -425,6 +455,11 @@ export interface Converter extends BaseContract {
     setRouter(
       router_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapMaxEthIn(
+      tokenOut_: string,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     swapMaxEthOut(

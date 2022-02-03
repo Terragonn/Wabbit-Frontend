@@ -31,7 +31,7 @@ export interface ResolverInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setConverter(address)": FunctionFragment;
     "setDepositReceiver(address)": FunctionFragment;
-    "setETHAddress(address)": FunctionFragment;
+    "setEthAddress(address)": FunctionFragment;
     "setMarginLong(address)": FunctionFragment;
     "setTaskTreasury(address)": FunctionFragment;
     "taskTreasury()": FunctionFragment;
@@ -81,7 +81,7 @@ export interface ResolverInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setETHAddress",
+    functionFragment: "setEthAddress",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -135,7 +135,7 @@ export interface ResolverInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setETHAddress",
+    functionFragment: "setEthAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -236,7 +236,7 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setETHAddress(
+    setEthAddress(
       ethAddress_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -297,7 +297,7 @@ export interface Resolver extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setETHAddress(
+  setEthAddress(
     ethAddress_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -350,7 +350,7 @@ export interface Resolver extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setETHAddress(
+    setEthAddress(
       ethAddress_: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -423,7 +423,7 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setETHAddress(
+    setEthAddress(
       ethAddress_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -485,7 +485,7 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setETHAddress(
+    setEthAddress(
       ethAddress_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
