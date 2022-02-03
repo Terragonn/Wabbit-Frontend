@@ -87,10 +87,7 @@ export interface WETH extends BaseContract {
   callStatic: {
     deposit(overrides?: CallOverrides): Promise<void>;
 
-    withdraw(
-      amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    withdraw(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
