@@ -21,15 +21,24 @@ export interface ITaskTreasuryInterface extends utils.Interface {
   contractName: "ITaskTreasury";
   functions: {
     "depositFunds(address,address,uint256)": FunctionFragment;
+    "userTokenBalance(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "depositFunds",
     values: [string, string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "userTokenBalance",
+    values: [string, string]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "depositFunds",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "userTokenBalance",
     data: BytesLike
   ): Result;
 
@@ -70,6 +79,12 @@ export interface ITaskTreasury extends BaseContract {
       _amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    userTokenBalance(
+      _receiver: string,
+      _token: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
   };
 
   depositFunds(
@@ -79,6 +94,12 @@ export interface ITaskTreasury extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  userTokenBalance(
+    _receiver: string,
+    _token: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   callStatic: {
     depositFunds(
       _receiver: string,
@@ -86,6 +107,12 @@ export interface ITaskTreasury extends BaseContract {
       _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    userTokenBalance(
+      _receiver: string,
+      _token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   filters: {};
@@ -97,6 +124,12 @@ export interface ITaskTreasury extends BaseContract {
       _amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    userTokenBalance(
+      _receiver: string,
+      _token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -105,6 +138,12 @@ export interface ITaskTreasury extends BaseContract {
       _token: string,
       _amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    userTokenBalance(
+      _receiver: string,
+      _token: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }

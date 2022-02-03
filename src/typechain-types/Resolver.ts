@@ -22,6 +22,8 @@ export interface ResolverInterface extends utils.Interface {
     "checkLiquidate()": FunctionFragment;
     "checkReset()": FunctionFragment;
     "converter()": FunctionFragment;
+    "depositReceiver()": FunctionFragment;
+    "ethAddress()": FunctionFragment;
     "executeLiquidate(address)": FunctionFragment;
     "executeReset(address)": FunctionFragment;
     "marginLong()": FunctionFragment;
@@ -29,6 +31,7 @@ export interface ResolverInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "setConverter(address)": FunctionFragment;
     "setDepositReceiver(address)": FunctionFragment;
+    "setETHAddress(address)": FunctionFragment;
     "setMarginLong(address)": FunctionFragment;
     "setTaskTreasury(address)": FunctionFragment;
     "taskTreasury()": FunctionFragment;
@@ -44,6 +47,14 @@ export interface ResolverInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "converter", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "depositReceiver",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ethAddress",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "executeLiquidate",
     values: [string]
@@ -70,6 +81,10 @@ export interface ResolverInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setETHAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setMarginLong",
     values: [string]
   ): string;
@@ -93,6 +108,11 @@ export interface ResolverInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "checkReset", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "converter", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "depositReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "ethAddress", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "executeLiquidate",
     data: BytesLike
   ): Result;
@@ -112,6 +132,10 @@ export interface ResolverInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setDepositReceiver",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setETHAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -180,6 +204,10 @@ export interface Resolver extends BaseContract {
 
     converter(overrides?: CallOverrides): Promise<[string]>;
 
+    depositReceiver(overrides?: CallOverrides): Promise<[string]>;
+
+    ethAddress(overrides?: CallOverrides): Promise<[string]>;
+
     executeLiquidate(
       account_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -208,6 +236,11 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setETHAddress(
+      ethAddress_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setMarginLong(
       marginLong_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -231,6 +264,10 @@ export interface Resolver extends BaseContract {
   checkReset(overrides?: CallOverrides): Promise<[boolean, string]>;
 
   converter(overrides?: CallOverrides): Promise<string>;
+
+  depositReceiver(overrides?: CallOverrides): Promise<string>;
+
+  ethAddress(overrides?: CallOverrides): Promise<string>;
 
   executeLiquidate(
     account_: string,
@@ -260,6 +297,11 @@ export interface Resolver extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setETHAddress(
+    ethAddress_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setMarginLong(
     marginLong_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -284,6 +326,10 @@ export interface Resolver extends BaseContract {
 
     converter(overrides?: CallOverrides): Promise<string>;
 
+    depositReceiver(overrides?: CallOverrides): Promise<string>;
+
+    ethAddress(overrides?: CallOverrides): Promise<string>;
+
     executeLiquidate(
       account_: string,
       overrides?: CallOverrides
@@ -301,6 +347,11 @@ export interface Resolver extends BaseContract {
 
     setDepositReceiver(
       depositReceiver_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setETHAddress(
+      ethAddress_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -340,6 +391,10 @@ export interface Resolver extends BaseContract {
 
     converter(overrides?: CallOverrides): Promise<BigNumber>;
 
+    depositReceiver(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ethAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
     executeLiquidate(
       account_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -368,6 +423,11 @@ export interface Resolver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setETHAddress(
+      ethAddress_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setMarginLong(
       marginLong_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -392,6 +452,10 @@ export interface Resolver extends BaseContract {
     checkReset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     converter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    depositReceiver(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ethAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     executeLiquidate(
       account_: string,
@@ -418,6 +482,11 @@ export interface Resolver extends BaseContract {
 
     setDepositReceiver(
       depositReceiver_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setETHAddress(
+      ethAddress_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

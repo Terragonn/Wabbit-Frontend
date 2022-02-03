@@ -30,6 +30,30 @@ const _abi = [
     stateMutability: "payable",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_receiver",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_token",
+        type: "address",
+      },
+    ],
+    name: "userTokenBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 
 export class ITaskTreasury__factory {

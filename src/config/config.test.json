@@ -68,12 +68,12 @@
       }
     }
   ],
-  "leveragePoolAddress": "0xdF87443CC329327ee7C4F14a06bEee6681521868",
-  "leveragePoolLogicAddress": "0x4F00eC170399a7Fc3A3a4f946CdC6bDB810003b8",
-  "oracleAddress": "0x02D3c16dB4029F83DE7cF3e8e85e7dBDb7FDdE54",
-  "converterAddress": "0xB5a0Cc42647778DF5046824F5BDb3DE55967680C",
-  "marginLongAddress": "0x6626fF8008a8EE0541Fd1c8877981A50b4445584",
-  "marginLongLogicAddress": "0x2c1c8de22Da1a4719E3aF4e2d08229DcdEAdB373",
-  "resolverAddress": "0xAbef1Ab28fd78FE8740335885B611764bD4b93e4",
-  "timelockAddress": "0x299a3479e1c7Af1dDF4582e6c478aFDe79134466"
+  "leveragePoolAddress": "0xdAcD7b6F9b36790734Bf11B712E59d459CC1e0C4",
+  "leveragePoolLogicAddress": "0xe6F7A31852B015629756c1C3Bcc7cDE87Ca1F040",
+  "oracleAddress": "0xAc99ee619fFAf16c2bbb94cD6F0cedaB2c172ec3",
+  "converterAddress": "0xBC86C0974ED598bE7670cBC0Bf7075Aa85C150fb",
+  "marginLongAddress": "0x9Fc6F8e68a2aEf4E083Bc0ADfBf8FB1bDFD4CC27",
+  "marginLongLogicAddress": "0xa024dd36BCae89825c8ecC2457F1fe1789239dac",
+  "resolverAddress": "0x96e10cC82dbE04E77683e5b8455faF7F509d91a7",
+  "timelockAddress": "0x87609a0C790c793f7083b638BEfc6945893cBEF9"
 }
