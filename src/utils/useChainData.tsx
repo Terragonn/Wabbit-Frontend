@@ -32,7 +32,7 @@ export interface Approved {
 
 export interface Config {
     routerAddress: string;
-    gelatoPokeMe: string;
+    taskTreasury: string;
     LPPrefixName: string;
     LPPrefixSymbol: string;
     approved: Approved[];
