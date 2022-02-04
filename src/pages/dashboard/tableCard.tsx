@@ -32,7 +32,7 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
 
     return (
         <a href={`${blockExplorer}${approved?.address}`}>
-            <div className="bg-neutral-900 rounded-xl flex flex-col items-center justify-start py-9 px-10 text-center text-white mb-10 glow">
+            <div className="bg-neutral-900 rounded-xl flex flex-col items-center py-9 px-10 text-center text-white mb-10 glow">
                 <span className="flex items-center justify-start w-full space-x-3 font-bold text-xl">
                     <img src={approved?.icon} width={40} className="rounded-xl" alt={approved?.name} />
                     <span>{approved?.name}</span>

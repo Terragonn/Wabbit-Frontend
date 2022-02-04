@@ -22,7 +22,7 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
             <p className="text-center text-white font-bold text-xl pt-5 pb-24">
                 {!account ? "Not Connected" : `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}
             </p>
-            <ul className="flex flex-col space-y-16">
+            <ul className="flex flex-col items-stretch space-y-16">
                 <li>
                     <NavLink base="dashboard" directories={[]}>
                         Dashboard

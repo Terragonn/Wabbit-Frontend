@@ -2,8 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .glow {
+    box-shadow: 0px 5px 16px 2px rgba(189, 15, 219, 0.2);
+  }
+
+  .modal {
+    min-width: 560px;
+  }
+}
+
 * {
   transition: all 200ms ease;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #434343 #0f0f0f;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #434343;
+  border-radius: 20px;
+  border: 3px solid #0f0f0f;
 }
 
 body {
@@ -37,14 +68,4 @@ body {
       rgba(251, 251, 251, 0.04) 100%
     ),
     linear-gradient(90deg, rgb(0, 0, 0), rgb(0, 0, 0));
-}
-
-@layer components {
-  .glow {
-    box-shadow: 0px 5px 16px 2px rgba(189, 15, 219, 0.2);
-  }
-
-  .modal {
-    min-width: 560px;
-  }
 }

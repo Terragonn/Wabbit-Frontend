@@ -84,7 +84,7 @@ export default function ProvideLiquidity() {
                 />
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Provide Liquidity</h2>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start justify-evenly pb-10 my-10">
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 <div className="w-full lg:mb-16 mb-20">
                     <TokenSelect title="Token" setToken={setToken} allowed={["leveragePool"]} />
                 </div>

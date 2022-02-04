@@ -124,7 +124,7 @@ export default function LeverageLong() {
                 />
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Leverage Long</h2>
-            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start justify-evenly pb-10 my-10">
+            <div className="p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 <div className="w-full lg:mb-16 mb-20">
                     <TokenSelect title="Token" setToken={setToken} allowed={["marginLongCollateral", "marginLongBorrow"]} />
                 </div>
@@ -159,7 +159,7 @@ export default function LeverageLong() {
                     </div>
                 </div>
                 <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-20">
-                    <div className="w-full flex flex-col lg:items-center items-stretch justify-center mr-6">
+                    <div className="w-full flex flex-col lg:items-center items-stretch mr-6">
                         <TokenSegment
                             title="Leverage"
                             keys={[
