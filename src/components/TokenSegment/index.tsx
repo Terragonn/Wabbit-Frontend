@@ -28,6 +28,15 @@ export default function TokenSegment({
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
 
+    const [processing, setProcessing] = useState<boolean>(false);
+    async function processHandler(fn: () => Promise<any>) {
+        setProcessing(true);
+        try {
+            await fn();
+        } catch {}
+        setProcessing(false);
+    }
+
     useEffect(() => {
         if (token) {
             const padded = Math.floor(num * ROUND_CONSTANT);
@@ -87,7 +96,7 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                {cta.length > 0 ? <Button onClick={() => (callback && token ? callback(bigNum, token) : null)}>{cta}</Button> : null}
+                {cta.length > 0 ? <Button onClick={() => (callback && token ? processHandler(async () => await callback(bigNum, token)) : null)}>{cta}</Button> : null}
             </div>
         </>
     );

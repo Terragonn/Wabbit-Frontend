@@ -38,7 +38,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (library) await approveERC20(tokenAddress, amount, address, library?.getSigner());
     }
 
-    async function handleError(fn: (...args: any[]) => Promise<any>) {
+    async function handleError(fn: () => Promise<any>) {
         try {
             return await fn();
         } catch (e: any) {
