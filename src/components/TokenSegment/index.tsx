@@ -96,7 +96,11 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                {cta.length > 0 ? <Button onClick={() => (callback && token ? processHandler(async () => await callback(bigNum, token)) : null)}>{cta}</Button> : null}
+                {cta.length > 0 ? (
+                    <Button loading={processing} onClick={() => (callback && token ? processHandler(async () => await callback(bigNum, token)) : null)}>
+                        {cta}
+                    </Button>
+                ) : null}
             </div>
         </>
     );
