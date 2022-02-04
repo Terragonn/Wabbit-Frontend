@@ -167,7 +167,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const [interestNumerator, interestDenominator] = await contracts.lPool.interestRate(token.address);
 
             const provideLiquidityAPR =
-                interestNumerator.mul(utilizationNumerator).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
+                interestNumerator.mul(utilizationNumerator).mul(100).mul(ROUND_CONSTANT).div(utilizationDenominator).div(interestDenominator).toNumber() / ROUND_CONSTANT;
             return provideLiquidityAPR;
         }
     }
@@ -176,7 +176,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const [numerator, denominator] = await contracts.lPool.interestRate(token.address);
 
-            return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
+            return numerator.mul(100).mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
         }
     }
 
