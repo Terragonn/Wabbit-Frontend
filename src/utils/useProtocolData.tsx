@@ -106,7 +106,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
+            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalCollateral = await contracts.marginLong.totalCollateral(asset);
                 const price = await contracts.oracle.priceMax(asset, totalCollateral);
