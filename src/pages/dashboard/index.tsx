@@ -1,7 +1,6 @@
 import Banner from "../../components/Banner";
-import TableHeader from "./tableHeader";
-import TableRow from "./tableRow";
-import TableCard from "./tableCard";
+import TableRow from "../../components/TableRow";
+import TableCard from "../../components/TableCard";
 import useProtocolData from "../../utils/useProtocolData";
 import parseNumber from "../../utils/parseNumber";
 import {useEffect, useState} from "react";
@@ -36,7 +35,13 @@ export default function Dashboard() {
                         {title: "Total Value Borrowed", body: "$ " + parseNumber(data?.borrowed)},
                     ]}
                 />
-                <TableHeader />
+                <div className="flex items-center justify-evenly py-3 px-10 mb-2">
+                    <h3 className="text-center w-full text-neutral-500 font-bold">Name</h3>
+                    <h3 className="text-center w-full text-neutral-500 font-bold">TVL</h3>
+                    <h3 className="text-center w-full text-neutral-500 font-bold">Borrowed</h3>
+                    <h3 className="text-center w-full text-neutral-500 font-bold">Provide Liquidity APY</h3>
+                    <h3 className="text-center w-full text-neutral-500 font-bold">Borrow APR</h3>
+                </div>
             </div>
             <div className="lg:block hidden">
                 {config
