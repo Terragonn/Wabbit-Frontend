@@ -22,12 +22,3 @@ export async function isApprovedERC20(token: string, amount: ethers.BigNumber, c
     const approved = await contract.allowance(signerAddress, contractAddress);
     return approved.gte(amount);
 }
-
-export async function isWrapNeeded(token: string, amount: ethers.BigNumber, wrappedToken: string, signer: ethers.providers.JsonRpcSigner) {
-    if (token.toLowerCase() !== wrappedToken.toLowerCase()) return false;
-
-    const balance = await signer.getBalance();
-    return balance.lt(amount);
-}
-
-export async function wrap(token: string, amount: ethers.BigNumber, wrappedToken: string) {}
