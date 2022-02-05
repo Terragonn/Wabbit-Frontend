@@ -7,7 +7,7 @@ import useContracts from "./useContracts";
 import useError from "./useError";
 import {useUpdateProtocolData} from "./useProtocolData";
 
-export type RequiresApproval = [(() => Promise<void>) | null, boolean, (() => Promise<void>) | null];
+export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 
 interface ProtocolMethods {
     provideLiquidity: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
@@ -46,10 +46,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         }
     }
 
-    async function approve(token: string, contractAddress: string, amount: ethers.BigNumber): Promise<RequiresApproval> {
+    async function approve(token: string, contractAddress: string, amount: ethers.BigNumber) {
         if (library && !isApprovedERC20(token, amount, contractAddress, library.getSigner()))
-            return [true, async () => await approveERC20(token, amount, contractAddress, library.getSigner())] as any;
-        else return [false, null] as any;
+            return async () => await approveERC20(token, amount, contractAddress, library.getSigner());
+        return null;
     }
 
     async function provideLiquidity(token: Approved, amount: ethers.BigNumber) {
@@ -61,10 +61,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 updateProtocolData();
             };
 
-            return [fn, ...approval];
+            return [fn, approval];
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -78,10 +78,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 updateProtocolData();
             };
 
-            return [fn, ...approval];
+            return [fn, approval];
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -94,10 +94,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 updateProtocolData();
             };
 
-            return [fn, ...approval] as any;
+            return [fn, approval] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -110,10 +110,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 updateProtocolData();
             };
 
-            return [fn, ...approval] as any;
+            return [fn, approval] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -123,10 +123,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
                 updateProtocolData();
             };
-            return [fn, false, null] as any;
+            return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -136,10 +136,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](token.address, OVERRIDE)).wait());
                 updateProtocolData();
             };
-            return [fn, false, null] as any;
+            return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 
@@ -149,10 +149,10 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
                 updateProtocolData();
             };
-            return [fn, false, null] as any;
+            return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
-            return [null, false, null] as any;
+            return [null, null] as any;
         }
     }
 

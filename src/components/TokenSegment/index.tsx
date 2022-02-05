@@ -62,7 +62,7 @@ export default function TokenSegment({
 
                 if (callback) {
                     const requiresApproval = await callback(token, decimals);
-                    setApprove(requiresApproval[1]);
+                    setApprove(requiresApproval[1] !== null);
                 }
 
                 if (isMax) setIsMax(false);
@@ -122,7 +122,7 @@ export default function TokenSegment({
                                     const requiresApproval = await callback(token, bigNum);
 
                                     if (requiresApproval[1]) {
-                                        processHandler(async () => await (requiresApproval[2] as any)());
+                                        processHandler(async () => await (requiresApproval[1] as any)());
                                         setApprove(false);
                                     } else processHandler(async () => await (requiresApproval[0] as any)());
                                 })();

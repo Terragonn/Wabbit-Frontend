@@ -2,22 +2,22 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import {useWeb3React} from "@web3-react/core";
 
-import LPool from "../config/LPool.json";
-import Oracle from "../config/Oracle.json";
-import MarginLong from "../config/MarginLong.json";
+import LPoolAbi from "../config/LPool.json";
+import OracleAbi from "../config/Oracle.json";
+import MarginLongAbi from "../config/MarginLong.json";
+import ConverterAbi from "../config/Converter.json";
 
-import {LPool as LPoolType} from "../typechain-types";
-import {Oracle as OracleType} from "../typechain-types";
-import {MarginLong as MarginLongType} from "../typechain-types";
+import {LPool, Oracle, MarginLong, Converter} from "../typechain-types";
 
 import useChainData, {Config} from "./useChainData";
 
 interface Contracts {
     signer: ethers.providers.JsonRpcSigner;
     config: Config;
-    lPool: LPoolType;
-    oracle: OracleType;
-    marginLong: MarginLongType;
+    lPool: LPool;
+    oracle: Oracle;
+    marginLong: MarginLong;
+    converter: Converter;
 }
 
 const contractCtx = createContext<Contracts | null>(undefined as any);
@@ -33,13 +33,14 @@ export function ContractsProvider({children}: {children: any}) {
     async function getContracts() {
         if (active && config) {
             const provider = new ethers.providers.Web3Provider(library.provider);
-
             const signer = provider.getSigner();
-            const lPool = new ethers.Contract(config.leveragePoolAddress, LPool.abi, signer) as LPoolType;
-            const oracle = new ethers.Contract(config.oracleAddress, Oracle.abi, signer) as OracleType;
-            const marginLong = new ethers.Contract(config.marginLongAddress, MarginLong.abi, signer) as MarginLongType;
 
-            return {signer, config, lPool, oracle, marginLong};
+            const lPool = new ethers.Contract(config.leveragePoolAddress, LPoolAbi.abi, signer) as LPool;
+            const oracle = new ethers.Contract(config.oracleAddress, OracleAbi.abi, signer) as Oracle;
+            const marginLong = new ethers.Contract(config.marginLongAddress, MarginLongAbi.abi, signer) as MarginLong;
+            const converter = new ethers.Contract(config.converterAddress, ConverterAbi.abi, signer) as Converter;
+
+            return {signer, config, lPool, oracle, marginLong, converter} as Contracts;
         }
         return null;
     }
