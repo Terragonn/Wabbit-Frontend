@@ -46,21 +46,24 @@ export default function TokenSegment({
 
     useEffect(() => {
         if (token) {
-            if (max && isMax) setBigNum(max[0]);
-            else {
+            let decimals: ethers.BigNumber;
+            if (max && isMax) {
+                decimals = max[0];
+                setBigNum(decimals);
+            } else {
                 const padded = Math.floor(num * ROUND_CONSTANT);
-                const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
+                decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
                 setBigNum(decimals);
             }
 
             (async () => {
                 if (contracts) {
-                    const price = await contracts?.oracle.priceMin(token.address, bigNum);
+                    const price = await contracts?.oracle.priceMin(token.address, decimals);
                     const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
                     setPriceNum(parsed);
                 }
 
-                if (approveContract && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, bigNum));
+                if (approveContract && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, decimals));
 
                 if (isMax) setIsMax(false);
             })();
