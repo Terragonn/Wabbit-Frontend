@@ -2,7 +2,7 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "./parseNumber";
-import loadERC20 from "./loadERC20";
+import {loadERC20} from "./ERC20Utils";
 import {Approved} from "./useChainData";
 import getApproved from "./getApproved";
 

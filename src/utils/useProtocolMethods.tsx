@@ -1,7 +1,7 @@
 import {useWeb3React} from "@web3-react/core";
 import {ethers, Overrides} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
-import {isApprovedERC20, approveERC20} from "./approveERC20";
+import {isApprovedERC20, approveERC20} from "./ERC20Utils";
 import {Approved} from "./useChainData";
 import useContracts from "./useContracts";
 import useError from "./useError";
