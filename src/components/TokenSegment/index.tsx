@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
 import {Approved} from "../../utils/useChainData";
 import useContracts from "../../utils/useContracts";
+import useProtocolMethods from "../../utils/useProtocolMethods";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -13,6 +14,7 @@ export default function TokenSegment({
     callback,
     hideInput,
     max,
+    approveContract,
 }: {
     title: string;
     keys: [string, string][];
@@ -21,12 +23,17 @@ export default function TokenSegment({
     callback?: (num: ethers.BigNumber, token: Approved) => any;
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
+    approveContract?: string;
 }) {
     const contracts = useContracts();
+    const protocolMethods = useProtocolMethods();
 
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+    const [isMax, setIsMax] = useState<boolean>(false);
+
+    const [approve, setApprove] = useState<[boolean, (() => Promise<void>) | null]>([false, null]);
 
     const [processing, setProcessing] = useState<boolean>(false);
     async function processHandler(fn: () => Promise<any>) {
@@ -39,16 +46,23 @@ export default function TokenSegment({
 
     useEffect(() => {
         if (token) {
-            const padded = Math.floor(num * ROUND_CONSTANT);
-            const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
-            setBigNum(decimals);
+            if (max && isMax) setBigNum(max[0]);
+            else {
+                const padded = Math.floor(num * ROUND_CONSTANT);
+                const decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
+                setBigNum(decimals);
+            }
 
             (async () => {
                 if (contracts) {
-                    const price = await contracts?.oracle.priceMin(token.address, decimals);
+                    const price = await contracts?.oracle.priceMin(token.address, bigNum);
                     const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
                     setPriceNum(parsed);
                 }
+
+                if (approveContract && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, bigNum));
+
+                if (isMax) setIsMax(false);
             })();
         }
     }, [num]);
@@ -70,17 +84,17 @@ export default function TokenSegment({
                             setNum(e.target.valueAsNumber || 0);
                         }}
                     />
-                    <span
-                        className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
-                        onClick={async () => {
-                            if (max) {
+                    {max ? (
+                        <span
+                            className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
+                            onClick={async () => {
                                 setNum(max[1]);
-                                setBigNum(max[0]);
-                            }
-                        }}
-                    >
-                        max
-                    </span>
+                                setIsMax(true);
+                            }}
+                        >
+                            max
+                        </span>
+                    ) : null}
                 </div>
             ) : null}
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch">
@@ -98,7 +112,7 @@ export default function TokenSegment({
                 </div>
                 {cta.length > 0 ? (
                     <Button loading={processing} onClick={() => (callback && token ? processHandler(async () => await callback(bigNum, token)) : null)}>
-                        {cta}
+                        {approve[0] ? "Approve" : cta}
                     </Button>
                 ) : null}
             </div>
