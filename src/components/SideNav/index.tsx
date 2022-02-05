@@ -40,7 +40,7 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                 </li>
             </ul>
 
-            <ul className="flex items-center justify-evenly space-x-5 mx-auto mt-64 text-lg font-bold text-neutral-500 text-center w-3/4">
+            <ul className="flex items-center justify-evenly space-x-5 mx-auto mt-72 text-lg font-bold text-neutral-500 text-center w-3/4">
                 <li>
                     <a className="hover:text-neutral-300" href="https://docs.torque.money/">
                         Docs
