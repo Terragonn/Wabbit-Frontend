@@ -25,6 +25,8 @@ export default function TokenSegment({
 }) {
     const contracts = useContracts();
 
+    // **** I am going to set the num as a string, and then I am going to reset the value to be back to "" eventually
+
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
@@ -80,7 +82,7 @@ export default function TokenSegment({
                         className="bg-transparent border-none rounded-xl text-left text-white text-xl font-bold w-full"
                         type="number"
                         placeholder="0.00"
-                        value={num === 0 ? undefined : num}
+                        value={num === 0 ? "" : num}
                         min={0}
                         step={0.01}
                         onChange={(e) => {
