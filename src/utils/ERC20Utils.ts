@@ -3,7 +3,6 @@ import {OVERRIDE} from "./useProtocolMethods";
 import ERC20 from "../config/ERC20.json";
 import {ERC20 as ERC20Type} from "../typechain-types";
 
-// Return an ERC20 contract for the given address
 export function loadERC20(token: string, signer: ethers.providers.JsonRpcSigner) {
     return new ethers.Contract(token, ERC20.abi, signer) as ERC20Type;
 }
@@ -23,3 +22,7 @@ export async function isApprovedERC20(token: string, amount: ethers.BigNumber, c
     const approved = await contract.allowance(signerAddress, contractAddress);
     return approved.gte(amount);
 }
+
+export async function isWrappedERC20(token: string, amount: ethers.BigNumber) {}
+
+export async function wrapERC20(token: string, amount: ethers.BigNumber) {}

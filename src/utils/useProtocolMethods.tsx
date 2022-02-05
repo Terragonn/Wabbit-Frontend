@@ -46,7 +46,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         }
     }
 
-    async function wrap() {}
+    async function wrap(token: string, amount: ethers.BigNumber) {}
 
     async function approve(token: string, contractAddress: string, amount: ethers.BigNumber) {
         if (library && !(await isApprovedERC20(token, amount, contractAddress, library.getSigner())))
