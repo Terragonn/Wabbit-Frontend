@@ -1,13 +1,19 @@
 import {ethers} from "ethers";
 import loadERC20 from "./loadERC20";
+import {Approved} from "./useChainData";
 import {OVERRIDE} from "./useProtocolMethods";
 
-export default async function approveERC20(tokenAddress: string, amount: ethers.BigNumber, address: string, signer: ethers.providers.JsonRpcSigner) {
-    const contract = loadERC20(tokenAddress, signer);
+export async function approveERC20(token: Approved, amount: ethers.BigNumber, contractAddress: string, signer: ethers.providers.JsonRpcSigner) {
+    const contract = loadERC20(token.address, signer);
 
-    const toApprove = ethers.BigNumber.from(2).pow(255);
+    if (!isApprovedERC20(token, amount, contractAddress, signer)) await (await contract.approve(contractAddress, ethers.BigNumber.from(2).pow(255), OVERRIDE)).wait();
+}
+
+export async function isApprovedERC20(token: Approved, amount: ethers.BigNumber, contractAddress: string, signer: ethers.providers.JsonRpcSigner) {
+    const contract = loadERC20(token.address, signer);
 
     const signerAddress = await contract.signer.getAddress();
-    const approved = await contract.allowance(signerAddress, address);
-    if (approved.lt(amount)) await (await contract.approve(address, toApprove, OVERRIDE)).wait();
+
+    const approved = await contract.allowance(signerAddress, contractAddress);
+    return approved.gte(amount);
 }
