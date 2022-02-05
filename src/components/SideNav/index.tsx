@@ -40,25 +40,15 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                 </li>
             </ul>
 
-            <ul className="grid grid-cols-2 gap-x-2 gap-y-6 mx-auto mt-64 text-lg font-bold text-neutral-500 text-center w-3/4">
+            <ul className="flex items-center justify-evenly space-x-5 mx-auto mt-64 text-lg font-bold text-neutral-500 text-center w-3/4">
                 <li>
                     <a className="hover:text-neutral-300" href="https://docs.torque.money/">
                         Docs
                     </a>
                 </li>
                 <li>
-                    <a className="hover:text-neutral-300" href="https://twitter.com/torque_money">
-                        Twitter
-                    </a>
-                </li>
-                <li>
-                    <a className="hover:text-neutral-300" href="https://github.com/Torque-Money">
-                        GitHub
-                    </a>
-                </li>
-                <li>
-                    <a className="hover:text-neutral-300" href="https://discord.gg/Wk33hnKtvx">
-                        Discord
+                    <a className="hover:text-neutral-300" href="https://linktr.ee/torque_money">
+                        Links
                     </a>
                 </li>
             </ul>
