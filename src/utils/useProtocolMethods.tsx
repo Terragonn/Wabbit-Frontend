@@ -39,7 +39,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function handleError(fn: () => Promise<any>) {
         try {
-            return await fn();
+            await fn();
         } catch (e: any) {
             setError(e.data?.message || e.message || null);
             window.scroll(0, 0);
