@@ -1,5 +1,5 @@
 {
-  "name": "torque-frontend",
+  "name": "torque-dapp",
   "version": "1.0.0",
   "dependencies": {
     "@web3-react/core": "^6.1.9",
@@ -47,7 +47,7 @@
   "prettier": {
     "overrides": [
       {
-        "files": "*.{sol,ts,tsx}",
+        "files": "*.{ts,tsx}",
         "options": {
           "printWidth": 170,
           "tabWidth": 4,
