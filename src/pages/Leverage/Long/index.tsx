@@ -113,7 +113,7 @@ export default function LeverageLong() {
     }, [protocolData, protocolMax, token]);
 
     return (
-        <div>
+        <>
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
@@ -201,6 +201,6 @@ export default function LeverageLong() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

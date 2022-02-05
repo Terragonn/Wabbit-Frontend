@@ -29,6 +29,11 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
                     </NavLink>
                 </li>
                 <li>
+                    <NavLink base="wrap" directories={[]}>
+                        Wrap
+                    </NavLink>
+                </li>
+                <li>
                     <NavLink base="provide-liquidity" directories={[]}>
                         Provide
                     </NavLink>

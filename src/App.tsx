@@ -19,10 +19,11 @@ import SideNav from "./components/SideNav";
 import Nav from "./components/Nav";
 import AgreementModal from "./components/AgreementModal";
 
-import Dashboard from "./pages/dashboard";
-import ProvideLiquidity from "./pages/provideLiquidity";
-import LeverageLong from "./pages/leverage/long";
 import WalletSelector from "./components/WalletSelector";
+import Dashboard from "./pages/Dashboard";
+import Wrap from "./pages/Wrap";
+import ProvideLiquidity from "./pages/ProvideLiquidity";
+import LeverageLong from "./pages/Leverage/Long";
 
 export default function App() {
     const [navState, setNavState] = useState<boolean>(false);
@@ -57,6 +58,16 @@ export default function App() {
                                                         <Wrapper>
                                                             <PageWrapper>
                                                                 <Dashboard />
+                                                            </PageWrapper>
+                                                        </Wrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="wrap"
+                                                    element={
+                                                        <Wrapper>
+                                                            <PageWrapper>
+                                                                <Wrap />
                                                             </PageWrapper>
                                                         </Wrapper>
                                                     }

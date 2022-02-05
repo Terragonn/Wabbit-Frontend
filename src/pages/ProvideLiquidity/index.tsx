@@ -73,7 +73,7 @@ export default function ProvideLiquidity() {
     }, [protocolData, protocolMax, token]);
 
     return (
-        <div>
+        <>
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
@@ -119,6 +119,6 @@ export default function ProvideLiquidity() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
