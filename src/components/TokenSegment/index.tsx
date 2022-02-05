@@ -122,9 +122,9 @@ export default function TokenSegment({
                                     const requiresApproval = await callback(token, bigNum);
 
                                     if (requiresApproval[1]) {
-                                        processHandler(async () => await (requiresApproval[1] as any)());
+                                        await processHandler(async () => await (requiresApproval[1] as any)());
                                         setApprove(false);
-                                    } else processHandler(async () => await (requiresApproval[0] as any)());
+                                    } else await processHandler(async () => await (requiresApproval[0] as any)());
                                 })();
                         }}
                     >
