@@ -23,6 +23,6 @@ export async function isApprovedERC20(token: string, amount: ethers.BigNumber, c
     return approved.gte(amount);
 }
 
-export async function isWrappedERC20(token: string, amount: ethers.BigNumber) {}
+export async function isWrapNeeded(token: string, amount: ethers.BigNumber, wrappedToken: string) {}
 
-export async function wrapERC20(token: string, amount: ethers.BigNumber) {}
+export async function wrap(token: string, amount: ethers.BigNumber, wrappedToken: string) {}

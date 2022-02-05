@@ -31,6 +31,7 @@ export interface Approved {
 }
 
 export interface Config {
+    wrappedToken: string;
     routerAddress: string;
     taskTreasury: string;
     LPPrefixName: string;
