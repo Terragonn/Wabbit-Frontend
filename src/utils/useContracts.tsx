@@ -27,7 +27,7 @@ export default function useContracts() {
 }
 
 export function ContractsProvider({children}: {children: any}) {
-    const {active, library} = useWeb3React();
+    const {active, library, account} = useWeb3React();
     const {config} = useChainData();
 
     async function getContracts() {
@@ -52,7 +52,7 @@ export function ContractsProvider({children}: {children: any}) {
             const newContracts = await getContracts();
             setContracts(newContracts);
         })();
-    }, [config]);
+    }, [config, account]);
 
     return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }
