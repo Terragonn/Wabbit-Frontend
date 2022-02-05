@@ -7,7 +7,7 @@ import useContracts from "./useContracts";
 import useError from "./useError";
 import {useUpdateProtocolData} from "./useProtocolData";
 
-export type RequiresApproval = [() => Promise<void> | null, boolean, (() => Promise<void>) | null];
+export type RequiresApproval = [(() => Promise<void>) | null, boolean, (() => Promise<void>) | null];
 
 interface ProtocolMethods {
     provideLiquidity: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
@@ -47,7 +47,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     }
 
     async function approve(token: string, contractAddress: string, amount: ethers.BigNumber): Promise<RequiresApproval> {
-        if (library && isApprovedERC20(token, amount, contractAddress, library.getSigner()))
+        if (library && !isApprovedERC20(token, amount, contractAddress, library.getSigner()))
             return [true, async () => await approveERC20(token, amount, contractAddress, library.getSigner())] as any;
         else return [false, null] as any;
     }

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
 import {Approved} from "../../utils/useChainData";
 import useContracts from "../../utils/useContracts";
-import useProtocolMethods, {RequiresApproval} from "../../utils/useProtocolMethods";
+import {RequiresApproval} from "../../utils/useProtocolMethods";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -19,19 +19,18 @@ export default function TokenSegment({
     keys: [string, string][];
     cta: string;
     token: Approved | null;
-    callback?: (num: ethers.BigNumber, token: Approved) => Promise<RequiresApproval> | undefined;
+    callback?: (token: Approved, num: ethers.BigNumber) => Promise<RequiresApproval>;
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
     const contracts = useContracts();
-    const protocolMethods = useProtocolMethods();
 
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [isMax, setIsMax] = useState<boolean>(false);
 
-    const [approve, setApprove] = useState<[boolean, (() => Promise<void>) | null]>([false, null]);
+    const [approve, setApprove] = useState<boolean>(false);
 
     const [processing, setProcessing] = useState<boolean>(false);
     async function processHandler(fn: () => Promise<any>) {
@@ -61,8 +60,10 @@ export default function TokenSegment({
                     setPriceNum(parsed);
                 }
 
-                // if (requiresApproval && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, decimals)); // **** Come back to this, but instead of using approve, use the function directly
-                // **** This is, the callback will determine if an approve needs to occur or not and will update accordingly
+                if (callback) {
+                    const requiresApproval = await callback(token, decimals);
+                    setApprove(requiresApproval[1]);
+                }
 
                 if (isMax) setIsMax(false);
             })();
@@ -113,8 +114,21 @@ export default function TokenSegment({
                     ))}
                 </div>
                 {cta.length > 0 ? (
-                    <Button loading={processing} onClick={() => (callback && token ? processHandler(async () => await callback(bigNum, token)) : null)}>
-                        {approve[0] ? "Approve" : cta}
+                    <Button
+                        loading={processing}
+                        onClick={() => {
+                            if (callback && token)
+                                (async () => {
+                                    const requiresApproval = await callback(token, bigNum);
+
+                                    if (requiresApproval[1]) {
+                                        processHandler(async () => await (requiresApproval[2] as any)());
+                                        setApprove(false);
+                                    } else processHandler(async () => await (requiresApproval[0] as any)());
+                                })();
+                        }}
+                    >
+                        {approve ? "Approve" : cta}
                     </Button>
                 ) : null}
             </div>

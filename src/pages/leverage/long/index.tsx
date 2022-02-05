@@ -141,7 +141,7 @@ export default function LeverageLong() {
                             cta="Deposit"
                             token={token}
                             max={data?.maxAvailableToken}
-                            callback={(num, token) => protocolMethods?.depositCollateral(token, num)}
+                            callback={protocolMethods ? (token, num) => protocolMethods?.depositCollateral(token, num) : undefined}
                         />
                     </div>
                     <div className="w-full lg:ml-6">
@@ -154,7 +154,7 @@ export default function LeverageLong() {
                             cta="Withdraw"
                             token={token}
                             max={data?.maxAvailableCollateral}
-                            callback={(num, token) => protocolMethods?.withdrawCollateral(token, num)}
+                            callback={protocolMethods ? (token, num) => protocolMethods?.withdrawCollateral(token, num) : undefined}
                         />
                     </div>
                 </div>
@@ -173,7 +173,7 @@ export default function LeverageLong() {
                             cta="Leverage"
                             token={token}
                             max={data?.maxAvailableLeverage}
-                            callback={(num, token) => protocolMethods?.borrowLong(token, num)}
+                            callback={protocolMethods ? (token, num) => protocolMethods?.borrowLong(token, num) : undefined}
                         />
                         <div className="lg:w-4/5">
                             <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>
@@ -196,7 +196,7 @@ export default function LeverageLong() {
                             cta="Repay All"
                             token={token}
                             hideInput={true}
-                            callback={(num, token) => protocolMethods?.repayLongAll()}
+                            callback={protocolMethods ? (num, token) => protocolMethods?.repayLongAll() : undefined}
                         />
                     </div>
                 </div>
