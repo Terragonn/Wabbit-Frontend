@@ -91,8 +91,8 @@ export default function TokenSegment({
                         <span
                             className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
                             onClick={async () => {
-                                setNum(max[1]);
                                 setIsMax(true);
+                                setNum(max[1]);
                             }}
                         >
                             max
@@ -124,7 +124,10 @@ export default function TokenSegment({
                                     if (requiresApproval[1]) {
                                         await processHandler(async () => await (requiresApproval[1] as any)());
                                         setApprove((await callback(token, bigNum))[1] !== null);
-                                    } else await processHandler(async () => await (requiresApproval[0] as any)());
+                                    } else {
+                                        await processHandler(async () => await (requiresApproval[0] as any)());
+                                        setNum(0);
+                                    }
                                 })();
                         }}
                     >
