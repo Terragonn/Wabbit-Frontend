@@ -7,15 +7,16 @@ import useContracts from "./useContracts";
 import useError from "./useError";
 import {useUpdateProtocolData} from "./useProtocolData";
 
+export type RequiresApproval = [() => Promise<void> | null, boolean, (() => Promise<void>) | null];
+
 interface ProtocolMethods {
-    approve: (token: string, contractAddress: string, amount: ethers.BigNumber) => Promise<[boolean, (() => Promise<void>) | null]>;
-    provideLiquidity: (token: Approved, amount: ethers.BigNumber) => Promise<void>;
-    redeem: (token: Approved, amount: ethers.BigNumber) => Promise<void>;
-    depositCollateral: (token: Approved, amount: ethers.BigNumber) => Promise<void>;
-    withdrawCollateral: (token: Approved, amount: ethers.BigNumber) => Promise<void>;
-    borrowLong: (token: Approved, amount: ethers.BigNumber) => Promise<void>;
-    repayLong: (token: Approved) => Promise<void>;
-    repayLongAll: () => Promise<void>;
+    provideLiquidity: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    redeem: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    depositCollateral: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    withdrawCollateral: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    borrowLong: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    repayLong: (token: Approved) => Promise<RequiresApproval>;
+    repayLongAll: () => Promise<RequiresApproval>;
 }
 
 const protocolMethodsCtx = createContext<ProtocolMethods | null>(undefined as any);
@@ -45,7 +46,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         }
     }
 
-    async function approve(token: string, contractAddress: string, amount: ethers.BigNumber) {
+    async function approve(token: string, contractAddress: string, amount: ethers.BigNumber): Promise<RequiresApproval> {
         if (library && isApprovedERC20(token, amount, contractAddress, library.getSigner()))
             return [true, async () => await approveERC20(token, amount, contractAddress, library.getSigner())] as any;
         else return [false, null] as any;
@@ -53,59 +54,112 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function provideLiquidity(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await (await contracts.lPool.addLiquidity(token.address, amount, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const approval = await approve(token.address, contracts.lPool.address, amount);
+
+            const fn = async () => {
+                await handleError(async () => await (await contracts.lPool.addLiquidity(token.address, amount, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+
+            return [fn, ...approval];
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function redeem(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
             const redeemToken = await contracts.lPool.LPFromPT(token.address);
-            await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const approval = await approve(redeemToken, contracts.lPool.address, amount);
+
+            const fn = async () => {
+                await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+
+            return [fn, ...approval];
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function depositCollateral(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await (await contracts.marginLong.addCollateral(token.address, amount, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const approval = await approve(token.address, contracts.marginLong.address, amount);
+
+            const fn = async () => {
+                await handleError(async () => await (await contracts.marginLong.addCollateral(token.address, amount, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+
+            return [fn, ...approval] as any;
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function withdrawCollateral(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await (await contracts.marginLong.removeCollateral(token.address, amount, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const approval = await approve(token.address, contracts.marginLong.address, amount);
+
+            const fn = async () => {
+                await handleError(async () => await (await contracts.marginLong.removeCollateral(token.address, amount, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+
+            return [fn, ...approval] as any;
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function borrowLong(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const fn = async () => {
+                await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+            return [fn, false, null] as any;
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function repayLong(token: Approved) {
         if (contracts) {
-            await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](token.address, OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const fn = async () => {
+                await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](token.address, OVERRIDE)).wait());
+                updateProtocolData();
+            };
+            return [fn, false, null] as any;
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     async function repayLongAll() {
         if (contracts) {
-            await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
-            updateProtocolData();
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+            const fn = async () => {
+                await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
+                updateProtocolData();
+            };
+            return [fn, false, null] as any;
+        } else {
+            setError("Your wallet is not connected. Please connect your wallet then try again.");
+            return [null, false, null] as any;
+        }
     }
 
     useEffect(() => {
         if (!contracts) setProtocolMethods(null);
         else {
             setProtocolMethods({
-                approve,
                 provideLiquidity,
                 redeem,
                 depositCollateral,

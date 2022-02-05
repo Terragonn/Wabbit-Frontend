@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
 import {Approved} from "../../utils/useChainData";
 import useContracts from "../../utils/useContracts";
-import useProtocolMethods from "../../utils/useProtocolMethods";
+import useProtocolMethods, {RequiresApproval} from "../../utils/useProtocolMethods";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -14,16 +14,14 @@ export default function TokenSegment({
     callback,
     hideInput,
     max,
-    approveContract,
 }: {
     title: string;
     keys: [string, string][];
     cta: string;
     token: Approved | null;
-    callback?: (num: ethers.BigNumber, token: Approved) => any;
+    callback?: (num: ethers.BigNumber, token: Approved) => Promise<RequiresApproval> | undefined;
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
-    approveContract?: string;
 }) {
     const contracts = useContracts();
     const protocolMethods = useProtocolMethods();
@@ -63,7 +61,8 @@ export default function TokenSegment({
                     setPriceNum(parsed);
                 }
 
-                if (approveContract && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, decimals));
+                // if (requiresApproval && protocolMethods) setApprove(await protocolMethods.approve(token.address, approveContract, decimals)); // **** Come back to this, but instead of using approve, use the function directly
+                // **** This is, the callback will determine if an approve needs to occur or not and will update accordingly
 
                 if (isMax) setIsMax(false);
             })();
