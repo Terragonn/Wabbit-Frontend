@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import NavLink from "./navLink";
+import NavLink from "../NavLink";
 
 export default function SideNav({navState, setNavState}: {navState: boolean; setNavState: (state: boolean) => void}) {
     const {account} = useWeb3React();
