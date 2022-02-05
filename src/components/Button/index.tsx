@@ -1,4 +1,4 @@
-export default function Button({children, onClick, loading}: {children: any; onClick?: (...args: any[]) => any; disabled?: boolean; loading?: boolean}) {
+export default function Button({children, onClick, loading}: {children: any; onClick?: () => any; disabled?: boolean; loading?: boolean}) {
     return (
         <button
             className={`${

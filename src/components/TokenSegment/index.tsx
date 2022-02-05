@@ -18,7 +18,7 @@ export default function TokenSegment({
     keys: [string, string][];
     cta: string;
     token: Approved | null;
-    callback?: (num: ethers.BigNumber, token: Approved, ...args: any[]) => any;
+    callback?: (num: ethers.BigNumber, token: Approved) => any;
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {

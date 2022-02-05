@@ -141,7 +141,7 @@ export default function LeverageLong() {
                             cta="Deposit"
                             token={token}
                             max={data?.maxAvailableToken}
-                            callback={(num, token) => protocolMethods?.depositCollateral(token.address, num)}
+                            callback={(num, token) => protocolMethods?.depositCollateral(token, num)}
                         />
                     </div>
                     <div className="w-full lg:ml-6">
@@ -154,7 +154,7 @@ export default function LeverageLong() {
                             cta="Withdraw"
                             token={token}
                             max={data?.maxAvailableCollateral}
-                            callback={(num, token) => protocolMethods?.withdrawCollateral(token.address, num)}
+                            callback={(num, token) => protocolMethods?.withdrawCollateral(token, num)}
                         />
                     </div>
                 </div>
@@ -173,7 +173,7 @@ export default function LeverageLong() {
                             cta="Leverage"
                             token={token}
                             max={data?.maxAvailableLeverage}
-                            callback={(num, token) => protocolMethods?.borrowLong(token.address, num)}
+                            callback={(num, token) => protocolMethods?.borrowLong(token, num)}
                         />
                         <div className="lg:w-4/5">
                             <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>

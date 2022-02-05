@@ -100,7 +100,7 @@ export default function ProvideLiquidity() {
                             cta="Provide"
                             token={token}
                             max={data?.maxAvailableToken}
-                            callback={(num, token) => protocolMethods?.provideLiquidity(token.address, num)}
+                            callback={(num, token) => protocolMethods?.provideLiquidity(token, num)}
                         />
                     </div>
                     <div className="w-full lg:ml-6">
@@ -114,7 +114,7 @@ export default function ProvideLiquidity() {
                             cta="Redeem"
                             token={token}
                             max={data?.maxAvailableLPToken}
-                            callback={(num, token) => protocolMethods?.redeem(token.address, num)}
+                            callback={(num, token) => protocolMethods?.redeem(token, num)}
                         />
                     </div>
                 </div>
