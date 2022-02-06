@@ -72,7 +72,7 @@ export default function Wrap() {
                                 cta="Wrap"
                                 token={tokenData.nativeCoin}
                                 max={data?.maxAvailableNativeCoinAmount}
-                                // callback={protocolMethods ? (token, num) => protocolMethods?.provideLiquidity(token, num) : undefined}
+                                callback={protocolMethods ? (token, num) => protocolMethods?.wrap(num) : undefined}
                             />
                         </div>
                         <div className="w-full lg:ml-6">
@@ -82,7 +82,7 @@ export default function Wrap() {
                                 cta="Unwrap"
                                 token={tokenData.nativeCoinWrapped}
                                 max={data?.maxAvailableWrappedTokenAmount}
-                                // callback={protocolMethods ? (token, num) => protocolMethods?.redeem(token, num) : undefined}
+                                callback={protocolMethods ? (token, num) => protocolMethods?.unwrap(num) : undefined}
                             />
                         </div>
                     </div>
