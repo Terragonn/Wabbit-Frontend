@@ -9,10 +9,6 @@ export default function NavLink({base, directories, children}: {base: string; di
 
     const isDirectory = base === trueBase;
 
-    // **** Check that wallet connect works with NextJS first (or different versions) before migrating the entire app over to it
-    // **** Just release a working version before switching over anyway ????
-    // **** Clean up the file imports
-
     return (
         <div className="text-left mx-auto w-4/6">
             <Link
