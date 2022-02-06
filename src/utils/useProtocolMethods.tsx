@@ -10,6 +10,9 @@ import {useUpdateProtocolData} from "./useProtocolData";
 export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 
 interface ProtocolMethods {
+    wrap: (amount: ethers.BigNumber) => Promise<RequiresApproval>;
+    unwrap: (amount: ethers.BigNumber) => Promise<RequiresApproval>;
+
     provideLiquidity: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
     redeem: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
     depositCollateral: (token: Approved, amount: ethers.BigNumber) => Promise<RequiresApproval>;
@@ -54,12 +57,27 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function wrap(amount: ethers.BigNumber) {
         if (contracts) {
+            const fn = async () => {
+                await handleError(async () => await (await contracts.converter.swapMaxEthIn(contracts.config.wrappedCoin.address, {...OVERRIDE, value: amount})).wait());
+                updateProtocolData();
+            };
+            return [fn, null] as any;
         }
+        return [null, null] as any;
     }
 
     async function unwrap(amount: ethers.BigNumber) {
         if (contracts) {
+            const approval = await approve(contracts.config.wrappedCoin.address, contracts.converter.address, amount);
+
+            const fn = async () => {
+                await handleError(async () => await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount));
+                updateProtocolData();
+            };
+
+            return [fn, approval] as any;
         }
+        return [null, null] as any;
     }
 
     async function provideLiquidity(token: Approved, amount: ethers.BigNumber) {
@@ -170,6 +188,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (!contracts) setProtocolMethods(null);
         else {
             setProtocolMethods({
+                wrap,
+                unwrap,
                 provideLiquidity,
                 redeem,
                 depositCollateral,
