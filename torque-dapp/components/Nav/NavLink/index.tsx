@@ -19,7 +19,7 @@ export default function NavLink({base, directories, children}: {base: string; di
                 {directories.map(([directoryUrl, directoryName], index) => (
                     <li key={index}>
                         <Link href={`${base}${directoryUrl}`}>
-                            <a className={`text-neutral-400 font-bold text-2xl ${trueDirectory === directoryUrl ? "text-neutral-500" : "hover:text-neutral-500"}`}>
+                            <a className={`font-bold text-2xl ${trueDirectory === directoryUrl ? "text-neutral-500" : "text-neutral-400 hover:text-neutral-500"}`}>
                                 {directoryName}
                             </a>
                         </Link>

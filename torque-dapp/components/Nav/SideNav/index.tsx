@@ -27,7 +27,7 @@ export default function SideNav() {
             </p>
             <ul className="flex flex-col items-stretch space-y-16">
                 <li>
-                    <NavLink base="/dashboard" directories={[]}>
+                    <NavLink base="/" directories={[]}>
                         Dashboard
                     </NavLink>
                 </li>
@@ -42,7 +42,13 @@ export default function SideNav() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="/leverage" directories={[["/long", "Long"]]}>
+                    <NavLink
+                        base="/leverage"
+                        directories={[
+                            ["/long", "Long"],
+                            ["/test", "lol"],
+                        ]}
+                    >
                         Leverage
                     </NavLink>
                 </li>
