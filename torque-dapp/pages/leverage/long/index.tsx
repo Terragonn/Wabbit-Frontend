@@ -1,3 +1,5 @@
+import type {NextPage} from "next";
+
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import Banner from "../../../components/Banner";
@@ -12,7 +14,7 @@ import useProtocolData from "../../../utils/providers/useProtocolData";
 import useProtocolMax from "../../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../../utils/providers/useProtocolMethods";
 
-export default function LeverageLong() {
+const LeverageLong: NextPage = () => {
     const {config} = useChainData();
 
     const protocolData = useProtocolData();
@@ -203,4 +205,6 @@ export default function LeverageLong() {
             </div>
         </>
     );
-}
+};
+
+export default LeverageLong;

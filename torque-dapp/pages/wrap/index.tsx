@@ -1,3 +1,5 @@
+import type {NextPage} from "next";
+
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import TokenSegment from "../../components/TokenSegment";
@@ -7,7 +9,7 @@ import useProtocolData from "../../utils/providers/useProtocolData";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../utils/providers/useProtocolMethods";
 
-export default function Wrap() {
+const Wrap: NextPage = () => {
     const protocolData = useProtocolData();
     const protocolMax = useProtocolMax();
     const protocolMethods = useProtocolMethods();
@@ -92,4 +94,6 @@ export default function Wrap() {
             </div>
         </>
     );
-}
+};
+
+export default Wrap;

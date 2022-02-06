@@ -1,3 +1,5 @@
+import type {NextPage} from "next";
+
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import Banner from "../../components/Banner";
@@ -11,7 +13,7 @@ import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 
-export default function ProvideLiquidity() {
+const ProvideLiquidity: NextPage = () => {
     const {config} = useChainData();
 
     const protocolData = useProtocolData();
@@ -121,4 +123,6 @@ export default function ProvideLiquidity() {
             </div>
         </>
     );
-}
+};
+
+export default ProvideLiquidity;
