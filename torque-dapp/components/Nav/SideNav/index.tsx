@@ -42,13 +42,7 @@ export default function SideNav() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink
-                        base="/leverage"
-                        directories={[
-                            ["/long", "Long"],
-                            ["/test", "lol"],
-                        ]}
-                    >
+                    <NavLink base="/leverage" directories={[["/long", "Long"]]}>
                         Leverage
                     </NavLink>
                 </li>
