@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import useNavState from "../../../utils/useNavState";
+import useNavState from "../../../utils/providers/useNavState";
 import NavLink from "../NavLink";
 
 export default function SideNav() {

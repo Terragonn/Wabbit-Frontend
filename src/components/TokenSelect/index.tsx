@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import displayString from "../../utils/displayString";
-import useChainData, {Approved} from "../../utils/useChainData";
+import useChainData, {Approved} from "../../utils/providers/useChainData";
 
 export default function TokenSelect({
     title,

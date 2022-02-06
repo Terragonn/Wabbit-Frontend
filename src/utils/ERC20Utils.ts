@@ -1,5 +1,5 @@
 import {ethers} from "ethers";
-import {OVERRIDE} from "./useProtocolMethods";
+import {OVERRIDE} from "./providers/useProtocolMethods";
 import ERC20 from "../config/ERC20.json";
 import {ERC20 as ERC20Type} from "../typechain-types";
 

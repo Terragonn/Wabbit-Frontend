@@ -1,4 +1,4 @@
-import useError from "../../utils/useError";
+import useError from "../../utils/providers/useError";
 
 export default function Error() {
     const [error, setError] = useError();

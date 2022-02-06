@@ -2,12 +2,12 @@ import {ethers} from "ethers";
 import {createContext, useContext, useEffect, useState} from "react";
 import {useWeb3React} from "@web3-react/core";
 
-import LPoolAbi from "../config/LPool.json";
-import OracleAbi from "../config/Oracle.json";
-import MarginLongAbi from "../config/MarginLong.json";
-import ConverterAbi from "../config/Converter.json";
+import LPoolAbi from "../../config/LPool.json";
+import OracleAbi from "../../config/Oracle.json";
+import MarginLongAbi from "../../config/MarginLong.json";
+import ConverterAbi from "../../config/Converter.json";
 
-import {LPool, Oracle, MarginLong, Converter} from "../typechain-types";
+import {LPool, Oracle, MarginLong, Converter} from "../../typechain-types";
 
 import useChainData, {Config} from "./useChainData";
 

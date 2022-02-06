@@ -1,9 +1,9 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
-import {Approved} from "../../utils/useChainData";
-import useContracts from "../../utils/useContracts";
-import {RequiresApproval} from "../../utils/useProtocolMethods";
+import {Approved} from "../../utils/providers/useChainData";
+import useContracts from "../../utils/providers/useContracts";
+import {RequiresApproval} from "../../utils/providers/useProtocolMethods";
 import Button from "../Button";
 
 export default function TokenSegment({

@@ -1,7 +1,7 @@
 import {injected, walletConnect} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
-import useError from "../../../utils/useError";
+import useError from "../../../utils/providers/useError";
 import {useWalletSelector} from "../WalletSelector";
 import {useEffect} from "react";
 
