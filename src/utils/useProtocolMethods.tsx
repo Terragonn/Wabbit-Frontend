@@ -57,8 +57,6 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function wrap(amount: ethers.BigNumber) {
         if (contracts) {
-            console.log(amount.toString());
-
             const fn = async () => {
                 await handleError(async () => await (await contracts.converter.swapMaxEthIn(contracts.config.wrappedCoin.address, {...OVERRIDE, value: amount})).wait());
                 updateProtocolData();
