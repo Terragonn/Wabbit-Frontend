@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import Wallet from "../../components/Wallet";
+import Wallet from "../../Wallet";
 
 export default function PageWrapper({children}: {children: any}) {
     const {active} = useWeb3React();

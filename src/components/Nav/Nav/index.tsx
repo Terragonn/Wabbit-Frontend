@@ -1,7 +1,10 @@
-import Wallet from "../Wallet";
-import ChainSelector from "../ChainSelector";
+import Wallet from "../../Wallet";
+import ChainSelector from "../../ChainSelector";
+import useNavState from "../../../utils/useNavState";
 
-export default function Nav({setNavState}: {setNavState: (state: boolean) => void}) {
+export default function Nav() {
+    const [, setNavState] = useNavState();
+
     return (
         <nav className="py-8 flex items-center xl:justify-end justify-between space-x-10">
             <div className="xl:hidden block cursor-pointer" onClick={(e) => setNavState(true)}>

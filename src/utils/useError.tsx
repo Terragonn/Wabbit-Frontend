@@ -7,7 +7,7 @@ export default function useError() {
 }
 
 export function ErrorProvider({children}: {children: any}) {
-    const [error, setError] = useState<string | null>(null);
+    const error = useState<string | null>(null);
 
-    return <errorCtx.Provider value={[error, setError]}>{children}</errorCtx.Provider>;
+    return <errorCtx.Provider value={error}>{children}</errorCtx.Provider>;
 }
