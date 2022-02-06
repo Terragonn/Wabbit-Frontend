@@ -57,6 +57,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function wrap(amount: ethers.BigNumber) {
         if (contracts) {
+            console.log(amount.toString());
+
             const fn = async () => {
                 await handleError(async () => await (await contracts.converter.swapMaxEthIn(contracts.config.wrappedCoin.address, {...OVERRIDE, value: amount})).wait());
                 updateProtocolData();
@@ -71,7 +73,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             const approval = await approve(contracts.config.wrappedCoin.address, contracts.converter.address, amount);
 
             const fn = async () => {
-                await handleError(async () => await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount));
+                await handleError(async () => await (await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount)).wait());
                 updateProtocolData();
             };
 

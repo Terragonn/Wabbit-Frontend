@@ -56,7 +56,7 @@ export default function TokenSegment({
             }
 
             (async () => {
-                if (contracts) {
+                if (contracts && (await contracts?.oracle.isSupported(token.address))) {
                     const price = await contracts?.oracle.priceMin(token.address, decimals);
                     const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
                     setPriceNum(parsed);
