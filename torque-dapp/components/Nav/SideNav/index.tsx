@@ -20,7 +20,7 @@ export default function SideNav() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
             </svg>
             <a href="https://torque.money">
-                <img src={require("../../../images/logo1.png")} width={200} className="pt-5 mx-auto" alt="Torque logo" />
+                <img src="https://i.imgur.com/dhNWbW3.png" width={200} className="pt-5 mx-auto" alt="Torque logo" />
             </a>
             <p className="text-center text-white font-bold text-xl pt-5 pb-24">
                 {!account ? "Not Connected" : `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}

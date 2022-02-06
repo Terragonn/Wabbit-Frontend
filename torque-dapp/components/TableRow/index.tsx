@@ -45,7 +45,7 @@ export default function TableRow({blockExplorer, config, approved}: {blockExplor
                 <div className="w-full">
                     <span>{parseNumberFloat(data?.provideLiquidityAPY)} %</span>
                     <span className="flex items-center justify-evenly mt-2 w-3/5 mx-auto text-lg space-x-2">
-                        <img src={require("../../images/TOKEN.png")} width={28} alt="Torque TAU" />
+                        <img src="https://i.imgur.com/NiLoSj7.png" width={28} alt="Torque TAU" />
                         <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>
                         <span className="text-neutral-400">APR</span>
                     </span>

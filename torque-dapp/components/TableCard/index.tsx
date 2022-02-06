@@ -61,7 +61,7 @@ export default function TableCard({blockExplorer, config, approved}: {blockExplo
                 <div className="w-full text-xl font-medium mt-6 flex items-center justify-between">
                     <span>Yield APR:</span>
                     <div className="flex items-center justify-center space-x-3">
-                        <img src={require("../../images/TOKEN.png")} width={30} alt="Torque TAU" />
+                        <img src="https://i.imgur.com/NiLoSj7.png" width={30} alt="Torque TAU" />
                         <span className="whitespace-nowrap">{parseNumberFloat(data?.yieldAPR)} %</span>
                     </div>
                 </div>
