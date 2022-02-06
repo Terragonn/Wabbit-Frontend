@@ -70,7 +70,7 @@ export default function Wrap() {
                                 title="Wrap"
                                 keys={[["Available", parseNumber(data?.availableNativeCoinAmount) + " " + tokenData.nativeCoin.symbol]]}
                                 cta="Wrap"
-                                token={tokenData.nativeCoinWrapped}
+                                token={tokenData.nativeCoin}
                                 max={data?.maxAvailableNativeCoinAmount}
                                 // callback={protocolMethods ? (token, num) => protocolMethods?.provideLiquidity(token, num) : undefined}
                             />
