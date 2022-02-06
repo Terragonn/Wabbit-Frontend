@@ -46,6 +46,11 @@ interface ProtocolData {
     totalInterest: () => Promise<ethers.BigNumber | undefined>;
     initialBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalInitialBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
+
+    nativeCoinName: () => string | undefined;
+    nativeCoinWrappedAddress: () => string | undefined;
+    availableNativeCoinAmount: () => Promise<ethers.BigNumber | undefined>;
+    availableWrappedTokenAmount: () => Promise<ethers.BigNumber | undefined>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -407,6 +412,28 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
+    function nativeCoinName() {
+        if (contracts) return contracts.config.nativeCoin.name;
+    }
+
+    function nativeCoinWrappedAddress() {
+        if (contracts) return contracts.config.nativeCoin.wrappedAddress;
+    }
+
+    async function availableNativeCoinAmount() {
+        if (contracts) return await contracts.signer.getBalance();
+    }
+
+    async function availableWrappedTokenAmount() {
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
+
+            const wrapped = loadERC20(contracts.config.nativeCoin.wrappedAddress, contracts.signer);
+
+            return await wrapped.balanceOf(signerAddress);
+        }
+    }
+
     useEffect(() => {
         if (!contracts) setProtocolData(null);
         else {
@@ -442,6 +469,10 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalInterest,
                 initialBorrowedPrice,
                 totalInitialBorrowedPrice,
+                nativeCoinName,
+                nativeCoinWrappedAddress,
+                availableNativeCoinAmount,
+                availableWrappedTokenAmount,
             });
         }
     }, [contracts, updateData]);

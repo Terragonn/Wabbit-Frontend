@@ -31,7 +31,11 @@ export interface Approved {
 }
 
 export interface Config {
-    wrappedToken: string;
+    nativeCoin: {
+        name: string;
+        wrappedAddress: string;
+        wrappedDecimals: number;
+    };
     routerAddress: string;
     taskTreasury: string;
     LPPrefixName: string;
