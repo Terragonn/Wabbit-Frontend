@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import Wallet from "../../Wallets/Wallet";
+import Wallet from "../../Wallet/Wallet";
 import AlignWrapper from "../AlignWrapper";
 
 export default function PageWrapper({children}: {children: any}) {

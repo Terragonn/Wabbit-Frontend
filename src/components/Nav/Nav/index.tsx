@@ -1,4 +1,4 @@
-import Wallet from "../../Wallets/Wallet";
+import Wallet from "../../Wallet/Wallet";
 import ChainSelector from "../../ChainSelector";
 import useNavState from "../../../utils/useNavState";
 
