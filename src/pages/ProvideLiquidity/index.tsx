@@ -3,13 +3,13 @@ import {useEffect, useState} from "react";
 import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
-import useProtocolData from "../../utils/useProtocolData";
+import useProtocolData from "../../utils/providers/useProtocolData";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import useProtocolMethods from "../../utils/useProtocolMethods";
-import useChainData, {Approved} from "../../utils/useChainData";
+import useProtocolMethods from "../../utils/providers/useProtocolMethods";
+import useChainData, {Approved} from "../../utils/providers/useChainData";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
-import useProtocolMax from "../../utils/useProtocolMax";
+import useProtocolMax from "../../utils/providers/useProtocolMax";
 
 export default function ProvideLiquidity() {
     const {config} = useChainData();

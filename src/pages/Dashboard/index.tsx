@@ -1,11 +1,11 @@
 import Banner from "../../components/Banner";
 import TableRow from "../../components/TableRow";
 import TableCard from "../../components/TableCard";
-import useProtocolData from "../../utils/useProtocolData";
+import useProtocolData from "../../utils/providers/useProtocolData";
 import parseNumber from "../../utils/parseNumber";
 import {useEffect, useState} from "react";
 import {ethers} from "ethers";
-import useChainData from "../../utils/useChainData";
+import useChainData from "../../utils/providers/useChainData";
 import parseError from "../../utils/parseError";
 
 export default function Dashboard() {

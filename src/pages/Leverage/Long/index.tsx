@@ -7,10 +7,10 @@ import TokenSelect from "../../../components/TokenSelect";
 import displayString from "../../../utils/displayString";
 import parseError from "../../../utils/parseError";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
-import useChainData, {Approved} from "../../../utils/useChainData";
-import useProtocolData from "../../../utils/useProtocolData";
-import useProtocolMax from "../../../utils/useProtocolMax";
-import useProtocolMethods from "../../../utils/useProtocolMethods";
+import useChainData, {Approved} from "../../../utils/providers/useChainData";
+import useProtocolData from "../../../utils/providers/useProtocolData";
+import useProtocolMax from "../../../utils/providers/useProtocolMax";
+import useProtocolMethods from "../../../utils/providers/useProtocolMethods";
 
 export default function LeverageLong() {
     const {config} = useChainData();

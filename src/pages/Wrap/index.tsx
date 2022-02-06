@@ -2,10 +2,10 @@ import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import TokenSegment from "../../components/TokenSegment";
 import parseNumber from "../../utils/parseNumber";
-import {Approved} from "../../utils/useChainData";
-import useProtocolData from "../../utils/useProtocolData";
-import useProtocolMax from "../../utils/useProtocolMax";
-import useProtocolMethods from "../../utils/useProtocolMethods";
+import {Approved} from "../../utils/providers/useChainData";
+import useProtocolData from "../../utils/providers/useProtocolData";
+import useProtocolMax from "../../utils/providers/useProtocolMax";
+import useProtocolMethods from "../../utils/providers/useProtocolMethods";
 
 export default function Wrap() {
     const protocolData = useProtocolData();
