@@ -1,5 +1,5 @@
 import {useWeb3React} from "@web3-react/core";
-import {SupportedChainIds} from "../../utils/useChainData";
+import {SupportedChainIds} from "../../utils/providers/useChainData";
 
 export default function ChainSelector() {
     const {chainId} = useWeb3React();
