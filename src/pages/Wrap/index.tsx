@@ -1,7 +1,6 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 import TokenSegment from "../../components/TokenSegment";
-import displayString from "../../utils/displayString";
 import parseNumber from "../../utils/parseNumber";
 import {Approved} from "../../utils/useChainData";
 import useProtocolData from "../../utils/useProtocolData";
