@@ -24,22 +24,22 @@ export default function SideNav({navState, setNavState}: {navState: boolean; set
             </p>
             <ul className="flex flex-col items-stretch space-y-16">
                 <li>
-                    <NavLink base="dashboard" directories={[]}>
+                    <NavLink base="/dashboard" directories={[]}>
                         Dashboard
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="wrap" directories={[]}>
+                    <NavLink base="/wrap" directories={[]}>
                         Wrap
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="provide-liquidity" directories={[]}>
+                    <NavLink base="/provide-liquidity" directories={[]}>
                         Provide
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink base="leverage" directories={[["long", "Long"]]}>
+                    <NavLink base="/leverage" directories={[["/long", "Long"]]}>
                         Leverage
                     </NavLink>
                 </li>

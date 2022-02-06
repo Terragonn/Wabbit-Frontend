@@ -14,7 +14,7 @@ export default function NavLink({base, directories, children}: {base: string; di
     return (
         <div className="text-left mx-auto w-4/6">
             <Link
-                to={`${base}/${directories.length > 0 ? directories[0][0] : ""}`}
+                to={`${base}${directories.length > 0 ? directories[0][0] : ""}`}
                 className={`text-white font-bold text-3xl ${isDirectory ? "text-fuchsia-500" : "hover:text-fuchsia-400"}`}
             >
                 {children}
@@ -23,7 +23,7 @@ export default function NavLink({base, directories, children}: {base: string; di
                 {directories.map(([directoryUrl, directoryName], index) => (
                     <li key={index}>
                         <Link
-                            to={`${base}/${directoryUrl}`}
+                            to={`${base}${directoryUrl}`}
                             className={`text-neutral-400 font-bold text-2xl ${sections[1] === directoryUrl ? "text-neutral-500" : "hover:text-neutral-500"}`}
                         >
                             {directoryName}
