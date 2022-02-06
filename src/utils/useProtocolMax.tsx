@@ -12,6 +12,10 @@ interface ProtocolMaxData {
 
     availableCollateral: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
     availableLeverage: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
+
+    availableNativeCoinAmount: () => Promise<[ethers.BigNumber, number] | undefined>;
+
+    availableWrappedTokenAmount: () => Promise<[ethers.BigNumber, number] | undefined>;
 }
 
 const protocolMaxCtx = createContext<ProtocolMaxData | null>(undefined as any);
@@ -105,6 +109,30 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         }
     }
 
+    async function availableNativeCoinAmount() {
+        if (contracts) {
+            const balance = await contracts.signer.getBalance();
+
+            const parsed = parseDecimals(balance, contracts.config.nativeCoin.decimals).toNumber() / ROUND_CONSTANT;
+
+            return [balance, parsed] as any;
+        }
+    }
+
+    async function availableWrappedTokenAmount() {
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
+
+            const wrapped = loadERC20(contracts.config.nativeCoin.wrappedAddress, contracts.signer);
+
+            const available = await wrapped.balanceOf(signerAddress);
+
+            const parsed = parseDecimals(available, contracts.config.nativeCoin.wrappedDecimals);
+
+            return [available, parsed] as any;
+        }
+    }
+
     useEffect(() => {
         if (!contracts) {
         } else {
@@ -113,6 +141,8 @@ export function ProtocolMaxProvider({children}: {children: any}) {
                 availableLPToken,
                 availableCollateral,
                 availableLeverage,
+                availableNativeCoinAmount,
+                availableWrappedTokenAmount,
             });
         }
     }, [contracts]);
