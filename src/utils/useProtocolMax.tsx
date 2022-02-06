@@ -127,7 +127,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
 
             const available = await wrapped.balanceOf(signerAddress);
 
-            const parsed = parseDecimals(available, contracts.config.wrappedCoin.decimals);
+            const parsed = parseDecimals(available, contracts.config.wrappedCoin.decimals).toNumber() / ROUND_CONSTANT;
 
             return [available, parsed] as any;
         }

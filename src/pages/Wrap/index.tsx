@@ -58,9 +58,10 @@ export default function Wrap() {
             <div className="lg:mt-20 p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 <h3 className="text-neutral-300 font-bold lg:text-center text-left text-2xl mb-4">Why Wrap?</h3>
                 <p className="text-neutral-400 font-medium text-lg">
-                    To use your native chain coins {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} with Torque, you
-                    must first wrap them into their ERC20 wrapped equivalent{" "}
-                    {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoinWrapped?.symbol})</span> : null}.
+                    To use your {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} with Torque, you must first wrap it
+                    into its ERC20 wrapped equivalent {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoinWrapped?.symbol})</span> : null}. Make
+                    sure you keep some {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} to pay for transaction fees.
+                    When you are done, simply unwrap.
                 </p>
                 {tokenData && tokenData.nativeCoin && tokenData.nativeCoinWrapped ? (
                     <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-16">
