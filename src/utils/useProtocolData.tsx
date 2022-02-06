@@ -47,9 +47,8 @@ interface ProtocolData {
     initialBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalInitialBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
 
-    nativeCoinName: () => string | undefined;
-    nativeCoinWrappedName: () => string | undefined;
-    nativeCoinWrappedAddress: () => string | undefined;
+    nativeCoin: () => Approved | undefined;
+    nativeCoinWrapped: () => Approved | undefined;
     availableNativeCoinAmount: () => Promise<ethers.BigNumber | undefined>;
     availableWrappedTokenAmount: () => Promise<ethers.BigNumber | undefined>;
 }
@@ -413,16 +412,12 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
-    function nativeCoinName() {
-        if (contracts) return contracts.config.nativeCoin.name;
+    function nativeCoin() {
+        if (contracts) return contracts.config.nativeCoin;
     }
 
-    function nativeCoinWrappedName() {
-        if (contracts) return contracts.config.nativeCoin.wrappedName;
-    }
-
-    function nativeCoinWrappedAddress() {
-        if (contracts) return contracts.config.nativeCoin.wrappedAddress;
+    function nativeCoinWrapped() {
+        if (contracts) return contracts.config.wrappedCoin;
     }
 
     async function availableNativeCoinAmount() {
@@ -433,9 +428,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const wrapped = loadERC20(contracts.config.nativeCoin.wrappedAddress, contracts.signer);
+            const wrapped = loadERC20(contracts.config.wrappedCoin.address, contracts.signer);
 
-            return parseDecimals(await wrapped.balanceOf(signerAddress), contracts.config.nativeCoin.wrappedDecimals);
+            return parseDecimals(await wrapped.balanceOf(signerAddress), contracts.config.wrappedCoin.decimals);
         }
     }
 
@@ -474,9 +469,8 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalInterest,
                 initialBorrowedPrice,
                 totalInitialBorrowedPrice,
-                nativeCoinName,
-                nativeCoinWrappedName,
-                nativeCoinWrappedAddress,
+                nativeCoin,
+                nativeCoinWrapped,
                 availableNativeCoinAmount,
                 availableWrappedTokenAmount,
             });

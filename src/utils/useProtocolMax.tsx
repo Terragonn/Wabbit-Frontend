@@ -123,11 +123,11 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const wrapped = loadERC20(contracts.config.nativeCoin.wrappedAddress, contracts.signer);
+            const wrapped = loadERC20(contracts.config.wrappedCoin.address, contracts.signer);
 
             const available = await wrapped.balanceOf(signerAddress);
 
-            const parsed = parseDecimals(available, contracts.config.nativeCoin.wrappedDecimals);
+            const parsed = parseDecimals(available, contracts.config.wrappedCoin.decimals);
 
             return [available, parsed] as any;
         }

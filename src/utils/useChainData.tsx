@@ -31,13 +31,8 @@ export interface Approved {
 }
 
 export interface Config {
-    nativeCoin: {
-        name: string;
-        decimals: number;
-        wrappedName: string;
-        wrappedAddress: string;
-        wrappedDecimals: number;
-    };
+    nativeCoin: Approved;
+    wrappedCoin: Approved;
     routerAddress: string;
     taskTreasury: string;
     LPPrefixName: string;
