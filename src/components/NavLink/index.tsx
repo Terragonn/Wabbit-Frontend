@@ -2,11 +2,13 @@ import {Link, useLocation} from "react-router-dom";
 
 export default function NavLink({base, directories, children}: {base: string; directories: [string, string][]; children: any}) {
     const location = useLocation();
-    const sections = location.pathname.split("/").slice(1);
 
-    const isDirectory = base === sections[0];
+    const split = location.pathname.split("/");
+    const trueBase = split.slice(0, 2).join("/");
+    const trueDirectory = "/" + split.slice(2).join("/");
 
-    // **** Add in better support for different links and allow for parsing slashes
+    const isDirectory = base === trueBase;
+
     // **** Check that wallet connect works with NextJS first (or different versions) before migrating the entire app over to it
     // **** Just release a working version before switching over anyway ????
     // **** Clean up the file imports
@@ -24,7 +26,7 @@ export default function NavLink({base, directories, children}: {base: string; di
                     <li key={index}>
                         <Link
                             to={`${base}${directoryUrl}`}
-                            className={`text-neutral-400 font-bold text-2xl ${sections[1] === directoryUrl ? "text-neutral-500" : "hover:text-neutral-500"}`}
+                            className={`text-neutral-400 font-bold text-2xl ${trueDirectory === directoryUrl ? "text-neutral-500" : "hover:text-neutral-500"}`}
                         >
                             {directoryName}
                         </Link>
