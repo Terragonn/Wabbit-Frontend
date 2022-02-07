@@ -5,11 +5,13 @@ import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useCh
 export default function ChainSelector() {
     const {chainId} = useWeb3React();
 
+    // **** It is not being compiled as it cannot check that it exists - this means that I need to specifiy the styles somewhere to make sure that they get loaded
+
     return (
         <select
             className={`font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center pr-12 ${
                 chainId && Object.keys(chainDataConfig).includes(chainId.toString())
-                    ? chainDataConfig[chainId as SupportedChainIds | 0].textColor
+                    ? chainDataConfig[chainId as SupportedChainIds].textColor
                     : chainDataConfig[0].textColor
             }`}
         >
