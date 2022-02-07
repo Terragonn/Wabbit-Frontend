@@ -10,21 +10,30 @@ export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
 interface ChainData {
     name: string;
     rpc: string;
-    color: string;
     blockExplorer: string;
     config: Config | null;
+    textColor: string;
+    bgColor: string;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
-    0: {name: "Invalid", rpc: "", color: "text-zinc-600", blockExplorer: "", config: null},
+    0: {name: "Invalid", rpc: "", blockExplorer: "", config: null, textColor: "text-zinc-600", bgColor: "bg-zinc-900"},
     4: {
         name: "Rinkeby",
         rpc: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
-        color: "text-yellow-300",
         blockExplorer: "https://rinkeby.etherscan.io/address/",
         config: testConfig,
+        textColor: "text-yellow-300",
+        bgColor: "bg-yellow-600",
     },
-    250: {name: "Fantom", rpc: "https://rpc.ftm.tools/", color: "text-sky-500", blockExplorer: "https://ftmscan.com/address/", config: mainConfig},
-    31337: {name: "Localhost", rpc: "http://127.0.0.1:8545/", color: "text-emerald-500", blockExplorer: "", config: forkConfig},
+    250: {
+        name: "Fantom",
+        rpc: "https://rpc.ftm.tools/",
+        blockExplorer: "https://ftmscan.com/address/",
+        config: mainConfig,
+        textColor: "text-sky-500",
+        bgColor: "bg-sky-800",
+    },
+    31337: {name: "Localhost", rpc: "http://127.0.0.1:8545/", blockExplorer: "", config: forkConfig, textColor: "text-emerald-500", bgColor: "bg-emerald-800"},
 };
 
 export interface Approved {

@@ -12,7 +12,7 @@ export const Injected = () =>
 export const WalletConnect = (chainId: SupportedChainIds) =>
     new WalletConnectConnector({
         chainId: chainId,
-        rpc: Object.entries(chainDataConfig).reduce((a, v) => ({...a, [parseInt(v[0])]: v[1].rpc}), {}),
+        rpc: Object.entries(chainDataConfig).reduce((a, v) => ({...a, [Number(v[0])]: v[1].rpc}), {}),
         supportedChainIds: [...SUPPORTED_CHAIN_IDS],
     });
 
