@@ -8,8 +8,6 @@ export const injected = new InjectedConnector({
     supportedChainIds: [...SUPPORTED_CHAIN_IDS],
 });
 
-// **** A very possible problem is that it could indeed be connecting to the default chainId everytime automatically due to the walletconnect link ???
-
 export const walletConnect = new WalletConnectConnector({
     chainId: SUPPORTED_CHAIN_IDS[0],
     rpc,
