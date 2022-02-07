@@ -16,7 +16,14 @@ interface ChainData {
     bgColor: string;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
-    0: {name: "Invalid", rpcUrl: "", blockExplorer: "", config: null, textColor: "text-zinc-600", bgColor: "bg-zinc-900"},
+    0: {
+        name: "Invalid",
+        rpcUrl: "",
+        blockExplorer: "",
+        config: null,
+        textColor: "text-zinc-600",
+        bgColor: "bg-zinc-900",
+    },
     4: {
         name: "Rinkeby",
         rpcUrl: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
@@ -33,7 +40,14 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         textColor: "text-sky-500",
         bgColor: "bg-sky-800",
     },
-    31337: {name: "Localhost", rpcUrl: "http://127.0.0.1:8545/", blockExplorer: "", config: forkConfig, textColor: "text-emerald-500", bgColor: "bg-emerald-800"},
+    31337: {
+        name: "Localhost",
+        rpcUrl: "http://127.0.0.1:8545/",
+        blockExplorer: "",
+        config: forkConfig,
+        textColor: "text-emerald-500",
+        bgColor: "bg-emerald-800",
+    },
 };
 
 export interface Approved {
