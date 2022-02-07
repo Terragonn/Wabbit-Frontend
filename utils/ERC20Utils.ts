@@ -20,8 +20,6 @@ export async function isApprovedERC20(token: string, amount: ethers.BigNumber, c
 
     const signerAddress = await contract.signer.getAddress();
 
-    // **** Now there is a problem with this (probably because of the tokens ? - yes it is trying to call allowance on the token that does not exist - how do others deal with this ?)
-
     const approved = await contract.allowance(signerAddress, contractAddress);
     return approved.gte(amount);
 }
