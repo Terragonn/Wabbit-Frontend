@@ -25,8 +25,6 @@ export default function TokenSegment({
 }) {
     const contracts = useContracts();
 
-    // **** I am going to set the num as a string, and then I am going to reset the value to be back to "" eventually
-
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
@@ -61,8 +59,8 @@ export default function TokenSegment({
                     setApprove(requiresApproval[1] !== null);
                 }
 
-                if (contracts) {
-                    const price = await contracts?.oracle.priceMin(token.address, decimals);
+                if (contracts && (await contracts.oracle.isSupported(token.address))) {
+                    const price = await contracts.oracle.priceMin(token.address, decimals);
                     const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
                     setPriceNum(parsed);
                 }
@@ -70,7 +68,7 @@ export default function TokenSegment({
                 if (isMax) setIsMax(false);
             })();
         }
-    }, [num]);
+    }, [num, contracts, token]);
 
     return (
         <>

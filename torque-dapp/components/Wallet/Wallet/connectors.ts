@@ -8,9 +8,11 @@ export const injected = new InjectedConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
+    infuraId: "bfdc3fc62d3b4d51b764f2f7545b8549",
     rpc: {
         4: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
         250: "https://rpc.ftm.tools/",
         31337: "http://127.0.0.1:8545/",
     },
+    supportedChainIds: [...SUPPORTED_CHAIN_IDS],
 });

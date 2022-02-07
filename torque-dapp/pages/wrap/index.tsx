@@ -8,6 +8,7 @@ import {Approved} from "../../utils/providers/useChainData";
 import useProtocolData from "../../utils/providers/useProtocolData";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../utils/providers/useProtocolMethods";
+import parseError from "../../utils/parseError";
 
 const Wrap: NextPage = () => {
     const protocolData = useProtocolData();
@@ -37,11 +38,11 @@ const Wrap: NextPage = () => {
         if (!protocolData || !protocolMax) setData(null);
         else {
             (async () => {
-                const availableNativeCoinAmount = await protocolData.availableNativeCoinAmount();
-                const availableWrappedTokenAmount = await protocolData.availableWrappedTokenAmount();
+                const availableNativeCoinAmount = await parseError(async () => await protocolData.availableNativeCoinAmount());
+                const availableWrappedTokenAmount = await parseError(async () => await protocolData.availableWrappedTokenAmount());
 
-                const maxAvailableNativeCoinAmount = await protocolMax.availableNativeCoinAmount();
-                const maxAvailableWrappedTokenAmount = await protocolMax.availableWrappedTokenAmount();
+                const maxAvailableNativeCoinAmount = await parseError(async () => await protocolMax.availableNativeCoinAmount());
+                const maxAvailableWrappedTokenAmount = await parseError(async () => await protocolMax.availableWrappedTokenAmount());
 
                 setData({
                     availableNativeCoinAmount,
