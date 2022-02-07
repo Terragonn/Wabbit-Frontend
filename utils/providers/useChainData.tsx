@@ -7,13 +7,37 @@ import forkConfig from "../../config/config.fork.json";
 
 export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 31337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
+
+type Color = "zinc" | "yellow" | "sky" | "emerald";
+
+export function chooseColor(type: "text" | "bg", color?: Color) {
+    return color
+        ? color === "zinc"
+            ? type === "text"
+                ? "text-zinc-600"
+                : "bg-zinc-900"
+            : color === "yellow"
+            ? type === "text"
+                ? "text-yellow-300"
+                : "text-yellow-600"
+            : color === "sky"
+            ? type === "text"
+                ? "text-sky-500"
+                : "bg-sky-800"
+            : type === "text"
+            ? "text-emerald-500"
+            : "bg-emerald-800"
+        : type === "text"
+        ? "text-zinc-600"
+        : "bg-zinc-900";
+}
+
 interface ChainData {
     name: string;
     rpcUrl: string;
     blockExplorer: string;
     config: Config | null;
-    textColor: string;
-    bgColor: string;
+    color: Color;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
     0: {
@@ -21,32 +45,28 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         rpcUrl: "",
         blockExplorer: "",
         config: null,
-        textColor: "text-zinc-600",
-        bgColor: "bg-zinc-900",
+        color: "zinc",
     },
     4: {
         name: "Rinkeby",
         rpcUrl: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
         blockExplorer: "https://rinkeby.etherscan.io/address/",
         config: testConfig,
-        textColor: "text-yellow-300",
-        bgColor: "bg-yellow-600",
+        color: "yellow",
     },
     250: {
         name: "Fantom",
         rpcUrl: "https://rpc.ftm.tools/",
         blockExplorer: "https://ftmscan.com/address/",
         config: mainConfig,
-        textColor: "text-sky-500",
-        bgColor: "bg-sky-800",
+        color: "sky",
     },
     31337: {
         name: "Localhost",
         rpcUrl: "http://127.0.0.1:8545/",
         blockExplorer: "",
         config: forkConfig,
-        textColor: "text-emerald-500",
-        bgColor: "bg-emerald-800",
+        color: "emerald",
     },
 };
 

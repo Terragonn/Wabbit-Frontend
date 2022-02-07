@@ -2,7 +2,7 @@ import {createContext, useContext, useState} from "react";
 
 import Card from "./card";
 import {useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
-import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+import {chainDataConfig, chooseColor, SupportedChainIds} from "../../../utils/providers/useChainData";
 
 export const walletSelectorCtx = createContext<[boolean, (walletSelector: boolean) => void]>(undefined as any);
 
@@ -32,13 +32,21 @@ export default function WalletSelector() {
                     <div className="flex items-center space-x-3">
                         <h2 className="text-neutral-400 font-bold text-2xl">Choose a wallet:</h2>
                         <select
-                            className={`font-bold text-2xl rounded-xl border-transparent text-center ${chainDataConfig[chainId].bgColor} ${chainDataConfig[chainId].textColor}`}
+                            className={`font-bold text-2xl rounded-xl border-transparent text-center ${chooseColor("bg", chainDataConfig[chainId].color)} ${chooseColor(
+                                "text",
+                                chainDataConfig[chainId].color
+                            )}`}
                             onChange={(e) => setChainId(Number(e.target.value) as SupportedChainIds)}
                         >
                             {Object.entries(chainDataConfig)
                                 .slice(1)
                                 .map(([key, value]) => (
-                                    <option selected={Number(key) === chainId} key={key} className={`${value.textColor} font-medium bg-neutral-900`} value={key}>
+                                    <option
+                                        selected={Number(key) === chainId}
+                                        key={key}
+                                        className={`${chooseColor("text", value.color)} font-medium bg-neutral-900`}
+                                        value={key}
+                                    >
                                         {value.name}
                                     </option>
                                 ))}
