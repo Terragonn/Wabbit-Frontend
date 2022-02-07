@@ -82,7 +82,7 @@ export function ChainDataProvider({children}: {children: any}) {
         },
     };
 
-    const [chainData, setChainData] = useState<ChainData>(chainDataConfig[250]);
+    const [chainData, setChainData] = useState<ChainData>({blockExplorer: "", config: null});
 
     useEffect(() => {
         let newChainId = chainId;
