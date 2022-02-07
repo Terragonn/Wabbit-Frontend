@@ -40,10 +40,15 @@ const Wrap: NextPage = () => {
         else {
             (async () => {
                 const availableNativeCoinAmount = await parseError(async () => await protocolData.availableNativeCoinAmount());
-                const availableWrappedTokenAmount = await parseError(async () => await protocolData.availableWrappedTokenAmount());
+                // const availableWrappedTokenAmount = await parseError(async () => await protocolData.availableWrappedTokenAmount());
+                const availableWrappedTokenAmount = await protocolData.availableWrappedTokenAmount();
 
                 const maxAvailableNativeCoinAmount = await parseError(async () => await protocolMax.availableNativeCoinAmount());
-                const maxAvailableWrappedTokenAmount = await parseError(async () => await protocolMax.availableWrappedTokenAmount());
+                // const maxAvailableWrappedTokenAmount = await parseError(async () => await protocolMax.availableWrappedTokenAmount());
+                const maxAvailableWrappedTokenAmount = await protocolMax.availableWrappedTokenAmount();
+
+                console.log("Logger");
+                console.log(availableNativeCoinAmount, availableWrappedTokenAmount, maxAvailableNativeCoinAmount, maxAvailableWrappedTokenAmount);
 
                 setData({
                     availableNativeCoinAmount,

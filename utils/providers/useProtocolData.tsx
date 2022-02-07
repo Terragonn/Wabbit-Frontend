@@ -431,6 +431,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const signerAddress = await contracts.signer.getAddress();
 
             const wrapped = loadERC20(contracts.config.wrappedCoin.address, contracts.signer);
+            console.log(wrapped); // We see here it is loading the address of the wrong config - the answer is why (at least why does it stay like this and not reload with the new config ?)
 
             return parseDecimals(await wrapped.balanceOf(signerAddress), contracts.config.wrappedCoin.decimals);
         }
