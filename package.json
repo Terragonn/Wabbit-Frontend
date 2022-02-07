@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "static": "next export",
+    "static": "npm run build && next export",
     "start": "next start",
     "lint": "next lint",
     "format": "npx prettier --write 'src/**/*'"
