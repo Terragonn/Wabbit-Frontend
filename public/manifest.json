@@ -3,12 +3,12 @@
   "name": "Torque - Extreme DeFi Leveraging",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/images/favicon.ico",
       "sizes": "256x256",
       "type": "image/x-icon"
     },
     {
-      "src": "logo2.png",
+      "src": "/images/logo2.png",
       "type": "image/png",
       "sizes": "1920x1920"
     }
