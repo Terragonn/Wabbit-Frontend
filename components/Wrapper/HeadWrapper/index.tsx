@@ -6,7 +6,7 @@ export default function HeadWrapper({children}: {children: any}) {
         <>
             <Head>
                 <Script src="https://www.googletagmanager.com/gtag/js?id=G-1GYTWEZJJG" strategy="afterInteractive" />
-                <Script strategy="afterInteractive">
+                <Script id="google-analytics" strategy="afterInteractive">
                     {`
                         window.dataLayer = window.dataLayer || [];
                         function gtag() {
