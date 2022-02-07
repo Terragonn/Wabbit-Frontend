@@ -1,8 +1,9 @@
-import {injected, walletConnect, walletLink} from "./connectors";
+import {Injected, WalletConnect, WalletLink} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../../utils/providers/useError";
 import {useWalletSelector} from "../WalletSelector";
+import {SupportedChainIds} from "../../../utils/providers/useChainData";
 
 // **** A very possible problem is that it could indeed be connecting to the default chainId everytime automatically due to the walletconnect link ???
 // **** To solve this, each of these will be parsed props that will consist of one of the chain Id's based off of the selected element by the connect modal
@@ -15,7 +16,10 @@ export function useConnectMetamask() {
 
     return async () => {
         try {
+            const injected = Injected();
+
             await activate(injected, undefined, true);
+
             setWalletSelector(false);
         } catch (e: any) {
             setError(e.toString());
@@ -29,10 +33,13 @@ export function useConnectWalletConnect() {
 
     const {activate} = useWeb3React();
 
-    return async () => {
+    return async (chainId: SupportedChainIds) => {
         try {
+            const walletConnect = WalletConnect(chainId);
+
             walletConnect.walletConnectProvider = undefined;
             await activate(walletConnect, undefined, true);
+
             setWalletSelector(false);
         } catch (e: any) {
             setError(e.toString());
@@ -46,9 +53,12 @@ export function useConnectWalletLink() {
 
     const {activate} = useWeb3React();
 
-    return async () => {
+    return async (chainId: SupportedChainIds) => {
         try {
+            const walletLink = WalletLink(chainId);
+
             await activate(walletLink, undefined, true);
+
             setWalletSelector(false);
         } catch (e: any) {
             setError(e.toString());
