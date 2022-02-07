@@ -5,12 +5,13 @@ import mainConfig from "../../config/config.main.json";
 import testConfig from "../../config/config.test.json";
 import forkConfig from "../../config/config.fork.json";
 
-export const SUPPORTED_CHAIN_IDS = [4, 250, 31337] as const;
+export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 31337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
-export const rpc: {[key in SupportedChainIds]: string} = {
-    4: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
-    250: "https://rpc.ftm.tools/",
-    31337: "http://127.0.0.1:8545/",
+export const chains: {[key in SupportedChainIds]: {name: string; rpc: string; color: string}} = {
+    0: {name: "Invalid", rpc: "", color: "text-zinc-600"},
+    4: {name: "Rinkeby", rpc: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT", color: "text-yellow-300"},
+    250: {name: "Fantom", rpc: "https://rpc.ftm.tools/", color: "text-sky-500"},
+    31337: {name: "Localhost", rpc: "http://127.0.0.1:8545/", color: "text-emerald-500"},
 };
 
 export interface Approved {
