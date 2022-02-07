@@ -18,7 +18,7 @@ export function useConnectMetamask() {
 
     return async () => {
         try {
-            await activate(injected);
+            await activate(injected, undefined, true);
 
             setWalletSelector(false);
             localStorage.setItem(connectedIndicators.metamask, JSON.stringify(true));
@@ -36,9 +36,11 @@ export function useConnectWalletConnect() {
 
     return async () => {
         try {
-            // walletConnect.walletConnectProvider = undefined;
-            // await activate(walletConnect);
-            // setWalletSelector(false);
+            walletConnect.walletConnectProvider = undefined;
+            await activate(walletConnect, undefined, true);
+
+            setWalletSelector(false);
+            localStorage.setItem(connectedIndicators.walletConnect, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
         }

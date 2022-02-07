@@ -44,7 +44,7 @@ export default function WalletSelector() {
                     fn={() => connectMetamask()}
                 />
                 <Card
-                    name="WalletConnect (UNAVAILABLE)"
+                    name="WalletConnect"
                     icon="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/bftsslxvhe2yaih6nyl9"
                     fn={() => connectWalletConnect()}
                 />
