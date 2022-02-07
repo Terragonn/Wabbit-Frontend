@@ -1,6 +1,7 @@
+import useNavState from "../../../utils/providers/useNavState";
+
 import Wallet from "../../Wallet/Wallet";
 import ChainSelector from "../../ChainSelector";
-import useNavState from "../../../utils/providers/useNavState";
 
 export default function Nav() {
     const [, setNavState] = useNavState();

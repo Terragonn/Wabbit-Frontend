@@ -1,7 +1,6 @@
 import {createContext, useContext, useState} from "react";
 
 import Card from "./card";
-
 import {useConnectMetamask, useConnectWalletConnect} from "../Wallet";
 
 export const walletSelectorCtx = createContext<[boolean, (walletSelector: boolean) => void]>(undefined as any);

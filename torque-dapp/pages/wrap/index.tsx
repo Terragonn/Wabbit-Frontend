@@ -1,13 +1,14 @@
 import type {NextPage} from "next";
-
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-import TokenSegment from "../../components/TokenSegment";
-import parseNumber from "../../utils/parseNumber";
+
 import {Approved} from "../../utils/providers/useChainData";
 import useProtocolData from "../../utils/providers/useProtocolData";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../utils/providers/useProtocolMethods";
+
+import TokenSegment from "../../components/TokenSegment";
+import parseNumber from "../../utils/parseNumber";
 import parseError from "../../utils/parseError";
 
 const Wrap: NextPage = () => {

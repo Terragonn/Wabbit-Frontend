@@ -1,17 +1,18 @@
 import type {NextPage} from "next";
-
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
+
+import useProtocolMax from "../../utils/providers/useProtocolMax";
+import useProtocolData from "../../utils/providers/useProtocolData";
+import useChainData, {Approved} from "../../utils/providers/useChainData";
+import useProtocolMethods from "../../utils/providers/useProtocolMethods";
+
 import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
-import useProtocolData from "../../utils/providers/useProtocolData";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import useProtocolMethods from "../../utils/providers/useProtocolMethods";
-import useChainData, {Approved} from "../../utils/providers/useChainData";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
-import useProtocolMax from "../../utils/providers/useProtocolMax";
 
 const ProvideLiquidity: NextPage = () => {
     const {config} = useChainData();

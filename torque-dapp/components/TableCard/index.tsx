@@ -1,9 +1,11 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
+
+import useProtocolData from "../../utils/providers/useProtocolData";
+import {Approved, Config} from "../../utils/providers/useChainData";
+
 import parseError from "../../utils/parseError";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
-import {Approved, Config} from "../../utils/providers/useChainData";
-import useProtocolData from "../../utils/providers/useProtocolData";
 
 export default function TableCard({blockExplorer, config, approved}: {blockExplorer: string; config: Config; approved: Approved}) {
     const protocolData = useProtocolData();

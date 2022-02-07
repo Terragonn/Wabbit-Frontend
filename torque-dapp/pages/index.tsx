@@ -1,13 +1,14 @@
 import type {NextPage} from "next";
+import {ethers} from "ethers";
+import {useEffect, useState} from "react";
+
+import useChainData from "../utils/providers/useChainData";
+import useProtocolData from "../utils/providers/useProtocolData";
 
 import Banner from "../components/Banner";
 import TableRow from "../components/TableRow";
 import TableCard from "../components/TableCard";
-import useProtocolData from "../utils/providers/useProtocolData";
 import parseNumber from "../utils/parseNumber";
-import {useEffect, useState} from "react";
-import {ethers} from "ethers";
-import useChainData from "../utils/providers/useChainData";
 import parseError from "../utils/parseError";
 
 const Dashboard: NextPage = () => {

@@ -1,7 +1,12 @@
 import type {NextPage} from "next";
-
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
+
+import useChainData, {Approved} from "../../../utils/providers/useChainData";
+import useProtocolData from "../../../utils/providers/useProtocolData";
+import useProtocolMax from "../../../utils/providers/useProtocolMax";
+import useProtocolMethods from "../../../utils/providers/useProtocolMethods";
+
 import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
 import TokenSegment from "../../../components/TokenSegment";
@@ -9,10 +14,6 @@ import TokenSelect from "../../../components/TokenSelect";
 import displayString from "../../../utils/displayString";
 import parseError from "../../../utils/parseError";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
-import useChainData, {Approved} from "../../../utils/providers/useChainData";
-import useProtocolData from "../../../utils/providers/useProtocolData";
-import useProtocolMax from "../../../utils/providers/useProtocolMax";
-import useProtocolMethods from "../../../utils/providers/useProtocolMethods";
 
 const LeverageLong: NextPage = () => {
     const {config} = useChainData();
