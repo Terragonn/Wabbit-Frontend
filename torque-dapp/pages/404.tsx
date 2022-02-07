@@ -1,7 +1,10 @@
+import type {NextPage} from "next";
 import {useRouter} from "next/router";
 
-export default function Custom404() {
+const Custom404: NextPage = () => {
     useRouter().push("/");
 
     return <></>;
-}
+};
+
+export default Custom404;
