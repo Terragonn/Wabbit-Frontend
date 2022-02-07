@@ -4,10 +4,9 @@ import Script from "next/script";
 export default function HeadWrapper({children}: {children: any}) {
     return (
         <>
-            <Head>
-                <Script src="https://www.googletagmanager.com/gtag/js?id=G-1GYTWEZJJG" strategy="afterInteractive" />
-                <Script id="google-analytics" strategy="afterInteractive">
-                    {`
+            <Script src="https://www.googletagmanager.com/gtag/js?id=G-1GYTWEZJJG" strategy="afterInteractive" />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
                         window.dataLayer = window.dataLayer || [];
                         function gtag() {
                             dataLayer.push(arguments);
@@ -16,8 +15,8 @@ export default function HeadWrapper({children}: {children: any}) {
 
                         gtag("config", "G-1GYTWEZJJG");
                     `}
-                </Script>
-
+            </Script>
+            <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="manifest" href="/manifest.json" />
 
