@@ -69,6 +69,7 @@ export function ChainDataProvider({children}: {children: any}) {
     const {chainId} = useWeb3React();
 
     const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
+        0: {blockExplorer: "", config: null},
         4: {
             blockExplorer: "https://rinkeby.etherscan.io/address/",
             config: testConfig,
@@ -83,7 +84,7 @@ export function ChainDataProvider({children}: {children: any}) {
         },
     };
 
-    const [chainData, setChainData] = useState<ChainData>({blockExplorer: "", config: null});
+    const [chainData, setChainData] = useState<ChainData>(chainDataConfig[0]);
 
     useEffect(() => {
         let newChainId = chainId;
