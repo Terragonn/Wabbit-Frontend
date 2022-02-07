@@ -2,7 +2,7 @@ import type {NextPage} from "next";
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import {Approved} from "../../utils/providers/useChainData";
+import useChainData, {Approved} from "../../utils/providers/useChainData";
 import useProtocolData from "../../utils/providers/useProtocolData";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../utils/providers/useProtocolMethods";
@@ -10,13 +10,15 @@ import useProtocolMethods from "../../utils/providers/useProtocolMethods";
 import TokenSegment from "../../components/TokenSegment";
 import parseNumber from "../../utils/parseNumber";
 import parseError from "../../utils/parseError";
+import useContracts from "../../utils/providers/useContracts";
 
 const Wrap: NextPage = () => {
+    const {config} = useChainData();
     const protocolData = useProtocolData();
     const protocolMax = useProtocolMax();
     const protocolMethods = useProtocolMethods();
 
-    const [tokenData, setTokenData] = useState<{nativeCoin: Approved | undefined; nativeCoinWrapped: Approved | undefined} | null>(null);
+    const [tokenData, setTokenData] = useState<{nativeCoin: Approved; nativeCoinWrapped: Approved} | null>(null);
 
     const [data, setData] = useState<{
         availableNativeCoinAmount: ethers.BigNumber | undefined;
@@ -26,29 +28,24 @@ const Wrap: NextPage = () => {
     } | null>(null);
 
     useEffect(() => {
-        if (!protocolData || !protocolMax) setTokenData(null);
+        if (!config) setTokenData(null);
         else {
-            const nativeCoin = protocolData.nativeCoin();
-            const nativeCoinWrapped = protocolData.nativeCoinWrapped();
+            const nativeCoin = config.nativeCoin;
+            const nativeCoinWrapped = config.wrappedCoin;
 
             setTokenData({nativeCoin, nativeCoinWrapped});
         }
-    }, [protocolData]);
+    }, [config]);
 
     useEffect(() => {
-        if (!protocolData || !protocolMax) setData(null);
+        if (!protocolData || !protocolMax || !tokenData) setData(null);
         else {
             (async () => {
                 const availableNativeCoinAmount = await parseError(async () => await protocolData.availableNativeCoinAmount());
-                // const availableWrappedTokenAmount = await parseError(async () => await protocolData.availableWrappedTokenAmount());
-                const availableWrappedTokenAmount = await protocolData.availableWrappedTokenAmount();
+                const availableWrappedTokenAmount = await parseError(async () => await protocolData.availableTokenAmount(tokenData.nativeCoinWrapped));
 
                 const maxAvailableNativeCoinAmount = await parseError(async () => await protocolMax.availableNativeCoinAmount());
-                // const maxAvailableWrappedTokenAmount = await parseError(async () => await protocolMax.availableWrappedTokenAmount());
-                const maxAvailableWrappedTokenAmount = await protocolMax.availableWrappedTokenAmount();
-
-                console.log("Logger");
-                console.log(availableNativeCoinAmount, availableWrappedTokenAmount, maxAvailableNativeCoinAmount, maxAvailableWrappedTokenAmount);
+                const maxAvailableWrappedTokenAmount = await parseError(async () => await protocolMax.availableToken(tokenData.nativeCoinWrapped));
 
                 setData({
                     availableNativeCoinAmount,
@@ -58,7 +55,7 @@ const Wrap: NextPage = () => {
                 });
             })();
         }
-    }, [protocolData, protocolMax]);
+    }, [protocolData, protocolMax, tokenData]);
 
     return (
         <>
@@ -74,7 +71,7 @@ const Wrap: NextPage = () => {
                     Make sure to keep enough {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} to pay for transaction
                     fees.
                 </p>
-                {tokenData && tokenData.nativeCoin && tokenData.nativeCoinWrapped ? (
+                {tokenData ? (
                     <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-16">
                         <div className="w-full lg:mr-6">
                             <TokenSegment

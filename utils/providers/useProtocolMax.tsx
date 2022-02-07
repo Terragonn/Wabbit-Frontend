@@ -16,8 +16,6 @@ interface ProtocolMaxData {
     availableLeverage: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
 
     availableNativeCoinAmount: () => Promise<[ethers.BigNumber, number] | undefined>;
-
-    availableWrappedTokenAmount: () => Promise<[ethers.BigNumber, number] | undefined>;
 }
 
 const protocolMaxCtx = createContext<ProtocolMaxData | null>(undefined as any);
@@ -121,20 +119,6 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         }
     }
 
-    async function availableWrappedTokenAmount() {
-        if (contracts) {
-            const signerAddress = await contracts.signer.getAddress();
-
-            const wrapped = loadERC20(contracts.config.wrappedCoin.address, contracts.signer);
-
-            const available = await wrapped.balanceOf(signerAddress);
-
-            const parsed = parseDecimals(available, contracts.config.wrappedCoin.decimals).toNumber() / ROUND_CONSTANT;
-
-            return [available, parsed] as any;
-        }
-    }
-
     useEffect(() => {
         if (!contracts) {
         } else {
@@ -144,7 +128,6 @@ export function ProtocolMaxProvider({children}: {children: any}) {
                 availableCollateral,
                 availableLeverage,
                 availableNativeCoinAmount,
-                availableWrappedTokenAmount,
             });
         }
     }, [contracts]);

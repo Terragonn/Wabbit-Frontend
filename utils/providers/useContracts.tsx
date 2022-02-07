@@ -50,7 +50,7 @@ export function ContractsProvider({children}: {children: any}) {
     useEffect(() => {
         const newContracts = getContracts();
         setContracts(newContracts);
-    }, [library, config, account]);
+    }, [config, library, account]);
 
     return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }
