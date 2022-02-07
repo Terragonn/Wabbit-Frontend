@@ -14,5 +14,4 @@ export const walletConnect = new WalletConnectConnector({
         250: "https://rpc.ftm.tools/",
         31337: "http://127.0.0.1:8545/",
     },
-    supportedChainIds: [...SUPPORTED_CHAIN_IDS],
 });
