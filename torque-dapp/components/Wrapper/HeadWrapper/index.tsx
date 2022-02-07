@@ -19,8 +19,8 @@ export default function HeadWrapper({children}: {children: any}) {
                     }}
                 />
 
-                <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-                <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="manifest" href="/manifest.json" />
 
                 <title>Torque DApp - Extreme DeFi Leveraging</title>
                 <meta
