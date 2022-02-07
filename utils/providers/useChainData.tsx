@@ -7,11 +7,24 @@ import forkConfig from "../../config/config.fork.json";
 
 export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 31337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
-export const chains: {[key in SupportedChainIds]: {name: string; rpc: string; color: string}} = {
-    0: {name: "Invalid", rpc: "", color: "text-zinc-600"},
-    4: {name: "Rinkeby", rpc: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT", color: "text-yellow-300"},
-    250: {name: "Fantom", rpc: "https://rpc.ftm.tools/", color: "text-sky-500"},
-    31337: {name: "Localhost", rpc: "http://127.0.0.1:8545/", color: "text-emerald-500"},
+interface ChainData {
+    name: string;
+    rpc: string;
+    color: string;
+    blockExplorer: string;
+    config: Config | null;
+}
+export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
+    0: {name: "Invalid", rpc: "", color: "text-zinc-600", blockExplorer: "", config: null},
+    4: {
+        name: "Rinkeby",
+        rpc: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
+        color: "text-yellow-300",
+        blockExplorer: "https://rinkeby.etherscan.io/address/",
+        config: testConfig,
+    },
+    250: {name: "Fantom", rpc: "https://rpc.ftm.tools/", color: "text-sky-500", blockExplorer: "https://ftmscan.com/address/", config: mainConfig},
+    31337: {name: "Localhost", rpc: "http://127.0.0.1:8545/", color: "text-emerald-500", blockExplorer: "", config: forkConfig},
 };
 
 export interface Approved {
@@ -54,11 +67,6 @@ export interface Config {
     timelockAddress: string;
 }
 
-export interface ChainData {
-    blockExplorer: string;
-    config: Config | null;
-}
-
 const chainDataCtx = createContext<ChainData>(undefined as any);
 
 export default function useChainData() {
@@ -67,22 +75,6 @@ export default function useChainData() {
 
 export function ChainDataProvider({children}: {children: any}) {
     const {chainId} = useWeb3React();
-
-    const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
-        0: {blockExplorer: "", config: null},
-        4: {
-            blockExplorer: "https://rinkeby.etherscan.io/address/",
-            config: testConfig,
-        },
-        250: {
-            blockExplorer: "https://ftmscan.com/address/",
-            config: mainConfig,
-        },
-        31337: {
-            blockExplorer: "",
-            config: forkConfig,
-        },
-    };
 
     const [chainData, setChainData] = useState<ChainData>(chainDataConfig[0]);
 

@@ -1,6 +1,6 @@
 import {useWeb3React} from "@web3-react/core";
 
-import {chains, SupportedChainIds} from "../../../utils/providers/useChainData";
+import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
 
 export default function ChainSelector() {
     const {chainId} = useWeb3React();
@@ -8,10 +8,10 @@ export default function ChainSelector() {
     return (
         <select
             className={`font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center pr-12 ${
-                chainId && Object.keys(chains).includes(chainId.toString()) ? chains[chainId as SupportedChainIds | 0].color : chains[0].color
+                chainId && Object.keys(chainDataConfig).includes(chainId.toString()) ? chainDataConfig[chainId as SupportedChainIds | 0].color : chainDataConfig[0].color
             }`}
         >
-            {Object.entries(chains).map(([key, value]) => {
+            {Object.entries(chainDataConfig).map(([key, value]) => {
                 return (
                     <option
                         key={key}
