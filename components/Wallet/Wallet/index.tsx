@@ -1,5 +1,4 @@
 import {useWeb3React} from "@web3-react/core";
-import {ethers} from "ethers";
 
 import useError from "../../../utils/providers/useError";
 import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
@@ -20,14 +19,14 @@ export function useConnectMetamask() {
             await activate(injected, undefined, true);
 
             try {
-                await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: ethers.utils.hexlify(chainId)}]});
+                await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: "0x" + chainId.toString(16)}]});
             } catch (error: any) {
                 if (error.code === 4902) {
                     await (window as any).ethereum.request({
                         method: "wallet_addEthereumChain",
                         params: [
                             {
-                                chainId: ethers.utils.hexlify(chainId),
+                                chainId: "0x" + chainId.toString(16),
                                 chainName: chainDataConfig[chainId].name,
                                 rpcUrls: [chainDataConfig[chainId].rpcUrl],
                                 blockExplorerUrls: [chainDataConfig[chainId].blockExplorer],
@@ -39,7 +38,7 @@ export function useConnectMetamask() {
 
             setWalletSelector(false);
         } catch (e: any) {
-            setError(e.toString());
+            setError(e.message || e.toString());
         }
     };
 }
