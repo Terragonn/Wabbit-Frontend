@@ -45,6 +45,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     async function handleError(fn: () => Promise<any>) {
         try {
             await fn();
+            updateProtocolData();
         } catch (e: any) {
             setError(e.data?.message || e.message || null);
             window.scroll(0, 0);
@@ -59,10 +60,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function wrap(amount: ethers.BigNumber) {
         if (contracts) {
-            const fn = async () => {
+            const fn = async () =>
                 await handleError(async () => await (await contracts.converter.swapMaxEthIn(contracts.config.wrappedCoin.address, {...OVERRIDE, value: amount})).wait());
-                updateProtocolData();
-            };
             return [fn, null] as any;
         }
         return [null, null] as any;
@@ -72,10 +71,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             const approval = await approve(contracts.config.wrappedCoin.address, contracts.converter.address, amount);
 
-            const fn = async () => {
-                await handleError(async () => await (await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount)).wait());
 
             return [fn, approval] as any;
         }
@@ -86,10 +82,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             const approval = await approve(token.address, contracts.lPool.address, amount);
 
-            const fn = async () => {
-                await handleError(async () => await (await contracts.lPool.addLiquidity(token.address, amount, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.lPool.addLiquidity(token.address, amount, OVERRIDE)).wait());
 
             return [fn, approval];
         } else {
@@ -103,10 +96,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             const redeemToken = await contracts.lPool.LPFromPT(token.address);
             const approval = await approve(redeemToken, contracts.lPool.address, amount);
 
-            const fn = async () => {
-                await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
 
             return [fn, approval];
         } else {
@@ -119,10 +109,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             const approval = await approve(token.address, contracts.marginLong.address, amount);
 
-            const fn = async () => {
-                await handleError(async () => await (await contracts.marginLong.addCollateral(token.address, amount, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.marginLong.addCollateral(token.address, amount, OVERRIDE)).wait());
 
             return [fn, approval] as any;
         } else {
@@ -135,10 +122,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
         if (contracts) {
             const approval = await approve(token.address, contracts.marginLong.address, amount);
 
-            const fn = async () => {
-                await handleError(async () => await (await contracts.marginLong.removeCollateral(token.address, amount, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.marginLong.removeCollateral(token.address, amount, OVERRIDE)).wait());
 
             return [fn, approval] as any;
         } else {
@@ -149,10 +133,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function borrowLong(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            const fn = async () => {
-                await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
             return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
@@ -162,10 +143,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function repayLong(token: Approved) {
         if (contracts) {
-            const fn = async () => {
-                await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](token.address, OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts?.marginLong["repayAccount(address)"](token.address, OVERRIDE)).wait());
+
             return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
@@ -175,10 +154,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function repayLongAll() {
         if (contracts) {
-            const fn = async () => {
-                await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
-                updateProtocolData();
-            };
+            const fn = async () => await handleError(async () => await (await contracts?.marginLong["repayAccount()"](OVERRIDE)).wait());
+
             return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
