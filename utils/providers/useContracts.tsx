@@ -27,11 +27,13 @@ export default function useContracts() {
 }
 
 export function ContractsProvider({children}: {children: any}) {
-    const {active, library, account} = useWeb3React();
+    const {library, account} = useWeb3React();
     const {config} = useChainData();
 
-    async function getContracts() {
-        if (active && config) {
+    const [contracts, setContracts] = useState<Contracts | null>(null);
+
+    function getContracts() {
+        if (config && library) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
 
@@ -45,14 +47,10 @@ export function ContractsProvider({children}: {children: any}) {
         return null;
     }
 
-    const [contracts, setContracts] = useState<Contracts | null>(null);
-
     useEffect(() => {
-        (async () => {
-            const newContracts = await getContracts();
-            setContracts(newContracts);
-        })();
-    }, [config, account]);
+        const newContracts = getContracts();
+        setContracts(newContracts);
+    }, [library, config, account]);
 
     return <contractCtx.Provider value={contracts}>{children}</contractCtx.Provider>;
 }
