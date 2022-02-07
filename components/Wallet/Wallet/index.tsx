@@ -3,12 +3,6 @@ import {useWeb3React} from "@web3-react/core";
 
 import useError from "../../../utils/providers/useError";
 import {useWalletSelector} from "../WalletSelector";
-import {useEffect} from "react";
-
-const connectedIndicators = {
-    metamask: "CONNECTED_METAMASK",
-    walletConnect: "CONNECTED_WALLETCONNECT",
-};
 
 export function useConnectMetamask() {
     const [, setError] = useError();
@@ -19,9 +13,7 @@ export function useConnectMetamask() {
     return async () => {
         try {
             await activate(injected, undefined, true);
-
             setWalletSelector(false);
-            localStorage.setItem(connectedIndicators.metamask, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
         }
@@ -38,9 +30,7 @@ export function useConnectWalletConnect() {
         try {
             walletConnect.walletConnectProvider = undefined;
             await activate(walletConnect, undefined, true);
-
             setWalletSelector(false);
-            localStorage.setItem(connectedIndicators.walletConnect, JSON.stringify(true));
         } catch (e: any) {
             setError(e.toString());
         }
@@ -50,10 +40,7 @@ export function useConnectWalletConnect() {
 export function useDisconnect() {
     const {deactivate} = useWeb3React();
 
-    return () => {
-        deactivate();
-        for (const value of Object.values(connectedIndicators)) localStorage.removeItem(value);
-    };
+    return () => deactivate();
 }
 
 export default function Wallet() {
@@ -61,14 +48,6 @@ export default function Wallet() {
 
     const [, setWalletSelector] = useWalletSelector();
     const disconnect = useDisconnect();
-
-    const connectMetamask = useConnectMetamask();
-    const connectWalletConnect = useConnectWalletConnect();
-
-    useEffect(() => {
-        if (localStorage.getItem(connectedIndicators.metamask)) connectMetamask();
-        if (localStorage.getItem(connectedIndicators.walletConnect)) connectWalletConnect();
-    }, []);
 
     return (
         <button

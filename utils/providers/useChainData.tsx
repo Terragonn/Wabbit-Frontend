@@ -7,6 +7,11 @@ import forkConfig from "../../config/config.fork.json";
 
 export const SUPPORTED_CHAIN_IDS = [4, 250, 31337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
+export const rpc: {[key in SupportedChainIds]: string} = {
+    4: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
+    250: "https://rpc.ftm.tools/",
+    31337: "http://127.0.0.1:8545/",
+};
 
 export interface Approved {
     name: string;
