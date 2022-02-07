@@ -1,13 +1,11 @@
-import {Injected, WalletConnect, WalletLink} from "./connectors";
 import {useWeb3React} from "@web3-react/core";
-
-import useError from "../../../utils/providers/useError";
-import {useWalletSelector} from "../WalletSelector";
-import {SupportedChainIds} from "../../../utils/providers/useChainData";
 import {ethers} from "ethers";
 
-// **** A very possible problem is that it could indeed be connecting to the default chainId everytime automatically due to the walletconnect link ???
-// **** To solve this, each of these will be parsed props that will consist of one of the chain Id's based off of the selected element by the connect modal
+import useError from "../../../utils/providers/useError";
+import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+
+import {Injected, WalletConnect, WalletLink} from "./connectors";
+import {useWalletSelector} from "../WalletSelector";
 
 export function useConnectMetamask() {
     const [, setError] = useError();
@@ -21,8 +19,23 @@ export function useConnectMetamask() {
 
             await activate(injected, undefined, true);
 
-            // **** Include the option here to be able to auto add the network if it does not exist ? https://stackoverflow.com/questions/68252365/how-to-trigger-change-blockchain-network-request-on-metamask
-            await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: ethers.utils.hexlify(chainId)}]});
+            try {
+                await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: ethers.utils.hexlify(chainId)}]});
+            } catch (error: any) {
+                if (error.code === 4902) {
+                    await (window as any).ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [
+                            {
+                                chainId: ethers.utils.hexlify(chainId),
+                                chainName: chainDataConfig[chainId].name,
+                                rpcUrls: [chainDataConfig[chainId].rpcUrl],
+                                blockExplorerUrls: [chainDataConfig[chainId].blockExplorer],
+                            },
+                        ],
+                    });
+                } else throw error;
+            }
 
             setWalletSelector(false);
         } catch (e: any) {

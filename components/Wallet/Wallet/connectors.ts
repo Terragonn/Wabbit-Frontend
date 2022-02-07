@@ -12,13 +12,13 @@ export const Injected = () =>
 export const WalletConnect = (chainId: SupportedChainIds) =>
     new WalletConnectConnector({
         chainId: chainId,
-        rpc: Object.entries(chainDataConfig).reduce((a, v) => ({...a, [Number(v[0])]: v[1].rpc}), {}),
+        rpc: Object.entries(chainDataConfig).reduce((a, v) => ({...a, [Number(v[0])]: v[1].rpcUrl}), {}),
         supportedChainIds: [...SUPPORTED_CHAIN_IDS],
     });
 
 export const WalletLink = (chainId: SupportedChainIds) =>
     new WalletLinkConnector({
-        url: chainDataConfig[chainId].rpc,
+        url: chainDataConfig[chainId].rpcUrl,
         appName: "Torque",
         supportedChainIds: [...SUPPORTED_CHAIN_IDS],
     });
