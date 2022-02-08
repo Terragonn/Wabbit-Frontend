@@ -60,7 +60,7 @@ const Wrap: NextPage = () => {
     return (
         <>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Wrap</h2>
-            <div className="lg:mt-20 p-12 bg-neutral-900 rounded-xl glow flex flex-col items-start pb-10 my-10">
+            <div className="lg:mt-20 p-12 bg-neutral-900 bg-opacity-75 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 <h3 className="text-neutral-300 font-bold lg:text-center text-left text-2xl mb-4">Why Wrap?</h3>
                 <p className="text-neutral-400 font-medium text-lg mb-4">
                     To use your {data ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} with Torque, you must first wrap it
