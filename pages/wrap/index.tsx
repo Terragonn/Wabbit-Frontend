@@ -2,7 +2,8 @@ import type {NextPage} from "next";
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import useChainData, {Approved} from "../../utils/providers/useChainData";
+import useContracts from "../../utils/providers/useContracts";
+import {Approved} from "../../utils/providers/useChainData";
 import useProtocolData from "../../utils/providers/useProtocolData";
 import useProtocolMax from "../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../utils/providers/useProtocolMethods";
@@ -10,10 +11,10 @@ import useProtocolMethods from "../../utils/providers/useProtocolMethods";
 import TokenSegment from "../../components/TokenSegment";
 import parseNumber from "../../utils/parseNumber";
 import parseError from "../../utils/parseError";
-import useContracts from "../../utils/providers/useContracts";
 
 const Wrap: NextPage = () => {
-    const {config} = useChainData();
+    const contracts = useContracts();
+
     const protocolData = useProtocolData();
     const protocolMax = useProtocolMax();
     const protocolMethods = useProtocolMethods();
@@ -28,14 +29,14 @@ const Wrap: NextPage = () => {
     } | null>(null);
 
     useEffect(() => {
-        if (!config) setTokenData(null);
+        if (!contracts) setTokenData(null);
         else {
-            const nativeCoin = config.nativeCoin;
-            const nativeCoinWrapped = config.wrappedCoin;
+            const nativeCoin = contracts.config.nativeCoin;
+            const nativeCoinWrapped = contracts.config.wrappedCoin;
 
             setTokenData({nativeCoin, nativeCoinWrapped});
         }
-    }, [config]);
+    }, [contracts]);
 
     useEffect(() => {
         if (!protocolData || !protocolMax || !tokenData) setData(null);
@@ -79,6 +80,7 @@ const Wrap: NextPage = () => {
                                 keys={[["Available", parseNumber(data?.availableNativeCoinAmount) + " " + tokenData.nativeCoin.symbol]]}
                                 cta="Wrap"
                                 token={tokenData.nativeCoin}
+                                contracts={contracts}
                                 max={data?.maxAvailableNativeCoinAmount}
                                 callback={protocolMethods ? (token, num) => protocolMethods?.wrap(num) : undefined}
                             />
@@ -89,6 +91,7 @@ const Wrap: NextPage = () => {
                                 keys={[["Available", parseNumber(data?.availableWrappedTokenAmount) + " " + tokenData.nativeCoinWrapped.symbol]]}
                                 cta="Unwrap"
                                 token={tokenData.nativeCoinWrapped}
+                                contracts={contracts}
                                 max={data?.maxAvailableWrappedTokenAmount}
                                 callback={protocolMethods ? (token, num) => protocolMethods?.unwrap(num) : undefined}
                             />

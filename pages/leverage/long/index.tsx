@@ -2,10 +2,11 @@ import type {NextPage} from "next";
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import useChainData, {Approved} from "../../../utils/providers/useChainData";
+import {Approved} from "../../../utils/providers/useChainData";
 import useProtocolData from "../../../utils/providers/useProtocolData";
 import useProtocolMax from "../../../utils/providers/useProtocolMax";
 import useProtocolMethods from "../../../utils/providers/useProtocolMethods";
+import useContracts from "../../../utils/providers/useContracts";
 
 import Banner from "../../../components/Banner";
 import Button from "../../../components/Button";
@@ -16,7 +17,7 @@ import parseError from "../../../utils/parseError";
 import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
 
 const LeverageLong: NextPage = () => {
-    const {config} = useChainData();
+    const contracts = useContracts();
 
     const protocolData = useProtocolData();
     const protocolMethods = useProtocolMethods();
@@ -52,7 +53,7 @@ const LeverageLong: NextPage = () => {
         maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
         maxAvailableLeverage: [ethers.BigNumber, number] | undefined;
     } | null>(null);
-    const [token, setToken] = useState<Approved | null>(config?.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0] || null);
+    const [token, setToken] = useState<Approved | null>(contracts?.config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0] || null);
 
     useEffect(() => {
         if (!protocolData || !protocolMax || !token) setData(null);
@@ -129,7 +130,7 @@ const LeverageLong: NextPage = () => {
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Leverage Long</h2>
             <div className="p-12 bg-neutral-900 bg-opacity-75 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 <div className="w-full lg:mb-16 mb-20">
-                    <TokenSelect title="Token" setToken={setToken} allowed={["marginLongCollateral", "marginLongBorrow"]} />
+                    <TokenSelect title="Token" setToken={setToken} allowed={["marginLongCollateral", "marginLongBorrow"]} contracts={contracts} />
                 </div>
                 <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
                     <div className="w-full lg:mr-6">
@@ -143,6 +144,7 @@ const LeverageLong: NextPage = () => {
                             ]}
                             cta="Deposit"
                             token={token}
+                            contracts={contracts}
                             max={data?.maxAvailableToken}
                             callback={protocolMethods ? (token, num) => protocolMethods?.depositCollateral(token, num) : undefined}
                         />
@@ -156,6 +158,7 @@ const LeverageLong: NextPage = () => {
                             ]}
                             cta="Withdraw"
                             token={token}
+                            contracts={contracts}
                             max={data?.maxAvailableCollateral}
                             callback={protocolMethods ? (token, num) => protocolMethods?.withdrawCollateral(token, num) : undefined}
                         />
@@ -175,6 +178,7 @@ const LeverageLong: NextPage = () => {
                             ]}
                             cta="Leverage"
                             token={token}
+                            contracts={contracts}
                             max={data?.maxAvailableLeverage}
                             callback={protocolMethods ? (token, num) => protocolMethods?.borrowLong(token, num) : undefined}
                         />
@@ -198,6 +202,7 @@ const LeverageLong: NextPage = () => {
                             ]}
                             cta="Repay All"
                             token={token}
+                            contracts={contracts}
                             hideInput={true}
                             callback={protocolMethods ? (num, token) => protocolMethods?.repayLongAll() : undefined}
                         />

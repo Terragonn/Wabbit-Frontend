@@ -1,22 +1,23 @@
 import {useEffect, useState} from "react";
 
-import useChainData, {Approved} from "../../utils/providers/useChainData";
+import {Approved} from "../../utils/providers/useChainData";
 
 import displayString from "../../utils/displayString";
+import {Contracts} from "../../utils/providers/useContracts";
 
 export default function TokenSelect({
     title,
     setToken,
     allowed,
+    contracts,
 }: {
     title: string;
     setToken: (token: Approved | null) => void;
     allowed: ("leveragePool" | "marginLongCollateral" | "marginLongBorrow")[];
+    contracts: Contracts | null;
 }) {
-    const {config} = useChainData();
-
-    const tokens = config
-        ? config.approved.filter(
+    const tokens = contracts
+        ? contracts.config.approved.filter(
               (approved) =>
                   approved.oracle &&
                   ((approved.leveragePool && allowed.includes("leveragePool")) ||
@@ -29,7 +30,7 @@ export default function TokenSelect({
 
     useEffect(() => {
         setSelectedToken(tokens.length > 0 ? tokens[0] : null);
-    }, [config]);
+    }, [contracts]);
 
     useEffect(() => {
         setToken(selectedToken);
