@@ -50,7 +50,7 @@ const Dashboard: NextPage = () => {
                 {config
                     ? config.approved
                           .filter((approved) => approved.oracle && approved.leveragePool)
-                          .map((data, index) => <TableRow key={index} approved={data} config={config} blockExplorer={blockExplorer} />)
+                          .map((data, index) => <TableRow key={index} approved={data} blockExplorer={blockExplorer} />)
                     : null}
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Dashboard</h2>
@@ -58,7 +58,7 @@ const Dashboard: NextPage = () => {
                 {config
                     ? config.approved
                           .filter((approved) => approved.oracle && approved.leveragePool)
-                          .map((data, index) => <TableCard key={index} approved={data} config={config} blockExplorer={blockExplorer} />)
+                          .map((data, index) => <TableCard key={index} approved={data} blockExplorer={blockExplorer} />)
                     : null}
             </div>
         </>
