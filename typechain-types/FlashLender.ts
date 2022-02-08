@@ -21,19 +21,24 @@ export interface FlashLenderInterface extends utils.Interface {
   contractName: "FlashLender";
   functions: {
     "CALLBACK_SUCCESS()": FunctionFragment;
+    "feePercent()": FunctionFragment;
     "flashFee(address,uint256)": FunctionFragment;
     "flashLoan(address,address,uint256,bytes)": FunctionFragment;
     "maxFlashLoan(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "pool()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setMaxFeePercent(uint256,uint256)": FunctionFragment;
+    "setFeePercent(uint256,uint256)": FunctionFragment;
     "setPool(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "CALLBACK_SUCCESS",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "feePercent",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -55,7 +60,7 @@ export interface FlashLenderInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setMaxFeePercent",
+    functionFragment: "setFeePercent",
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setPool", values: [string]): string;
@@ -68,6 +73,7 @@ export interface FlashLenderInterface extends utils.Interface {
     functionFragment: "CALLBACK_SUCCESS",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "feePercent", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "flashFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "flashLoan", data: BytesLike): Result;
   decodeFunctionResult(
@@ -81,7 +87,7 @@ export interface FlashLenderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMaxFeePercent",
+    functionFragment: "setFeePercent",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setPool", data: BytesLike): Result;
@@ -135,6 +141,8 @@ export interface FlashLender extends BaseContract {
   functions: {
     CALLBACK_SUCCESS(overrides?: CallOverrides): Promise<[string]>;
 
+    feePercent(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
     flashFee(
       token_: string,
       amount_: BigNumberish,
@@ -162,9 +170,9 @@ export interface FlashLender extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMaxFeePercent(
-      maxFeePercentNumerator_: BigNumberish,
-      maxFeePercentDenominator_: BigNumberish,
+    setFeePercent(
+      feePercentNumerator_: BigNumberish,
+      feePercentDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -180,6 +188,8 @@ export interface FlashLender extends BaseContract {
   };
 
   CALLBACK_SUCCESS(overrides?: CallOverrides): Promise<string>;
+
+  feePercent(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   flashFee(
     token_: string,
@@ -205,9 +215,9 @@ export interface FlashLender extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMaxFeePercent(
-    maxFeePercentNumerator_: BigNumberish,
-    maxFeePercentDenominator_: BigNumberish,
+  setFeePercent(
+    feePercentNumerator_: BigNumberish,
+    feePercentDenominator_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -223,6 +233,8 @@ export interface FlashLender extends BaseContract {
 
   callStatic: {
     CALLBACK_SUCCESS(overrides?: CallOverrides): Promise<string>;
+
+    feePercent(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     flashFee(
       token_: string,
@@ -246,9 +258,9 @@ export interface FlashLender extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    setMaxFeePercent(
-      maxFeePercentNumerator_: BigNumberish,
-      maxFeePercentDenominator_: BigNumberish,
+    setFeePercent(
+      feePercentNumerator_: BigNumberish,
+      feePercentDenominator_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -274,6 +286,8 @@ export interface FlashLender extends BaseContract {
   estimateGas: {
     CALLBACK_SUCCESS(overrides?: CallOverrides): Promise<BigNumber>;
 
+    feePercent(overrides?: CallOverrides): Promise<BigNumber>;
+
     flashFee(
       token_: string,
       amount_: BigNumberish,
@@ -298,9 +312,9 @@ export interface FlashLender extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMaxFeePercent(
-      maxFeePercentNumerator_: BigNumberish,
-      maxFeePercentDenominator_: BigNumberish,
+    setFeePercent(
+      feePercentNumerator_: BigNumberish,
+      feePercentDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -317,6 +331,8 @@ export interface FlashLender extends BaseContract {
 
   populateTransaction: {
     CALLBACK_SUCCESS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    feePercent(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     flashFee(
       token_: string,
@@ -345,9 +361,9 @@ export interface FlashLender extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMaxFeePercent(
-      maxFeePercentNumerator_: BigNumberish,
-      maxFeePercentDenominator_: BigNumberish,
+    setFeePercent(
+      feePercentNumerator_: BigNumberish,
+      feePercentDenominator_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

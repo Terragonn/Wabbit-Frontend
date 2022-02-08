@@ -93,6 +93,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IConverter__factory>;
     getContractFactory(
+      name: "FlashBorrower",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FlashBorrower__factory>;
+    getContractFactory(
       name: "FlashLender",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FlashLender__factory>;
@@ -337,6 +341,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IConverter>;
+    getContractAt(
+      name: "FlashBorrower",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FlashBorrower>;
     getContractAt(
       name: "FlashLender",
       address: string,
