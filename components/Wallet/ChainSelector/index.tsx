@@ -14,7 +14,7 @@ export default function ChainSelector() {
             : selectColor === "sky"
             ? "text-sky-500"
             : "text-emerald-500"
-        : "text-zinc-900";
+        : "text-zinc-600";
 
     return (
         <select className={`font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center pr-12 ${selectTextColor}`}>
