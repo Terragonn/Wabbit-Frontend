@@ -2,7 +2,7 @@ import {createContext, useContext, useState} from "react";
 
 import Card from "./card";
 import {useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
-import {chainDataConfig, chooseColor, SupportedChainIds} from "../../../utils/providers/useChainData";
+import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
 
 export const walletSelectorCtx = createContext<[boolean, (walletSelector: boolean) => void]>(undefined as any);
 

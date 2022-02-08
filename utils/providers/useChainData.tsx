@@ -10,28 +10,6 @@ export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
 
 type Color = "zinc" | "yellow" | "sky" | "emerald";
 
-export function chooseColor(type: "text" | "bg", color?: Color) {
-    return color
-        ? color === "zinc"
-            ? type === "text"
-                ? "text-zinc-600"
-                : "bg-zinc-900"
-            : color === "yellow"
-            ? type === "text"
-                ? "text-yellow-300"
-                : "text-yellow-600"
-            : color === "sky"
-            ? type === "text"
-                ? "text-sky-500"
-                : "bg-sky-800"
-            : type === "text"
-            ? "text-emerald-500"
-            : "bg-emerald-800"
-        : type === "text"
-        ? "text-zinc-600"
-        : "bg-zinc-900";
-}
-
 interface ChainData {
     name: string;
     rpcUrl: string;
