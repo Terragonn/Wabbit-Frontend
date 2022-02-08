@@ -5,13 +5,13 @@ import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useCh
 export default function ChainSelector() {
     const {chainId} = useWeb3React();
 
-    const color = chainId && Object.keys(chainDataConfig).includes(chainId.toString()) ? chainDataConfig[chainId as SupportedChainIds].color : undefined;
-    const selectTextColor = color
-        ? color === "zinc"
+    const selectColor = chainId && Object.keys(chainDataConfig).includes(chainId.toString()) ? chainDataConfig[chainId as SupportedChainIds].color : undefined;
+    const selectTextColor = selectColor
+        ? selectColor === "zinc"
             ? "text-zinc-600"
-            : color === "yellow"
+            : selectColor === "yellow"
             ? "text-yellow-300"
-            : color === "sky"
+            : selectColor === "sky"
             ? "text-sky-500"
             : "text-emerald-500"
         : "text-zinc-900";
