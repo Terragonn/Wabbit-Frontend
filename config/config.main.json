@@ -59,12 +59,12 @@
       "marginLongBorrow": false,
       "leveragePool": false,
       "setup": {
-        "maxInterestMinNumerator": 10,
-        "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
-        "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
-        "maxUtilizationDenominator": 100
+        "maxInterestMinNumerator": 0,
+        "maxInterestMinDenominator": 0,
+        "maxInterestMaxNumerator": 0,
+        "maxInterestMaxDenominator": 0,
+        "maxUtilizationNumerator": 0,
+        "maxUtilizationDenominator": 0
       }
     },
     {
@@ -80,11 +80,11 @@
       "marginLongBorrow": true,
       "leveragePool": true,
       "setup": {
-        "maxInterestMinNumerator": 10,
+        "maxInterestMinNumerator": 25,
         "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
+        "maxInterestMaxNumerator": 75,
         "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
+        "maxUtilizationNumerator": 80,
         "maxUtilizationDenominator": 100
       }
     },
@@ -101,11 +101,11 @@
       "marginLongBorrow": true,
       "leveragePool": true,
       "setup": {
-        "maxInterestMinNumerator": 10,
+        "maxInterestMinNumerator": 25,
         "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
+        "maxInterestMaxNumerator": 75,
         "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
+        "maxUtilizationNumerator": 80,
         "maxUtilizationDenominator": 100
       }
     },
@@ -122,11 +122,11 @@
       "marginLongBorrow": true,
       "leveragePool": true,
       "setup": {
-        "maxInterestMinNumerator": 10,
+        "maxInterestMinNumerator": 25,
         "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
+        "maxInterestMaxNumerator": 75,
         "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
+        "maxUtilizationNumerator": 80,
         "maxUtilizationDenominator": 100
       }
     },
@@ -143,12 +143,12 @@
       "marginLongBorrow": false,
       "leveragePool": false,
       "setup": {
-        "maxInterestMinNumerator": 10,
-        "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
-        "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
-        "maxUtilizationDenominator": 100
+        "maxInterestMinNumerator": 0,
+        "maxInterestMinDenominator": 0,
+        "maxInterestMaxNumerator": 0,
+        "maxInterestMaxDenominator": 0,
+        "maxUtilizationNumerator": 0,
+        "maxUtilizationDenominator": 0
       }
     },
     {
@@ -164,12 +164,12 @@
       "marginLongBorrow": false,
       "leveragePool": false,
       "setup": {
-        "maxInterestMinNumerator": 10,
-        "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
-        "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
-        "maxUtilizationDenominator": 100
+        "maxInterestMinNumerator": 0,
+        "maxInterestMinDenominator": 0,
+        "maxInterestMaxNumerator": 0,
+        "maxInterestMaxDenominator": 0,
+        "maxUtilizationNumerator": 0,
+        "maxUtilizationDenominator": 0
       }
     },
     {
@@ -185,11 +185,11 @@
       "marginLongBorrow": true,
       "leveragePool": true,
       "setup": {
-        "maxInterestMinNumerator": 10,
+        "maxInterestMinNumerator": 25,
         "maxInterestMinDenominator": 100,
-        "maxInterestMaxNumerator": 40,
+        "maxInterestMaxNumerator": 75,
         "maxInterestMaxDenominator": 100,
-        "maxUtilizationNumerator": 50,
+        "maxUtilizationNumerator": 80,
         "maxUtilizationDenominator": 100
       }
     }
@@ -201,5 +201,6 @@
   "marginLongAddress": "0x5081a39b8A5f0E35a8D959395a630b68B74Dd30f",
   "marginLongLogicAddress": "",
   "resolverAddress": "0x1fA02b2d6A771842690194Cf62D91bdd92BfE28d",
-  "timelockAddress": ""
+  "timelockAddress": "",
+  "flashLender": ""
 }

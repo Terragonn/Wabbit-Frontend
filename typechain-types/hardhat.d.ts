@@ -57,6 +57,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TimelockController__factory>;
     getContractFactory(
+      name: "IERC3156FlashBorrower",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC3156FlashBorrower__factory>;
+    getContractFactory(
+      name: "IERC3156FlashLender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC3156FlashLender__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -84,6 +92,10 @@ declare module "hardhat/types/runtime" {
       name: "IConverter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IConverter__factory>;
+    getContractFactory(
+      name: "FlashLender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FlashLender__factory>;
     getContractFactory(
       name: "ITaskTreasury",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -281,6 +293,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.TimelockController>;
     getContractAt(
+      name: "IERC3156FlashBorrower",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC3156FlashBorrower>;
+    getContractAt(
+      name: "IERC3156FlashLender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC3156FlashLender>;
+    getContractAt(
       name: "ERC20",
       address: string,
       signer?: ethers.Signer
@@ -315,6 +337,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IConverter>;
+    getContractAt(
+      name: "FlashLender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FlashLender>;
     getContractAt(
       name: "ITaskTreasury",
       address: string,
