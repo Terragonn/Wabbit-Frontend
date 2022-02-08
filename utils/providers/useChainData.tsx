@@ -104,7 +104,7 @@ export function ChainDataProvider({children}: {children: any}) {
         if (chainId && Object.keys(chainDataConfig).includes(newChainId?.toString() as string)) {
             const newChainDataConfig = chainDataConfig[newChainId as SupportedChainIds];
             setChainData(newChainDataConfig);
-        }
+        } else setChainData(chainDataConfig[0]);
     }, [chainId]);
 
     return <chainDataCtx.Provider value={chainData}>{children}</chainDataCtx.Provider>;
