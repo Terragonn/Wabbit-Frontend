@@ -11,7 +11,7 @@ import ConverterAbi from "../../config/Converter.json";
 
 import {LPool, Oracle, MarginLong, Converter} from "../../typechain-types";
 
-interface Contracts {
+export interface Contracts {
     signer: ethers.providers.JsonRpcSigner;
     config: Config;
     lPool: LPool;

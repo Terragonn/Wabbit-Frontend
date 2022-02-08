@@ -1,7 +1,7 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import useContracts from "../../utils/providers/useContracts";
+import {Contracts} from "../../utils/providers/useContracts";
 import {Approved} from "../../utils/providers/useChainData";
 import {RequiresApproval} from "../../utils/providers/useProtocolMethods";
 
@@ -13,6 +13,7 @@ export default function TokenSegment({
     keys,
     cta,
     token,
+    contracts,
     callback,
     hideInput,
     max,
@@ -21,12 +22,11 @@ export default function TokenSegment({
     keys: [string, string][];
     cta: string;
     token: Approved | null;
+    contracts: Contracts | null;
     callback?: (token: Approved, num: ethers.BigNumber) => Promise<RequiresApproval>;
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
-    const contracts = useContracts();
-
     const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
@@ -63,14 +63,14 @@ export default function TokenSegment({
 
                 if (contracts && (await contracts.oracle.isSupported(token.address))) {
                     const price = await contracts.oracle.priceMin(token.address, decimals);
-                    const parsed = parseDecimals(price, (await contracts?.oracle.priceDecimals()).toNumber());
+                    const parsed = parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
                     setPriceNum(parsed);
                 }
 
                 if (isMax) setIsMax(false);
             })();
         }
-    }, [num, contracts, token]);
+    }, [num, token]);
 
     return (
         <>
