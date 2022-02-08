@@ -1,5 +1,4 @@
 import {useWeb3React} from "@web3-react/core";
-import {useEffect} from "react";
 
 import useError from "../../../utils/providers/useError";
 import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
@@ -7,8 +6,8 @@ import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useCh
 import {Injected, WalletConnect, WalletLink} from "./connectors";
 import {useWalletSelector} from "../WalletSelector";
 
-const AUTO_CONNECT = "AUTO_CONNECT" as const;
-interface AutoConnect {
+export const AUTO_CONNECT = "AUTO_CONNECT" as const;
+export interface AutoConnect {
     chainId: SupportedChainIds;
     wallet: "metamask" | "walletconnect" | "walletlink";
 }
@@ -61,7 +60,6 @@ export function useConnectWalletConnect() {
         try {
             const walletConnect = WalletConnect(chainId);
 
-            walletConnect.walletConnectProvider = undefined;
             await activate(walletConnect, undefined, true);
 
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "walletconnect"} as AutoConnect));
@@ -106,21 +104,6 @@ export default function Wallet() {
 
     const [, setWalletSelector] = useWalletSelector();
     const disconnect = useDisconnect();
-
-    const connectMetamask = useConnectMetamask();
-    const connectWalletConnect = useConnectWalletConnect();
-    const connectWalletLink = useConnectWalletLink();
-
-    useEffect(() => {
-        const autoConnectString = localStorage.getItem(AUTO_CONNECT);
-        if (autoConnectString) {
-            const autoConnect: AutoConnect = JSON.parse(autoConnectString);
-
-            if (autoConnect.wallet === "metamask") connectMetamask(autoConnect.chainId);
-            else if (autoConnect.wallet === "walletconnect") connectWalletConnect(autoConnect.chainId);
-            else if (autoConnect.wallet === "walletlink") connectWalletLink(autoConnect.chainId);
-        }
-    }, [active]);
 
     return (
         <button

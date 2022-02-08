@@ -1,7 +1,7 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 
 import Card from "./card";
-import {useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
+import {AutoConnect, AUTO_CONNECT, useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
 import {SupportedChainIds} from "../../../utils/providers/useChainData";
 import WalletSelectorChainSelector from "../WalletSelectorChainSelector";
 
@@ -25,6 +25,16 @@ export default function WalletSelector() {
     const connectWalletLink = useConnectWalletLink();
 
     const [chainId, setChainId] = useState<SupportedChainIds>(250);
+
+    useEffect(() => {
+        const autoConnectString = localStorage.getItem(AUTO_CONNECT);
+        if (autoConnectString) {
+            const autoConnect: AutoConnect = JSON.parse(autoConnectString);
+            if (autoConnect.wallet === "metamask") connectMetamask(autoConnect.chainId);
+            else if (autoConnect.wallet === "walletconnect") connectWalletConnect(autoConnect.chainId);
+            else if (autoConnect.wallet === "walletlink") connectWalletLink(autoConnect.chainId);
+        }
+    }, []);
 
     return (
         <div className={`${walletSelector ? "" : "hidden"} bg-black bg-opacity-80 fixed inset-0 flex items-center justify-center z-50 modal`}>
