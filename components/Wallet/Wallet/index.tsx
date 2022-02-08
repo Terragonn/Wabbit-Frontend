@@ -53,6 +53,8 @@ export function useConnectWalletConnect() {
         try {
             const walletConnect = WalletConnect(chainId);
 
+            console.log(walletConnect);
+
             walletConnect.walletConnectProvider = undefined;
             await activate(walletConnect, undefined, true);
 
