@@ -33,3 +33,5 @@ export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, c
 export function safeCollateralPrice(minimumCollateralPrice: ethers.BigNumber) {
     return minimumCollateralPrice.mul(100).div(ethers.BigNumber.from(100).sub(SAFE_PRICE_DROP_COLLATERAL_PERCENT));
 }
+
+// **** The above does not consider cases where there is no current leverage...
