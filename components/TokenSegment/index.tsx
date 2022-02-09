@@ -27,7 +27,7 @@ export default function TokenSegment({
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
-    const [num, setNum] = useState<number>(0);
+    const [num, setNum] = useState<string>("");
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [isMax, setIsMax] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export default function TokenSegment({
                 decimals = max[0];
                 setBigNum(decimals);
             } else {
-                const padded = Math.floor(num * ROUND_CONSTANT);
+                const padded = Math.floor(parseFloat(num !== "" ? num : "0") * ROUND_CONSTANT);
                 decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
                 setBigNum(decimals);
             }
@@ -82,11 +82,11 @@ export default function TokenSegment({
                         className="bg-transparent border-none rounded-xl text-left text-white text-xl font-bold w-full"
                         type="number"
                         placeholder="0.00"
-                        value={num === 0 ? "" : num}
+                        value={num}
                         min={0}
                         step={0.01}
                         onChange={(e) => {
-                            setNum(e.target.valueAsNumber || 0);
+                            setNum(e.target.value);
                         }}
                     />
                     {max ? (
@@ -94,7 +94,7 @@ export default function TokenSegment({
                             className="mx-auto text-neutral-600 font-bold text-xl whitespace-nowrap cursor-pointer hover:text-neutral-500"
                             onClick={async () => {
                                 setIsMax(true);
-                                setNum(max[1]);
+                                setNum(max[1].toString());
                             }}
                         >
                             max
@@ -128,7 +128,7 @@ export default function TokenSegment({
                                         setApprove((await callback(token, bigNum))[1] !== null);
                                     } else {
                                         await processHandler(async () => await (requiresApproval[0] as any)());
-                                        setNum(0);
+                                        setNum("");
                                     }
                                 })();
                         }}
