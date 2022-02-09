@@ -1,6 +1,6 @@
 import {ethers} from "ethers";
 
-export const ROUND_CONSTANT = 1e3;
+export const ROUND_CONSTANT = 1e6;
 export const DISPLAY_DECIMALS = 2;
 
 export function parseNumberFloat(num?: number): string {
