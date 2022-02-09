@@ -32,7 +32,7 @@ interface ProtocolData {
     redeemLiquidityTokenPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
     minMarginLevel: () => Promise<number | undefined>;
-    maxLeverage: () => Promise<ethers.BigNumber | undefined>;
+    maxLeverage: () => Promise<number | undefined>;
     minCollateralPrice: () => Promise<ethers.BigNumber | undefined>;
 
     accountCollateralAmount: (token: Approved) => Promise<ethers.BigNumber | undefined>;
@@ -55,8 +55,6 @@ interface ProtocolData {
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
-
-export const SAFETY_THRESHOLD = [20, 100] as const;
 
 export default function useProtocolData() {
     return useContext(protocolDataCtx);
@@ -266,26 +264,24 @@ export function ProtocolDataProvider({children}: {children: any}) {
     async function minMarginLevel() {
         if (contracts) {
             const [numerator, denominator] = await contracts.marginLong.minMarginLevel();
-            const level = numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
 
-            return level;
+            return numerator.mul(ROUND_CONSTANT).div(denominator).toNumber() / ROUND_CONSTANT;
         }
     }
 
     async function maxLeverage() {
         if (contracts) {
-            const [leverageNumerator, leverageDenominator] = await contracts.marginLong.maxLeverage();
+            const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
 
-            return leverageNumerator.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0])).div(leverageDenominator);
+            return maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
         }
     }
 
     async function minCollateralPrice() {
         if (contracts) {
             const minCollateral = await contracts.marginLong.minCollateralPrice();
-            const parsedPrice = parseDecimals(minCollateral, (await contracts.oracle.priceDecimals()).toNumber());
 
-            return parsedPrice.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).sub(SAFETY_THRESHOLD[0]));
+            return parseDecimals(minCollateral, (await contracts.oracle.priceDecimals()).toNumber());
         }
     }
 

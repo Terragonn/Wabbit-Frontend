@@ -39,7 +39,7 @@ const LeverageLong: NextPage = () => {
         currentBorrowedValue: ethers.BigNumber | undefined;
         initialBorrowedValue: ethers.BigNumber | undefined;
         minMarginLevel: number | undefined;
-        maxLeverage: ethers.BigNumber | undefined;
+        maxLeverage: number | undefined;
 
         totalAccountValue: ethers.BigNumber | undefined;
         totalAccountCollateralValue: ethers.BigNumber | undefined;
@@ -177,7 +177,7 @@ const LeverageLong: NextPage = () => {
                                 ["Current borrowed value", "$ " + parseNumber(data?.currentBorrowedValue)],
                                 ["", ""],
                                 ["Min margin level", parseNumberFloat(data?.minMarginLevel)],
-                                ["Maximum leverage", parseNumber(data?.maxLeverage?.mul(ROUND_CONSTANT)) + "x"],
+                                ["Maximum leverage", parseNumberFloat(data?.maxLeverage) + "x"],
                             ]}
                             cta="Leverage"
                             token={token}
