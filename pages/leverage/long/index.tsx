@@ -195,7 +195,7 @@ const LeverageLong: NextPage = () => {
                                 ["Total collateral value", "$ " + parseNumber(data?.totalAccountCollateralValue)],
                                 ["Total accumulated interest", "$ " + parseNumber(data?.totalAccountInterest)],
                                 ["Total initial borrowed value", "$ " + parseNumber(data?.totalAccountInitialBorrowedValue)],
-                                ["Total borrowed current value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
+                                ["Total current borrowed value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
                                 ["", ""],
                                 ["Margin level", parseNumberFloat(data?.marginLevel)],
                                 ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
