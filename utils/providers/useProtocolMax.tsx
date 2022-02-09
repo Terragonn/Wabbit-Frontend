@@ -6,6 +6,7 @@ import useContracts from "./useContracts";
 
 import {loadERC20} from "../ERC20Utils";
 import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
+import {safeMaxLeverageAmount} from "../safeLeverage";
 
 interface ProtocolMaxData {
     availableToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
@@ -71,40 +72,19 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            let [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
-            const maxLeverage = maxLeverageNumerator
-                .mul(SAFETY_THRESHOLD[1])
-                .div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).add(SAFETY_THRESHOLD[0]))
-                .div(maxLeverageDenominator);
+            const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
 
-            const maxPriceToAmount = async (maxPrice: ethers.BigNumber) => {
-                const amount = await contracts.oracle.amountMin(token.address, maxPrice);
-                const totalLiquidity = await contracts.lPool.liquidity(token.address);
+            const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
+            const [currentLeverageNumerator, currentLeverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
 
-                let finalAmount;
-                if (amount.gt(totalLiquidity)) finalAmount = totalLiquidity;
-                else finalAmount = amount;
+            const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
+            const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-                const parsed = parseDecimals(finalAmount, token.decimals).toNumber() / ROUND_CONSTANT;
+            const safeAmount = safeMaxLeverageAmount(currentAmountBorrowed, currentLeverage, maxLeverage);
 
-                return [finalAmount, parsed] as any;
-            };
+            const parsed = parseDecimals(safeAmount, token.decimals).toNumber() / ROUND_CONSTANT;
 
-            const isBorrowing = await contracts.marginLong["isBorrowing(address)"](signerAddress);
-            if (isBorrowing) {
-                const borrowedPrice = await contracts.marginLong.collateralPrice(signerAddress);
-                const [leverageNumerator, leverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
-
-                const maxPrice = borrowedPrice.mul(maxLeverage.mul(leverageDenominator).sub(leverageNumerator)).div(leverageNumerator);
-                return await maxPriceToAmount(maxPrice);
-            } else {
-                const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
-                let minCollateralPrice = await contracts.marginLong.minCollateralPrice();
-                minCollateralPrice = minCollateralPrice.mul(SAFETY_THRESHOLD[1]).div(ethers.BigNumber.from(SAFETY_THRESHOLD[1]).sub(SAFETY_THRESHOLD[0]));
-
-                if (collateralPrice.gte(minCollateralPrice)) return await maxPriceToAmount(collateralPrice.mul(maxLeverage));
-                else return [ethers.BigNumber.from(0), 0] as any;
-            }
+            return [safeAmount, parsed] as any;
         }
     }
 

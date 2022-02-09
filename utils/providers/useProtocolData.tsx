@@ -413,11 +413,11 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const maxLeverageBN = await contracts.marginLong.maxLeverage();
-            const currentLeverageBN = await contracts.marginLong.currentLeverage(signerAddress);
+            const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
+            const [currentLeverageNumerator, currentLeverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
 
-            const maxLeverage = maxLeverageBN[0].mul(ROUND_CONSTANT).div(maxLeverageBN[1]).toNumber() / ROUND_CONSTANT;
-            const currentLeverage = currentLeverageBN[0].mul(ROUND_CONSTANT).div(currentLeverageBN[1]).toNumber() / ROUND_CONSTANT;
+            const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
+            const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
             const percentChangePadded = Math.floor((liquidatablePriceDropPercent(currentLeverage, maxLeverage) * ROUND_CONSTANT) / 100);
 

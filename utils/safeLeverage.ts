@@ -20,7 +20,7 @@ export function isSafeLeverageAmount(amountBorrowed: ethers.BigNumber, currentAm
     return newLeverage <= allowedLeverage;
 }
 
-export function calculateSafeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
+export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
     const allowedLeverage = safeLeverage(maxLeverage);
 
     const numerator = (allowedLeverage / currentLeverage - 1) * ROUND_CONSTANT;
