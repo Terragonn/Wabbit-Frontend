@@ -13,13 +13,18 @@ export function liquidatablePriceDropPercent(currentLeverage: number, maxLeverag
 
 export function isSafeLeverageAmount(amountBorrowed: ethers.BigNumber, currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
     const newDepositMultiplier = amountBorrowed.mul(ROUND_CONSTANT).div(currentAmountBorrowed).toNumber() / ROUND_CONSTANT;
-    const newLeverage = currentLeverage * newDepositMultiplier;
+    const newLeverage = currentLeverage * (1 + newDepositMultiplier);
 
     const allowedLeverage = safeLeverage(maxLeverage);
 
     return newLeverage <= allowedLeverage;
 }
 
-export function calculateSafeLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
-    //
+export function calculateSafeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
+    const allowedLeverage = safeLeverage(maxLeverage);
+
+    const numerator = (allowedLeverage / currentLeverage - 1) * ROUND_CONSTANT;
+    const denominator = ROUND_CONSTANT;
+
+    return ethers.BigNumber.from(numerator).mul(currentAmountBorrowed).div(denominator);
 }
