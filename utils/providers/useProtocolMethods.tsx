@@ -9,7 +9,7 @@ import {useUpdateProtocolData} from "./useProtocolData";
 
 import {isApprovedERC20, approveERC20} from "../ERC20Utils";
 import {ROUND_CONSTANT} from "../parseNumber";
-import {isSafeLeverageAmount, liquidatablePriceDropPercent} from "../safeLeverage";
+import {isSafeLeverageAmount, safeCollateralPrice} from "../safeLevels";
 
 export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 
@@ -139,6 +139,14 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => {
                     const signerAddress = await contracts.signer.getAddress();
 
+                    const minCollateralPrice = await contracts.marginLong.minCollateralPrice();
+                    const _safeCollateralPrice = safeCollateralPrice(minCollateralPrice);
+                    const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
+                    if (collateralPrice.lt(_safeCollateralPrice))
+                        throw Error(
+                            "UsafeBorrow: Borrowing with this collateral price is forbidden on the dApp due to the small price decrease required to reset your position. If you know what you are doing and you still wish to borrow this amount, please interact with the contract itself."
+                        );
+
                     const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
 
                     const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
@@ -150,7 +158,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                     const isSafePosition = isSafeLeverageAmount(amount, currentAmountBorrowed, currentLeverage, maxLeverage);
                     if (!isSafePosition)
                         throw Error(
-                            "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to how unsafe it is. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."
+                            "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to the small price decrease required to liquidate your position. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."
                         );
 
                     await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait();

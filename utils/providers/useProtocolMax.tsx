@@ -6,7 +6,7 @@ import useContracts from "./useContracts";
 
 import {loadERC20} from "../ERC20Utils";
 import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
-import {safeMaxLeverageAmount} from "../safeLeverage";
+import {safeMaxLeverageAmount} from "../safeLevels";
 
 interface ProtocolMaxData {
     availableToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;

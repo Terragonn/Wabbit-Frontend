@@ -7,7 +7,7 @@ import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
 import {loadERC20} from "../ERC20Utils";
 import getApproved from "../getApproved";
-import {liquidatablePriceDropPercent} from "../safeLeverage";
+import {liquidatablePriceDropPercent} from "../safeLevels";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
