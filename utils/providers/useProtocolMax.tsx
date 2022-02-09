@@ -72,6 +72,8 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
+            // **** Clearly there is a problem in here somewhere
+
             const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
 
             const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();

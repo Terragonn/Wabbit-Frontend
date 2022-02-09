@@ -139,6 +139,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => {
                     const signerAddress = await contracts.signer.getAddress();
 
+                    // **** Clearly there is also a problem in here somewhere
+
                     const minCollateralPrice = await contracts.marginLong.minCollateralPrice();
                     const _safeCollateralPrice = safeCollateralPrice(minCollateralPrice);
                     const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);

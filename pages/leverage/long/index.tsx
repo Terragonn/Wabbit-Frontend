@@ -61,7 +61,7 @@ const LeverageLong: NextPage = () => {
         else {
             (async () => {
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
-                const liquidity = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
+                const liquidity = await parseError(async () => await protocolData.totalTokenAmountLiquidity(token));
                 const totalCollateralValue = await parseError(async () => await protocolData.totalCollateralPrice());
 
                 const available = await parseError(async () => await protocolData.availableTokenAmount(token));

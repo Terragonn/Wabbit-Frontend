@@ -12,9 +12,21 @@ export function liquidatablePriceDropPercent(currentLeverage: number, maxLeverag
     return 100 / currentLeverage - 100 / maxLeverage;
 }
 
-export function isSafeLeverageAmount(amountBorrowed: ethers.BigNumber, currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
-    const newDepositMultiplier = amountBorrowed.mul(ROUND_CONSTANT).div(currentAmountBorrowed).toNumber() / ROUND_CONSTANT;
-    const newLeverage = currentLeverage * (1 + newDepositMultiplier);
+export function isSafeLeverageAmount(
+    amountBorrowed: ethers.BigNumber,
+    currentAmountBorrowed: ethers.BigNumber,
+    currentLeverage: number,
+    maxLeverage: number,
+    collateralPrice?: ethers.BigNumber
+) {
+    let newLeverage;
+    if (currentAmountBorrowed.gt(0)) {
+        const newDepositMultiplier = amountBorrowed.mul(ROUND_CONSTANT).div(currentAmountBorrowed).toNumber() / ROUND_CONSTANT;
+        newLeverage = currentLeverage * (1 + newDepositMultiplier);
+    } else {
+        if (!collateralPrice) throw Error("Collateral price cannot be undefined");
+        newLeverage = amountBorrowed.mul(ROUND_CONSTANT).div(collateralPrice).toNumber() / ROUND_CONSTANT;
+    }
 
     const allowedLeverage = safeLeverage(maxLeverage);
 
@@ -26,6 +38,8 @@ export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, c
 
     const numerator = (allowedLeverage / currentLeverage - 1) * ROUND_CONSTANT;
     const denominator = ROUND_CONSTANT;
+
+    // **** What do we do if there is no collateral borrowed ?
 
     return ethers.BigNumber.from(numerator).mul(currentAmountBorrowed).div(denominator);
 }
