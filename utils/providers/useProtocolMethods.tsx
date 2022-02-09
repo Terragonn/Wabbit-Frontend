@@ -8,6 +8,8 @@ import useError from "./useError";
 import {useUpdateProtocolData} from "./useProtocolData";
 
 import {isApprovedERC20, approveERC20} from "../ERC20Utils";
+import {ROUND_CONSTANT} from "../parseNumber";
+import {isSafeLeverageAmount, liquidatablePriceDropPercent} from "../safeLeverage";
 
 export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 
@@ -133,7 +135,26 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function borrowLong(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
-            const fn = async () => await handleError(async () => await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait());
+            const fn = async () =>
+                await handleError(async () => {
+                    const signerAddress = await contracts.signer.getAddress();
+
+                    const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
+
+                    const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
+                    const [currentLeverageNumerator, currentLeverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
+
+                    const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
+                    const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
+
+                    const isSafePosition = isSafeLeverageAmount(amount, currentAmountBorrowed, currentLeverage, maxLeverage);
+                    if (!isSafePosition)
+                        throw Error(
+                            "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to how unsafe it is. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."
+                        );
+
+                    await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait();
+                });
             return [fn, null] as any;
         } else {
             setError("Your wallet is not connected. Please connect your wallet then try again.");
