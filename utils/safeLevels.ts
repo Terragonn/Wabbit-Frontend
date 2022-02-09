@@ -52,4 +52,4 @@ export function safeCollateralPrice(minimumCollateralPrice: ethers.BigNumber) {
     return minimumCollateralPrice.mul(100).div(ethers.BigNumber.from(100).sub(SAFE_PRICE_DROP_COLLATERAL_PERCENT));
 }
 
-// **** The above does not consider cases where there is no current leverage...
+// **** I believe there is either a couple of problems HERE or in the max function somewhere (Ill have to check the leverage function too)
