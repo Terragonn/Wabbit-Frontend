@@ -33,15 +33,19 @@ export function isSafeLeverageAmount(
     return newLeverage <= allowedLeverage;
 }
 
-export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number) {
+export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number, collateralPrice?: ethers.BigNumber) {
     const allowedLeverage = safeLeverage(maxLeverage);
 
-    const numerator = (allowedLeverage / currentLeverage - 1) * ROUND_CONSTANT;
-    const denominator = ROUND_CONSTANT;
+    if (currentAmountBorrowed.gt(0)) {
+        const numerator = (allowedLeverage / currentLeverage - 1) * ROUND_CONSTANT;
+        const denominator = ROUND_CONSTANT;
 
-    // **** What do we do if there is no collateral borrowed ?
+        return ethers.BigNumber.from(numerator).mul(currentAmountBorrowed).div(denominator);
+    } else {
+        if (!collateralPrice) throw Error("Collateral price cannot be undefined");
 
-    return ethers.BigNumber.from(numerator).mul(currentAmountBorrowed).div(denominator);
+        return collateralPrice.mul(Math.floor(allowedLeverage * ROUND_CONSTANT)).div(ROUND_CONSTANT);
+    }
 }
 
 export function safeCollateralPrice(minimumCollateralPrice: ethers.BigNumber) {

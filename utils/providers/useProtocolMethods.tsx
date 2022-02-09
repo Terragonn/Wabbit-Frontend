@@ -139,8 +139,6 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                 await handleError(async () => {
                     const signerAddress = await contracts.signer.getAddress();
 
-                    // **** Clearly there is also a problem in here somewhere
-
                     const minCollateralPrice = await contracts.marginLong.minCollateralPrice();
                     const _safeCollateralPrice = safeCollateralPrice(minCollateralPrice);
                     const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
@@ -157,7 +155,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                     const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
                     const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-                    const isSafePosition = isSafeLeverageAmount(amount, currentAmountBorrowed, currentLeverage, maxLeverage);
+                    const isSafePosition = isSafeLeverageAmount(amount, currentAmountBorrowed, currentLeverage, maxLeverage, collateralPrice);
                     if (!isSafePosition)
                         throw Error(
                             "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to the small price decrease required to liquidate your position. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."
