@@ -7,6 +7,7 @@ import useContracts from "./useContracts";
 import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
 import {loadERC20} from "../ERC20Utils";
 import getApproved from "../getApproved";
+import {liquidatablePriceDropPercent} from "../safeLeverage";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
@@ -48,6 +49,7 @@ interface ProtocolData {
     totalInterest: () => Promise<ethers.BigNumber | undefined>;
     initialBorrowedPrice: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalInitialBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
+    liquidatablePrice: () => Promise<ethers.BigNumber | undefined>;
 
     availableNativeCoinAmount: () => Promise<ethers.BigNumber | undefined>;
 }
@@ -411,6 +413,26 @@ export function ProtocolDataProvider({children}: {children: any}) {
         }
     }
 
+    async function liquidatablePrice() {
+        if (contracts) {
+            const signerAddress = await contracts.signer.getAddress();
+
+            const maxLeverageBN = await contracts.marginLong.maxLeverage();
+            const currentLeverageBN = await contracts.marginLong.currentLeverage(signerAddress);
+
+            const maxLeverage = maxLeverageBN[0].mul(ROUND_CONSTANT).div(maxLeverageBN[1]).toNumber() / ROUND_CONSTANT;
+            const currentLeverage = currentLeverageBN[0].mul(ROUND_CONSTANT).div(currentLeverageBN[1]).toNumber() / ROUND_CONSTANT;
+
+            const percentChangePadded = Math.floor((liquidatablePriceDropPercent(currentLeverage, maxLeverage) * ROUND_CONSTANT) / 100);
+
+            const initialBorrowPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
+
+            const liquidatePrice = ethers.BigNumber.from(ROUND_CONSTANT).sub(percentChangePadded).mul(initialBorrowPrice).div(ROUND_CONSTANT);
+
+            return parseDecimals(liquidatePrice, (await contracts.oracle.priceDecimals()).toNumber());
+        }
+    }
+
     async function availableNativeCoinAmount() {
         if (contracts) return parseDecimals(await contracts.signer.getBalance(), contracts.config.nativeCoin.decimals);
     }
@@ -450,6 +472,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalInterest,
                 initialBorrowedPrice,
                 totalInitialBorrowedPrice,
+                liquidatablePrice,
                 availableNativeCoinAmount,
             });
         }

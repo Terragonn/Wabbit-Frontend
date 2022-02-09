@@ -48,6 +48,7 @@ const LeverageLong: NextPage = () => {
         totalAccountBorrowedValue: ethers.BigNumber | undefined;
         marginLevel: number | undefined;
         currentLeverage: number | undefined;
+        liquidatableBorrowPrice: ethers.BigNumber;
 
         maxAvailableToken: [ethers.BigNumber, number] | undefined;
         maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
@@ -83,6 +84,7 @@ const LeverageLong: NextPage = () => {
                 const totalAccountBorrowedValue = await parseError(async () => await protocolData.accountBorrowedTotalPrice());
                 const marginLevel = await parseError(async () => await protocolData.marginLevel());
                 const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
+                const liquidatableBorrowPrice = await parseError(async () => await protocolData.liquidatablePrice());
 
                 const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
                 const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
@@ -108,6 +110,7 @@ const LeverageLong: NextPage = () => {
                     totalAccountBorrowedValue,
                     marginLevel,
                     currentLeverage,
+                    liquidatableBorrowPrice,
                     maxAvailableToken,
                     maxAvailableCollateral,
                     maxAvailableLeverage,
@@ -196,6 +199,7 @@ const LeverageLong: NextPage = () => {
                                 ["Total accumulated interest", "$ " + parseNumber(data?.totalAccountInterest)],
                                 ["Total initial borrowed value", "$ " + parseNumber(data?.totalAccountInitialBorrowedValue)],
                                 ["Total current borrowed value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
+                                ["Liquidatable borrow price", "$ " + parseNumber(data?.liquidatableBorrowPrice)],
                                 ["", ""],
                                 ["Margin level", parseNumberFloat(data?.marginLevel)],
                                 ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
