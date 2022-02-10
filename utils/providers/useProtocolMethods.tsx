@@ -9,7 +9,7 @@ import {useUpdateProtocolData} from "./useProtocolData";
 
 import {isApprovedERC20, approveERC20} from "../ERC20Utils";
 import {ROUND_CONSTANT} from "../parseNumber";
-import {isSafeLeverageAmount, safeCollateralPrice} from "../safeLevels";
+import {isSafeLeveragePrice, safeCollateralPrice} from "../safeLevels";
 
 export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 
@@ -147,15 +147,16 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                             "UsafeBorrow: Borrowing with this collateral price is forbidden on the dApp due to the small price decrease required to reset your position. If you know what you are doing and you still wish to borrow this amount, please interact with the contract itself."
                         );
 
-                    const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
+                    const priceToBorrow = await contracts.oracle.amountMax(token.address, amount);
+                    const currentPriceBorrowed = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
 
-                    const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
                     const [currentLeverageNumerator, currentLeverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
+                    const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
 
-                    const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
                     const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
+                    const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-                    const isSafePosition = isSafeLeverageAmount(amount, currentAmountBorrowed, currentLeverage, maxLeverage, collateralPrice);
+                    const isSafePosition = isSafeLeveragePrice(priceToBorrow, currentPriceBorrowed, currentLeverage, maxLeverage, collateralPrice);
                     if (!isSafePosition)
                         throw Error(
                             "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to the small price decrease required to liquidate your position. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."

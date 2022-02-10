@@ -6,7 +6,7 @@ import useContracts from "./useContracts";
 
 import {loadERC20} from "../ERC20Utils";
 import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
-import {safeMaxLeverageAmount} from "../safeLevels";
+import {safeMaxLeveragePrice} from "../safeLevels";
 
 interface ProtocolMaxData {
     availableToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
@@ -72,17 +72,17 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
+            const currentPriceBorrowed = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
 
-            const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
             const [currentLeverageNumerator, currentLeverageDenominator] = await contracts.marginLong.currentLeverage(signerAddress);
+            const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
 
-            const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
             const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
+            const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-            const collateralPriceAsAmount = await contracts.oracle.amountMin(token.address, await contracts.marginLong.collateralPrice(signerAddress));
+            const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
 
-            const safeAmount = safeMaxLeverageAmount(currentAmountBorrowed, currentLeverage, maxLeverage, collateralPriceAsAmount);
+            const safeAmount = safeMaxLeveragePrice(currentPriceBorrowed, currentLeverage, maxLeverage, collateralPrice);
 
             const parsed = parseDecimals(safeAmount, token.decimals).toNumber() / ROUND_CONSTANT;
 

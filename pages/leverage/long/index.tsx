@@ -199,10 +199,10 @@ const LeverageLong: NextPage = () => {
                                 ["Total accumulated interest", "$ " + parseNumber(data?.totalAccountInterest)],
                                 ["Total initial borrowed value", "$ " + parseNumber(data?.totalAccountInitialBorrowedValue)],
                                 ["Total current borrowed value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
-                                ["Liquidatable borrowed price", "$ " + parseNumber(data?.liquidatableBorrowPrice)],
                                 ["", ""],
                                 ["Margin level", parseNumberFloat(data?.marginLevel)],
                                 ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
+                                ["Liquidatable borrowed price", "$ " + parseNumber(data?.liquidatableBorrowPrice)],
                             ]}
                             cta="Repay All"
                             token={token}
