@@ -87,12 +87,12 @@ const ProvideLiquidity: NextPage = () => {
     useEffect(() => {
         if (!protocolMax || !token) setMaxData(null);
         else {
-            async () => {
+            (async () => {
                 const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
                 const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
 
                 setMaxData({maxAvailableToken, maxAvailableLPToken});
-            };
+            })();
         }
     }, [protocolMax, token]);
 
