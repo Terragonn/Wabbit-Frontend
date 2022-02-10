@@ -419,11 +419,12 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
             const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-            const percentChangePadded = Math.floor((liquidatablePriceDropPercent(currentLeverage, maxLeverage) * ROUND_CONSTANT) / 100);
+            const numerator = Math.floor((liquidatablePriceDropPercent(currentLeverage, maxLeverage) * ROUND_CONSTANT) / 100);
+            const denominator = ROUND_CONSTANT;
 
             const initialBorrowPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
 
-            const liquidatePrice = ethers.BigNumber.from(ROUND_CONSTANT).sub(percentChangePadded).mul(initialBorrowPrice).div(ROUND_CONSTANT);
+            const liquidatePrice = ethers.BigNumber.from(denominator).sub(numerator).mul(initialBorrowPrice).div(denominator);
 
             return parseDecimals(liquidatePrice, (await contracts.oracle.priceDecimals()).toNumber());
         }
