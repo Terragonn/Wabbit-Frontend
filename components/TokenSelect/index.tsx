@@ -46,7 +46,7 @@ export default function TokenSelect({
                     onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}
                 >
                     {tokens.map((token, index) => (
-                        <option key={index} className="font-bold bg-neutral-900" value={token.address}>
+                        <option key={index} className="font-bold bg-neutral-900" value={token.address} selected={token.address === selectedToken?.address}>
                             {token.symbol}
                         </option>
                     ))}
