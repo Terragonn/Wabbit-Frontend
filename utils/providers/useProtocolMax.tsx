@@ -95,7 +95,10 @@ export function ProtocolMaxProvider({children}: {children: any}) {
 
     async function availableNativeCoinAmount() {
         if (contracts) {
-            const balance = await contracts.signer.getBalance();
+            const numerator = 80;
+            const denominator = 100;
+
+            const balance = (await contracts.signer.getBalance()).mul(numerator).div(denominator);
 
             const parsed = parseDecimals(balance, contracts.config.nativeCoin.decimals).toNumber() / ROUND_CONSTANT;
 
