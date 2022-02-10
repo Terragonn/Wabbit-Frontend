@@ -37,9 +37,7 @@ export default function TokenSegment({
     const [processing, setProcessing] = useState<boolean>(false);
     async function processHandler(fn: () => Promise<any>) {
         setProcessing(true);
-        try {
-            await fn();
-        } catch {}
+        await fn();
         setProcessing(false);
     }
 
