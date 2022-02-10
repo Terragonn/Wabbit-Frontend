@@ -30,8 +30,6 @@ export function ContractsProvider({children}: {children: any}) {
     const {library, account} = useWeb3React();
     const {config} = useChainData();
 
-    console.log(config);
-
     const [contracts, setContracts] = useState<Contracts | null>(null);
 
     function getContracts() {
