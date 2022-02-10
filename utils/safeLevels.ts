@@ -1,5 +1,6 @@
 import {ethers} from "ethers";
 import {ROUND_CONSTANT} from "./parseNumber";
+import {Approved} from "./providers/useChainData";
 
 export const SAFE_PRICE_DROP_LEVERAGE_PERCENT = 0.4;
 export const SAFE_PRICE_DROP_COLLATERAL_PERCENT = 5;
@@ -33,7 +34,7 @@ export function isSafeLeverageAmount(
     return newLeverage <= allowedLeverage;
 }
 
-export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number, collateralPrice?: ethers.BigNumber) {
+export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, currentLeverage: number, maxLeverage: number, collateralPriceAsAmount?: ethers.BigNumber) {
     const allowedLeverage = safeLeverage(maxLeverage);
 
     if (currentAmountBorrowed.gt(0)) {
@@ -42,9 +43,9 @@ export function safeMaxLeverageAmount(currentAmountBorrowed: ethers.BigNumber, c
 
         return ethers.BigNumber.from(numerator).mul(currentAmountBorrowed).div(denominator);
     } else {
-        if (!collateralPrice) throw Error("Collateral price cannot be undefined");
+        if (!collateralPriceAsAmount) throw Error("Collateral price cannot be undefined");
 
-        return collateralPrice.mul(Math.floor(allowedLeverage * ROUND_CONSTANT)).div(ROUND_CONSTANT);
+        return collateralPriceAsAmount.mul(Math.floor(allowedLeverage * ROUND_CONSTANT)).div(ROUND_CONSTANT);
     }
 }
 

@@ -72,8 +72,6 @@ export function ProtocolMaxProvider({children}: {children: any}) {
         if (contracts) {
             const signerAddress = await contracts.signer.getAddress();
 
-            const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
-
             const currentAmountBorrowed = await contracts.marginLong.borrowed(token.address, signerAddress);
 
             const [maxLeverageNumerator, maxLeverageDenominator] = await contracts.marginLong.maxLeverage();
@@ -82,7 +80,9 @@ export function ProtocolMaxProvider({children}: {children: any}) {
             const maxLeverage = maxLeverageNumerator.mul(ROUND_CONSTANT).div(maxLeverageDenominator).toNumber() / ROUND_CONSTANT;
             const currentLeverage = currentLeverageNumerator.mul(ROUND_CONSTANT).div(currentLeverageDenominator).toNumber() / ROUND_CONSTANT;
 
-            const safeAmount = safeMaxLeverageAmount(currentAmountBorrowed, currentLeverage, maxLeverage, collateralPrice);
+            const collateralPriceAsAmount = await contracts.oracle.amountMin(token.address, await contracts.marginLong.collateralPrice(signerAddress));
+
+            const safeAmount = safeMaxLeverageAmount(currentAmountBorrowed, currentLeverage, maxLeverage, collateralPriceAsAmount);
 
             const parsed = parseDecimals(safeAmount, token.decimals).toNumber() / ROUND_CONSTANT;
 
