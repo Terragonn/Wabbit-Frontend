@@ -14,7 +14,7 @@ import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
 import displayString from "../../../utils/displayString";
 import parseError from "../../../utils/parseError";
-import parseNumber, {parseNumberFloat, ROUND_CONSTANT} from "../../../utils/parseNumber";
+import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
 
 const LeverageLong: NextPage = () => {
     const contracts = useContracts();
@@ -23,11 +23,14 @@ const LeverageLong: NextPage = () => {
     const protocolMethods = useProtocolMethods();
     const protocolMax = useProtocolMax();
 
-    const [data, setData] = useState<{
+    const [token, setToken] = useState<Approved | null>(contracts?.config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0] || null);
+
+    const [bannerData, setBannerData] = useState<{
         borrowAPR: number | undefined;
         liquidity: ethers.BigNumber | undefined;
         totalCollateralValue: ethers.BigNumber | undefined;
-
+    } | null>(null);
+    const [mainData, setMainData] = useState<{
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
         minCollateral: ethers.BigNumber | undefined;
@@ -49,21 +52,30 @@ const LeverageLong: NextPage = () => {
         marginLevel: number | undefined;
         currentLeverage: number | undefined;
         liquidatableBorrowPrice: ethers.BigNumber;
-
+    } | null>(null);
+    const [maxData, setMaxData] = useState<{
         maxAvailableToken: [ethers.BigNumber, number] | undefined;
         maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
         maxAvailableLeverage: [ethers.BigNumber, number] | undefined;
     } | null>(null);
-    const [token, setToken] = useState<Approved | null>(contracts?.config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral)[0] || null);
 
     useEffect(() => {
-        if (!protocolData || !protocolMax || !token) setData(null);
+        if (!protocolData || !token) setBannerData(null);
         else {
             (async () => {
                 const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
                 const liquidity = await parseError(async () => await protocolData.totalTokenAmountLiquidity(token));
                 const totalCollateralValue = await parseError(async () => await protocolData.totalCollateralPrice());
 
+                setBannerData({borrowAPR, liquidity, totalCollateralValue});
+            })();
+        }
+    }, [protocolData, token]);
+
+    useEffect(() => {
+        if (!protocolData || !token) setMainData(null);
+        else {
+            (async () => {
                 const available = await parseError(async () => await protocolData.availableTokenAmount(token));
                 const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
                 const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
@@ -86,13 +98,7 @@ const LeverageLong: NextPage = () => {
                 const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
                 const liquidatableBorrowPrice = await parseError(async () => await protocolData.liquidatablePrice());
 
-                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
-                const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
-                const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
-                setData({
-                    borrowAPR,
-                    liquidity,
-                    totalCollateralValue,
+                setMainData({
                     available,
                     availableValue,
                     minCollateral,
@@ -111,22 +117,36 @@ const LeverageLong: NextPage = () => {
                     marginLevel,
                     currentLeverage,
                     liquidatableBorrowPrice,
+                });
+            })();
+        }
+    }, [protocolData, token]);
+
+    useEffect(() => {
+        if (!protocolMax || !token) setMaxData(null);
+        else {
+            (async () => {
+                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
+                const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
+
+                setMaxData({
                     maxAvailableToken,
                     maxAvailableCollateral,
                     maxAvailableLeverage,
                 });
             })();
         }
-    }, [protocolData, protocolMax, token]);
+    }, [protocolMax, token]);
 
     return (
         <>
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
-                        {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + displayString(token?.symbol)},
-                        {title: "Total Collateral Value", body: "$ " + parseNumber(data?.totalCollateralValue)},
+                        {title: "Borrow APR", body: parseNumberFloat(bannerData?.borrowAPR) + " %"},
+                        {title: "Liquidity Available", body: parseNumber(bannerData?.liquidity) + " " + displayString(token?.symbol)},
+                        {title: "Total Collateral Value", body: "$ " + parseNumber(bannerData?.totalCollateralValue)},
                     ]}
                 />
             </div>
@@ -140,15 +160,15 @@ const LeverageLong: NextPage = () => {
                         <TokenSegment
                             title="Deposit"
                             keys={[
-                                ["Available amount", parseNumber(data?.available) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(data?.availableValue)],
+                                ["Available amount", parseNumber(mainData?.available) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(mainData?.availableValue)],
                                 ["", ""],
-                                ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateral)],
+                                ["Minimum collateral to borrow", "$ " + parseNumber(mainData?.minCollateral)],
                             ]}
                             cta="Deposit"
                             token={token}
                             contracts={contracts}
-                            max={data?.maxAvailableToken}
+                            max={maxData?.maxAvailableToken}
                             callback={protocolMethods ? (token, num) => protocolMethods?.depositCollateral(token, num) : undefined}
                         />
                     </div>
@@ -156,13 +176,13 @@ const LeverageLong: NextPage = () => {
                         <TokenSegment
                             title="Withdraw"
                             keys={[
-                                ["Available amount", parseNumber(data?.collateralAmount) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(data?.collateralValue)],
+                                ["Available amount", parseNumber(mainData?.collateralAmount) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(mainData?.collateralValue)],
                             ]}
                             cta="Withdraw"
                             token={token}
                             contracts={contracts}
-                            max={data?.maxAvailableCollateral}
+                            max={maxData?.maxAvailableCollateral}
                             callback={protocolMethods ? (token, num) => protocolMethods?.withdrawCollateral(token, num) : undefined}
                         />
                     </div>
@@ -172,17 +192,17 @@ const LeverageLong: NextPage = () => {
                         <TokenSegment
                             title="Leverage"
                             keys={[
-                                ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + displayString(token?.symbol)],
-                                ["Initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
-                                ["Current borrowed value", "$ " + parseNumber(data?.currentBorrowedValue)],
+                                ["Borrowed amount", parseNumber(mainData?.borrowedAmount) + " " + displayString(token?.symbol)],
+                                ["Initial borrowed value", "$ " + parseNumber(mainData?.initialBorrowedValue)],
+                                ["Current borrowed value", "$ " + parseNumber(mainData?.currentBorrowedValue)],
                                 ["", ""],
-                                ["Min margin level", parseNumberFloat(data?.minMarginLevel)],
-                                ["Maximum leverage", parseNumberFloat(data?.maxLeverage) + "x"],
+                                ["Min margin level", parseNumberFloat(mainData?.minMarginLevel)],
+                                ["Maximum leverage", parseNumberFloat(mainData?.maxLeverage) + "x"],
                             ]}
                             cta="Leverage"
                             token={token}
                             contracts={contracts}
-                            max={data?.maxAvailableLeverage}
+                            max={maxData?.maxAvailableLeverage}
                             callback={protocolMethods ? (token, num) => protocolMethods?.borrowLong(token, num) : undefined}
                         />
                         <div className="lg:w-4/5">
@@ -193,16 +213,16 @@ const LeverageLong: NextPage = () => {
                         <TokenSegment
                             title="Total Leverage"
                             keys={[
-                                ["Total account value", "$ " + parseNumber(data?.totalAccountValue)],
+                                ["Total account value", "$ " + parseNumber(mainData?.totalAccountValue)],
                                 ["", ""],
-                                ["Total collateral value", "$ " + parseNumber(data?.totalAccountCollateralValue)],
-                                ["Total accumulated interest", "$ " + parseNumber(data?.totalAccountInterest)],
-                                ["Total initial borrowed value", "$ " + parseNumber(data?.totalAccountInitialBorrowedValue)],
-                                ["Total current borrowed value", "$ " + parseNumber(data?.totalAccountBorrowedValue)],
+                                ["Total collateral value", "$ " + parseNumber(mainData?.totalAccountCollateralValue)],
+                                ["Total accumulated interest", "$ " + parseNumber(mainData?.totalAccountInterest)],
+                                ["Total initial borrowed value", "$ " + parseNumber(mainData?.totalAccountInitialBorrowedValue)],
+                                ["Total current borrowed value", "$ " + parseNumber(mainData?.totalAccountBorrowedValue)],
                                 ["", ""],
-                                ["Margin level", parseNumberFloat(data?.marginLevel)],
-                                ["Current leverage", parseNumberFloat(data?.currentLeverage) + "x"],
-                                ["Liquidatable borrowed price", "$ " + parseNumber(data?.liquidatableBorrowPrice)],
+                                ["Margin level", parseNumberFloat(mainData?.marginLevel)],
+                                ["Current leverage", parseNumberFloat(mainData?.currentLeverage) + "x"],
+                                ["Liquidatable borrowed price", "$ " + parseNumber(mainData?.liquidatableBorrowPrice)],
                             ]}
                             cta="Repay All"
                             token={token}
