@@ -1,6 +1,5 @@
 import {ethers} from "ethers";
 import {ROUND_CONSTANT} from "./parseNumber";
-import {Approved} from "./providers/useChainData";
 
 export const SAFE_PRICE_DROP_LEVERAGE_PERCENT = 0.4;
 export const SAFE_PRICE_DROP_COLLATERAL_PERCENT = 5;
