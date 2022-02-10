@@ -5,7 +5,7 @@ import mainConfig from "../../config/config.main.json";
 import testConfig from "../../config/config.test.json";
 import forkConfig from "../../config/config.fork.json";
 
-export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 31337] as const;
+export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 1337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
 
 type Color = "zinc" | "yellow" | "sky" | "emerald";
@@ -39,7 +39,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: mainConfig,
         color: "sky",
     },
-    31337: {
+    1337: {
         name: "Localhost",
         rpcUrl: "http://127.0.0.1:8545/",
         blockExplorer: "",
