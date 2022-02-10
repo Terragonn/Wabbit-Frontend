@@ -22,11 +22,14 @@ const ProvideLiquidity: NextPage = () => {
     const protocolMethods = useProtocolMethods();
     const protocolMax = useProtocolMax();
 
-    const [data, setData] = useState<{
+    const [token, setToken] = useState<Approved | null>(contracts?.config.approved.filter((approved) => approved.oracle && approved.leveragePool)[0] || null);
+
+    const [bannerData, setBannerData] = useState<{
         provideLiquidityAPY: number | undefined;
         totalAmountLocked: ethers.BigNumber | undefined;
         totalValueLocked: ethers.BigNumber | undefined;
-
+    } | null>(null);
+    const [mainData, setMainData] = useState<{
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
         totalPotentialLP: ethers.BigNumber | undefined;
@@ -34,20 +37,33 @@ const ProvideLiquidity: NextPage = () => {
         availableLP: ethers.BigNumber | undefined;
         LPRedeemAmount: ethers.BigNumber | undefined;
         LPRedeemValue: ethers.BigNumber | undefined;
-
+    } | null>(null);
+    const [maxData, setMaxData] = useState<{
         maxAvailableToken: [ethers.BigNumber, number] | undefined;
         maxAvailableLPToken: [ethers.BigNumber, number] | undefined;
     } | null>(null);
-    const [token, setToken] = useState<Approved | null>(contracts?.config.approved.filter((approved) => approved.oracle && approved.leveragePool)[0] || null);
 
     useEffect(() => {
-        if (!protocolData || !protocolMax || !token) setData(null);
+        if (!protocolData || !token) setBannerData(null);
         else {
             (async () => {
                 const provideLiquidityAPY = await parseError(async () => await protocolData.provideLiquidityAPY(token));
                 const totalAmountLocked = await parseError(async () => await protocolData.totalTokenAmountLocked(token));
                 const totalValueLocked = await parseError(async () => await protocolData.totalTokenPriceLocked(token));
 
+                setBannerData({
+                    provideLiquidityAPY,
+                    totalAmountLocked,
+                    totalValueLocked,
+                });
+            })();
+        }
+    }, [protocolData, token]);
+
+    useEffect(() => {
+        if (!protocolData || !token) setMainData(null);
+        else {
+            (async () => {
                 const available = await parseError(async () => await protocolData.availableTokenAmount(token));
                 const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
                 const totalPotentialLP = await parseError(async () => await protocolData.LPTokenAmount(token));
@@ -56,34 +72,38 @@ const ProvideLiquidity: NextPage = () => {
                 const LPRedeemAmount = await parseError(async () => await protocolData.redeemLiquidityTokenAmount(token));
                 const LPRedeemValue = await parseError(async () => await protocolData.redeemLiquidityTokenPrice(token));
 
-                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
-                const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
-
-                setData({
-                    provideLiquidityAPY,
-                    totalAmountLocked,
-                    totalValueLocked,
+                setMainData({
                     totalPotentialLP,
                     available,
                     availableValue,
                     availableLP,
                     LPRedeemAmount,
                     LPRedeemValue,
-                    maxAvailableToken,
-                    maxAvailableLPToken,
                 });
             })();
         }
-    }, [protocolData, protocolMax, token]);
+    }, [protocolData, token]);
+
+    useEffect(() => {
+        if (!protocolMax || !token) setMaxData(null);
+        else {
+            async () => {
+                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
+                const maxAvailableLPToken = await parseError(async () => await protocolMax.availableLPToken(token));
+
+                setMaxData({maxAvailableToken, maxAvailableLPToken});
+            };
+        }
+    }, [protocolMax, token]);
 
     return (
         <>
             <div className="lg:block hidden">
                 <Banner
                     placeholders={[
-                        {title: "Provide Liquidity APY", body: parseNumberFloat(data?.provideLiquidityAPY) + " %"},
-                        {title: "Total Amount Locked", body: parseNumber(data?.totalAmountLocked) + " " + displayString(token?.symbol)},
-                        {title: "Total Value Locked", body: "$ " + parseNumber(data?.totalValueLocked)},
+                        {title: "Provide Liquidity APY", body: parseNumberFloat(bannerData?.provideLiquidityAPY) + " %"},
+                        {title: "Total Amount Locked", body: parseNumber(bannerData?.totalAmountLocked) + " " + displayString(token?.symbol)},
+                        {title: "Total Value Locked", body: "$ " + parseNumber(bannerData?.totalValueLocked)},
                     ]}
                 />
             </div>
@@ -97,17 +117,17 @@ const ProvideLiquidity: NextPage = () => {
                         <TokenSegment
                             title="Provide Liquidity"
                             keys={[
-                                ["Available", parseNumber(data?.available) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(data?.availableValue)],
+                                ["Available", parseNumber(mainData?.available) + " " + displayString(token?.symbol)],
+                                ["Available value", "$ " + parseNumber(mainData?.availableValue)],
                                 [
                                     "Potential LP tokens",
-                                    parseNumber(data?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol),
+                                    parseNumber(mainData?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol),
                                 ],
                             ]}
                             cta="Provide"
                             token={token}
                             contracts={contracts}
-                            max={data?.maxAvailableToken}
+                            max={maxData?.maxAvailableToken}
                             callback={protocolMethods ? (token, num) => protocolMethods?.provideLiquidity(token, num) : undefined}
                         />
                     </div>
@@ -115,14 +135,14 @@ const ProvideLiquidity: NextPage = () => {
                         <TokenSegment
                             title="Redeem"
                             keys={[
-                                ["Available", parseNumber(data?.availableLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
-                                ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + displayString(token?.symbol)],
-                                ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
+                                ["Available", parseNumber(mainData?.availableLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
+                                ["Total redeem amount", parseNumber(mainData?.LPRedeemAmount) + " " + displayString(token?.symbol)],
+                                ["Total redeem value", "$ " + parseNumber(mainData?.LPRedeemValue)],
                             ]}
                             cta="Redeem"
                             token={token}
                             contracts={contracts}
-                            max={data?.maxAvailableLPToken}
+                            max={maxData?.maxAvailableLPToken}
                             callback={protocolMethods ? (token, num) => protocolMethods?.redeem(token, num) : undefined}
                         />
                     </div>
