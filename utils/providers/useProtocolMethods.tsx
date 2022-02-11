@@ -49,7 +49,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
             await fn();
             updateProtocolData();
         } catch (e: any) {
-            setError(e.data?.message || e.message || null);
+            setError(e.data?.message || e.message || JSON.stringify(e));
             window.scroll(0, 0);
         }
     }
