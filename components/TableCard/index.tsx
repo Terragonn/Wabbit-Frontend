@@ -33,7 +33,7 @@ export default function TableCard({blockExplorer, approved}: {blockExplorer: str
     }, [protocolData]);
 
     return (
-        <a href={`${blockExplorer}${approved?.address}`}>
+        <a href={`${blockExplorer}token/${approved?.address}`}>
             <div className="bg-neutral-900 bg-opacity-75 rounded-xl flex flex-col items-center py-9 px-10 text-center text-white mb-10 glow">
                 <span className="flex items-center justify-start w-full space-x-3 font-bold text-xl">
                     <img src={approved?.icon} width={40} className="rounded-xl" alt={approved?.name} />

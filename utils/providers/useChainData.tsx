@@ -28,14 +28,14 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
     4: {
         name: "Rinkeby",
         rpcUrl: "https://eth-rinkeby.alchemyapi.io/v2/SbTuBtBxbJL2aEO2-f5S4bkc797ZDEwT",
-        blockExplorer: "https://rinkeby.etherscan.io/address/",
+        blockExplorer: "https://rinkeby.etherscan.io/",
         config: testConfig,
         color: "yellow",
     },
     250: {
         name: "Fantom",
         rpcUrl: "https://rpc.ftm.tools/",
-        blockExplorer: "https://ftmscan.com/address/",
+        blockExplorer: "https://ftmscan.com/",
         config: mainConfig,
         color: "sky",
     },
