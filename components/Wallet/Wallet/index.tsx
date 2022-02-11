@@ -45,7 +45,7 @@ export function useConnectMetamask() {
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "metamask"} as AutoConnect));
             setWalletSelector(false);
         } catch (e: any) {
-            setError(e.message || e.toString());
+            setError(JSON.stringify(e));
         }
     };
 }
@@ -65,7 +65,7 @@ export function useConnectWalletConnect() {
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "walletconnect"} as AutoConnect));
             setWalletSelector(false);
         } catch (e: any) {
-            setError(e.toString());
+            setError(JSON.stringify(e));
         }
     };
 }
@@ -85,7 +85,7 @@ export function useConnectWalletLink() {
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "walletlink"} as AutoConnect));
             setWalletSelector(false);
         } catch (e: any) {
-            setError(e.toString());
+            setError(JSON.stringify(e));
         }
     };
 }
