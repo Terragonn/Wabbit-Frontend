@@ -143,9 +143,12 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
                     const _safeCollateralPrice = safeCollateralPrice(minCollateralPrice);
                     const collateralPrice = await contracts.marginLong.collateralPrice(signerAddress);
                     if (collateralPrice.lt(_safeCollateralPrice))
-                        throw Error(
-                            "UsafeBorrow: Borrowing with this collateral price is forbidden on the dApp due to the small price decrease required to reset your position. If you know what you are doing and you still wish to borrow this amount, please interact with the contract itself."
-                        );
+                        throw Object.assign(new Error(), {
+                            message:
+                                "UsafeBorrow: Borrowing with this collateral price is forbidden on the dApp due to the small price decrease required to reset your position." +
+                                " " +
+                                "If you know what you are doing and you still wish to borrow this amount, please interact with the contract itself.",
+                        });
 
                     const priceToBorrow = await contracts.oracle.amountMax(token.address, amount);
                     const currentPriceBorrowed = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
@@ -158,9 +161,14 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
                     const isSafePosition = isSafeLeveragePrice(priceToBorrow, currentPriceBorrowed, currentLeverage, maxLeverage, collateralPrice);
                     if (!isSafePosition)
-                        throw Error(
-                            "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to the small price decrease required to liquidate your position. If you know what you are doing and still wish to borrow this amount, please interact with the contract itself."
-                        );
+                        throw Object.assign(new Error(), {
+                            message:
+                                "UnsafeBorrow: Borrowing this amount is forbidden on the dApp due to the small price decrease required to liquidate your position." +
+                                " " +
+                                "If you know what you are doing and still wish to borrow this amount, please interact with the contract itself.",
+                        });
+
+                    console.log(isSafePosition);
 
                     await (await contracts.marginLong.borrow(token.address, amount, OVERRIDE)).wait();
                 });
