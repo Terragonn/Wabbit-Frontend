@@ -84,10 +84,11 @@ export default function TokenSegment({
                         min={0}
                         step={0.01}
                         onChange={(e) => {
-                            if (e.target.value !== "") {
-                                const maxNum = max ? max[1] : MAX_INPUT_NUMBER;
-                                const numAsNumber = parseStringToNumber(e.target.value);
-                                const newMax = Math.min(numAsNumber, maxNum);
+                            const maxNum = max ? max[1] : MAX_INPUT_NUMBER;
+                            const numAsNumber = parseStringToNumber(e.target.value);
+
+                            if (numAsNumber !== 0) {
+                                const newMax = Math.max(0, Math.min(numAsNumber, maxNum));
                                 setNum(newMax.toString());
                             } else setNum(e.target.value);
                         }}
