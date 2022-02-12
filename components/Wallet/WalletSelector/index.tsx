@@ -39,9 +39,9 @@ export default function WalletSelector() {
     return (
         <div className={`${walletSelector ? "" : "hidden"} bg-black bg-opacity-80 fixed inset-0 flex items-center justify-center z-50 modal`}>
             <div className="mx-auto lg:w-2/5 w-4/5 min-w-min bg-neutral-900 glow rounded-xl p-6 space-y-6">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between space-x-3">
                     <div className="flex items-center space-x-3">
-                        <h2 className="text-neutral-400 font-bold text-2xl">Choose a wallet:</h2>
+                        <h2 className="text-neutral-400 font-bold text-2xl">Pick a network and wallet:</h2>
                         <WalletSelectorChainSelector chainId={chainId} setChainId={setChainId} />
                     </div>
                     <svg

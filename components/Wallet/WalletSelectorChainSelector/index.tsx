@@ -12,7 +12,7 @@ export default function WalletSelectorChainSelector({chainId, setChainId}: {chai
             onChange={(e) => setChainId(Number(e.target.value) as SupportedChainIds)}
         >
             {Object.entries(chainDataConfig)
-                .slice(1)
+                .filter(([key, value]) => key !== "0")
                 .map(([key, value]) => {
                     const optionTextColor =
                         value.color === "zinc"
@@ -24,7 +24,7 @@ export default function WalletSelectorChainSelector({chainId, setChainId}: {chai
                             : "text-emerald-500";
 
                     return (
-                        <option selected={Number(key) === chainId} key={key} className={`${optionTextColor} font-medium bg-neutral-900`} value={key}>
+                        <option selected={key === chainId.toString()} key={key} className={`${optionTextColor} font-medium bg-neutral-900`} value={key}>
                             {value.name}
                         </option>
                     );
