@@ -1,6 +1,7 @@
 import {useWeb3React} from "@web3-react/core";
 
 import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+import sortedChainDataConfigEntries from "../../../utils/sortedChainDataConfigEntries";
 
 export default function ChainSelector() {
     const {chainId} = useWeb3React();
@@ -18,7 +19,7 @@ export default function ChainSelector() {
 
     return (
         <select className={`font-bold bg-transparent border-transparent lg:text-3xl text-2xl rounded-xl w-full text-center pr-12 ${selectTextColor}`}>
-            {Object.entries(chainDataConfig).map(([key, value]) => {
+            {sortedChainDataConfigEntries().map(([key, value]) => {
                 const optionTextColor =
                     value.color === "zinc" ? "text-zinc-600" : value.color === "yellow" ? "text-yellow-300" : value.color === "sky" ? "text-sky-500" : "text-emerald-500";
 

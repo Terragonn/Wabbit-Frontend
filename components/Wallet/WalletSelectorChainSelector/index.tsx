@@ -1,4 +1,5 @@
 import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+import sortedChainDataConfigEntries from "../../../utils/sortedChainDataConfigEntries";
 
 export default function WalletSelectorChainSelector({chainId, setChainId}: {chainId: SupportedChainIds; setChainId: (chainId: SupportedChainIds) => void}) {
     const selectColor = chainDataConfig[chainId].color;
@@ -11,7 +12,7 @@ export default function WalletSelectorChainSelector({chainId, setChainId}: {chai
             className={`font-bold text-2xl rounded-xl border-transparent text-center ${selectTextColor} ${selectBgColor}`}
             onChange={(e) => setChainId(Number(e.target.value) as SupportedChainIds)}
         >
-            {Object.entries(chainDataConfig)
+            {sortedChainDataConfigEntries()
                 .filter(([key, value]) => key !== "0")
                 .map(([key, value]) => {
                     const optionTextColor =
