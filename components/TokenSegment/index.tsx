@@ -5,7 +5,7 @@ import {Contracts} from "../../utils/providers/useContracts";
 import {Approved} from "../../utils/providers/useChainData";
 import {RequiresApproval} from "../../utils/providers/useProtocolMethods";
 
-import parseNumber, {parseDecimals, ROUND_CONSTANT} from "../../utils/parseNumber";
+import parseNumber, {MAX_INPUT_NUMBER, parseDecimals, parseStringToNumber, ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";
 
 export default function TokenSegment({
@@ -48,7 +48,7 @@ export default function TokenSegment({
                 decimals = max[0];
                 setBigNum(decimals);
             } else {
-                const padded = Math.floor(parseFloat(num !== "" ? num : "0") * ROUND_CONSTANT);
+                const padded = Math.floor(parseStringToNumber(num) * ROUND_CONSTANT);
                 decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
                 setBigNum(decimals);
             }
@@ -68,7 +68,7 @@ export default function TokenSegment({
                 if (isMax) setIsMax(false);
             })();
         }
-    }, [num, token]);
+    }, [num]);
 
     return (
         <>
@@ -84,7 +84,12 @@ export default function TokenSegment({
                         min={0}
                         step={0.01}
                         onChange={(e) => {
-                            setNum(e.target.value);
+                            if (e.target.value !== "") {
+                                const maxNum = max ? max[1] : MAX_INPUT_NUMBER;
+                                const numAsNumber = parseStringToNumber(e.target.value);
+                                const newMax = Math.min(numAsNumber, maxNum);
+                                setNum(newMax.toString());
+                            } else setNum(e.target.value);
                         }}
                     />
                     {max ? (

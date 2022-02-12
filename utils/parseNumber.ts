@@ -2,11 +2,18 @@ import {ethers} from "ethers";
 
 export const ROUND_CONSTANT = 1e6;
 export const DISPLAY_DECIMALS = 2;
+export const MAX_INPUT_NUMBER = 999999999;
 
 export function parseNumberFloat(num?: number): string {
     if (typeof num === "undefined") return "-";
 
     return num.toFixed(DISPLAY_DECIMALS);
+}
+
+export function parseStringToNumber(str: string): number {
+    const retNumber = parseFloat(str);
+    if (isNaN(retNumber)) return 0;
+    return retNumber;
 }
 
 export default function parseNumber(num?: ethers.BigNumber | string): string {
