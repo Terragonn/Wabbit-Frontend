@@ -16,6 +16,7 @@ interface ChainData {
     blockExplorer: string;
     config: Config | null;
     color: Color;
+    priority: number;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
     250: {
@@ -24,6 +25,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         blockExplorer: "https://ftmscan.com/",
         config: mainConfig,
         color: "sky",
+        priority: 4,
     },
     4: {
         name: "Rinkeby",
@@ -31,6 +33,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         blockExplorer: "https://rinkeby.etherscan.io/",
         config: testConfig,
         color: "yellow",
+        priority: 3,
     },
     1337: {
         name: "Localhost",
@@ -38,6 +41,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         blockExplorer: "",
         config: forkConfig,
         color: "emerald",
+        priority: 2,
     },
     0: {
         name: "Invalid",
@@ -45,6 +49,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         blockExplorer: "",
         config: null,
         color: "zinc",
+        priority: 1,
     },
 };
 
