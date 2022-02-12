@@ -18,12 +18,12 @@ interface ChainData {
     color: Color;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
-    0: {
-        name: "Invalid",
-        rpcUrl: "",
-        blockExplorer: "",
-        config: null,
-        color: "zinc",
+    250: {
+        name: "Fantom",
+        rpcUrl: "https://rpc.ftm.tools/",
+        blockExplorer: "https://ftmscan.com/",
+        config: mainConfig,
+        color: "sky",
     },
     4: {
         name: "Rinkeby",
@@ -32,19 +32,19 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: testConfig,
         color: "yellow",
     },
-    250: {
-        name: "Fantom",
-        rpcUrl: "https://rpc.ftm.tools/",
-        blockExplorer: "https://ftmscan.com/",
-        config: mainConfig,
-        color: "sky",
-    },
     1337: {
         name: "Localhost",
         rpcUrl: "http://127.0.0.1:8545/",
         blockExplorer: "",
         config: forkConfig,
         color: "emerald",
+    },
+    0: {
+        name: "Invalid",
+        rpcUrl: "",
+        blockExplorer: "",
+        config: null,
+        color: "zinc",
     },
 };
 
