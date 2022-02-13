@@ -17,6 +17,7 @@ interface ChainData {
     config: Config | null;
     color: Color;
     priority: number;
+    disabled: boolean;
 }
 export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
     250: {
@@ -26,6 +27,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: mainConfig,
         color: "sky",
         priority: 4,
+        disabled: false,
     },
     4: {
         name: "Rinkeby",
@@ -34,6 +36,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: testConfig,
         color: "yellow",
         priority: 3,
+        disabled: true,
     },
     1337: {
         name: "Localhost",
@@ -42,6 +45,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: forkConfig,
         color: "emerald",
         priority: 2,
+        disabled: true,
     },
     0: {
         name: "Invalid",
@@ -50,6 +54,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: null,
         color: "zinc",
         priority: 1,
+        disabled: true,
     },
 };
 

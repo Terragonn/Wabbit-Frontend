@@ -25,7 +25,13 @@ export default function WalletSelectorChainSelector({chainId, setChainId}: {chai
                             : "text-emerald-500";
 
                     return (
-                        <option selected={key === chainId.toString()} key={key} className={`${optionTextColor} font-medium bg-neutral-900`} value={key}>
+                        <option
+                            selected={key === chainId.toString()}
+                            key={key}
+                            className={`${optionTextColor} font-medium bg-neutral-900`}
+                            value={key}
+                            disabled={value.disabled}
+                        >
                             {value.name}
                         </option>
                     );
