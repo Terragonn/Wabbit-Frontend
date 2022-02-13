@@ -12,7 +12,7 @@ export interface AutoConnect {
     wallet: "metamask" | "walletconnect" | "walletlink";
 }
 
-async function switchNetwork(chainId: SupportedChainIds) {
+async function switchNetworkMetamask(chainId: SupportedChainIds) {
     try {
         await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: "0x" + chainId.toString(16)}]});
     } catch (error: any) {
@@ -42,7 +42,7 @@ export function useConnectMetamask() {
         try {
             const injected = Injected();
 
-            await switchNetwork(chainId);
+            await switchNetworkMetamask(chainId);
             await activate(injected, undefined, true);
 
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "metamask"} as AutoConnect));
