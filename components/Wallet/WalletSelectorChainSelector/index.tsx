@@ -10,7 +10,7 @@ export default function WalletSelectorChainSelector({chainId, setChainId}: {chai
     return (
         <select
             className={`font-bold text-2xl rounded-xl border-transparent text-center ${selectTextColor} ${selectBgColor}`}
-            onChange={(e) => setChainId(Number(e.target.value) as SupportedChainIds)}
+            onChange={(e) => setChainId(parseInt(e.target.value) as SupportedChainIds)}
         >
             {sortedChainDataConfigEntries()
                 .filter(([key, value]) => key !== "0")
