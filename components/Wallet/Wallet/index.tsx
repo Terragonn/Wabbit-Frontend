@@ -12,6 +12,26 @@ export interface AutoConnect {
     wallet: "metamask" | "walletconnect" | "walletlink";
 }
 
+async function switchNetwork(chainId: SupportedChainIds) {
+    try {
+        await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: "0x" + chainId.toString(16)}]});
+    } catch (error: any) {
+        if (error.code === 4902) {
+            await (window as any).ethereum.request({
+                method: "wallet_addEthereumChain",
+                params: [
+                    {
+                        chainId: "0x" + chainId.toString(16),
+                        chainName: chainDataConfig[chainId].name,
+                        rpcUrls: [chainDataConfig[chainId].rpcUrl],
+                        blockExplorerUrls: [chainDataConfig[chainId].blockExplorer],
+                    },
+                ],
+            });
+        } else throw error;
+    }
+}
+
 export function useConnectMetamask() {
     const [, setError] = useError();
     const [, setWalletSelector] = useWalletSelector();
@@ -22,25 +42,8 @@ export function useConnectMetamask() {
         try {
             const injected = Injected();
 
+            await switchNetwork(chainId);
             await activate(injected, undefined, true);
-
-            try {
-                await (window as any).ethereum.request({method: "wallet_switchEthereumChain", params: [{chainId: "0x" + chainId.toString(16)}]});
-            } catch (error: any) {
-                if (error.code === 4902) {
-                    await (window as any).ethereum.request({
-                        method: "wallet_addEthereumChain",
-                        params: [
-                            {
-                                chainId: "0x" + chainId.toString(16),
-                                chainName: chainDataConfig[chainId].name,
-                                rpcUrls: [chainDataConfig[chainId].rpcUrl],
-                                blockExplorerUrls: [chainDataConfig[chainId].blockExplorer],
-                            },
-                        ],
-                    });
-                } else throw error;
-            }
 
             localStorage.setItem(AUTO_CONNECT, JSON.stringify({chainId, wallet: "metamask"} as AutoConnect));
             setWalletSelector(false);
