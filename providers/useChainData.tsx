@@ -36,7 +36,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: testConfig,
         color: "yellow",
         priority: 3,
-        disabled: false,
+        disabled: true,
     },
     1337: {
         name: "Localhost",
