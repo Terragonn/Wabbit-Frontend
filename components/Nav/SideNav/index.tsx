@@ -1,13 +1,14 @@
 import {useWeb3React} from "@web3-react/core";
 
 import useNavState from "../../../utils/providers/useNavState";
+import useENS from "../../hooks/useENS";
 
 import NavLink from "../NavLink";
 
 export default function SideNav() {
     const {account} = useWeb3React();
-
     const [navState, setNavState] = useNavState();
+    const {ensName, ensAvatar} = useENS(account);
 
     return (
         <nav className={`fixed overflow-y-auto top-0 h-full w-80 bg-neutral-900 bg-opacity-95 p-5 xl:glow xl:left-0 left-[-20rem] ${navState ? "!left-0 !glow" : ""}`}>
@@ -24,8 +25,9 @@ export default function SideNav() {
             <a href="https://torque.money">
                 <img src="https://i.imgur.com/dhNWbW3.png" width={200} className="pt-5 mx-auto" alt="Torque logo" />
             </a>
-            <p className="text-center text-white font-bold text-xl pt-5 pb-24">
-                {!account ? "Not Connected" : `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}
+            <p className="text-center text-white font-bold text-xl pt-5 pb-24 flex items-center justify-center space-x-3">
+                {ensAvatar && <img className="h-8 w-8 rounded-full" src={ensAvatar} alt="Avatar" />}
+                <div>{!account ? "Not Connected" : ensName || `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}</div>
             </p>
             <ul className="flex flex-col items-stretch space-y-16">
                 <li>
