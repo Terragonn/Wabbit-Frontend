@@ -21,7 +21,7 @@ export default function useENS(signer: ethers.providers.JsonRpcSigner | undefine
                 setENSName(ensName);
             }
         })();
-    }, []);
+    }, [signer]);
 
     return {account, ensName, ensAvatar};
 }
