@@ -5,7 +5,7 @@ import {useWeb3React} from "@web3-react/core";
 import useChainData, {Config} from "./useChainData";
 
 import LPoolAbi from "../../config/LPool.json";
-import OracleAbi from "../../config/Oracle.json";
+import OracleAbi from "../../config/IOracle.json";
 import MarginLongAbi from "../../config/MarginLong.json";
 import ConverterAbi from "../../config/Converter.json";
 

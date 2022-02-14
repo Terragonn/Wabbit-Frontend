@@ -29,6 +29,26 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnableUpgradeable__factory>;
     getContractFactory(
+      name: "ERC20Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Upgradeable__factory>;
+    getContractFactory(
+      name: "ERC20PermitUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20PermitUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC20PermitUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20PermitUpgradeable__factory>;
+    getContractFactory(
+      name: "ERC20VotesUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20VotesUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC20MetadataUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20MetadataUpgradeable__factory>;
+    getContractFactory(
       name: "IERC20Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20Upgradeable__factory>;
@@ -132,6 +152,26 @@ declare module "hardhat/types/runtime" {
       name: "OracleTokens",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OracleTokens__factory>;
+    getContractFactory(
+      name: "Oracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Oracle__factory>;
+    getContractFactory(
+      name: "OracleTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleTest__factory>;
+    getContractFactory(
+      name: "OracleTokens",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleTokens__factory>;
+    getContractFactory(
+      name: "OracleReserve",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleReserve__factory>;
+    getContractFactory(
+      name: "OracleReserveTokens",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleReserveTokens__factory>;
     getContractFactory(
       name: "Timelock",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -240,6 +280,30 @@ declare module "hardhat/types/runtime" {
       name: "MarginLongRepayCore",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MarginLongRepayCore__factory>;
+    getContractFactory(
+      name: "ReserveApproved",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveApproved__factory>;
+    getContractFactory(
+      name: "ReserveCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveCore__factory>;
+    getContractFactory(
+      name: "ReserveDistributor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveDistributor__factory>;
+    getContractFactory(
+      name: "ReserveToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveToken__factory>;
+    getContractFactory(
+      name: "ReserveTokenWrapped",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveTokenWrapped__factory>;
+    getContractFactory(
+      name: "ReserveTreasury",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReserveTreasury__factory>;
 
     getContractAt(
       name: "AggregatorV3Interface",
@@ -261,6 +325,31 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OwnableUpgradeable>;
+    getContractAt(
+      name: "ERC20Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Upgradeable>;
+    getContractAt(
+      name: "ERC20PermitUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20PermitUpgradeable>;
+    getContractAt(
+      name: "IERC20PermitUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20PermitUpgradeable>;
+    getContractAt(
+      name: "ERC20VotesUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20VotesUpgradeable>;
+    getContractAt(
+      name: "IERC20MetadataUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20MetadataUpgradeable>;
     getContractAt(
       name: "IERC20Upgradeable",
       address: string,
@@ -391,6 +480,31 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OracleTokens>;
+    getContractAt(
+      name: "Oracle",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Oracle>;
+    getContractAt(
+      name: "OracleTest",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OracleTest>;
+    getContractAt(
+      name: "OracleTokens",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OracleTokens>;
+    getContractAt(
+      name: "OracleReserve",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OracleReserve>;
+    getContractAt(
+      name: "OracleReserveTokens",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OracleReserveTokens>;
     getContractAt(
       name: "Timelock",
       address: string,
@@ -526,6 +640,36 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.MarginLongRepayCore>;
+    getContractAt(
+      name: "ReserveApproved",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveApproved>;
+    getContractAt(
+      name: "ReserveCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveCore>;
+    getContractAt(
+      name: "ReserveDistributor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveDistributor>;
+    getContractAt(
+      name: "ReserveToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveToken>;
+    getContractAt(
+      name: "ReserveTokenWrapped",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveTokenWrapped>;
+    getContractAt(
+      name: "ReserveTreasury",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReserveTreasury>;
 
     // default types
     getContractFactory(
