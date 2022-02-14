@@ -5,6 +5,7 @@ import SideNav from "../../Nav/SideNav";
 import NotificationBanner from "../../NotificationBanner";
 import WalletSelector from "../../Wallet/WalletSelector";
 import AlignWrapper from "../AlignWrapper";
+import PageWrapper from "../PageWrapper";
 
 export default function LayoutWrapper({children}: {children: any}) {
     return (
@@ -17,7 +18,7 @@ export default function LayoutWrapper({children}: {children: any}) {
                 <Error />
             </AlignWrapper>
             <SideNav />
-            {children}
+            <PageWrapper>{children}</PageWrapper>
         </>
     );
 }
