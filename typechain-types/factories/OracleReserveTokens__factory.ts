@@ -30,44 +30,6 @@ const _abi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "decimals",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "isSupported",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "owner",
     outputs: [
@@ -81,79 +43,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "priceFeed",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "reservePriceFeed",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "token_",
-        type: "address[]",
-      },
-      {
-        internalType: "address[]",
-        name: "priceFeed_",
-        type: "address[]",
-      },
-      {
-        internalType: "address[]",
-        name: "reservePriceFeed_",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "correctDecimals_",
-        type: "uint256[]",
-      },
-      {
-        internalType: "bool[]",
-        name: "supported_",
-        type: "bool[]",
-      },
-    ],
-    name: "setPriceFeed",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

@@ -4,7 +4,6 @@
 import {
   BaseContract,
   BigNumber,
-  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -20,54 +19,24 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface OracleReserveTokensInterface extends utils.Interface {
   contractName: "OracleReserveTokens";
   functions: {
-    "decimals(address)": FunctionFragment;
-    "isSupported(address)": FunctionFragment;
     "owner()": FunctionFragment;
-    "priceFeed(address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "reservePriceFeed(address)": FunctionFragment;
-    "setPriceFeed(address[],address[],address[],uint256[],bool[])": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "decimals", values: [string]): string;
-  encodeFunctionData(functionFragment: "isSupported", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(functionFragment: "priceFeed", values: [string]): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "reservePriceFeed",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setPriceFeed",
-    values: [string[], string[], string[], BigNumberish[], boolean[]]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isSupported",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "priceFeed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "reservePriceFeed",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPriceFeed",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -118,29 +87,9 @@ export interface OracleReserveTokens extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    decimals(token_: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    isSupported(token_: string, overrides?: CallOverrides): Promise<[boolean]>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    priceFeed(token_: string, overrides?: CallOverrides): Promise<[string]>;
-
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    reservePriceFeed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    setPriceFeed(
-      token_: string[],
-      priceFeed_: string[],
-      reservePriceFeed_: string[],
-      correctDecimals_: BigNumberish[],
-      supported_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -150,26 +99,9 @@ export interface OracleReserveTokens extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  isSupported(token_: string, overrides?: CallOverrides): Promise<boolean>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
-  priceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
-
   renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  reservePriceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
-
-  setPriceFeed(
-    token_: string[],
-    priceFeed_: string[],
-    reservePriceFeed_: string[],
-    correctDecimals_: BigNumberish[],
-    supported_: boolean[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -179,29 +111,9 @@ export interface OracleReserveTokens extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    isSupported(token_: string, overrides?: CallOverrides): Promise<boolean>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
-    priceFeed(token_: string, overrides?: CallOverrides): Promise<string>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    reservePriceFeed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    setPriceFeed(
-      token_: string[],
-      priceFeed_: string[],
-      reservePriceFeed_: string[],
-      correctDecimals_: BigNumberish[],
-      supported_: boolean[],
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     transferOwnership(
       newOwner: string,
@@ -221,29 +133,9 @@ export interface OracleReserveTokens extends BaseContract {
   };
 
   estimateGas: {
-    decimals(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    isSupported(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    priceFeed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    reservePriceFeed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    setPriceFeed(
-      token_: string[],
-      priceFeed_: string[],
-      reservePriceFeed_: string[],
-      correctDecimals_: BigNumberish[],
-      supported_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -254,38 +146,9 @@ export interface OracleReserveTokens extends BaseContract {
   };
 
   populateTransaction: {
-    decimals(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isSupported(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    priceFeed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    reservePriceFeed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setPriceFeed(
-      token_: string[],
-      priceFeed_: string[],
-      reservePriceFeed_: string[],
-      correctDecimals_: BigNumberish[],
-      supported_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

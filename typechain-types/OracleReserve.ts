@@ -7,13 +7,11 @@ import {
   BigNumberish,
   BytesLike,
   CallOverrides,
-  ContractTransaction,
-  Overrides,
   PopulatedTransaction,
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
+import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
@@ -22,16 +20,12 @@ export interface OracleReserveInterface extends utils.Interface {
   functions: {
     "amountMax(address,uint256)": FunctionFragment;
     "amountMin(address,uint256)": FunctionFragment;
+    "isSupported(address)": FunctionFragment;
     "oracle()": FunctionFragment;
-    "owner()": FunctionFragment;
     "pool()": FunctionFragment;
     "priceDecimals()": FunctionFragment;
     "priceMax(address,uint256)": FunctionFragment;
     "priceMin(address,uint256)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "setOracle(address)": FunctionFragment;
-    "setPool(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -42,8 +36,8 @@ export interface OracleReserveInterface extends utils.Interface {
     functionFragment: "amountMin",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "isSupported", values: [string]): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(functionFragment: "pool", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "priceDecimals",
@@ -57,21 +51,14 @@ export interface OracleReserveInterface extends utils.Interface {
     functionFragment: "priceMin",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
-  encodeFunctionData(functionFragment: "setPool", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
 
   decodeFunctionResult(functionFragment: "amountMax", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "amountMin", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "isSupported",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pool", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "priceDecimals",
@@ -79,31 +66,9 @@ export interface OracleReserveInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "priceMax", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "priceMin", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setPool", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
 
-  events: {
-    "OwnershipTransferred(address,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  events: {};
 }
-
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
->;
-
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface OracleReserve extends BaseContract {
   contractName: "OracleReserve";
@@ -145,9 +110,9 @@ export interface OracleReserve extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    oracle(overrides?: CallOverrides): Promise<[string]>;
+    isSupported(token_: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    oracle(overrides?: CallOverrides): Promise<[string]>;
 
     pool(overrides?: CallOverrides): Promise<[string]>;
 
@@ -164,25 +129,6 @@ export interface OracleReserve extends BaseContract {
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setOracle(
-      oracle_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setPool(
-      pool_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   amountMax(
@@ -197,9 +143,9 @@ export interface OracleReserve extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  oracle(overrides?: CallOverrides): Promise<string>;
+  isSupported(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  oracle(overrides?: CallOverrides): Promise<string>;
 
   pool(overrides?: CallOverrides): Promise<string>;
 
@@ -217,25 +163,6 @@ export interface OracleReserve extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setOracle(
-    oracle_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setPool(
-    pool_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  transferOwnership(
-    newOwner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     amountMax(
       token_: string,
@@ -249,9 +176,9 @@ export interface OracleReserve extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    oracle(overrides?: CallOverrides): Promise<string>;
+    isSupported(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    oracle(overrides?: CallOverrides): Promise<string>;
 
     pool(overrides?: CallOverrides): Promise<string>;
 
@@ -268,29 +195,9 @@ export interface OracleReserve extends BaseContract {
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
-
-    setOracle(oracle_: string, overrides?: CallOverrides): Promise<void>;
-
-    setPool(pool_: string, overrides?: CallOverrides): Promise<void>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
-  filters: {
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
-  };
+  filters: {};
 
   estimateGas: {
     amountMax(
@@ -305,9 +212,9 @@ export interface OracleReserve extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    oracle(overrides?: CallOverrides): Promise<BigNumber>;
+    isSupported(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     pool(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -324,25 +231,6 @@ export interface OracleReserve extends BaseContract {
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setOracle(
-      oracle_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setPool(
-      pool_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -358,9 +246,12 @@ export interface OracleReserve extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    isSupported(
+      token_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -376,25 +267,6 @@ export interface OracleReserve extends BaseContract {
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setOracle(
-      oracle_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setPool(
-      pool_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
