@@ -1,4 +1,4 @@
-import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+import {chainDataConfig, SupportedChainIds} from "../../../providers/useChainData";
 import sortedChainDataConfigEntries from "../../../utils/sortedChainDataConfigEntries";
 
 export default function WalletSelectorChainSelector({chainId, setChainId}: {chainId: SupportedChainIds; setChainId: (chainId: SupportedChainIds) => void}) {

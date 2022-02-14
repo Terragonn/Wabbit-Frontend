@@ -1,7 +1,7 @@
 import {useWeb3React} from "@web3-react/core";
 
-import useError from "../../../utils/providers/useError";
-import {chainDataConfig, SupportedChainIds} from "../../../utils/providers/useChainData";
+import useError from "../../../providers/useError";
+import {chainDataConfig, SupportedChainIds} from "../../../providers/useChainData";
 
 import {Injected, WalletConnect, WalletLink} from "./connectors";
 import {useWalletSelector} from "../WalletSelector";

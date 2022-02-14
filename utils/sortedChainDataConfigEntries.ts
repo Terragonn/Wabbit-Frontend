@@ -1,4 +1,4 @@
-import {chainDataConfig} from "./providers/useChainData";
+import {chainDataConfig} from "../providers/useChainData";
 
 export default function sortedChainDataConfigEntries() {
     const sortable = Object.entries(chainDataConfig);

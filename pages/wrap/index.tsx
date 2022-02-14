@@ -2,11 +2,11 @@ import type {NextPage} from "next";
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import useContracts from "../../utils/providers/useContracts";
-import {Approved} from "../../utils/providers/useChainData";
-import useProtocolData from "../../utils/providers/useProtocolData";
-import useProtocolMax from "../../utils/providers/useProtocolMax";
-import useProtocolMethods from "../../utils/providers/useProtocolMethods";
+import useContracts from "../../providers/useContracts";
+import {Approved} from "../../providers/useChainData";
+import useProtocolData from "../../providers/useProtocolData";
+import useProtocolMax from "../../providers/useProtocolMax";
+import useProtocolMethods from "../../providers/useProtocolMethods";
 
 import TokenSegment from "../../components/TokenSegment";
 import parseNumber from "../../utils/parseNumber";

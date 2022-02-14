@@ -4,9 +4,9 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {Approved} from "./useChainData";
 import useContracts from "./useContracts";
 
-import {loadERC20} from "../ERC20Utils";
-import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
-import {safeMaxLeveragePrice} from "../safeLevels";
+import {loadERC20} from "../utils/ERC20Utils";
+import {parseDecimals, ROUND_CONSTANT} from "../utils/parseNumber";
+import {safeMaxLeveragePrice} from "../utils/safeLevels";
 
 interface ProtocolMaxData {
     availableToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;

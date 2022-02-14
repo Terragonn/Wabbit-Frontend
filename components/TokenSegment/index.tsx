@@ -1,9 +1,9 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
-import {Contracts} from "../../utils/providers/useContracts";
-import {Approved} from "../../utils/providers/useChainData";
-import {RequiresApproval} from "../../utils/providers/useProtocolMethods";
+import {Contracts} from "../../providers/useContracts";
+import {Approved} from "../../providers/useChainData";
+import {RequiresApproval} from "../../providers/useProtocolMethods";
 
 import parseNumber, {MAX_INPUT_NUMBER, parseDecimals, parseStringToNumber, ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";

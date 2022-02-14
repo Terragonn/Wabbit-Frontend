@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
-import {Approved} from "../../utils/providers/useChainData";
-import {Contracts} from "../../utils/providers/useContracts";
+import {Approved} from "../../providers/useChainData";
+import {Contracts} from "../../providers/useContracts";
 
 import displayString from "../../utils/displayString";
 

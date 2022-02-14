@@ -2,6 +2,7 @@ import AgreementModal from "../../AgreementModal";
 import Error from "../../Error";
 import Nav from "../../Nav/Nav";
 import SideNav from "../../Nav/SideNav";
+import NotificationBanner from "../../NotificationBanner";
 import WalletSelector from "../../Wallet/WalletSelector";
 import AlignWrapper from "../AlignWrapper";
 
@@ -11,9 +12,8 @@ export default function LayoutWrapper({children}: {children: any}) {
             <AgreementModal />
             <WalletSelector />
             <AlignWrapper>
+                <NotificationBanner />
                 <Nav />
-            </AlignWrapper>
-            <AlignWrapper>
                 <Error />
             </AlignWrapper>
             <SideNav />

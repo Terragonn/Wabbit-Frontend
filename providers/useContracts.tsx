@@ -4,12 +4,12 @@ import {useWeb3React} from "@web3-react/core";
 
 import useChainData, {Config} from "./useChainData";
 
-import LPoolAbi from "../../config/LPool.json";
-import OracleAbi from "../../config/IOracle.json";
-import MarginLongAbi from "../../config/MarginLong.json";
-import ConverterAbi from "../../config/Converter.json";
+import LPoolAbi from "../config/LPool.json";
+import OracleAbi from "../config/IOracle.json";
+import MarginLongAbi from "../config/MarginLong.json";
+import ConverterAbi from "../config/Converter.json";
 
-import {LPool, Oracle, MarginLong, Converter} from "../../typechain-types";
+import {LPool, Oracle, MarginLong, Converter} from "../typechain-types";
 
 export interface Contracts {
     signer: ethers.providers.JsonRpcSigner;

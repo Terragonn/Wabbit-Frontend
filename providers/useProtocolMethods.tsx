@@ -7,9 +7,9 @@ import useContracts from "./useContracts";
 import useError from "./useError";
 import {useUpdateProtocolData} from "./useProtocolData";
 
-import {isApprovedERC20, approveERC20} from "../ERC20Utils";
-import {ROUND_CONSTANT} from "../parseNumber";
-import {isSafeLeveragePrice, safeCollateralPrice} from "../safeLevels";
+import {isApprovedERC20, approveERC20} from "../utils/ERC20Utils";
+import {ROUND_CONSTANT} from "../utils/parseNumber";
+import {isSafeLeveragePrice, safeCollateralPrice} from "../utils/safeLevels";
 
 export type RequiresApproval = [(() => Promise<void>) | null, (() => Promise<void>) | null];
 

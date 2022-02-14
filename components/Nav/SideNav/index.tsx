@@ -1,8 +1,8 @@
 import {useWeb3React} from "@web3-react/core";
-import useContracts from "../../../utils/providers/useContracts";
+import useContracts from "../../../providers/useContracts";
 
-import useNavState from "../../../utils/providers/useNavState";
-import useENS from "../../../utils/useENS";
+import useNavState from "../../../providers/useNavState";
+import useENS from "../../../hooks/useENS";
 
 import NavLink from "../NavLink";
 

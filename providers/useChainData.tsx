@@ -1,9 +1,9 @@
 import {useWeb3React} from "@web3-react/core";
 import {createContext, useContext, useEffect, useState} from "react";
 
-import mainConfig from "../../config/config.main.json";
-import testConfig from "../../config/config.test.json";
-import forkConfig from "../../config/config.fork.json";
+import mainConfig from "../config/config.main.json";
+import testConfig from "../config/config.test.json";
+import forkConfig from "../config/config.fork.json";
 
 export const SUPPORTED_CHAIN_IDS = [0, 4, 250, 1337] as const;
 export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];

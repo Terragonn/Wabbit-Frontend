@@ -10,15 +10,18 @@ export default function useENS(signer: ethers.providers.JsonRpcSigner | undefine
         (async () => {
             if (signer) {
                 const provider = signer.provider;
+
                 const address = await signer.getAddress();
-
-                const ensName = await provider.lookupAddress(address);
-                const resolver = await provider.getResolver(ensName || "");
-                const ensAvatar = await resolver?.getAvatar();
-
                 setAccount(address);
-                setENSAvatar(ensAvatar?.url);
-                setENSName(ensName);
+
+                try {
+                    const ensName = await provider.lookupAddress(address);
+                    setENSName(ensName);
+
+                    const resolver = await provider.getResolver(ensName || "");
+                    const ensAvatar = await resolver?.getAvatar();
+                    setENSAvatar(ensAvatar?.url);
+                } catch {}
             }
         })();
     }, [signer]);

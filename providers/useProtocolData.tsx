@@ -4,10 +4,10 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {Approved} from "./useChainData";
 import useContracts from "./useContracts";
 
-import {parseDecimals, ROUND_CONSTANT} from "../parseNumber";
-import {loadERC20} from "../ERC20Utils";
-import getApproved from "../getApproved";
-import {liquidatablePriceDropPercent} from "../safeLevels";
+import {parseDecimals, ROUND_CONSTANT} from "../utils/parseNumber";
+import {loadERC20} from "../utils/ERC20Utils";
+import getApproved from "../utils/getApproved";
+import {liquidatablePriceDropPercent} from "../utils/safeLevels";
 
 interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
