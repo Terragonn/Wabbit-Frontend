@@ -1,14 +1,16 @@
 import {useWeb3React} from "@web3-react/core";
+import useContracts from "../../../utils/providers/useContracts";
 
 import useNavState from "../../../utils/providers/useNavState";
-import useENS from "../../hooks/useENS";
+import useENS from "../../../utils/useENS";
 
 import NavLink from "../NavLink";
 
 export default function SideNav() {
-    const {account} = useWeb3React();
+    const contracts = useContracts();
     const [navState, setNavState] = useNavState();
-    const {ensName, ensAvatar} = useENS(account);
+
+    const {account, ensName, ensAvatar} = useENS(contracts?.signer);
 
     return (
         <nav className={`fixed overflow-y-auto top-0 h-full w-80 bg-neutral-900 bg-opacity-95 p-5 xl:glow xl:left-0 left-[-20rem] ${navState ? "!left-0 !glow" : ""}`}>
