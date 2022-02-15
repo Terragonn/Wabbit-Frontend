@@ -27,10 +27,12 @@ export default function SideNav() {
             <a href="https://torque.money">
                 <img src="https://i.imgur.com/dhNWbW3.png" width={200} className="pt-5 mx-auto" alt="Torque logo" />
             </a>
-            <p className="text-center text-white font-bold text-xl pt-5 pb-24 flex items-center justify-center space-x-3">
-                {ensAvatar && <img className="h-8 w-8 rounded-full" src={ensAvatar} alt="Avatar" />}
-                <div>{!account ? "Not Connected" : ensName || `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}</div>
-            </p>
+            <div className="pt-5 pb-24 flex items-center justify-center space-x-3">
+                {ensAvatar ? <img className="h-8 w-8 rounded-full" src={ensAvatar} alt="ENS Avatar" /> : null}
+                <p className="text-center text-white font-bold text-xl">
+                    {!account ? "Not Connected" : ensName || `${account.slice(0, 6)}...${account.slice(account.length - 6, account.length)}`}
+                </p>
+            </div>
             <ul className="flex flex-col items-stretch space-y-16">
                 <li>
                     <NavLink base="/" directories={[]}>
