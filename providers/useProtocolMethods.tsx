@@ -23,7 +23,7 @@ interface ProtocolMethods {
     repayLong: (token: Approved) => Promise<void>;
     repayLongAll: () => Promise<void>;
 
-    approve: (token: string, contractAddress: string, amount: ethers.BigNumber) => Promise<void | null>;
+    approve: (token: string, contractAddress: string, amount: ethers.BigNumber) => Promise<(() => Promise<void>) | null>;
 }
 
 const protocolMethodsCtx = createContext<ProtocolMethods | null>(undefined as any);
@@ -56,7 +56,7 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function approve(token: string, contractAddress: string, amount: ethers.BigNumber) {
         if (library && !(await isApprovedERC20(token, amount, contractAddress, library.getSigner())))
-            await handleError(async () => await approveERC20(token, amount, contractAddress, library.getSigner()));
+            return async () => await handleError(async () => await approveERC20(token, amount, contractAddress, library.getSigner()));
         return null;
     }
 

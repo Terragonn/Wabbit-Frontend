@@ -20,7 +20,11 @@ export default function TokenSegment({
     keys: [string, string][];
     token: Approved | null;
     contracts: Contracts | null;
-    callback: {cta: string; fn: (token: Approved, num: ethers.BigNumber) => Promise<void>; approve?: (token: Approved, num: ethers.BigNumber) => Promise<void>}[];
+    callback: {
+        cta: string;
+        fn: (token: Approved, num: ethers.BigNumber) => Promise<void>;
+        approve?: (token: Approved, num: ethers.BigNumber) => Promise<(() => Promise<void>) | null>;
+    }[];
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
@@ -29,7 +33,8 @@ export default function TokenSegment({
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [isMax, setIsMax] = useState<boolean>(false);
 
-    const [approve, setApprove] = useState<boolean>(false);
+    const [approve, setApprove] = useState<boolean[]>(Array(callback.length).fill(false));
+    const [updateApprove, setUpdateApprove] = useState<number>(0);
 
     const [processing, setProcessing] = useState<boolean>(false);
     async function processHandler(fn: () => Promise<any>) {
@@ -51,15 +56,6 @@ export default function TokenSegment({
             }
 
             (async () => {
-                if (callback) {
-                    // **** We need a new way of doing the approval
-                    // **** We can just pass a manual approval function and check it there
-
-                    // **** This needs to be robust enough to be able to deal with different approved tokens
-                    const requiresApproval = await callback(token, decimals);
-                    setApprove(requiresApproval[1] !== null);
-                }
-
                 if (contracts && (await contracts.oracle.isSupported(token.address))) {
                     const price = await contracts.oracle.priceMin(token.address, decimals);
                     const parsed = parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
@@ -70,6 +66,16 @@ export default function TokenSegment({
             })();
         }
     }, [num]);
+
+    useEffect(() => {
+        (async () => {
+            if (token) {
+                const newApprovedState = Array(callback.length);
+                callback.forEach(async (cb, index) => (cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[index] = true) : null));
+                setApprove(newApprovedState);
+            }
+        })();
+    }, [num, updateApprove, token]);
 
     return (
         <>
@@ -120,27 +126,28 @@ export default function TokenSegment({
                         </div>
                     ))}
                 </div>
-                {cta.length > 0 ? (
+                {callback.map((cb, index) => (
                     <Button
                         loading={processing}
-                        onClick={() => {
-                            if (callback && token)
-                                (async () => {
-                                    const requiresApproval = await callback(token, bigNum);
-
-                                    if (requiresApproval[1]) {
-                                        await processHandler(async () => await (requiresApproval[1] as any)());
-                                        setApprove((await callback(token, bigNum))[1] !== null);
-                                    } else {
-                                        await processHandler(async () => await (requiresApproval[0] as any)());
-                                        setNum("");
+                        onClick={async () => {
+                            if (token)
+                                if (!approve[index]) {
+                                    await processHandler(async () => await cb.fn(token, bigNum));
+                                    setNum("");
+                                } else {
+                                    if (cb.approve) {
+                                        const fn = await cb.approve(token, bigNum);
+                                        if (fn) {
+                                            await fn();
+                                            setUpdateApprove((prev) => prev + 1);
+                                        }
                                     }
-                                })();
+                                }
                         }}
                     >
-                        {approve ? "Approve" : cta}
+                        {approve[index] ? "Approve" : cb.cta}
                     </Button>
-                ) : null}
+                ))}
             </div>
         </>
     );
