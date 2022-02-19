@@ -21,5 +21,6 @@ export async function isApprovedERC20(token: string, amount: ethers.BigNumber, c
     const signerAddress = await contract.signer.getAddress();
 
     const approved = await contract.allowance(signerAddress, contractAddress);
+    console.log(approved, amount);
     return approved.gte(amount);
 }
