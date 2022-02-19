@@ -132,7 +132,7 @@ const ProvideLiquidity: NextPage = () => {
                                     ? [
                                           {
                                               cta: "Provide",
-                                              fn: async (token, num) => protocolMethods?.provideLiquidity(token, num),
+                                              fn: async (token, num) => protocolMethods.provideLiquidity(token, num),
                                               approve: async (token, num) => await protocolMethods.approve(token.address, contracts.lPool.address, num),
                                           },
                                       ]
@@ -156,7 +156,7 @@ const ProvideLiquidity: NextPage = () => {
                                     ? [
                                           {
                                               cta: "Redeem",
-                                              fn: (token, num) => protocolMethods?.redeem(token, num),
+                                              fn: (token, num) => protocolMethods.redeem(token, num),
                                               approve: async (token, num) => {
                                                   const lpToken = await contracts.lPool.LPFromPT(token.address);
                                                   return await protocolMethods.approve(lpToken, contracts.lPool.address, num);

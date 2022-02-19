@@ -90,22 +90,30 @@ const Wrap: NextPage = () => {
                             <TokenSegment
                                 title="Wrap"
                                 keys={[["Available", parseNumber(mainData?.availableNativeCoinAmount) + " " + tokenData.nativeCoin.symbol]]}
-                                cta="Wrap"
                                 token={tokenData.nativeCoin}
                                 contracts={contracts}
                                 max={maxData?.maxAvailableNativeCoinAmount}
-                                callback={protocolMethods ? (token, num) => protocolMethods?.wrap(num) : undefined}
+                                callback={protocolMethods ? [{cta: "Wrap", fn: (token, num) => protocolMethods?.wrap(num)}] : []}
                             />
                         </div>
                         <div className="w-full lg:ml-6">
                             <TokenSegment
                                 title="Unwrap"
                                 keys={[["Available", parseNumber(mainData?.availableWrappedTokenAmount) + " " + tokenData.nativeCoinWrapped.symbol]]}
-                                cta="Unwrap"
                                 token={tokenData.nativeCoinWrapped}
                                 contracts={contracts}
                                 max={maxData?.maxAvailableWrappedTokenAmount}
-                                callback={protocolMethods ? (token, num) => protocolMethods?.unwrap(num) : undefined}
+                                callback={
+                                    protocolMethods && contracts
+                                        ? [
+                                              {
+                                                  cta: "Unwrap",
+                                                  fn: (token, num) => protocolMethods?.unwrap(num),
+                                                  approve: async (token, num) => await protocolMethods.approve(token.address, contracts.converter.address, num),
+                                              },
+                                          ]
+                                        : []
+                                }
                             />
                         </div>
                     </div>
