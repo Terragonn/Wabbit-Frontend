@@ -8,8 +8,7 @@ import {NavStateProvider} from "../../../providers/useNavState";
 import {ProtocolDataProvider} from "../../../providers/useProtocolData";
 import {ProtocolMaxProvider} from "../../../providers/useProtocolMax";
 import {ProtocolMethodsProvider} from "../../../providers/useProtocolMethods";
-
-import {WalletSelectorProvider} from "../../Wallet/WalletSelector";
+import {WalletSelectorProvider} from "../../../providers/useWalletSelector";
 
 export default function ContextWrapper({children}: {children: any}) {
     return (

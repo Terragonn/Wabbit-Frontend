@@ -4,7 +4,7 @@ import useError from "../../../providers/useError";
 import {chainDataConfig, SupportedChainIds} from "../../../providers/useChainData";
 
 import {Injected, WalletConnect, WalletLink} from "./connectors";
-import {useWalletSelector} from "../WalletSelector";
+import {useWalletSelector} from "../../../providers/useWalletSelector";
 
 export const AUTO_CONNECT = "AUTO_CONNECT" as const;
 export interface AutoConnect {
