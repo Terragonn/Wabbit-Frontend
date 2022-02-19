@@ -30,15 +30,15 @@ export default function TableCard({blockExplorer, token}: {blockExplorer: string
                 setData({tvl, borrowed, provideLiquidityAPY, borrowAPR, yieldAPR});
             })();
         }
-    }, [protocolData]);
+    }, [protocolData, token]);
 
     return (
-        <a href={`${blockExplorer}token/${token?.address}`}>
+        <a href={`${blockExplorer}token/${token.address}`}>
             <div className="bg-neutral-900 bg-opacity-75 rounded-xl flex flex-col items-center py-9 px-10 text-center text-white mb-10 glow">
                 <span className="flex items-center justify-start w-full space-x-3 font-bold text-xl">
-                    <img src={token?.icon} width={40} className="rounded-xl" alt={token?.name} />
-                    <span>{token?.name}</span>
-                    <span className=" text-neutral-500">({token?.symbol})</span>
+                    <img src={token.icon} width={40} className="rounded-xl" alt={token.name} />
+                    <span>{token.name}</span>
+                    <span className=" text-neutral-500">({token.symbol})</span>
                 </span>
                 <div className="my-8 w-full space-y-2 text-lg font-medium">
                     <div className="flex items-center justify-between text-neutral-400">

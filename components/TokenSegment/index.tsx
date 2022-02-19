@@ -18,8 +18,8 @@ export default function TokenSegment({
 }: {
     title: string;
     keys: [string, string][];
-    token: Approved | null;
-    contracts: Contracts | null;
+    token: Approved;
+    contracts: Contracts;
     callback: {
         cta: string;
         fn: (token: Approved, num: ethers.BigNumber) => Promise<void>;
@@ -44,36 +44,35 @@ export default function TokenSegment({
     }
 
     useEffect(() => {
-        if (token) {
-            let decimals: ethers.BigNumber;
-            if (max && isMax) {
-                decimals = max[0];
-                setBigNum(decimals);
-            } else {
-                const padded = Math.floor(parseStringToNumber(num) * ROUND_CONSTANT);
-                decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
-                setBigNum(decimals);
+        let decimals: ethers.BigNumber;
+        if (max && isMax) {
+            decimals = max[0];
+            setBigNum(decimals);
+        } else {
+            const padded = Math.floor(parseStringToNumber(num) * ROUND_CONSTANT);
+            decimals = ethers.BigNumber.from(10).pow(token.decimals).mul(padded).div(ROUND_CONSTANT);
+            setBigNum(decimals);
+        }
+
+        (async () => {
+            if (contracts && (await contracts.oracle.isSupported(token.address))) {
+                const price = await contracts.oracle.priceMin(token.address, decimals);
+                const parsed = parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
+                setPriceNum(parsed);
             }
 
-            (async () => {
-                if (contracts && (await contracts.oracle.isSupported(token.address))) {
-                    const price = await contracts.oracle.priceMin(token.address, decimals);
-                    const parsed = parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
-                    setPriceNum(parsed);
-                }
-
-                if (isMax) setIsMax(false);
-            })();
-        }
-    }, [num]);
+            if (isMax) setIsMax(false);
+        })();
+    }, [num, token]);
 
     useEffect(() => {
         (async () => {
-            if (token) {
-                const newApprovedState = Array(callback.length);
-                callback.forEach(async (cb, index) => (cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[index] = true) : null));
-                setApprove(newApprovedState);
+            const newApprovedState = [...approve];
+            for (let i = 0; i < callback.length; i++) {
+                const cb = callback[i];
+                cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[i] = true) : null;
             }
+            setApprove(newApprovedState);
         })();
     }, [bigNum, updateApprove, token]);
 

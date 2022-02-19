@@ -1,21 +1,11 @@
-import {createContext, useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
+
+import {SupportedChainIds} from "../../../providers/useChainData";
+import {useWalletSelector} from "../../../providers/useWalletSelector";
 
 import Card from "./card";
 import {AutoConnect, AUTO_CONNECT, useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
-import {SupportedChainIds} from "../../../providers/useChainData";
 import WalletSelectorChainSelector from "../WalletSelectorChainSelector";
-
-export const walletSelectorCtx = createContext<[boolean, (walletSelector: boolean) => void]>(undefined as any);
-
-export function useWalletSelector() {
-    return useContext(walletSelectorCtx);
-}
-
-export function WalletSelectorProvider({children}: {children: any}) {
-    const [walletSelector, setWalletSelector] = useState<boolean>(false);
-
-    return <walletSelectorCtx.Provider value={[walletSelector, setWalletSelector]}>{children}</walletSelectorCtx.Provider>;
-}
 
 export default function WalletSelector() {
     const [walletSelector, setWalletSelector] = useWalletSelector();
