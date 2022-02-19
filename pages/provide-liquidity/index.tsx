@@ -124,26 +124,47 @@ const ProvideLiquidity: NextPage = () => {
                                     parseNumber(mainData?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol),
                                 ],
                             ]}
-                            cta="Provide"
                             token={token}
                             contracts={contracts}
                             max={maxData?.maxAvailableToken}
-                            callback={protocolMethods ? (token, num) => protocolMethods?.provideLiquidity(token, num) : undefined}
+                            callback={
+                                protocolMethods && contracts
+                                    ? [
+                                          {
+                                              cta: "Provide",
+                                              fn: async (token, num) => protocolMethods?.provideLiquidity(token, num),
+                                              approve: async (token, num) => await protocolMethods.approve(token.address, contracts.lPool.address, num),
+                                          },
+                                      ]
+                                    : []
+                            }
                         />
                     </div>
                     <div className="w-full lg:ml-6">
                         <TokenSegment
-                            title="Redeem"
+                            title="Redeem Liquidity"
                             keys={[
                                 ["Available", parseNumber(mainData?.availableLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
                                 ["Total redeem amount", parseNumber(mainData?.LPRedeemAmount) + " " + displayString(token?.symbol)],
                                 ["Total redeem value", "$ " + parseNumber(mainData?.LPRedeemValue)],
                             ]}
-                            cta="Redeem"
                             token={token}
                             contracts={contracts}
                             max={maxData?.maxAvailableLPToken}
-                            callback={protocolMethods ? (token, num) => protocolMethods?.redeem(token, num) : undefined}
+                            callback={
+                                protocolMethods && contracts
+                                    ? [
+                                          {
+                                              cta: "Redeem",
+                                              fn: (token, num) => protocolMethods?.redeem(token, num),
+                                              approve: async (token, num) => {
+                                                  const lpToken = await contracts.lPool.LPFromPT(token.address);
+                                                  return await protocolMethods.approve(lpToken, contracts.lPool.address, num);
+                                              },
+                                          },
+                                      ]
+                                    : []
+                            }
                         />
                     </div>
                 </div>
