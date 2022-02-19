@@ -11,7 +11,6 @@ import Button from "../Button";
 export default function TokenSegment({
     title,
     keys,
-    cta,
     token,
     contracts,
     callback,
@@ -20,10 +19,9 @@ export default function TokenSegment({
 }: {
     title: string;
     keys: [string, string][];
-    cta: string;
     token: Approved | null;
     contracts: Contracts | null;
-    callback?: (token: Approved, num: ethers.BigNumber) => Promise<RequiresApproval>;
+    callback: {cta: string; fn: (token: Approved, num: ethers.BigNumber) => Promise<void>; approve?: (token: Approved, num: ethers.BigNumber) => Promise<void>}[];
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
@@ -55,6 +53,10 @@ export default function TokenSegment({
 
             (async () => {
                 if (callback) {
+                    // **** We need a new way of doing the approval
+                    // **** We can just pass a manual approval function and check it there
+
+                    // **** This needs to be robust enough to be able to deal with different approved tokens
                     const requiresApproval = await callback(token, decimals);
                     setApprove(requiresApproval[1] !== null);
                 }
