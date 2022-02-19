@@ -71,16 +71,11 @@ export default function TokenSegment({
         (async () => {
             if (token) {
                 const newApprovedState = Array(callback.length);
-                callback.forEach(async (cb, index) => {
-                    console.log("If the function is present", cb.approve);
-                    if (cb.approve) console.log("What the function returns", await cb.approve(token, bigNum));
-
-                    cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[index] = true) : null;
-                });
+                callback.forEach(async (cb, index) => (cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[index] = true) : null));
                 setApprove(newApprovedState);
             }
         })();
-    }, [num, updateApprove, token]);
+    }, [bigNum, updateApprove, token]);
 
     return (
         <>
