@@ -93,7 +93,7 @@ const Wrap: NextPage = () => {
                                 token={tokenData.nativeCoin}
                                 contracts={contracts}
                                 max={maxData?.maxAvailableNativeCoinAmount}
-                                callback={protocolMethods ? [{cta: "Wrap", fn: (token, num) => protocolMethods?.wrap(num)}] : []}
+                                callback={protocolMethods ? [{cta: "Wrap", fn: async (token, num) => await protocolMethods.wrap(num)}] : []}
                             />
                         </div>
                         <div className="w-full lg:ml-6">
@@ -108,7 +108,7 @@ const Wrap: NextPage = () => {
                                         ? [
                                               {
                                                   cta: "Unwrap",
-                                                  fn: (token, num) => protocolMethods?.unwrap(num),
+                                                  fn: async (token, num) => await protocolMethods.unwrap(num),
                                                   approve: async (token, num) => await protocolMethods.approve(token.address, contracts.converter.address, num),
                                               },
                                           ]

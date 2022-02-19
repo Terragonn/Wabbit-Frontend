@@ -165,11 +165,20 @@ const LeverageLong: NextPage = () => {
                                 ["", ""],
                                 ["Minimum collateral to borrow", "$ " + parseNumber(mainData?.minCollateral)],
                             ]}
-                            cta="Deposit"
                             token={token}
                             contracts={contracts}
                             max={maxData?.maxAvailableToken}
-                            callback={protocolMethods ? (token, num) => protocolMethods?.depositCollateral(token, num) : undefined}
+                            callback={
+                                protocolMethods && contracts
+                                    ? [
+                                          {
+                                              cta: "Deposit",
+                                              fn: async (token, num) => await protocolMethods.depositCollateral(token, num),
+                                              approve: async (token, num) => await protocolMethods.approve(token.address, contracts.marginLong.address, num),
+                                          },
+                                      ]
+                                    : []
+                            }
                         />
                     </div>
                     <div className="w-full lg:ml-6">
@@ -179,11 +188,10 @@ const LeverageLong: NextPage = () => {
                                 ["Available amount", parseNumber(mainData?.collateralAmount) + " " + displayString(token?.symbol)],
                                 ["Available value", "$ " + parseNumber(mainData?.collateralValue)],
                             ]}
-                            cta="Withdraw"
                             token={token}
                             contracts={contracts}
                             max={maxData?.maxAvailableCollateral}
-                            callback={protocolMethods ? (token, num) => protocolMethods?.withdrawCollateral(token, num) : undefined}
+                            callback={protocolMethods ? [{cta: "Withdraw", fn: async (token, num) => await protocolMethods.withdrawCollateral(token, num)}] : []}
                         />
                     </div>
                 </div>
@@ -199,16 +207,18 @@ const LeverageLong: NextPage = () => {
                                 ["Min margin level", parseNumberFloat(mainData?.minMarginLevel)],
                                 ["Maximum leverage", parseNumberFloat(mainData?.maxLeverage) + "x"],
                             ]}
-                            cta="Leverage"
                             token={token}
                             contracts={contracts}
                             max={maxData?.maxAvailableLeverage}
-                            callback={protocolMethods ? (token, num) => protocolMethods?.borrowLong(token, num) : undefined}
+                            callback={
+                                protocolMethods && contracts
+                                    ? [
+                                          {cta: "Leverage", fn: async (token, num) => await protocolMethods.borrowLong(token, num)},
+                                          {cta: "Repay", fn: async (token, num) => await protocolMethods.repayLong(token)},
+                                      ]
+                                    : []
+                            }
                         />
-                        {/* This is where the problem lies - we need seperate integration for each callback button pair */}
-                        <div className="lg:w-4/5">
-                            <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>
-                        </div>
                     </div>
                     <div className="w-full ml-6">
                         <TokenSegment
@@ -225,11 +235,10 @@ const LeverageLong: NextPage = () => {
                                 ["Current leverage", parseNumberFloat(mainData?.currentLeverage) + "x"],
                                 ["Liquidatable borrowed price", "$ " + parseNumber(mainData?.liquidatableBorrowPrice)],
                             ]}
-                            cta="Repay All"
                             token={token}
                             contracts={contracts}
                             hideInput={true}
-                            callback={protocolMethods ? (num, token) => protocolMethods?.repayLongAll() : undefined}
+                            callback={protocolMethods ? [{cta: "Repay All", fn: async (num, token) => await protocolMethods?.repayLongAll()}] : []}
                         />
                     </div>
                 </div>

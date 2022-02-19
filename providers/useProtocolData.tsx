@@ -425,6 +425,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const initialBorrowPrice = await contracts.marginLong["initialBorrowPrice(address)"](signerAddress);
 
             const liquidatePrice = ethers.BigNumber.from(denominator).sub(numerator).mul(initialBorrowPrice).div(denominator);
+            if (liquidatePrice.lt(0)) return undefined;
 
             return parseDecimals(liquidatePrice, (await contracts.oracle.priceDecimals()).toNumber());
         }
