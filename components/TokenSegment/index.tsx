@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 
 import {Contracts} from "../../providers/useContracts";
 import {Approved} from "../../providers/useChainData";
-import {RequiresApproval} from "../../providers/useProtocolMethods";
 
 import parseNumber, {MAX_INPUT_NUMBER, parseDecimals, parseStringToNumber, ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";
