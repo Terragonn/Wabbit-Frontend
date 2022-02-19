@@ -7,7 +7,7 @@ import {Approved} from "../../providers/useChainData";
 import parseError from "../../utils/parseError";
 import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
 
-export default function TableCard({blockExplorer, approved}: {blockExplorer: string; approved: Approved}) {
+export default function TableCard({blockExplorer, token}: {blockExplorer: string; token: Approved}) {
     const protocolData = useProtocolData();
 
     const [data, setData] = useState<{
@@ -22,10 +22,10 @@ export default function TableCard({blockExplorer, approved}: {blockExplorer: str
         if (!protocolData) setData(null);
         else {
             (async () => {
-                const tvl = await parseError(async () => await protocolData.totalTokenPriceLocked(approved));
-                const borrowed = await parseError(async () => await protocolData.totalTokenPriceBorrowed(approved));
-                const provideLiquidityAPY = await parseError(async () => await protocolData.provideLiquidityAPY(approved));
-                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(approved));
+                const tvl = await parseError(async () => await protocolData.totalTokenPriceLocked(token));
+                const borrowed = await parseError(async () => await protocolData.totalTokenPriceBorrowed(token));
+                const provideLiquidityAPY = await parseError(async () => await protocolData.provideLiquidityAPY(token));
+                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
                 const yieldAPR = undefined;
                 setData({tvl, borrowed, provideLiquidityAPY, borrowAPR, yieldAPR});
             })();
@@ -33,12 +33,12 @@ export default function TableCard({blockExplorer, approved}: {blockExplorer: str
     }, [protocolData]);
 
     return (
-        <a href={`${blockExplorer}token/${approved?.address}`}>
+        <a href={`${blockExplorer}token/${token?.address}`}>
             <div className="bg-neutral-900 bg-opacity-75 rounded-xl flex flex-col items-center py-9 px-10 text-center text-white mb-10 glow">
                 <span className="flex items-center justify-start w-full space-x-3 font-bold text-xl">
-                    <img src={approved?.icon} width={40} className="rounded-xl" alt={approved?.name} />
-                    <span>{approved?.name}</span>
-                    <span className=" text-neutral-500">({approved?.symbol})</span>
+                    <img src={token?.icon} width={40} className="rounded-xl" alt={token?.name} />
+                    <span>{token?.name}</span>
+                    <span className=" text-neutral-500">({token?.symbol})</span>
                 </span>
                 <div className="my-8 w-full space-y-2 text-lg font-medium">
                     <div className="flex items-center justify-between text-neutral-400">
