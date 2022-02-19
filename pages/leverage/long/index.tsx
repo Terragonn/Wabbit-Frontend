@@ -205,6 +205,7 @@ const LeverageLong: NextPage = () => {
                             max={maxData?.maxAvailableLeverage}
                             callback={protocolMethods ? (token, num) => protocolMethods?.borrowLong(token, num) : undefined}
                         />
+                        {/* This is where the problem lies - we need seperate integration for each callback button pair */}
                         <div className="lg:w-4/5">
                             <Button onClick={async () => protocolMethods?.repayLongAll()}>Repay</Button>
                         </div>
