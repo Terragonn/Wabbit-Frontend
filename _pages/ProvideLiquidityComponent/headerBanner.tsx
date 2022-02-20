@@ -1,8 +1,10 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-import Banner from "../../components/Banner";
+
 import {Approved} from "../../providers/useChainData";
 import {ProtocolData} from "../../providers/useProtocolData";
+
+import Banner from "../../components/Banner";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";

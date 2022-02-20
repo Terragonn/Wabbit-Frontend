@@ -1,10 +1,12 @@
 import {useState} from "react";
-import TokenSelect from "../../components/TokenSelect";
+
 import {Approved} from "../../providers/useChainData";
 import useContracts from "../../providers/useContracts";
 import useProtocolData from "../../providers/useProtocolData";
 import useProtocolMax from "../../providers/useProtocolMax";
 import useProtocolMethods from "../../providers/useProtocolMethods";
+
+import TokenSelect from "../../components/TokenSelect";
 import HeaderBanner from "./headerBanner";
 import ProvideLiquidity from "./provideLiquidity";
 import RedeemLiquidity from "./redeemLiquidity";
