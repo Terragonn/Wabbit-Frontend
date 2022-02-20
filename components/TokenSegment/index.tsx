@@ -66,11 +66,14 @@ export default function TokenSegment({
     }, [num, token]);
 
     useEffect(() => {
+        console.log("Update");
+        console.log(bigNum);
+
         (async () => {
             const newApprovedState = [...approve];
             for (let i = 0; i < callback.length; i++) {
                 const cb = callback[i];
-                cb.approve && (await cb.approve(token, bigNum)) ? (newApprovedState[i] = true) : null;
+                newApprovedState[i] = cb.approve && (await cb.approve(token, bigNum)) ? true : false;
             }
             setApprove(newApprovedState);
         })();
