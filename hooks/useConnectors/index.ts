@@ -1,10 +1,10 @@
 import {useWeb3React} from "@web3-react/core";
 
-import useError from "../providers/useError";
-import {chainDataConfig, SupportedChainIds} from "../providers/useChainData";
-import {useWalletSelector} from "../providers/useWalletSelector";
+import useError from "../../providers/useError";
+import {chainDataConfig, SupportedChainIds} from "../../providers/useChainData";
+import {useWalletSelector} from "../../providers/useWalletSelector";
 
-import {Injected, WalletConnect, WalletLink} from "../components/Wallet/Wallet/connectors";
+import {Injected, WalletConnect, WalletLink} from "./connectors";
 
 export const AUTO_CONNECT = "AUTO_CONNECT" as const;
 export interface AutoConnect {

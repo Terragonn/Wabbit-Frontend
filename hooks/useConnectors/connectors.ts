@@ -1,4 +1,4 @@
-import {chainDataConfig, SupportedChainIds, SUPPORTED_CHAIN_IDS} from "../../../providers/useChainData";
+import {chainDataConfig, SupportedChainIds, SUPPORTED_CHAIN_IDS} from "../../providers/useChainData";
 
 import {InjectedConnector} from "@web3-react/injected-connector";
 import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
