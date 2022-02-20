@@ -28,7 +28,7 @@ export default function HeadWrapper({children}: {children: any}) {
 
                 <meta name="theme-color" content="#921ebb" />
                 <meta charSet="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <meta name="robots" content="index, follow" />
                 <link rel="canonical" href="https://app.torque.money" />
             </Head>
