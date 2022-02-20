@@ -8,7 +8,7 @@ import {loadERC20} from "../utils/ERC20Utils";
 import {parseDecimals, ROUND_CONSTANT} from "../utils/parseNumber";
 import {safeMaxLeveragePrice} from "../utils/safeLevels";
 
-interface ProtocolMaxData {
+export interface ProtocolMaxData {
     availableToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
     availableLPToken: (token: Approved) => Promise<[ethers.BigNumber, number] | undefined>;
 

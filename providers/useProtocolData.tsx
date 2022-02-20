@@ -9,7 +9,7 @@ import {loadERC20} from "../utils/ERC20Utils";
 import getApproved from "../utils/getApproved";
 import {liquidatablePriceDropPercent} from "../utils/safeLevels";
 
-interface ProtocolData {
+export interface ProtocolData {
     totalPoolPrice: () => Promise<ethers.BigNumber | undefined>;
     totalBorrowedPrice: () => Promise<ethers.BigNumber | undefined>;
     totalCollateralPrice: () => Promise<ethers.BigNumber | undefined>;

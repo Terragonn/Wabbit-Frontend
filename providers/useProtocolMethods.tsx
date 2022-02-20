@@ -11,7 +11,7 @@ import {isApprovedERC20, approveERC20} from "../utils/ERC20Utils";
 import {ROUND_CONSTANT} from "../utils/parseNumber";
 import {isSafeLeveragePrice, safeCollateralPrice} from "../utils/safeLevels";
 
-interface ProtocolMethods {
+export interface ProtocolMethods {
     wrap: (amount: ethers.BigNumber) => Promise<void>;
     unwrap: (amount: ethers.BigNumber) => Promise<void>;
 

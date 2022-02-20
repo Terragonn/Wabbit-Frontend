@@ -53,7 +53,7 @@ export default function Callback({
                                 if (cb.approve) {
                                     const fn = await cb.approve(token, globalBigNum);
                                     if (fn) {
-                                        await fn();
+                                        await processHandler(async () => await fn());
                                         setUpdateApprove((prev) => prev + 1);
                                     }
                                 }

@@ -10,7 +10,7 @@ export type SupportedChainIds = typeof SUPPORTED_CHAIN_IDS[number];
 
 type Color = "zinc" | "yellow" | "sky" | "emerald";
 
-interface ChainData {
+export interface ChainData {
     name: string;
     rpcUrl: string;
     blockExplorer: string;
