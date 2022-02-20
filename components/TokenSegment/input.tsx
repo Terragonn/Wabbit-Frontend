@@ -44,7 +44,6 @@ export default function Input({
     }, [token, bigNum, protocolData]);
 
     useEffect(() => setGlobalBigNum(bigNum), [bigNum]);
-
     useEffect(() => setNum(globalNum), [globalNum]);
 
     return (

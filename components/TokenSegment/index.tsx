@@ -1,11 +1,9 @@
 import {ethers} from "ethers";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 import {Contracts} from "../../providers/useContracts";
 import {Approved} from "../../providers/useChainData";
 
-import {MAX_INPUT_NUMBER, parseDecimals, parseStringToNumber, ROUND_CONSTANT} from "../../utils/parseNumber";
-import Button from "../Button";
 import Keys from "./keys";
 import Callback from "./callback";
 import Input from "./input";
@@ -14,7 +12,6 @@ export default function TokenSegment({
     title,
     keys,
     token,
-    contracts,
     callback,
     hideInput,
     max,
@@ -22,7 +19,6 @@ export default function TokenSegment({
     title: string;
     keys: [string, string][];
     token: Approved;
-    contracts: Contracts;
     callback: {
         cta: string;
         fn: (token: Approved, num: ethers.BigNumber) => Promise<void>;
