@@ -6,6 +6,8 @@ import {Approved} from "../../providers/useChainData";
 
 import parseNumber, {MAX_INPUT_NUMBER, parseDecimals, parseStringToNumber, ROUND_CONSTANT} from "../../utils/parseNumber";
 import Button from "../Button";
+import Keys from "./keys";
+import Callback from "./callback";
 
 export default function TokenSegment({
     title,
@@ -28,20 +30,14 @@ export default function TokenSegment({
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
-    const [num, setNum] = useState<string>("");
+    // **** Maybe these ones should be global variables, and we will simply report the correct values to them using our input function
+    const [num, setNum] = useState<number>(0);
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
-    const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
-    const [isMax, setIsMax] = useState<boolean>(false);
 
     const [approve, setApprove] = useState<boolean[]>(Array(callback.length).fill(false));
     const [updateApprove, setUpdateApprove] = useState<number>(0);
 
-    const [processing, setProcessing] = useState<boolean>(false);
-    async function processHandler(fn: () => Promise<any>) {
-        setProcessing(true);
-        await fn();
-        setProcessing(false);
-    }
+    // **** We will probably need to break the approve up
 
     useEffect(() => {
         let decimals: ethers.BigNumber;
@@ -116,40 +112,8 @@ export default function TokenSegment({
                 </div>
             ) : null}
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch">
-                <div>
-                    {keys.map(([key, value], index) => (
-                        <div key={index} className="flex items-center justify-between text-neutral-400 font-medium text-lg mb-6">
-                            {key.length === 0 && key.length === 0 ? null : (
-                                <>
-                                    <span>{key}:</span>
-                                    <span className="whitespace-nowrap text-white font-bold">{value}</span>
-                                </>
-                            )}
-                        </div>
-                    ))}
-                </div>
-                {callback.map((cb, index) => (
-                    <Button
-                        loading={processing}
-                        onClick={async () => {
-                            if (token)
-                                if (!approve[index]) {
-                                    await processHandler(async () => await cb.fn(token, bigNum));
-                                    setNum("");
-                                } else {
-                                    if (cb.approve) {
-                                        const fn = await cb.approve(token, bigNum);
-                                        if (fn) {
-                                            await fn();
-                                            setUpdateApprove((prev) => prev + 1);
-                                        }
-                                    }
-                                }
-                        }}
-                    >
-                        {approve[index] ? "Approve" : cb.cta}
-                    </Button>
-                ))}
+                <Keys keys={keys} />
+                <Callback />
             </div>
         </>
     );
