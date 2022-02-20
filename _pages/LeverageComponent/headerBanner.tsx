@@ -5,7 +5,6 @@ import {Approved} from "../../providers/useChainData";
 import {ProtocolData} from "../../providers/useProtocolData";
 
 import Banner from "../../components/Banner";
-import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";
 
@@ -31,7 +30,7 @@ export default function HeaderBanner({token, protocolData}: {token: Approved; pr
             <Banner
                 placeholders={[
                     {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
-                    {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + displayString(token?.symbol)},
+                    {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token.symbol},
                     {title: "Total Collateral Value", body: "$ " + parseNumber(data?.totalCollateralValue)},
                 ]}
             />

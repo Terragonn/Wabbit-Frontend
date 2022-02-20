@@ -8,7 +8,6 @@ import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
 
 import TokenSegment from "../../components/TokenSegment";
-import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
@@ -60,9 +59,9 @@ export default function ProvideLiquidity({
         <TokenSegment
             title="Provide Liquidity"
             keys={[
-                ["Available", parseNumber(data?.available) + " " + displayString(token?.symbol)],
+                ["Available", parseNumber(data?.available) + " " + token.symbol],
                 ["Available value", "$ " + parseNumber(data?.availableValue)],
-                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
+                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + contracts.config.LPPrefixSymbol + token.symbol],
             ]}
             token={token}
             max={maxData?.maxAvailableToken}

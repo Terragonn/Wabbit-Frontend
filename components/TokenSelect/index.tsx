@@ -3,8 +3,6 @@ import {useEffect, useState} from "react";
 import {Approved} from "../../providers/useChainData";
 import {Contracts} from "../../providers/useContracts";
 
-import displayString from "../../utils/displayString";
-
 export default function TokenSelect({
     title,
     setToken,
@@ -37,7 +35,7 @@ export default function TokenSelect({
         <div>
             <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
             <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow flex items-center justify-evenly w-full min-w-max space-x-2">
-                <img src={displayString(selectedToken.icon)} alt={displayString(selectedToken.symbol)} width={35} className="rounded-xl" />
+                <img src={selectedToken.icon} alt={selectedToken.symbol} width={35} className="rounded-xl" />
                 <select
                     className="text-white font-bold bg-transparent border-transparent rounded-xl text-xl w-full"
                     onChange={(e) => setSelectedToken(tokens.filter((token) => token.address === e.target.value)[0])}

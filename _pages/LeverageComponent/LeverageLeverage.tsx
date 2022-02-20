@@ -7,7 +7,6 @@ import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
 
 import TokenSegment from "../../components/TokenSegment";
-import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";
 
@@ -63,7 +62,7 @@ export default function LeverageLeverage({
         <TokenSegment
             title="Leverage"
             keys={[
-                ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + displayString(token.symbol)],
+                ["Borrowed amount", parseNumber(data?.borrowedAmount) + " " + token.symbol],
                 ["Initial borrowed value", "$ " + parseNumber(data?.initialBorrowedValue)],
                 ["Current borrowed value", "$ " + parseNumber(data?.currentBorrowedValue)],
                 ["", ""],

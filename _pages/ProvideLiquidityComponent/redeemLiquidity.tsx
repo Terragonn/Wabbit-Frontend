@@ -8,7 +8,6 @@ import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
 
 import TokenSegment from "../../components/TokenSegment";
-import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
@@ -60,8 +59,8 @@ export default function RedeemLiquidity({
         <TokenSegment
             title="Redeem Liquidity"
             keys={[
-                ["Available", parseNumber(data?.availableLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
-                ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + displayString(token?.symbol)],
+                ["Available", parseNumber(data?.availableLP) + " " + contracts.config.LPPrefixSymbol + token.symbol],
+                ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + token.symbol],
                 ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
             ]}
             token={token}

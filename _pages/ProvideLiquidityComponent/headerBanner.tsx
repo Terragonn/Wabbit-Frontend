@@ -5,7 +5,6 @@ import {Approved} from "../../providers/useChainData";
 import {ProtocolData} from "../../providers/useProtocolData";
 
 import Banner from "../../components/Banner";
-import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";
 
@@ -35,7 +34,7 @@ export default function HeaderBanner({token, protocolData}: {token: Approved; pr
             <Banner
                 placeholders={[
                     {title: "Provide Liquidity APY", body: parseNumberFloat(data?.provideLiquidityAPY) + " %"},
-                    {title: "Total Amount Locked", body: parseNumber(data?.totalAmountLocked) + " " + displayString(token?.symbol)},
+                    {title: "Total Amount Locked", body: parseNumber(data?.totalAmountLocked) + " " + token.symbol},
                     {title: "Total Value Locked", body: "$ " + parseNumber(data?.totalValueLocked)},
                 ]}
             />
