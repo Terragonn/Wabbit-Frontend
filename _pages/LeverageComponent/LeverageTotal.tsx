@@ -1,10 +1,12 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-import TokenSegment from "../../components/TokenSegment";
+
 import {Approved} from "../../providers/useChainData";
 import {ProtocolData} from "../../providers/useProtocolData";
 import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
+
+import TokenSegment from "../../components/TokenSegment";
 import parseError from "../../utils/parseError";
 import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";
 
