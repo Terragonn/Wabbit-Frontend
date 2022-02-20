@@ -1,112 +1,70 @@
-export default function LeverageWithdraw() {
-    const [mainData, setMainData] = useState<{
-        available: ethers.BigNumber | undefined;
-        availableValue: ethers.BigNumber | undefined;
-        minCollateral: ethers.BigNumber | undefined;
+import {ethers} from "ethers";
+import {useEffect, useState} from "react";
 
+import {Approved} from "../../providers/useChainData";
+import {Contracts} from "../../providers/useContracts";
+import {ProtocolData} from "../../providers/useProtocolData";
+import {ProtocolMaxData} from "../../providers/useProtocolMax";
+import {ProtocolMethods} from "../../providers/useProtocolMethods";
+
+import TokenSegment from "../../components/TokenSegment";
+import displayString from "../../utils/displayString";
+import parseError from "../../utils/parseError";
+import {parseNumber} from "../../utils/parseNumber";
+
+export default function LeverageWithdraw({
+    token,
+    protocolData,
+    protocolMethods,
+    protocolMax,
+    contracts,
+}: {
+    token: Approved;
+    protocolData: ProtocolData;
+    protocolMethods: ProtocolMethods;
+    protocolMax: ProtocolMaxData;
+    contracts: Contracts;
+}) {
+    const [data, setData] = useState<{
         collateralAmount: ethers.BigNumber | undefined;
         collateralValue: ethers.BigNumber | undefined;
-
-        borrowedAmount: ethers.BigNumber | undefined;
-        currentBorrowedValue: ethers.BigNumber | undefined;
-        initialBorrowedValue: ethers.BigNumber | undefined;
-        minMarginLevel: number | undefined;
-        maxLeverage: number | undefined;
-
-        totalAccountValue: ethers.BigNumber | undefined;
-        totalAccountCollateralValue: ethers.BigNumber | undefined;
-        totalAccountInterest: ethers.BigNumber | undefined;
-        totalAccountInitialBorrowedValue: ethers.BigNumber | undefined;
-        totalAccountBorrowedValue: ethers.BigNumber | undefined;
-        marginLevel: number | undefined;
-        currentLeverage: number | undefined;
-        liquidatableBorrowPrice: ethers.BigNumber;
     } | null>(null);
     const [maxData, setMaxData] = useState<{
-        maxAvailableToken: [ethers.BigNumber, number] | undefined;
         maxAvailableCollateral: [ethers.BigNumber, number] | undefined;
-        maxAvailableLeverage: [ethers.BigNumber, number] | undefined;
     } | null>(null);
 
     useEffect(() => {
-        if (!protocolData || !token) setBannerData(null);
-        else {
-            (async () => {
-                const borrowAPR = await parseError(async () => await protocolData.borrowAPR(token));
-                const liquidity = await parseError(async () => await protocolData.totalTokenAmountLiquidity(token));
-                const totalCollateralValue = await parseError(async () => await protocolData.totalCollateralPrice());
+        (async () => {
+            const collateralAmount = await parseError(async () => await protocolData.accountCollateralAmount(token));
+            const collateralValue = await parseError(async () => await protocolData.accountCollateralPrice(token));
 
-                setBannerData({borrowAPR, liquidity, totalCollateralValue});
-            })();
-        }
-    }, [protocolData, token]);
-
-    useEffect(() => {
-        if (!protocolData || !token) setMainData(null);
-        else {
-            (async () => {
-                const available = await parseError(async () => await protocolData.availableTokenAmount(token));
-                const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
-                const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
-
-                const collateralAmount = await parseError(async () => await protocolData.accountCollateralAmount(token));
-                const collateralValue = await parseError(async () => await protocolData.accountCollateralPrice(token));
-
-                const borrowedAmount = await parseError(async () => await protocolData.accountBorrowedAmount(token));
-                const currentBorrowedValue = await parseError(async () => await protocolData.accountBorrowedPrice(token));
-                const initialBorrowedValue = await parseError(async () => await protocolData.initialBorrowedPrice(token));
-                const minMarginLevel = await parseError(async () => await protocolData.minMarginLevel());
-                const maxLeverage = await parseError(async () => await protocolData.maxLeverage());
-
-                const totalAccountValue = await parseError(async () => await protocolData.accountTotalPrice());
-                const totalAccountCollateralValue = await parseError(async () => await protocolData.accountCollateralTotalPrice());
-                const totalAccountInterest = await parseError(async () => await protocolData.totalInterest());
-                const totalAccountInitialBorrowedValue = await parseError(async () => await protocolData.totalInitialBorrowedPrice());
-                const totalAccountBorrowedValue = await parseError(async () => await protocolData.accountBorrowedTotalPrice());
-                const marginLevel = await parseError(async () => await protocolData.marginLevel());
-                const currentLeverage = await parseError(async () => await protocolData.currentLeverage());
-                const liquidatableBorrowPrice = await parseError(async () => await protocolData.liquidatablePrice());
-
-                setMainData({
-                    available,
-                    availableValue,
-                    minCollateral,
-                    collateralAmount,
-                    collateralValue,
-                    borrowedAmount,
-                    currentBorrowedValue,
-                    initialBorrowedValue,
-                    minMarginLevel,
-                    maxLeverage,
-                    totalAccountValue,
-                    totalAccountCollateralValue,
-                    totalAccountInterest,
-                    totalAccountInitialBorrowedValue,
-                    totalAccountBorrowedValue,
-                    marginLevel,
-                    currentLeverage,
-                    liquidatableBorrowPrice,
-                });
-            })();
-        }
-    }, [protocolData, token]);
+            setData({
+                collateralAmount,
+                collateralValue,
+            });
+        })();
+    }, [token, protocolData]);
 
     useEffect(() => {
-        if (!protocolMax || !token) setMaxData(null);
-        else {
-            (async () => {
-                const maxAvailableToken = await parseError(async () => await protocolMax.availableToken(token));
-                const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
-                const maxAvailableLeverage = await parseError(async () => protocolMax.availableLeverage(token));
+        (async () => {
+            const maxAvailableCollateral = await parseError(async () => await protocolMax.availableCollateral(token));
 
-                setMaxData({
-                    maxAvailableToken,
-                    maxAvailableCollateral,
-                    maxAvailableLeverage,
-                });
-            })();
-        }
-    }, [protocolMax, token]);
+            setMaxData({
+                maxAvailableCollateral,
+            });
+        })();
+    }, [token, protocolMax]);
 
-    return <></>;
+    return (
+        <TokenSegment
+            title="Withdraw"
+            keys={[
+                ["Available amount", parseNumber(data?.collateralAmount) + " " + displayString(token.symbol)],
+                ["Available value", "$ " + parseNumber(data?.collateralValue)],
+            ]}
+            token={token}
+            max={maxData?.maxAvailableCollateral}
+            callback={protocolMethods ? [{cta: "Withdraw", fn: async (token, num) => await protocolMethods.withdrawCollateral(token, num)}] : []}
+        />
+    );
 }
