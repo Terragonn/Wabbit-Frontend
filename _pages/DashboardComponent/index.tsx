@@ -19,7 +19,7 @@ export default function DashboardComponent() {
                           .map((data, index) => <TableRow key={index} token={data} blockExplorer={blockExplorer} />)
                     : null}
             </div>
-            <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Dashboard</h2>
+            <h2 className="lg:hidden block font-bold text-white text-3xl mt-20 ml-12">Dashboard</h2>
             <div className="lg:hidden my-10">
                 {config
                     ? config.approved
