@@ -1,7 +1,6 @@
 import {ethers} from "ethers";
 import {useState} from "react";
 
-import {Contracts} from "../../providers/useContracts";
 import {Approved} from "../../providers/useChainData";
 
 import Keys from "./keys";

@@ -89,11 +89,9 @@ export interface Config {
     LPPrefixSymbol: string;
     approved: Approved[];
     leveragePoolAddress: string;
-    leveragePoolLogicAddress: string;
     oracleAddress: string;
     converterAddress: string;
     marginLongAddress: string;
-    marginLongLogicAddress: string;
     resolverAddress: string;
     timelockAddress: string;
 }

@@ -1,4 +1,3 @@
-import {useWeb3React} from "@web3-react/core";
 import useContracts from "../../../providers/useContracts";
 
 import useNavState from "../../../providers/useNavState";
