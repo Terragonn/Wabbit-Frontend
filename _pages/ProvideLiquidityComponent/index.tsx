@@ -6,6 +6,8 @@ import useProtocolData from "../../providers/useProtocolData";
 import useProtocolMax from "../../providers/useProtocolMax";
 import useProtocolMethods from "../../providers/useProtocolMethods";
 import HeaderBanner from "./headerBanner";
+import ProvideLiquidity from "./provideLiquidity";
+import RedeemLiquidity from "./redeemLiquidity";
 
 export default function ProvideLiquidityComponent() {
     const contracts = useContracts();
@@ -26,59 +28,13 @@ export default function ProvideLiquidityComponent() {
                     <TokenSelect title="Token" setToken={setToken} allowed={["leveragePool"]} contracts={contracts} />
                 </div>
             ) : null}
-            {token && contracts ? (
+            {token && contracts && protocolData && protocolMethods && protocolMax ? (
                 <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
                     <div className="w-full lg:mr-6">
-                        <TokenSegment
-                            title="Provide Liquidity"
-                            keys={[
-                                ["Available", parseNumber(mainData?.available) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(mainData?.availableValue)],
-                                [
-                                    "Potential LP tokens",
-                                    parseNumber(mainData?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol),
-                                ],
-                            ]}
-                            token={token}
-                            max={maxData?.maxAvailableToken}
-                            callback={
-                                protocolMethods && contracts
-                                    ? [
-                                          {
-                                              cta: "Provide",
-                                              fn: async (token, num) => await protocolMethods.provideLiquidity(token, num),
-                                              approve: async (token, num) => await protocolMethods.approve(token.address, contracts.lPool.address, num),
-                                          },
-                                      ]
-                                    : []
-                            }
-                        />
+                        <ProvideLiquidity token={token} protocolData={protocolData} protocolMethods={protocolMethods} protocolMax={protocolMax} contracts={contracts} />
                     </div>
                     <div className="w-full lg:ml-6">
-                        <TokenSegment
-                            title="Redeem Liquidity"
-                            keys={[
-                                ["Available", parseNumber(mainData?.availableLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
-                                ["Total redeem amount", parseNumber(mainData?.LPRedeemAmount) + " " + displayString(token?.symbol)],
-                                ["Total redeem value", "$ " + parseNumber(mainData?.LPRedeemValue)],
-                            ]}
-                            token={token}
-                            max={maxData?.maxAvailableLPToken}
-                            callback={
-                                protocolMethods && contracts
-                                    ? [
-                                          {
-                                              cta: "Redeem",
-                                              fn: async (token, num) => await protocolMethods.redeem(token, num),
-                                              approve: async (token, num) => {
-                                                  const lpToken = await contracts.lPool.LPFromPT(token.address);
-                                                  return await protocolMethods.approve(lpToken, contracts.lPool.address, num);
-                                              },
-                                          },
-                                      ]
-                                    : []
-                            }
-                        />
+                        <RedeemLiquidity token={token} protocolData={protocolData} protocolMethods={protocolMethods} protocolMax={protocolMax} contracts={contracts} />
                     </div>
                 </div>
             ) : null}
