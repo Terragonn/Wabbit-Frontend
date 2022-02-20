@@ -6,10 +6,12 @@ import Button from "../Button";
 export default function Callback({
     token,
     globalBigNum,
+    setGlobalNum,
     callback,
 }: {
     token: Approved;
     globalBigNum: ethers.BigNumber;
+    setGlobalNum: (num: string) => void;
     callback: {
         cta: string;
         fn: (token: Approved, num: ethers.BigNumber) => Promise<void>;
@@ -37,10 +39,8 @@ export default function Callback({
         })();
     }, [globalBigNum, updateApprove, token]);
 
-    // **** How can I reset the input from here ?
-
     return (
-        <>
+        <div>
             {callback.map((cb, index) => (
                 <Button
                     loading={processing}
@@ -48,7 +48,7 @@ export default function Callback({
                         if (token)
                             if (!approve[index]) {
                                 await processHandler(async () => await cb.fn(token, globalBigNum));
-                                setNum("");
+                                setGlobalNum("");
                             } else {
                                 if (cb.approve) {
                                     const fn = await cb.approve(token, globalBigNum);
@@ -63,6 +63,6 @@ export default function Callback({
                     {approve[index] ? "Approve" : cb.cta}
                 </Button>
             ))}
-        </>
+        </div>
     );
 }

@@ -6,7 +6,17 @@ import parseError from "../../utils/parseError";
 
 import {MAX_INPUT_NUMBER, parseNumber, parseNumberAsBigNumber, parseStringToNumber} from "../../utils/parseNumber";
 
-export default function Input({token, max, setGlobalBigNum}: {token: Approved; max?: [ethers.BigNumber, number]; setGlobalBigNum: (num: ethers.BigNumber) => void}) {
+export default function Input({
+    token,
+    max,
+    setGlobalBigNum,
+    globalNum,
+}: {
+    token: Approved;
+    max?: [ethers.BigNumber, number];
+    setGlobalBigNum: (num: ethers.BigNumber) => void;
+    globalNum: string;
+}) {
     const protocolData = useProtocolData();
 
     const [num, setNum] = useState<string>("");
@@ -34,6 +44,8 @@ export default function Input({token, max, setGlobalBigNum}: {token: Approved; m
     }, [token, bigNum, protocolData]);
 
     useEffect(() => setGlobalBigNum(bigNum), [bigNum]);
+
+    useEffect(() => setNum(globalNum), [globalNum]);
 
     return (
         <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-3">

@@ -31,16 +31,17 @@ export default function TokenSegment({
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
+    const [num, setNum] = useState<string>("");
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
 
     return (
-        <>
+        <div>
             <h3 className="text-neutral-500 font-bold lg:text-center text-left text-2xl mb-4">{title}</h3>
-            {!hideInput ? <Input token={token} max={max} setGlobalBigNum={setBigNum} /> : null}
+            {!hideInput ? <Input token={token} max={max} setGlobalBigNum={setBigNum} globalNum={num} /> : null}
             <div className="mt-16 lg:w-4/5 w-full mx-auto flex flex-col items-stretch">
                 <Keys keys={keys} />
-                <Callback token={token} globalBigNum={bigNum} callback={callback} />
+                <Callback token={token} globalBigNum={bigNum} setGlobalNum={setNum} callback={callback} />
             </div>
-        </>
+        </div>
     );
 }
