@@ -2,7 +2,6 @@ import {ethers} from "ethers";
 import {useEffect, useState} from "react";
 
 import {Approved} from "../../providers/useChainData";
-import {Contracts} from "../../providers/useContracts";
 import {ProtocolData} from "../../providers/useProtocolData";
 import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
@@ -17,13 +16,11 @@ export default function LeverageWithdraw({
     protocolData,
     protocolMethods,
     protocolMax,
-    contracts,
 }: {
     token: Approved;
     protocolData: ProtocolData;
     protocolMethods: ProtocolMethods;
     protocolMax: ProtocolMaxData;
-    contracts: Contracts;
 }) {
     const [data, setData] = useState<{
         collateralAmount: ethers.BigNumber | undefined;
