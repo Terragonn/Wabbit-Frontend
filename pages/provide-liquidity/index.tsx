@@ -128,7 +128,6 @@ const ProvideLiquidity: NextPage = () => {
                                     ],
                                 ]}
                                 token={token}
-                                contracts={contracts}
                                 max={maxData?.maxAvailableToken}
                                 callback={
                                     protocolMethods && contracts
@@ -155,7 +154,6 @@ const ProvideLiquidity: NextPage = () => {
                                     ["Total redeem value", "$ " + parseNumber(mainData?.LPRedeemValue)],
                                 ]}
                                 token={token}
-                                contracts={contracts}
                                 max={maxData?.maxAvailableLPToken}
                                 callback={
                                     protocolMethods && contracts
