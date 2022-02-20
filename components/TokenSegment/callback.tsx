@@ -45,6 +45,7 @@ export default function Callback({
         <div>
             {callback.map((cb, index) => (
                 <Button
+                    key={index}
                     loading={processing}
                     onClick={async () => {
                         if (token)
