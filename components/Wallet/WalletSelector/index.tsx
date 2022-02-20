@@ -4,8 +4,8 @@ import {SupportedChainIds} from "../../../providers/useChainData";
 import {useWalletSelector} from "../../../providers/useWalletSelector";
 
 import Card from "./card";
-import {AutoConnect, AUTO_CONNECT, useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../Wallet";
 import WalletSelectorChainSelector from "../WalletSelectorChainSelector";
+import {AutoConnect, AUTO_CONNECT, useConnectMetamask, useConnectWalletConnect, useConnectWalletLink} from "../../../hooks/useConnectors";
 
 export default function WalletSelector() {
     const [walletSelector, setWalletSelector] = useWalletSelector();
