@@ -52,6 +52,8 @@ interface ProtocolData {
     liquidatablePrice: () => Promise<ethers.BigNumber | undefined>;
 
     availableNativeCoinAmount: () => Promise<ethers.BigNumber | undefined>;
+
+    priceMin: (token: Approved, amount: ethers.BigNumber) => Promise<ethers.BigNumber | undefined>;
 }
 
 const protocolDataCtx = createContext<ProtocolData | null>(undefined as any);
@@ -435,6 +437,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) return parseDecimals(await contracts.signer.getBalance(), contracts.config.nativeCoin.decimals);
     }
 
+    async function priceMin(token: Approved, amount: ethers.BigNumber) {
+        if (contracts && (await contracts.oracle.isSupported(token.address))) {
+            const price = await contracts.oracle.priceMin(token.address, amount);
+
+            return parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
+        }
+    }
+
     useEffect(() => {
         if (!contracts) setProtocolData(null);
         else {
@@ -472,6 +482,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalInitialBorrowedPrice,
                 liquidatablePrice,
                 availableNativeCoinAmount,
+                priceMin,
             });
         }
     }, [contracts, updateData]);

@@ -14,7 +14,7 @@ import TokenSegment from "../../../components/TokenSegment";
 import TokenSelect from "../../../components/TokenSelect";
 import displayString from "../../../utils/displayString";
 import parseError from "../../../utils/parseError";
-import parseNumber, {parseNumberFloat} from "../../../utils/parseNumber";
+import {parseNumberFloat, parseNumber} from "../../../utils/parseNumber";
 
 const LeverageLong: NextPage = () => {
     const contracts = useContracts();

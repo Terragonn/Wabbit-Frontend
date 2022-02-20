@@ -8,7 +8,7 @@ import useProtocolData from "../providers/useProtocolData";
 import Banner from "../components/Banner";
 import TableRow from "../components/TableRow";
 import TableCard from "../components/TableCard";
-import parseNumber from "../utils/parseNumber";
+import {parseNumber} from "../utils/parseNumber";
 import parseError from "../utils/parseError";
 
 const Dashboard: NextPage = () => {

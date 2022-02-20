@@ -1,13 +1,39 @@
 import {ethers} from "ethers";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {Approved} from "../../providers/useChainData";
+import useProtocolData from "../../providers/useProtocolData";
+import parseError from "../../utils/parseError";
 
-import parseNumber, {MAX_INPUT_NUMBER, parseStringToNumber} from "../../utils/parseNumber";
+import {MAX_INPUT_NUMBER, parseNumber, parseNumberAsBigNumber, parseStringToNumber} from "../../utils/parseNumber";
 
-export default function Input({max}: {max?: [ethers.BigNumber, number]}) {
+export default function Input({token, max, setGlobalBigNum}: {token: Approved; max?: [ethers.BigNumber, number]; setGlobalBigNum: (num: ethers.BigNumber) => void}) {
+    const protocolData = useProtocolData();
+
     const [num, setNum] = useState<string>("");
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
     const [isMax, setIsMax] = useState<boolean>(false);
     const [priceNum, setPriceNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+
+    useEffect(() => {
+        let newBigNum: ethers.BigNumber;
+
+        if (max && isMax) {
+            newBigNum = max[0];
+            setIsMax(false);
+        } else newBigNum = parseNumberAsBigNumber(parseStringToNumber(num), token.decimals);
+
+        setBigNum(newBigNum);
+    }, [num, token]);
+
+    useEffect(() => {
+        if (protocolData)
+            (async () => {
+                const priceMin = (await parseError(async () => await protocolData.priceMin(token, bigNum))) || ethers.BigNumber.from(0);
+                setPriceNum(priceMin);
+            })();
+    }, [token, bigNum, protocolData]);
+
+    useEffect(() => setGlobalBigNum(bigNum), [bigNum]);
 
     return (
         <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-3">

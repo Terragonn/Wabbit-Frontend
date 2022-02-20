@@ -16,7 +16,7 @@ export function parseStringToNumber(str: string): number {
     return retNumber;
 }
 
-export default function parseNumber(num?: ethers.BigNumber | string): string {
+export function parseNumber(num?: ethers.BigNumber | string): string {
     if (!num) return "-";
 
     if (!(num instanceof ethers.BigNumber)) num = ethers.BigNumber.from(num);
@@ -68,4 +68,9 @@ export function parseDecimals(num: ethers.BigNumber, decimals: number) {
 export function parseDecimalsAsNumber(num: ethers.BigNumber, decimals: number) {
     const parsed = parseDecimals(num, decimals);
     return parsed.toNumber() / ROUND_CONSTANT;
+}
+
+export function parseNumberAsBigNumber(num: number, decimals: number) {
+    const padded = Math.floor(num * ROUND_CONSTANT);
+    return ethers.BigNumber.from(10).pow(decimals).mul(padded).div(ROUND_CONSTANT);
 }

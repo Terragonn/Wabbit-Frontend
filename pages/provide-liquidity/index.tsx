@@ -11,7 +11,7 @@ import useProtocolMethods from "../../providers/useProtocolMethods";
 import Banner from "../../components/Banner";
 import TokenSegment from "../../components/TokenSegment";
 import TokenSelect from "../../components/TokenSelect";
-import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
+import {parseNumberFloat, parseNumber} from "../../utils/parseNumber";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 

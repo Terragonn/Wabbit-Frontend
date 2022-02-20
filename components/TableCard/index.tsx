@@ -5,7 +5,7 @@ import useProtocolData from "../../providers/useProtocolData";
 import {Approved} from "../../providers/useChainData";
 
 import parseError from "../../utils/parseError";
-import parseNumber, {parseNumberFloat} from "../../utils/parseNumber";
+import {parseNumberFloat, parseNumber} from "../../utils/parseNumber";
 
 export default function TableCard({blockExplorer, token}: {blockExplorer: string; token: Approved}) {
     const protocolData = useProtocolData();

@@ -9,7 +9,7 @@ import useProtocolMax from "../../providers/useProtocolMax";
 import useProtocolMethods from "../../providers/useProtocolMethods";
 
 import TokenSegment from "../../components/TokenSegment";
-import parseNumber from "../../utils/parseNumber";
+import {parseNumber} from "../../utils/parseNumber";
 import parseError from "../../utils/parseError";
 
 const Wrap: NextPage = () => {
