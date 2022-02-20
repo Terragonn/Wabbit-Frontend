@@ -66,20 +66,16 @@ export default function RedeemLiquidity({
             ]}
             token={token}
             max={maxData?.maxAvailableLPToken}
-            callback={
-                protocolMethods && contracts
-                    ? [
-                          {
-                              cta: "Redeem",
-                              fn: async (token, num) => await protocolMethods.redeem(token, num),
-                              approve: async (token, num) => {
-                                  const lpToken = await contracts.lPool.LPFromPT(token.address);
-                                  return await protocolMethods.approve(lpToken, contracts.lPool.address, num);
-                              },
-                          },
-                      ]
-                    : []
-            }
+            callback={[
+                {
+                    cta: "Redeem",
+                    fn: async (token, num) => await protocolMethods.redeem(token, num),
+                    approve: async (token, num) => {
+                        const lpToken = await contracts.lPool.LPFromPT(token.address);
+                        return await protocolMethods.approve(lpToken, contracts.lPool.address, num);
+                    },
+                },
+            ]}
         />
     );
 }

@@ -1,18 +1,16 @@
 import {ethers} from "ethers";
 import {useEffect, useState} from "react";
-
+import TokenSegment from "../../components/TokenSegment";
 import {Approved} from "../../providers/useChainData";
 import {Contracts} from "../../providers/useContracts";
 import {ProtocolData} from "../../providers/useProtocolData";
 import {ProtocolMaxData} from "../../providers/useProtocolMax";
 import {ProtocolMethods} from "../../providers/useProtocolMethods";
-
-import TokenSegment from "../../components/TokenSegment";
 import displayString from "../../utils/displayString";
 import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
-export default function ProvideLiquidity({
+export default function LeverageDeposit({
     token,
     protocolData,
     protocolMethods,
@@ -28,7 +26,7 @@ export default function ProvideLiquidity({
     const [data, setData] = useState<{
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
-        totalPotentialLP: ethers.BigNumber | undefined;
+        minCollateral: ethers.BigNumber | undefined;
     } | null>(null);
 
     const [maxData, setMaxData] = useState<{
@@ -39,13 +37,9 @@ export default function ProvideLiquidity({
         (async () => {
             const available = await parseError(async () => await protocolData.availableTokenAmount(token));
             const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
-            const totalPotentialLP = await parseError(async () => await protocolData.LPTokenAmount(token));
+            const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
 
-            setData({
-                totalPotentialLP,
-                available,
-                availableValue,
-            });
+            setData({available, availableValue, minCollateral});
         })();
     }, [token, protocolData]);
 
@@ -58,19 +52,20 @@ export default function ProvideLiquidity({
 
     return (
         <TokenSegment
-            title="Provide Liquidity"
+            title="Deposit"
             keys={[
-                ["Available", parseNumber(data?.available) + " " + displayString(token?.symbol)],
+                ["Available amount", parseNumber(data?.available) + " " + displayString(token.symbol)],
                 ["Available value", "$ " + parseNumber(data?.availableValue)],
-                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + displayString(contracts?.config.LPPrefixSymbol) + displayString(token?.symbol)],
+                ["", ""],
+                ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateral)],
             ]}
             token={token}
             max={maxData?.maxAvailableToken}
             callback={[
                 {
-                    cta: "Provide",
-                    fn: async (token, num) => await protocolMethods.provideLiquidity(token, num),
-                    approve: async (token, num) => await protocolMethods.approve(token.address, contracts.lPool.address, num),
+                    cta: "Deposit",
+                    fn: async (token, num) => await protocolMethods.depositCollateral(token, num),
+                    approve: async (token, num) => await protocolMethods.approve(token.address, contracts.marginLong.address, num),
                 },
             ]}
         />
