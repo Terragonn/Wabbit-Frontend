@@ -91,7 +91,6 @@ const Wrap: NextPage = () => {
                                 title="Wrap"
                                 keys={[["Available", parseNumber(mainData?.availableNativeCoinAmount) + " " + tokenData.nativeCoin.symbol]]}
                                 token={tokenData.nativeCoin}
-                                contracts={contracts}
                                 max={maxData?.maxAvailableNativeCoinAmount}
                                 callback={protocolMethods ? [{cta: "Wrap", fn: async (token, num) => await protocolMethods.wrap(num)}] : []}
                             />
@@ -101,7 +100,6 @@ const Wrap: NextPage = () => {
                                 title="Unwrap"
                                 keys={[["Available", parseNumber(mainData?.availableWrappedTokenAmount) + " " + tokenData.nativeCoinWrapped.symbol]]}
                                 token={tokenData.nativeCoinWrapped}
-                                contracts={contracts}
                                 max={maxData?.maxAvailableWrappedTokenAmount}
                                 callback={
                                     protocolMethods && contracts
