@@ -152,96 +152,102 @@ const LeverageLong: NextPage = () => {
             </div>
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Leverage Long</h2>
             <div className="p-12 bg-neutral-900 bg-opacity-75 rounded-xl glow flex flex-col items-start pb-10 my-10">
-                <div className="w-full lg:mb-16 mb-20">
-                    <TokenSelect title="Token" setToken={setToken} allowed={["marginLongCollateral", "marginLongBorrow"]} contracts={contracts} />
-                </div>
-                <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
-                    <div className="w-full lg:mr-6">
-                        <TokenSegment
-                            title="Deposit"
-                            keys={[
-                                ["Available amount", parseNumber(mainData?.available) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(mainData?.availableValue)],
-                                ["", ""],
-                                ["Minimum collateral to borrow", "$ " + parseNumber(mainData?.minCollateral)],
-                            ]}
-                            token={token}
-                            contracts={contracts}
-                            max={maxData?.maxAvailableToken}
-                            callback={
-                                protocolMethods && contracts
-                                    ? [
-                                          {
-                                              cta: "Deposit",
-                                              fn: async (token, num) => await protocolMethods.depositCollateral(token, num),
-                                              approve: async (token, num) => await protocolMethods.approve(token.address, contracts.marginLong.address, num),
-                                          },
-                                      ]
-                                    : []
-                            }
-                        />
+                {contracts ? (
+                    <div className="w-full lg:mb-16 mb-20">
+                        <TokenSelect title="Token" setToken={setToken} allowed={["marginLongCollateral", "marginLongBorrow"]} contracts={contracts} />
                     </div>
-                    <div className="w-full lg:ml-6">
-                        <TokenSegment
-                            title="Withdraw"
-                            keys={[
-                                ["Available amount", parseNumber(mainData?.collateralAmount) + " " + displayString(token?.symbol)],
-                                ["Available value", "$ " + parseNumber(mainData?.collateralValue)],
-                            ]}
-                            token={token}
-                            contracts={contracts}
-                            max={maxData?.maxAvailableCollateral}
-                            callback={protocolMethods ? [{cta: "Withdraw", fn: async (token, num) => await protocolMethods.withdrawCollateral(token, num)}] : []}
-                        />
-                    </div>
-                </div>
-                <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-20">
-                    <div className="w-full flex flex-col lg:items-center items-stretch mr-6">
-                        <TokenSegment
-                            title="Leverage"
-                            keys={[
-                                ["Borrowed amount", parseNumber(mainData?.borrowedAmount) + " " + displayString(token?.symbol)],
-                                ["Initial borrowed value", "$ " + parseNumber(mainData?.initialBorrowedValue)],
-                                ["Current borrowed value", "$ " + parseNumber(mainData?.currentBorrowedValue)],
-                                ["", ""],
-                                ["Min margin level", parseNumberFloat(mainData?.minMarginLevel)],
-                                ["Maximum leverage", parseNumberFloat(mainData?.maxLeverage) + "x"],
-                            ]}
-                            token={token}
-                            contracts={contracts}
-                            max={maxData?.maxAvailableLeverage}
-                            callback={
-                                protocolMethods && contracts
-                                    ? [
-                                          {cta: "Leverage", fn: async (token, num) => await protocolMethods.borrowLong(token, num)},
-                                          {cta: "Repay", fn: async (token, num) => await protocolMethods.repayLong(token)},
-                                      ]
-                                    : []
-                            }
-                        />
-                    </div>
-                    <div className="w-full ml-6">
-                        <TokenSegment
-                            title="Total Leverage"
-                            keys={[
-                                ["Total account value", "$ " + parseNumber(mainData?.totalAccountValue)],
-                                ["", ""],
-                                ["Total collateral value", "$ " + parseNumber(mainData?.totalAccountCollateralValue)],
-                                ["Total accumulated interest", "$ " + parseNumber(mainData?.totalAccountInterest)],
-                                ["Total initial borrowed value", "$ " + parseNumber(mainData?.totalAccountInitialBorrowedValue)],
-                                ["Total current borrowed value", "$ " + parseNumber(mainData?.totalAccountBorrowedValue)],
-                                ["", ""],
-                                ["Margin level", parseNumberFloat(mainData?.marginLevel)],
-                                ["Current leverage", parseNumberFloat(mainData?.currentLeverage) + "x"],
-                                ["Liquidatable borrowed price", "$ " + parseNumber(mainData?.liquidatableBorrowPrice)],
-                            ]}
-                            token={token}
-                            contracts={contracts}
-                            hideInput={true}
-                            callback={protocolMethods ? [{cta: "Repay All", fn: async (num, token) => await protocolMethods?.repayLongAll()}] : []}
-                        />
-                    </div>
-                </div>
+                ) : null}
+                {token && contracts ? (
+                    <>
+                        <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
+                            <div className="w-full lg:mr-6">
+                                <TokenSegment
+                                    title="Deposit"
+                                    keys={[
+                                        ["Available amount", parseNumber(mainData?.available) + " " + displayString(token?.symbol)],
+                                        ["Available value", "$ " + parseNumber(mainData?.availableValue)],
+                                        ["", ""],
+                                        ["Minimum collateral to borrow", "$ " + parseNumber(mainData?.minCollateral)],
+                                    ]}
+                                    token={token}
+                                    contracts={contracts}
+                                    max={maxData?.maxAvailableToken}
+                                    callback={
+                                        protocolMethods && contracts
+                                            ? [
+                                                  {
+                                                      cta: "Deposit",
+                                                      fn: async (token, num) => await protocolMethods.depositCollateral(token, num),
+                                                      approve: async (token, num) => await protocolMethods.approve(token.address, contracts.marginLong.address, num),
+                                                  },
+                                              ]
+                                            : []
+                                    }
+                                />
+                            </div>
+                            <div className="w-full lg:ml-6">
+                                <TokenSegment
+                                    title="Withdraw"
+                                    keys={[
+                                        ["Available amount", parseNumber(mainData?.collateralAmount) + " " + displayString(token?.symbol)],
+                                        ["Available value", "$ " + parseNumber(mainData?.collateralValue)],
+                                    ]}
+                                    token={token}
+                                    contracts={contracts}
+                                    max={maxData?.maxAvailableCollateral}
+                                    callback={protocolMethods ? [{cta: "Withdraw", fn: async (token, num) => await protocolMethods.withdrawCollateral(token, num)}] : []}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-20">
+                            <div className="w-full flex flex-col lg:items-center items-stretch mr-6">
+                                <TokenSegment
+                                    title="Leverage"
+                                    keys={[
+                                        ["Borrowed amount", parseNumber(mainData?.borrowedAmount) + " " + displayString(token?.symbol)],
+                                        ["Initial borrowed value", "$ " + parseNumber(mainData?.initialBorrowedValue)],
+                                        ["Current borrowed value", "$ " + parseNumber(mainData?.currentBorrowedValue)],
+                                        ["", ""],
+                                        ["Min margin level", parseNumberFloat(mainData?.minMarginLevel)],
+                                        ["Maximum leverage", parseNumberFloat(mainData?.maxLeverage) + "x"],
+                                    ]}
+                                    token={token}
+                                    contracts={contracts}
+                                    max={maxData?.maxAvailableLeverage}
+                                    callback={
+                                        protocolMethods && contracts
+                                            ? [
+                                                  {cta: "Leverage", fn: async (token, num) => await protocolMethods.borrowLong(token, num)},
+                                                  {cta: "Repay", fn: async (token, num) => await protocolMethods.repayLong(token)},
+                                              ]
+                                            : []
+                                    }
+                                />
+                            </div>
+                            <div className="w-full ml-6">
+                                <TokenSegment
+                                    title="Total Leverage"
+                                    keys={[
+                                        ["Total account value", "$ " + parseNumber(mainData?.totalAccountValue)],
+                                        ["", ""],
+                                        ["Total collateral value", "$ " + parseNumber(mainData?.totalAccountCollateralValue)],
+                                        ["Total accumulated interest", "$ " + parseNumber(mainData?.totalAccountInterest)],
+                                        ["Total initial borrowed value", "$ " + parseNumber(mainData?.totalAccountInitialBorrowedValue)],
+                                        ["Total current borrowed value", "$ " + parseNumber(mainData?.totalAccountBorrowedValue)],
+                                        ["", ""],
+                                        ["Margin level", parseNumberFloat(mainData?.marginLevel)],
+                                        ["Current leverage", parseNumberFloat(mainData?.currentLeverage) + "x"],
+                                        ["Liquidatable borrowed price", "$ " + parseNumber(mainData?.liquidatableBorrowPrice)],
+                                    ]}
+                                    token={token}
+                                    contracts={contracts}
+                                    hideInput={true}
+                                    callback={protocolMethods ? [{cta: "Repay All", fn: async (num, token) => await protocolMethods?.repayLongAll()}] : []}
+                                />
+                            </div>
+                        </div>
+                    </>
+                ) : null}
             </div>
         </>
     );

@@ -84,7 +84,7 @@ const Wrap: NextPage = () => {
                     Make sure to keep enough {mainData ? <span className="font-bold text-neutral-300">({tokenData?.nativeCoin?.symbol})</span> : null} to pay for
                     transaction fees.
                 </p>
-                {tokenData ? (
+                {tokenData && contracts ? (
                     <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-16">
                         <div className="w-full lg:mr-6">
                             <TokenSegment
