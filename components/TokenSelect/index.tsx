@@ -14,7 +14,7 @@ export default function TokenSelect({
     allowed: ("leveragePool" | "marginLongCollateral" | "marginLongBorrow")[];
     contracts: Contracts;
 }) {
-    const tokens = contracts.config.approved.filter(
+    const tokens = contracts.config.tokens.approved.filter(
         (approved) =>
             approved.oracle &&
             ((approved.leveragePool && allowed.includes("leveragePool")) ||

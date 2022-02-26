@@ -59,7 +59,7 @@ export default function RedeemLiquidity({
         <TokenSegment
             title="Redeem Liquidity"
             keys={[
-                ["Available", parseNumber(data?.availableLP) + " " + contracts.config.LPPrefixSymbol + token.symbol],
+                ["Available", parseNumber(data?.availableLP) + " " + contracts.config.setup.LPPrefixSymbol + token.symbol],
                 ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + token.symbol],
                 ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
             ]}

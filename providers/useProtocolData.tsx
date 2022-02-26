@@ -82,9 +82,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalPoolPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
             for (const asset of assets) {
-                const totalLocked = await contracts.lPool.tvl(asset);
+                const totalLocked = await contracts.lPool.totalAmountLocked(asset);
                 const price = await contracts.oracle.priceMax(asset, totalLocked);
                 totalPoolPrice = totalPoolPrice.add(price);
             }
@@ -97,7 +97,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalBorrowedPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalBorrowed = await contracts.lPool.utilized(asset);
                 const price = await contracts.oracle.priceMax(asset, totalBorrowed);
@@ -112,7 +112,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.approved.filter((approved) => approved.oracle && approved.marginLongCollateral).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.marginLongCollateral).map((approved) => approved.address);
             for (const asset of assets) {
                 const totalCollateral = await contracts.marginLong.totalCollateral(asset);
                 const price = await contracts.oracle.priceMax(asset, totalCollateral);
@@ -133,7 +133,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function totalTokenAmountLocked(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
-            const totalLocked = await contracts.lPool.tvl(token.address);
+            const totalLocked = await contracts.lPool.totalAmountLocked(token.address);
 
             return parseDecimals(totalLocked, token.decimals);
         }
@@ -141,7 +141,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
     async function totalTokenPriceLocked(token: Approved) {
         if (contracts && getApproved(contracts.config, token.address)) {
-            const totalLocked = await contracts.lPool.tvl(token.address);
+            const totalLocked = await contracts.lPool.totalAmountLocked(token.address);
             const price = await contracts.oracle.priceMax(token.address, totalLocked);
 
             return parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
@@ -215,7 +215,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
-            const LPAmount = await contracts.lPool.addLiquidityOutLPTokens(token.address, rawBalance);
+            const LPAmount = await contracts.lPool.provideLiquidityOutLPTokens(token.address, rawBalance);
 
             return parseDecimals(LPAmount, token.decimals);
         }
@@ -241,7 +241,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            const redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
+            const redeemAmount = await contracts.lPool.redeemLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
 
             return parseDecimals(redeemAmount, token.decimals);
         }
@@ -255,7 +255,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            const redeemAmount = await contracts.lPool.removeLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
+            const redeemAmount = await contracts.lPool.redeemLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
 
             const value = await contracts.oracle.priceMax(token.address, redeemAmount);
 
@@ -434,7 +434,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function availableNativeCoinAmount() {
-        if (contracts) return parseDecimals(await contracts.signer.getBalance(), contracts.config.nativeCoin.decimals);
+        if (contracts) return parseDecimals(await contracts.signer.getBalance(), contracts.config.tokens.nativeCoin.decimals);
     }
 
     async function priceMin(token: Approved, amount: ethers.BigNumber) {

@@ -37,10 +37,10 @@ export function ContractsProvider({children}: {children: any}) {
             const provider = new ethers.providers.Web3Provider(library.provider);
             const signer = provider.getSigner();
 
-            const lPool = new ethers.Contract(config.leveragePoolAddress, LPoolAbi.abi, signer) as LPool;
-            const oracle = new ethers.Contract(config.oracleAddress, OracleAbi.abi, signer) as Oracle;
-            const marginLong = new ethers.Contract(config.marginLongAddress, MarginLongAbi.abi, signer) as MarginLong;
-            const converter = new ethers.Contract(config.converterAddress, ConverterAbi.abi, signer) as Converter;
+            const lPool = new ethers.Contract(config.contracts.leveragePoolAddress, LPoolAbi.abi, signer) as LPool;
+            const oracle = new ethers.Contract(config.contracts.oracleAddress, OracleAbi.abi, signer) as Oracle;
+            const marginLong = new ethers.Contract(config.contracts.marginLongAddress, MarginLongAbi.abi, signer) as MarginLong;
+            const converter = new ethers.Contract(config.contracts.converterAddress, ConverterAbi.abi, signer) as Converter;
 
             return {signer, config, lPool, oracle, marginLong, converter} as Contracts;
         }

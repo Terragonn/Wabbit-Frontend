@@ -61,7 +61,7 @@ export default function ProvideLiquidity({
             keys={[
                 ["Available", parseNumber(data?.available) + " " + token.symbol],
                 ["Available value", "$ " + parseNumber(data?.availableValue)],
-                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + contracts.config.LPPrefixSymbol + token.symbol],
+                ["Potential LP tokens", parseNumber(data?.totalPotentialLP) + " " + contracts.config.setup.LPPrefixSymbol + token.symbol],
             ]}
             token={token}
             max={maxData?.maxAvailableToken}

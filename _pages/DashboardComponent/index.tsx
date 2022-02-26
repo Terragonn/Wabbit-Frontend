@@ -13,7 +13,7 @@ export default function DashboardComponent() {
             <HeaderBanner />
             <TableHeader />
             <div className="lg:block hidden">
-                {config?.approved
+                {config?.tokens.approved
                     .filter((approved) => approved.oracle && approved.leveragePool)
                     .map((data, index) => (
                         <TableRow key={index} token={data} blockExplorer={blockExplorer} />
@@ -21,7 +21,7 @@ export default function DashboardComponent() {
             </div>
             <h2 className="lg:hidden block font-bold text-white text-3xl mt-20 ml-12">Dashboard</h2>
             <div className="lg:hidden my-10">
-                {config?.approved
+                {config?.tokens.approved
                     .filter((approved) => approved.oracle && approved.leveragePool)
                     .map((data, index) => (
                         <TableCard key={index} token={data} blockExplorer={blockExplorer} />

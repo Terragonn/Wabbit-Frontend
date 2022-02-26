@@ -22,8 +22,8 @@ export default function WrapComponent() {
     useEffect(() => {
         if (!contracts) setTokenData(null);
         else {
-            const nativeCoin = contracts.config.nativeCoin;
-            const wrappedCoin = contracts.config.wrappedCoin;
+            const nativeCoin = contracts.config.tokens.nativeCoin;
+            const wrappedCoin = contracts.config.tokens.wrappedCoin;
 
             setTokenData({nativeCoin, wrappedCoin});
         }
