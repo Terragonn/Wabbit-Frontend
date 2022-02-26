@@ -19,61 +19,13 @@ const _abi = [
         name: "amountIn_",
         type: "uint256",
       },
-    ],
-    name: "maxAmountEthOut",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "tokenIn_",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amountIn_",
-        type: "uint256",
-      },
       {
         internalType: "address",
         name: "tokenOut_",
         type: "address",
       },
     ],
-    name: "maxAmountTokenOut",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "tokenIn_",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amountOut_",
-        type: "uint256",
-      },
-    ],
-    name: "minAmountTokenInEthOut",
+    name: "maxAmountTokenInTokenOut",
     outputs: [
       {
         internalType: "uint256",
@@ -121,7 +73,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "swapMaxEthIn",
+    name: "swapMaxEthInTokenOut",
     outputs: [
       {
         internalType: "uint256",
@@ -145,7 +97,7 @@ const _abi = [
         type: "uint256",
       },
     ],
-    name: "swapMaxEthOut",
+    name: "swapMaxTokenInEthOut",
     outputs: [
       {
         internalType: "uint256",
@@ -174,7 +126,7 @@ const _abi = [
         type: "address",
       },
     ],
-    name: "swapMaxTokenOut",
+    name: "swapMaxTokenInTokenOut",
     outputs: [
       {
         internalType: "uint256",

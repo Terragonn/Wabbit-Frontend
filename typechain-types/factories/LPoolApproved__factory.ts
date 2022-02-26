@@ -13,17 +13,11 @@ const _abi = [
       {
         indexed: false,
         internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "LPToken",
+        name: "account",
         type: "address",
       },
     ],
-    name: "AddLPToken",
+    name: "Paused",
     type: "event",
   },
   {
@@ -102,6 +96,19 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Unpaused",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "DEFAULT_ADMIN_ROLE",
     outputs: [
@@ -147,19 +154,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "POOL_APPROVED",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -186,14 +180,9 @@ const _abi = [
         type: "address[]",
       },
       {
-        internalType: "string[]",
-        name: "name_",
-        type: "string[]",
-      },
-      {
-        internalType: "string[]",
-        name: "symbol_",
-        type: "string[]",
+        internalType: "address[]",
+        name: "lpToken_",
+        type: "address[]",
       },
     ],
     name: "addLPToken",
@@ -383,6 +372,26 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "bytes32",
@@ -479,6 +488,13 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

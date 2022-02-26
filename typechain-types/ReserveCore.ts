@@ -19,21 +19,23 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ReserveCoreInterface extends utils.Interface {
   contractName: "ReserveCore";
   functions: {
-    "initializeReserveCore(address,address,address)": FunctionFragment;
+    "initializeReserveCore(address,address,address,address)": FunctionFragment;
     "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "reserveToken()": FunctionFragment;
     "reserveTokenWrapped()": FunctionFragment;
+    "reserveTreasury()": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setReserveToken(address)": FunctionFragment;
     "setReserveTokenWrapped(address)": FunctionFragment;
+    "setReserveTreasury(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "initializeReserveCore",
-    values: [string, string, string]
+    values: [string, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -49,6 +51,10 @@ export interface ReserveCoreInterface extends utils.Interface {
     functionFragment: "reserveTokenWrapped",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "reserveTreasury",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setReserveToken",
@@ -56,6 +62,10 @@ export interface ReserveCoreInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setReserveTokenWrapped",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setReserveTreasury",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -81,6 +91,10 @@ export interface ReserveCoreInterface extends utils.Interface {
     functionFragment: "reserveTokenWrapped",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "reserveTreasury",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setReserveToken",
@@ -88,6 +102,10 @@ export interface ReserveCoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setReserveTokenWrapped",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setReserveTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -140,6 +158,7 @@ export interface ReserveCore extends BaseContract {
   functions: {
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -157,6 +176,8 @@ export interface ReserveCore extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<[string]>;
 
+    reserveTreasury(overrides?: CallOverrides): Promise<[string]>;
+
     setOracle(
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -172,6 +193,11 @@ export interface ReserveCore extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setReserveTreasury(
+      reserveTreasury_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -180,6 +206,7 @@ export interface ReserveCore extends BaseContract {
 
   initializeReserveCore(
     oracle_: string,
+    reserveTreasury_: string,
     reserveToken_: string,
     reserveTokenWrapped_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -197,6 +224,8 @@ export interface ReserveCore extends BaseContract {
 
   reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
 
+  reserveTreasury(overrides?: CallOverrides): Promise<string>;
+
   setOracle(
     oracle_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -212,6 +241,11 @@ export interface ReserveCore extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setReserveTreasury(
+    reserveTreasury_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   transferOwnership(
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -220,6 +254,7 @@ export interface ReserveCore extends BaseContract {
   callStatic: {
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: CallOverrides
@@ -235,6 +270,8 @@ export interface ReserveCore extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
 
+    reserveTreasury(overrides?: CallOverrides): Promise<string>;
+
     setOracle(oracle_: string, overrides?: CallOverrides): Promise<void>;
 
     setReserveToken(
@@ -244,6 +281,11 @@ export interface ReserveCore extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -267,6 +309,7 @@ export interface ReserveCore extends BaseContract {
   estimateGas: {
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -284,6 +327,8 @@ export interface ReserveCore extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<BigNumber>;
 
+    reserveTreasury(overrides?: CallOverrides): Promise<BigNumber>;
+
     setOracle(
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -299,6 +344,11 @@ export interface ReserveCore extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setReserveTreasury(
+      reserveTreasury_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -308,6 +358,7 @@ export interface ReserveCore extends BaseContract {
   populateTransaction: {
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -327,6 +378,8 @@ export interface ReserveCore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    reserveTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     setOracle(
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -339,6 +392,11 @@ export interface ReserveCore extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

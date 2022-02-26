@@ -21,8 +21,7 @@ export interface ReserveApprovedInterface extends utils.Interface {
   functions: {
     "addStakeToken(address[])": FunctionFragment;
     "approveStakeToken(address[],bool[])": FunctionFragment;
-    "initializeReserveCore(address,address,address)": FunctionFragment;
-    "isApprovedReserveToken(address)": FunctionFragment;
+    "initializeReserveCore(address,address,address,address)": FunctionFragment;
     "isApprovedStakeToken(address)": FunctionFragment;
     "isStakeToken(address)": FunctionFragment;
     "oracle()": FunctionFragment;
@@ -30,10 +29,11 @@ export interface ReserveApprovedInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "reserveToken()": FunctionFragment;
     "reserveTokenWrapped()": FunctionFragment;
-    "setApprovedReserveToken(address[],bool[])": FunctionFragment;
+    "reserveTreasury()": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setReserveToken(address)": FunctionFragment;
     "setReserveTokenWrapped(address)": FunctionFragment;
+    "setReserveTreasury(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
@@ -47,11 +47,7 @@ export interface ReserveApprovedInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initializeReserveCore",
-    values: [string, string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedReserveToken",
-    values: [string]
+    values: [string, string, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedStakeToken",
@@ -76,8 +72,8 @@ export interface ReserveApprovedInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setApprovedReserveToken",
-    values: [string[], boolean[]]
+    functionFragment: "reserveTreasury",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
   encodeFunctionData(
@@ -86,6 +82,10 @@ export interface ReserveApprovedInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setReserveTokenWrapped",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setReserveTreasury",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -103,10 +103,6 @@ export interface ReserveApprovedInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "initializeReserveCore",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedReserveToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -132,7 +128,7 @@ export interface ReserveApprovedInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setApprovedReserveToken",
+    functionFragment: "reserveTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
@@ -142,6 +138,10 @@ export interface ReserveApprovedInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setReserveTokenWrapped",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setReserveTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -211,15 +211,11 @@ export interface ReserveApproved extends BaseContract {
 
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    isApprovedReserveToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
 
     isApprovedStakeToken(
       token_: string,
@@ -240,11 +236,7 @@ export interface ReserveApproved extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<[string]>;
 
-    setApprovedReserveToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    reserveTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     setOracle(
       oracle_: string,
@@ -258,6 +250,11 @@ export interface ReserveApproved extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -280,15 +277,11 @@ export interface ReserveApproved extends BaseContract {
 
   initializeReserveCore(
     oracle_: string,
+    reserveTreasury_: string,
     reserveToken_: string,
     reserveTokenWrapped_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  isApprovedReserveToken(
-    token_: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
 
   isApprovedStakeToken(
     token_: string,
@@ -309,11 +302,7 @@ export interface ReserveApproved extends BaseContract {
 
   reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
 
-  setApprovedReserveToken(
-    token_: string[],
-    approved_: boolean[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  reserveTreasury(overrides?: CallOverrides): Promise<string>;
 
   setOracle(
     oracle_: string,
@@ -327,6 +316,11 @@ export interface ReserveApproved extends BaseContract {
 
   setReserveTokenWrapped(
     reserveTokenWrapped_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setReserveTreasury(
+    reserveTreasury_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -346,15 +340,11 @@ export interface ReserveApproved extends BaseContract {
 
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    isApprovedReserveToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     isApprovedStakeToken(
       token_: string,
@@ -373,11 +363,7 @@ export interface ReserveApproved extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
 
-    setApprovedReserveToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    reserveTreasury(overrides?: CallOverrides): Promise<string>;
 
     setOracle(oracle_: string, overrides?: CallOverrides): Promise<void>;
 
@@ -388,6 +374,11 @@ export interface ReserveApproved extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -425,14 +416,10 @@ export interface ReserveApproved extends BaseContract {
 
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    isApprovedReserveToken(
-      token_: string,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     isApprovedStakeToken(
@@ -454,11 +441,7 @@ export interface ReserveApproved extends BaseContract {
 
     reserveTokenWrapped(overrides?: CallOverrides): Promise<BigNumber>;
 
-    setApprovedReserveToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    reserveTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     setOracle(
       oracle_: string,
@@ -472,6 +455,11 @@ export interface ReserveApproved extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -495,14 +483,10 @@ export interface ReserveApproved extends BaseContract {
 
     initializeReserveCore(
       oracle_: string,
+      reserveTreasury_: string,
       reserveToken_: string,
       reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    isApprovedReserveToken(
-      token_: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     isApprovedStakeToken(
@@ -529,11 +513,7 @@ export interface ReserveApproved extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    setApprovedReserveToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    reserveTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setOracle(
       oracle_: string,
@@ -547,6 +527,11 @@ export interface ReserveApproved extends BaseContract {
 
     setReserveTokenWrapped(
       reserveTokenWrapped_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setReserveTreasury(
+      reserveTreasury_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

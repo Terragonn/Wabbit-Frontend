@@ -23,11 +23,9 @@ export interface LPoolClaimInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "LPFromPT(address)": FunctionFragment;
     "POOL_ADMIN()": FunctionFragment;
-    "POOL_APPROVED()": FunctionFragment;
     "PTFromLP(address)": FunctionFragment;
-    "addLPToken(address[],string[],string[])": FunctionFragment;
+    "addLPToken(address[],address[])": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
-    "claimed(address,address)": FunctionFragment;
     "converter()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
@@ -39,14 +37,16 @@ export interface LPoolClaimInterface extends utils.Interface {
     "isPT(address)": FunctionFragment;
     "liquidity(address)": FunctionFragment;
     "oracle()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setApproved(address[],bool[])": FunctionFragment;
     "setConverter(address)": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "totalClaimed(address)": FunctionFragment;
     "unclaim(address,uint256)": FunctionFragment;
+    "unpause()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -58,22 +58,14 @@ export interface LPoolClaimInterface extends utils.Interface {
     functionFragment: "POOL_ADMIN",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "POOL_APPROVED",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "PTFromLP", values: [string]): string;
   encodeFunctionData(
     functionFragment: "addLPToken",
-    values: [string[], string[], string[]]
+    values: [string[], string[]]
   ): string;
   encodeFunctionData(
     functionFragment: "claim",
     values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimed",
-    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "converter", values?: undefined): string;
   encodeFunctionData(
@@ -104,6 +96,8 @@ export interface LPoolClaimInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "isPT", values: [string]): string;
   encodeFunctionData(functionFragment: "liquidity", values: [string]): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
     values: [BytesLike, string]
@@ -126,13 +120,10 @@ export interface LPoolClaimInterface extends utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "totalClaimed",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "unclaim",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -140,14 +131,9 @@ export interface LPoolClaimInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "LPFromPT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "POOL_ADMIN", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "POOL_APPROVED",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "PTFromLP", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addLPToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "converter", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -171,6 +157,8 @@ export interface LPoolClaimInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "isPT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "liquidity", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -189,42 +177,27 @@ export interface LPoolClaimInterface extends utils.Interface {
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalClaimed",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "unclaim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
 
   events: {
-    "AddLPToken(address,address)": EventFragment;
-    "Claim(address,address,uint256)": EventFragment;
+    "Paused(address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "Unclaim(address,address,uint256)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AddLPToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Claim"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Unclaim"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
-export type AddLPTokenEvent = TypedEvent<
-  [string, string],
-  { token: string; LPToken: string }
->;
+export type PausedEvent = TypedEvent<[string], { account: string }>;
 
-export type AddLPTokenEventFilter = TypedEventFilter<AddLPTokenEvent>;
-
-export type ClaimEvent = TypedEvent<
-  [string, string, BigNumber],
-  { account: string; token: string; amount: BigNumber }
->;
-
-export type ClaimEventFilter = TypedEventFilter<ClaimEvent>;
+export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
 export type RoleAdminChangedEvent = TypedEvent<
   [string, string, string],
@@ -248,12 +221,9 @@ export type RoleRevokedEvent = TypedEvent<
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
-export type UnclaimEvent = TypedEvent<
-  [string, string, BigNumber],
-  { account: string; token: string; amount: BigNumber }
->;
+export type UnpausedEvent = TypedEvent<[string], { account: string }>;
 
-export type UnclaimEventFilter = TypedEventFilter<UnclaimEvent>;
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface LPoolClaim extends BaseContract {
   contractName: "LPoolClaim";
@@ -289,14 +259,11 @@ export interface LPoolClaim extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<[string]>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<[string]>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<[string]>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -305,12 +272,6 @@ export interface LPoolClaim extends BaseContract {
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     converter(overrides?: CallOverrides): Promise<[string]>;
 
@@ -346,6 +307,12 @@ export interface LPoolClaim extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
 
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
+
     renounceRole(
       role: BytesLike,
       account: string,
@@ -379,14 +346,13 @@ export interface LPoolClaim extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    totalClaimed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -397,14 +363,11 @@ export interface LPoolClaim extends BaseContract {
 
   POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-  POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
-
   PTFromLP(token_: string, overrides?: CallOverrides): Promise<string>;
 
   addLPToken(
     token_: string[],
-    name_: string[],
-    symbol_: string[],
+    lpToken_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -413,12 +376,6 @@ export interface LPoolClaim extends BaseContract {
     amount_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  claimed(
-    token_: string,
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   converter(overrides?: CallOverrides): Promise<string>;
 
@@ -454,6 +411,12 @@ export interface LPoolClaim extends BaseContract {
 
   oracle(overrides?: CallOverrides): Promise<string>;
 
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
+
   renounceRole(
     role: BytesLike,
     account: string,
@@ -487,11 +450,13 @@ export interface LPoolClaim extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
   unclaim(
     token_: string,
     amount_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  unpause(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -502,14 +467,11 @@ export interface LPoolClaim extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<string>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -518,12 +480,6 @@ export interface LPoolClaim extends BaseContract {
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     converter(overrides?: CallOverrides): Promise<string>;
 
@@ -559,6 +515,10 @@ export interface LPoolClaim extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<string>;
 
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
+
     renounceRole(
       role: BytesLike,
       account: string,
@@ -586,32 +546,18 @@ export interface LPoolClaim extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     unclaim(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
-    "AddLPToken(address,address)"(
-      token?: null,
-      LPToken?: null
-    ): AddLPTokenEventFilter;
-    AddLPToken(token?: null, LPToken?: null): AddLPTokenEventFilter;
-
-    "Claim(address,address,uint256)"(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): ClaimEventFilter;
-    Claim(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): ClaimEventFilter;
+    "Paused(address)"(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: BytesLike | null,
@@ -646,16 +592,8 @@ export interface LPoolClaim extends BaseContract {
       sender?: string | null
     ): RoleRevokedEventFilter;
 
-    "Unclaim(address,address,uint256)"(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): UnclaimEventFilter;
-    Unclaim(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): UnclaimEventFilter;
+    "Unpaused(address)"(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
   };
 
   estimateGas: {
@@ -665,14 +603,11 @@ export interface LPoolClaim extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<BigNumber>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -680,12 +615,6 @@ export interface LPoolClaim extends BaseContract {
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     converter(overrides?: CallOverrides): Promise<BigNumber>;
@@ -725,6 +654,12 @@ export interface LPoolClaim extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceRole(
       role: BytesLike,
       account: string,
@@ -758,11 +693,13 @@ export interface LPoolClaim extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -779,8 +716,6 @@ export interface LPoolClaim extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     PTFromLP(
       token_: string,
       overrides?: CallOverrides
@@ -788,8 +723,7 @@ export interface LPoolClaim extends BaseContract {
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -797,12 +731,6 @@ export interface LPoolClaim extends BaseContract {
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     converter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -857,6 +785,12 @@ export interface LPoolClaim extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceRole(
       role: BytesLike,
       account: string,
@@ -890,14 +824,13 @@ export interface LPoolClaim extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    totalClaimed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

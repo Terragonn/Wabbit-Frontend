@@ -23,14 +23,10 @@ export interface LPoolInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "LPFromPT(address)": FunctionFragment;
     "POOL_ADMIN()": FunctionFragment;
-    "POOL_APPROVED()": FunctionFragment;
     "PTFromLP(address)": FunctionFragment;
-    "addLPToken(address[],string[],string[])": FunctionFragment;
-    "addLiquidity(address,uint256)": FunctionFragment;
-    "addLiquidityOutLPTokens(address,uint256)": FunctionFragment;
+    "addLPToken(address[],address[])": FunctionFragment;
     "addTaxAccount(address)": FunctionFragment;
     "claim(address,uint256)": FunctionFragment;
-    "claimed(address,address)": FunctionFragment;
     "converter()": FunctionFragment;
     "deposit(address,uint256)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
@@ -51,8 +47,12 @@ export interface LPoolInterface extends utils.Interface {
     "maxInterestMin(address)": FunctionFragment;
     "maxUtilization(address)": FunctionFragment;
     "oracle()": FunctionFragment;
-    "removeLiquidity(address,uint256)": FunctionFragment;
-    "removeLiquidityOutPoolTokens(address,uint256)": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
+    "provideLiquidity(address,uint256)": FunctionFragment;
+    "provideLiquidityOutLPTokens(address,uint256)": FunctionFragment;
+    "redeemLiquidity(address,uint256)": FunctionFragment;
+    "redeemLiquidityOutPoolTokens(address,uint256)": FunctionFragment;
     "removeTaxAccount(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -67,9 +67,9 @@ export interface LPoolInterface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "taxPercentage()": FunctionFragment;
     "timePerInterestApplication()": FunctionFragment;
-    "totalClaimed(address)": FunctionFragment;
-    "tvl(address)": FunctionFragment;
+    "totalAmountLocked(address)": FunctionFragment;
     "unclaim(address,uint256)": FunctionFragment;
+    "unpause()": FunctionFragment;
     "utilizationRate(address)": FunctionFragment;
     "utilized(address)": FunctionFragment;
     "withdraw(address,uint256)": FunctionFragment;
@@ -84,22 +84,10 @@ export interface LPoolInterface extends utils.Interface {
     functionFragment: "POOL_ADMIN",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "POOL_APPROVED",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "PTFromLP", values: [string]): string;
   encodeFunctionData(
     functionFragment: "addLPToken",
-    values: [string[], string[], string[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addLiquidity",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addLiquidityOutLPTokens",
-    values: [string, BigNumberish]
+    values: [string[], string[]]
   ): string;
   encodeFunctionData(
     functionFragment: "addTaxAccount",
@@ -108,10 +96,6 @@ export interface LPoolInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "claim",
     values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimed",
-    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "converter", values?: undefined): string;
   encodeFunctionData(
@@ -178,12 +162,22 @@ export interface LPoolInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "removeLiquidity",
+    functionFragment: "provideLiquidity",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "removeLiquidityOutPoolTokens",
+    functionFragment: "provideLiquidityOutLPTokens",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "redeemLiquidity",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "redeemLiquidityOutPoolTokens",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
@@ -240,14 +234,14 @@ export interface LPoolInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "totalClaimed",
+    functionFragment: "totalAmountLocked",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "tvl", values: [string]): string;
   encodeFunctionData(
     functionFragment: "unclaim",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "utilizationRate",
     values: [string]
@@ -264,26 +258,13 @@ export interface LPoolInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "LPFromPT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "POOL_ADMIN", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "POOL_APPROVED",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "PTFromLP", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addLPToken", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "addLiquidity",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addLiquidityOutLPTokens",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "addTaxAccount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "converter", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
@@ -334,12 +315,22 @@ export interface LPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "removeLiquidity",
+    functionFragment: "provideLiquidity",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "removeLiquidityOutPoolTokens",
+    functionFragment: "provideLiquidityOutLPTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "redeemLiquidity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "redeemLiquidityOutPoolTokens",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -393,11 +384,11 @@ export interface LPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "totalClaimed",
+    functionFragment: "totalAmountLocked",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "tvl", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unclaim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "utilizationRate",
     data: BytesLike
@@ -406,57 +397,46 @@ export interface LPoolInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
-    "AddLPToken(address,address)": EventFragment;
     "AddLiquidity(address,address,uint256,uint256)": EventFragment;
-    "Claim(address,address,uint256)": EventFragment;
     "Deposit(address,address,uint256,address,uint256)": EventFragment;
-    "RemoveLiquidity(address,address,uint256,uint256)": EventFragment;
+    "Paused(address)": EventFragment;
+    "RedeemLiquidity(address,address,uint256,uint256)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "Unclaim(address,address,uint256)": EventFragment;
+    "Unpaused(address)": EventFragment;
     "Withdraw(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AddLPToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AddLiquidity"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Claim"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Deposit"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RemoveLiquidity"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RedeemLiquidity"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Unclaim"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Withdraw"): EventFragment;
 }
 
-export type AddLPTokenEvent = TypedEvent<
-  [string, string],
-  { token: string; LPToken: string }
->;
-
-export type AddLPTokenEventFilter = TypedEventFilter<AddLPTokenEvent>;
-
 export type AddLiquidityEvent = TypedEvent<
   [string, string, BigNumber, BigNumber],
-  { account: string; token: string; amount: BigNumber; value: BigNumber }
+  {
+    account: string;
+    token: string;
+    amount: BigNumber;
+    lpTokenAmount: BigNumber;
+  }
 >;
 
 export type AddLiquidityEventFilter = TypedEventFilter<AddLiquidityEvent>;
-
-export type ClaimEvent = TypedEvent<
-  [string, string, BigNumber],
-  { account: string; token: string; amount: BigNumber }
->;
-
-export type ClaimEventFilter = TypedEventFilter<ClaimEvent>;
 
 export type DepositEvent = TypedEvent<
   [string, string, BigNumber, string, BigNumber],
   {
     account: string;
     tokenIn: string;
-    amountIn: BigNumber;
+    amount: BigNumber;
     convertedToken: string;
     convertedAmount: BigNumber;
   }
@@ -464,12 +444,21 @@ export type DepositEvent = TypedEvent<
 
 export type DepositEventFilter = TypedEventFilter<DepositEvent>;
 
-export type RemoveLiquidityEvent = TypedEvent<
+export type PausedEvent = TypedEvent<[string], { account: string }>;
+
+export type PausedEventFilter = TypedEventFilter<PausedEvent>;
+
+export type RedeemLiquidityEvent = TypedEvent<
   [string, string, BigNumber, BigNumber],
-  { account: string; token: string; amount: BigNumber; value: BigNumber }
+  {
+    account: string;
+    token: string;
+    amount: BigNumber;
+    poolTokenAmount: BigNumber;
+  }
 >;
 
-export type RemoveLiquidityEventFilter = TypedEventFilter<RemoveLiquidityEvent>;
+export type RedeemLiquidityEventFilter = TypedEventFilter<RedeemLiquidityEvent>;
 
 export type RoleAdminChangedEvent = TypedEvent<
   [string, string, string],
@@ -493,12 +482,9 @@ export type RoleRevokedEvent = TypedEvent<
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
-export type UnclaimEvent = TypedEvent<
-  [string, string, BigNumber],
-  { account: string; token: string; amount: BigNumber }
->;
+export type UnpausedEvent = TypedEvent<[string], { account: string }>;
 
-export type UnclaimEventFilter = TypedEventFilter<UnclaimEvent>;
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export type WithdrawEvent = TypedEvent<
   [string, string, BigNumber],
@@ -541,28 +527,13 @@ export interface LPool extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<[string]>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<[string]>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<[string]>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    addLiquidity(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    addLiquidityOutLPTokens(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     addTaxAccount(
       account_: string,
@@ -574,12 +545,6 @@ export interface LPool extends BaseContract {
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     converter(overrides?: CallOverrides): Promise<[string]>;
 
@@ -668,13 +633,31 @@ export interface LPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
 
-    removeLiquidity(
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
+
+    provideLiquidity(
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    removeLiquidityOutPoolTokens(
+    provideLiquidityOutLPTokens(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    redeemLiquidity(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    redeemLiquidityOutPoolTokens(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
@@ -754,16 +737,18 @@ export interface LPool extends BaseContract {
 
     timePerInterestApplication(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    totalClaimed(
+    totalAmountLocked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    tvl(token_: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -787,28 +772,13 @@ export interface LPool extends BaseContract {
 
   POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-  POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
-
   PTFromLP(token_: string, overrides?: CallOverrides): Promise<string>;
 
   addLPToken(
     token_: string[],
-    name_: string[],
-    symbol_: string[],
+    lpToken_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  addLiquidity(
-    token_: string,
-    amount_: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  addLiquidityOutLPTokens(
-    token_: string,
-    amount_: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   addTaxAccount(
     account_: string,
@@ -820,12 +790,6 @@ export interface LPool extends BaseContract {
     amount_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  claimed(
-    token_: string,
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   converter(overrides?: CallOverrides): Promise<string>;
 
@@ -914,13 +878,31 @@ export interface LPool extends BaseContract {
 
   oracle(overrides?: CallOverrides): Promise<string>;
 
-  removeLiquidity(
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
+
+  provideLiquidity(
     token_: string,
     amount_: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  removeLiquidityOutPoolTokens(
+  provideLiquidityOutLPTokens(
+    token_: string,
+    amount_: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  redeemLiquidity(
+    token_: string,
+    amount_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  redeemLiquidityOutPoolTokens(
     token_: string,
     amount_: BigNumberish,
     overrides?: CallOverrides
@@ -1000,13 +982,18 @@ export interface LPool extends BaseContract {
 
   timePerInterestApplication(overrides?: CallOverrides): Promise<BigNumber>;
 
-  totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  tvl(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
+  totalAmountLocked(
+    token_: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   unclaim(
     token_: string,
     amount_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  unpause(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1030,28 +1017,13 @@ export interface LPool extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<string>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: CallOverrides
     ): Promise<void>;
-
-    addLiquidity(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    addLiquidityOutLPTokens(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     addTaxAccount(account_: string, overrides?: CallOverrides): Promise<void>;
 
@@ -1060,12 +1032,6 @@ export interface LPool extends BaseContract {
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     converter(overrides?: CallOverrides): Promise<string>;
 
@@ -1154,13 +1120,29 @@ export interface LPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<string>;
 
-    removeLiquidity(
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
+
+    provideLiquidity(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    removeLiquidityOutPoolTokens(
+    provideLiquidityOutLPTokens(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeemLiquidity(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeemLiquidityOutPoolTokens(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
@@ -1234,15 +1216,18 @@ export interface LPool extends BaseContract {
 
     timePerInterestApplication(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    tvl(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
+    totalAmountLocked(
+      token_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     unclaim(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    unpause(overrides?: CallOverrides): Promise<void>;
 
     utilizationRate(
       token_: string,
@@ -1259,63 +1244,49 @@ export interface LPool extends BaseContract {
   };
 
   filters: {
-    "AddLPToken(address,address)"(
-      token?: null,
-      LPToken?: null
-    ): AddLPTokenEventFilter;
-    AddLPToken(token?: null, LPToken?: null): AddLPTokenEventFilter;
-
     "AddLiquidity(address,address,uint256,uint256)"(
       account?: string | null,
       token?: null,
       amount?: null,
-      value?: null
+      lpTokenAmount?: null
     ): AddLiquidityEventFilter;
     AddLiquidity(
       account?: string | null,
       token?: null,
       amount?: null,
-      value?: null
+      lpTokenAmount?: null
     ): AddLiquidityEventFilter;
-
-    "Claim(address,address,uint256)"(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): ClaimEventFilter;
-    Claim(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): ClaimEventFilter;
 
     "Deposit(address,address,uint256,address,uint256)"(
       account?: string | null,
       tokenIn?: null,
-      amountIn?: null,
+      amount?: null,
       convertedToken?: null,
       convertedAmount?: null
     ): DepositEventFilter;
     Deposit(
       account?: string | null,
       tokenIn?: null,
-      amountIn?: null,
+      amount?: null,
       convertedToken?: null,
       convertedAmount?: null
     ): DepositEventFilter;
 
-    "RemoveLiquidity(address,address,uint256,uint256)"(
+    "Paused(address)"(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
+
+    "RedeemLiquidity(address,address,uint256,uint256)"(
       account?: string | null,
       token?: null,
       amount?: null,
-      value?: null
-    ): RemoveLiquidityEventFilter;
-    RemoveLiquidity(
+      poolTokenAmount?: null
+    ): RedeemLiquidityEventFilter;
+    RedeemLiquidity(
       account?: string | null,
       token?: null,
       amount?: null,
-      value?: null
-    ): RemoveLiquidityEventFilter;
+      poolTokenAmount?: null
+    ): RedeemLiquidityEventFilter;
 
     "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: BytesLike | null,
@@ -1350,16 +1321,8 @@ export interface LPool extends BaseContract {
       sender?: string | null
     ): RoleRevokedEventFilter;
 
-    "Unclaim(address,address,uint256)"(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): UnclaimEventFilter;
-    Unclaim(
-      account?: string | null,
-      token?: null,
-      amount?: null
-    ): UnclaimEventFilter;
+    "Unpaused(address)"(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
 
     "Withdraw(address,address,uint256)"(
       account?: string | null,
@@ -1380,27 +1343,12 @@ export interface LPool extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<BigNumber>;
-
     PTFromLP(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    addLiquidity(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    addLiquidityOutLPTokens(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     addTaxAccount(
@@ -1412,12 +1360,6 @@ export interface LPool extends BaseContract {
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     converter(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1507,13 +1449,31 @@ export interface LPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
-    removeLiquidity(
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    provideLiquidity(
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    removeLiquidityOutPoolTokens(
+    provideLiquidityOutLPTokens(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeemLiquidity(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    redeemLiquidityOutPoolTokens(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
@@ -1593,13 +1553,18 @@ export interface LPool extends BaseContract {
 
     timePerInterestApplication(overrides?: CallOverrides): Promise<BigNumber>;
 
-    totalClaimed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    tvl(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
+    totalAmountLocked(
+      token_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1629,8 +1594,6 @@ export interface LPool extends BaseContract {
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    POOL_APPROVED(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     PTFromLP(
       token_: string,
       overrides?: CallOverrides
@@ -1638,21 +1601,8 @@ export interface LPool extends BaseContract {
 
     addLPToken(
       token_: string[],
-      name_: string[],
-      symbol_: string[],
+      lpToken_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    addLiquidity(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    addLiquidityOutLPTokens(
-      token_: string,
-      amount_: BigNumberish,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     addTaxAccount(
@@ -1664,12 +1614,6 @@ export interface LPool extends BaseContract {
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    claimed(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     converter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1777,13 +1721,31 @@ export interface LPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    removeLiquidity(
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    provideLiquidity(
       token_: string,
       amount_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    removeLiquidityOutPoolTokens(
+    provideLiquidityOutLPTokens(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    redeemLiquidity(
+      token_: string,
+      amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    redeemLiquidityOutPoolTokens(
       token_: string,
       amount_: BigNumberish,
       overrides?: CallOverrides
@@ -1865,12 +1827,7 @@ export interface LPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    totalClaimed(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tvl(
+    totalAmountLocked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1878,6 +1835,10 @@ export interface LPool extends BaseContract {
     unclaim(
       token_: string,
       amount_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -20,8 +20,10 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface MarginLongRepayInterface extends utils.Interface {
   contractName: "MarginLongRepay";
   functions: {
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "MARGIN_ADMIN()": FunctionFragment;
     "accountPrice(address)": FunctionFragment;
-    "addBorrowedToken(address[])": FunctionFragment;
+    "addBorrowToken(address[])": FunctionFragment;
     "addCollateral(address,uint256)": FunctionFragment;
     "addCollateralToken(address[])": FunctionFragment;
     "borrowed(address,address)": FunctionFragment;
@@ -30,16 +32,17 @@ export interface MarginLongRepayInterface extends utils.Interface {
     "collateralPrice(address)": FunctionFragment;
     "currentLeverage(address)": FunctionFragment;
     "getBorrowingAccounts()": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
     "initialBorrowPrice(address,address)": FunctionFragment;
-    "initialBorrowTime(address,address)": FunctionFragment;
     "initializeMarginCore(address,address)": FunctionFragment;
     "initializeMarginLevel(uint256,uint256)": FunctionFragment;
     "initializeMarginLimits(uint256)": FunctionFragment;
     "interest(address)": FunctionFragment;
-    "isApprovedBorrowedToken(address)": FunctionFragment;
+    "isApprovedBorrowToken(address)": FunctionFragment;
     "isApprovedCollateralToken(address)": FunctionFragment;
-    "isBorrowedToken(address)": FunctionFragment;
-    "isBorrowing(address,address)": FunctionFragment;
+    "isBorrowToken(address)": FunctionFragment;
     "isCollateralToken(address)": FunctionFragment;
     "liquidatable(address)": FunctionFragment;
     "liquidationFeePercent()": FunctionFragment;
@@ -48,31 +51,41 @@ export interface MarginLongRepayInterface extends utils.Interface {
     "minCollateralPrice()": FunctionFragment;
     "minMarginLevel()": FunctionFragment;
     "oracle()": FunctionFragment;
-    "owner()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
     "pool()": FunctionFragment;
     "removeCollateral(address,uint256)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
     "repayAccount(address)": FunctionFragment;
     "resetAccount(address)": FunctionFragment;
     "resettable(address)": FunctionFragment;
-    "setApprovedBorrowedToken(address[],bool[])": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "setApprovedBorrowToken(address[],bool[])": FunctionFragment;
     "setApprovedCollateralToken(address[],bool[])": FunctionFragment;
     "setMaxLeverage(uint256,uint256)": FunctionFragment;
     "setMinCollateralPrice(uint256)": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setPool(address)": FunctionFragment;
-    "sufficientCollateralPrice(address)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "totalBorrowed(address)": FunctionFragment;
     "totalCollateral(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    "unpause()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MARGIN_ADMIN",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "accountPrice",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "addBorrowedToken",
+    functionFragment: "addBorrowToken",
     values: [string[]]
   ): string;
   encodeFunctionData(
@@ -108,11 +121,19 @@ export interface MarginLongRepayInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "initialBorrowPrice",
-    values: [string, string]
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "initialBorrowTime",
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialBorrowPrice",
     values: [string, string]
   ): string;
   encodeFunctionData(
@@ -129,7 +150,7 @@ export interface MarginLongRepayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "interest", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "isApprovedBorrowedToken",
+    functionFragment: "isApprovedBorrowToken",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -137,12 +158,8 @@ export interface MarginLongRepayInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isBorrowedToken",
+    functionFragment: "isBorrowToken",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isBorrowing",
-    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "isCollateralToken",
@@ -170,15 +187,16 @@ export interface MarginLongRepayInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(functionFragment: "pool", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "removeCollateral",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "repayAccount",
@@ -190,7 +208,11 @@ export interface MarginLongRepayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "resettable", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "setApprovedBorrowedToken",
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovedBorrowToken",
     values: [string[], boolean[]]
   ): string;
   encodeFunctionData(
@@ -208,8 +230,8 @@ export interface MarginLongRepayInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
   encodeFunctionData(functionFragment: "setPool", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "sufficientCollateralPrice",
-    values: [string]
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "totalBorrowed",
@@ -219,17 +241,22 @@ export interface MarginLongRepayInterface extends utils.Interface {
     functionFragment: "totalCollateral",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
 
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "MARGIN_ADMIN",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "accountPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "addBorrowedToken",
+    functionFragment: "addBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -259,11 +286,13 @@ export interface MarginLongRepayInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "initialBorrowPrice",
+    functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "initialBorrowTime",
+    functionFragment: "initialBorrowPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -280,7 +309,7 @@ export interface MarginLongRepayInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "interest", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "isApprovedBorrowedToken",
+    functionFragment: "isApprovedBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -288,11 +317,7 @@ export interface MarginLongRepayInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isBorrowedToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isBorrowing",
+    functionFragment: "isBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -324,14 +349,15 @@ export interface MarginLongRepayInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pool", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "removeCollateral",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -343,8 +369,9 @@ export interface MarginLongRepayInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "resettable", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setApprovedBorrowedToken",
+    functionFragment: "setApprovedBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -362,7 +389,7 @@ export interface MarginLongRepayInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setPool", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "sufficientCollateralPrice",
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -373,36 +400,32 @@ export interface MarginLongRepayInterface extends utils.Interface {
     functionFragment: "totalCollateral",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
 
   events: {
-    "AddBorrowedToken(address)": EventFragment;
     "AddCollateral(address,address,uint256)": EventFragment;
-    "AddCollateralToken(address)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    "Paused(address)": EventFragment;
     "RemoveCollateral(address,address,uint256)": EventFragment;
     "Repay(address,address)": EventFragment;
     "RepayAll(address)": EventFragment;
     "Reset(address,address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AddBorrowedToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AddCollateral"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AddCollateralToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RemoveCollateral"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Repay"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RepayAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Reset"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
-
-export type AddBorrowedTokenEvent = TypedEvent<[string], { token: string }>;
-
-export type AddBorrowedTokenEventFilter =
-  TypedEventFilter<AddBorrowedTokenEvent>;
 
 export type AddCollateralEvent = TypedEvent<
   [string, string, BigNumber],
@@ -411,18 +434,9 @@ export type AddCollateralEvent = TypedEvent<
 
 export type AddCollateralEventFilter = TypedEventFilter<AddCollateralEvent>;
 
-export type AddCollateralTokenEvent = TypedEvent<[string], { token: string }>;
+export type PausedEvent = TypedEvent<[string], { account: string }>;
 
-export type AddCollateralTokenEventFilter =
-  TypedEventFilter<AddCollateralTokenEvent>;
-
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
->;
-
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
 export type RemoveCollateralEvent = TypedEvent<
   [string, string, BigNumber],
@@ -445,10 +459,36 @@ export type RepayAllEventFilter = TypedEventFilter<RepayAllEvent>;
 
 export type ResetEvent = TypedEvent<
   [string, string],
-  { account: string; resetter: string }
+  { account: string; executor: string }
 >;
 
 export type ResetEventFilter = TypedEventFilter<ResetEvent>;
+
+export type RoleAdminChangedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; previousAdminRole: string; newAdminRole: string }
+>;
+
+export type RoleAdminChangedEventFilter =
+  TypedEventFilter<RoleAdminChangedEvent>;
+
+export type RoleGrantedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
+
+export type RoleRevokedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+
+export type UnpausedEvent = TypedEvent<[string], { account: string }>;
+
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface MarginLongRepay extends BaseContract {
   contractName: "MarginLongRepay";
@@ -478,12 +518,16 @@ export interface MarginLongRepay extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<[string]>;
+
     accountPrice(
       account_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    addBorrowedToken(
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -528,6 +572,20 @@ export interface MarginLongRepay extends BaseContract {
 
     getBorrowingAccounts(overrides?: CallOverrides): Promise<[string[]]>;
 
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -535,12 +593,6 @@ export interface MarginLongRepay extends BaseContract {
     ): Promise<[BigNumber]>;
 
     "initialBorrowPrice(address)"(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    initialBorrowTime(
-      token_: string,
       account_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -573,7 +625,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
@@ -583,19 +635,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    "isBorrowing(address,address)"(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    "isBorrowing(address)"(
-      account_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -626,7 +667,11 @@ export interface MarginLongRepay extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
 
     pool(overrides?: CallOverrides): Promise<[string]>;
 
@@ -636,7 +681,9 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    renounceOwnership(
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -656,7 +703,13 @@ export interface MarginLongRepay extends BaseContract {
 
     resettable(account_: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-    setApprovedBorrowedToken(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -689,8 +742,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    sufficientCollateralPrice(
-      account_: string,
+    supportsInterface(
+      interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -704,15 +757,18 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  MARGIN_ADMIN(overrides?: CallOverrides): Promise<string>;
+
   accountPrice(account_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  addBorrowedToken(
+  addBorrowToken(
     token_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -757,6 +813,20 @@ export interface MarginLongRepay extends BaseContract {
 
   getBorrowingAccounts(overrides?: CallOverrides): Promise<string[]>;
 
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+  grantRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  hasRole(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   "initialBorrowPrice(address,address)"(
     token_: string,
     account_: string,
@@ -764,12 +834,6 @@ export interface MarginLongRepay extends BaseContract {
   ): Promise<BigNumber>;
 
   "initialBorrowPrice(address)"(
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  initialBorrowTime(
-    token_: string,
     account_: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
@@ -802,7 +866,7 @@ export interface MarginLongRepay extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  isApprovedBorrowedToken(
+  isApprovedBorrowToken(
     token_: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
@@ -812,18 +876,7 @@ export interface MarginLongRepay extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isBorrowedToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
-
-  "isBorrowing(address,address)"(
-    token_: string,
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "isBorrowing(address)"(
-    account_: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  isBorrowToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
   isCollateralToken(
     token_: string,
@@ -849,7 +902,11 @@ export interface MarginLongRepay extends BaseContract {
 
   oracle(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
 
   pool(overrides?: CallOverrides): Promise<string>;
 
@@ -859,7 +916,9 @@ export interface MarginLongRepay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  renounceOwnership(
+  renounceRole(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -879,7 +938,13 @@ export interface MarginLongRepay extends BaseContract {
 
   resettable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
-  setApprovedBorrowedToken(
+  revokeRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovedBorrowToken(
     token_: string[],
     approved_: boolean[],
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -912,8 +977,8 @@ export interface MarginLongRepay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  sufficientCollateralPrice(
-    account_: string,
+  supportsInterface(
+    interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -924,21 +989,21 @@ export interface MarginLongRepay extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  transferOwnership(
-    newOwner: string,
+  unpause(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<string>;
+
     accountPrice(
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    addBorrowedToken(
-      token_: string[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addBorrowToken(token_: string[], overrides?: CallOverrides): Promise<void>;
 
     addCollateral(
       token_: string,
@@ -980,6 +1045,20 @@ export interface MarginLongRepay extends BaseContract {
 
     getBorrowingAccounts(overrides?: CallOverrides): Promise<string[]>;
 
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -987,12 +1066,6 @@ export interface MarginLongRepay extends BaseContract {
     ): Promise<BigNumber>;
 
     "initialBorrowPrice(address)"(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    initialBorrowTime(
-      token_: string,
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1025,7 +1098,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
@@ -1035,21 +1108,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isBorrowedToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isBorrowing(address,address)"(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isBorrowing(address)"(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    isBorrowToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
     isCollateralToken(
       token_: string,
@@ -1075,7 +1134,9 @@ export interface MarginLongRepay extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
 
     pool(overrides?: CallOverrides): Promise<string>;
 
@@ -1085,7 +1146,11 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     "repayAccount(address)"(
       token_: string,
@@ -1101,7 +1166,13 @@ export interface MarginLongRepay extends BaseContract {
 
     resettable(account_: string, overrides?: CallOverrides): Promise<boolean>;
 
-    setApprovedBorrowedToken(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: CallOverrides
@@ -1128,8 +1199,8 @@ export interface MarginLongRepay extends BaseContract {
 
     setPool(pool_: string, overrides?: CallOverrides): Promise<void>;
 
-    sufficientCollateralPrice(
-      account_: string,
+    supportsInterface(
+      interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -1143,16 +1214,10 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
-    "AddBorrowedToken(address)"(token?: null): AddBorrowedTokenEventFilter;
-    AddBorrowedToken(token?: null): AddBorrowedTokenEventFilter;
-
     "AddCollateral(address,address,uint256)"(
       account?: string | null,
       token?: null,
@@ -1164,17 +1229,8 @@ export interface MarginLongRepay extends BaseContract {
       amount?: null
     ): AddCollateralEventFilter;
 
-    "AddCollateralToken(address)"(token?: null): AddCollateralTokenEventFilter;
-    AddCollateralToken(token?: null): AddCollateralTokenEventFilter;
-
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
+    "Paused(address)"(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
 
     "RemoveCollateral(address,address,uint256)"(
       account?: string | null,
@@ -1198,18 +1254,58 @@ export interface MarginLongRepay extends BaseContract {
 
     "Reset(address,address)"(
       account?: string | null,
-      resetter?: null
+      executor?: null
     ): ResetEventFilter;
-    Reset(account?: string | null, resetter?: null): ResetEventFilter;
+    Reset(account?: string | null, executor?: null): ResetEventFilter;
+
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
+    RoleAdminChanged(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
+
+    "RoleGranted(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+    RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+
+    "RoleRevoked(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+    RoleRevoked(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+
+    "Unpaused(address)"(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
   };
 
   estimateGas: {
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
+
     accountPrice(
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    addBorrowedToken(
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1254,6 +1350,23 @@ export interface MarginLongRepay extends BaseContract {
 
     getBorrowingAccounts(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -1261,12 +1374,6 @@ export interface MarginLongRepay extends BaseContract {
     ): Promise<BigNumber>;
 
     "initialBorrowPrice(address)"(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    initialBorrowTime(
-      token_: string,
       account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1299,7 +1406,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1309,19 +1416,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isBorrowing(address,address)"(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isBorrowing(address)"(
-      account_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1350,7 +1446,11 @@ export interface MarginLongRepay extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
 
     pool(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1360,7 +1460,9 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    renounceOwnership(
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1380,7 +1482,13 @@ export interface MarginLongRepay extends BaseContract {
 
     resettable(account_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    setApprovedBorrowedToken(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1413,8 +1521,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    sufficientCollateralPrice(
-      account_: string,
+    supportsInterface(
+      interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1428,19 +1536,24 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     accountPrice(
       account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    addBorrowedToken(
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1487,6 +1600,23 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     "initialBorrowPrice(address,address)"(
       token_: string,
       account_: string,
@@ -1494,12 +1624,6 @@ export interface MarginLongRepay extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     "initialBorrowPrice(address)"(
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    initialBorrowTime(
-      token_: string,
       account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1532,7 +1656,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1542,19 +1666,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isBorrowing(address,address)"(
-      token_: string,
-      account_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isBorrowing(address)"(
-      account_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1587,7 +1700,11 @@ export interface MarginLongRepay extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1597,7 +1714,9 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
+    renounceRole(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1620,7 +1739,13 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    setApprovedBorrowedToken(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1653,8 +1778,8 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    sufficientCollateralPrice(
-      account_: string,
+    supportsInterface(
+      interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1668,8 +1793,7 @@ export interface MarginLongRepay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

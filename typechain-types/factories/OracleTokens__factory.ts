@@ -106,25 +106,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "reservePriceFeed",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address[]",
         name: "token_",
         type: "address[]",
@@ -132,11 +113,6 @@ const _abi = [
       {
         internalType: "address[]",
         name: "priceFeed_",
-        type: "address[]",
-      },
-      {
-        internalType: "address[]",
-        name: "reservePriceFeed_",
         type: "address[]",
       },
       {

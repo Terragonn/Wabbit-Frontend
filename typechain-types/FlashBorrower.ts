@@ -20,16 +20,19 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface FlashBorrowerInterface extends utils.Interface {
   contractName: "FlashBorrower";
   functions: {
-    "callFlashLoan(address,uint256)": FunctionFragment;
-    "lender()": FunctionFragment;
+    "callFlashLoan(address,uint256,address)": FunctionFragment;
+    "initialize()": FunctionFragment;
     "onFlashLoan(address,address,uint256,uint256,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "callFlashLoan",
-    values: [string, BigNumberish]
+    values: [string, BigNumberish, string]
   ): string;
-  encodeFunctionData(functionFragment: "lender", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "onFlashLoan",
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
@@ -39,7 +42,7 @@ export interface FlashBorrowerInterface extends utils.Interface {
     functionFragment: "callFlashLoan",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "lender", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "onFlashLoan",
     data: BytesLike
@@ -79,10 +82,13 @@ export interface FlashBorrower extends BaseContract {
     callFlashLoan(
       token_: string,
       amount_: BigNumberish,
+      lender_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    lender(overrides?: CallOverrides): Promise<[string]>;
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     onFlashLoan(
       arg0: string,
@@ -97,10 +103,13 @@ export interface FlashBorrower extends BaseContract {
   callFlashLoan(
     token_: string,
     amount_: BigNumberish,
+    lender_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  lender(overrides?: CallOverrides): Promise<string>;
+  initialize(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   onFlashLoan(
     arg0: string,
@@ -115,10 +124,11 @@ export interface FlashBorrower extends BaseContract {
     callFlashLoan(
       token_: string,
       amount_: BigNumberish,
+      lender_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    lender(overrides?: CallOverrides): Promise<string>;
+    initialize(overrides?: CallOverrides): Promise<void>;
 
     onFlashLoan(
       arg0: string,
@@ -136,10 +146,13 @@ export interface FlashBorrower extends BaseContract {
     callFlashLoan(
       token_: string,
       amount_: BigNumberish,
+      lender_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    lender(overrides?: CallOverrides): Promise<BigNumber>;
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     onFlashLoan(
       arg0: string,
@@ -155,10 +168,13 @@ export interface FlashBorrower extends BaseContract {
     callFlashLoan(
       token_: string,
       amount_: BigNumberish,
+      lender_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    lender(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    initialize(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     onFlashLoan(
       arg0: string,

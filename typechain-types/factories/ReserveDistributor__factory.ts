@@ -43,6 +43,57 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Rebase",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+    ],
+    name: "accumulatedTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+    ],
+    name: "accumulatedWeight",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address[]",
@@ -76,37 +127,13 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "initialTVL_",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "initialTotalSupply_",
-        type: "uint256",
-      },
-    ],
-    name: "calculateMintPercent",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "oracle_",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "reserveTreasury_",
         type: "address",
       },
       {
@@ -126,29 +153,36 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "initializeReserveDistributor",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
       {
-        internalType: "address",
-        name: "token_",
-        type: "address",
+        internalType: "uint256",
+        name: "resetTotalSupply_",
+        type: "uint256",
       },
-    ],
-    name: "isApprovedReserveToken",
-    outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
+        internalType: "uint256",
+        name: "reserveDistributionPercentNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveDistributionPercentDenominator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveTokenBackingDecayPercentNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveTokenBackingDecayPercentDenominator_",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "initializeReserveDistributorCore",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -190,6 +224,25 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "token_",
+        type: "address",
+      },
+    ],
+    name: "limboReserveTokens",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "oracle",
     outputs: [
@@ -224,12 +277,17 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "reserveToken",
+    name: "reserveBackingDecayPercent",
     outputs: [
       {
-        internalType: "address",
+        internalType: "uint256",
         name: "",
-        type: "address",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -237,12 +295,30 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "reserveTokenStaked",
+    name: "reserveDistributionPercent",
     outputs: [
       {
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "reserveToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -262,21 +338,29 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "reserveTreasury",
+    outputs: [
       {
-        internalType: "address[]",
-        name: "token_",
-        type: "address[]",
-      },
-      {
-        internalType: "bool[]",
-        name: "approved_",
-        type: "bool[]",
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
-    name: "setApprovedReserveToken",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "resetTotalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -295,12 +379,48 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "reserveDistributionPercentNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveDistributionPercentDenominator_",
+        type: "uint256",
+      },
+    ],
+    name: "setReserveDistributionPercent",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "reserveToken_",
         type: "address",
       },
     ],
     name: "setReserveToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "reserveTokenBackingDecayPercentNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveTokenBackingDecayPercentDenominator_",
+        type: "uint256",
+      },
+    ],
+    name: "setReserveTokenBackingDecayPercent",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -322,19 +442,26 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "token_",
+        name: "reserveTreasury_",
         type: "address",
       },
     ],
-    name: "totalAmountLocked",
-    outputs: [
+    name: "setReserveTreasury",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "resetTotalSupply_",
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "setResetTotalSupply",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -367,38 +494,6 @@ const _abi = [
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "tvl",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "tvl",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
 ];

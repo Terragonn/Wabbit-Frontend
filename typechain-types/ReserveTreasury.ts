@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -19,54 +20,46 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ReserveTreasuryInterface extends utils.Interface {
   contractName: "ReserveTreasury";
   functions: {
-    "addStakeToken(address[])": FunctionFragment;
-    "approveStakeToken(address[],bool[])": FunctionFragment;
-    "initializeReserveCore(address,address,address)": FunctionFragment;
-    "isApprovedReserveToken(address)": FunctionFragment;
-    "isApprovedStakeToken(address)": FunctionFragment;
-    "isStakeToken(address)": FunctionFragment;
+    "initialize(address,address)": FunctionFragment;
+    "initializeReserveTreasuryCore(address,address)": FunctionFragment;
+    "isApprovedReserveAsset(address)": FunctionFragment;
     "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
+    "redeemReserveToken(uint256,address)": FunctionFragment;
+    "redeemReserveTokenAmount(uint256,address)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "reserveToken()": FunctionFragment;
-    "reserveTokenStaked()": FunctionFragment;
-    "reserveTokenWrapped()": FunctionFragment;
+    "reserveTokenBackingPrice()": FunctionFragment;
     "setApprovedReserveToken(address[],bool[])": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setReserveToken(address)": FunctionFragment;
-    "setReserveTokenWrapped(address)": FunctionFragment;
     "totalAmountLocked(address)": FunctionFragment;
-    "totalStaked(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "tvl()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "addStakeToken",
-    values: [string[]]
+    functionFragment: "initialize",
+    values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "approveStakeToken",
-    values: [string[], boolean[]]
+    functionFragment: "initializeReserveTreasuryCore",
+    values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "initializeReserveCore",
-    values: [string, string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedReserveToken",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedStakeToken",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isStakeToken",
+    functionFragment: "isApprovedReserveAsset",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "redeemReserveToken",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "redeemReserveTokenAmount",
+    values: [BigNumberish, string]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -76,11 +69,7 @@ export interface ReserveTreasuryInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "reserveTokenStaked",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "reserveTokenWrapped",
+    functionFragment: "reserveTokenBackingPrice",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -93,46 +82,34 @@ export interface ReserveTreasuryInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setReserveTokenWrapped",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "totalAmountLocked",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "totalStaked", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "tvl", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "addStakeToken",
+    functionFragment: "initializeReserveTreasuryCore",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "approveStakeToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "initializeReserveCore",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedReserveToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedStakeToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isStakeToken",
+    functionFragment: "isApprovedReserveAsset",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "redeemReserveToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "redeemReserveTokenAmount",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -142,11 +119,7 @@ export interface ReserveTreasuryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "reserveTokenStaked",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "reserveTokenWrapped",
+    functionFragment: "reserveTokenBackingPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -159,15 +132,7 @@ export interface ReserveTreasuryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setReserveTokenWrapped",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "totalAmountLocked",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalStaked",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -177,17 +142,13 @@ export interface ReserveTreasuryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "tvl", data: BytesLike): Result;
 
   events: {
-    "AddStakeToken(address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
+    "RedeemReserveToken(address,uint256,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AddStakeToken"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RedeemReserveToken"): EventFragment;
 }
-
-export type AddStakeTokenEvent = TypedEvent<[string], { token: string }>;
-
-export type AddStakeTokenEventFilter = TypedEventFilter<AddStakeTokenEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -196,6 +157,19 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
+
+export type RedeemReserveTokenEvent = TypedEvent<
+  [string, BigNumber, string, BigNumber],
+  {
+    account: string;
+    amount: BigNumber;
+    reserveAsset: string;
+    reserveAssetAmount: BigNumber;
+  }
+>;
+
+export type RedeemReserveTokenEventFilter =
+  TypedEventFilter<RedeemReserveTokenEvent>;
 
 export interface ReserveTreasury extends BaseContract {
   contractName: "ReserveTreasury";
@@ -225,39 +199,38 @@ export interface ReserveTreasury extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    addStakeToken(
-      token_: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    approveStakeToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    initializeReserveCore(
+    initialize(
       oracle_: string,
       reserveToken_: string,
-      reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    isApprovedReserveToken(
+    initializeReserveTreasuryCore(
+      oracle_: string,
+      reserveToken_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    isApprovedReserveAsset(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    isApprovedStakeToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    isStakeToken(token_: string, overrides?: CallOverrides): Promise<[boolean]>;
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    redeemReserveToken(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    redeemReserveTokenAmount(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -265,9 +238,9 @@ export interface ReserveTreasury extends BaseContract {
 
     reserveToken(overrides?: CallOverrides): Promise<[string]>;
 
-    reserveTokenStaked(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    reserveTokenWrapped(overrides?: CallOverrides): Promise<[string]>;
+    reserveTokenBackingPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     setApprovedReserveToken(
       token_: string[],
@@ -285,17 +258,7 @@ export interface ReserveTreasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setReserveTokenWrapped(
-      reserveTokenWrapped_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     totalAmountLocked(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    totalStaked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -313,39 +276,38 @@ export interface ReserveTreasury extends BaseContract {
     ): Promise<[BigNumber]>;
   };
 
-  addStakeToken(
-    token_: string[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  approveStakeToken(
-    token_: string[],
-    approved_: boolean[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  initializeReserveCore(
+  initialize(
     oracle_: string,
     reserveToken_: string,
-    reserveTokenWrapped_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  isApprovedReserveToken(
+  initializeReserveTreasuryCore(
+    oracle_: string,
+    reserveToken_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  isApprovedReserveAsset(
     token_: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  isApprovedStakeToken(
-    token_: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isStakeToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
   oracle(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
+
+  redeemReserveToken(
+    amount_: BigNumberish,
+    reserveAsset_: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  redeemReserveTokenAmount(
+    amount_: BigNumberish,
+    reserveAsset_: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -353,9 +315,9 @@ export interface ReserveTreasury extends BaseContract {
 
   reserveToken(overrides?: CallOverrides): Promise<string>;
 
-  reserveTokenStaked(overrides?: CallOverrides): Promise<BigNumber>;
-
-  reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
+  reserveTokenBackingPrice(
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber]>;
 
   setApprovedReserveToken(
     token_: string[],
@@ -373,17 +335,10 @@ export interface ReserveTreasury extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setReserveTokenWrapped(
-    reserveTokenWrapped_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   totalAmountLocked(
     token_: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  totalStaked(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   transferOwnership(
     newOwner: string,
@@ -395,44 +350,46 @@ export interface ReserveTreasury extends BaseContract {
   "tvl(address)"(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    addStakeToken(token_: string[], overrides?: CallOverrides): Promise<void>;
-
-    approveStakeToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    initializeReserveCore(
+    initialize(
       oracle_: string,
       reserveToken_: string,
-      reserveTokenWrapped_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    isApprovedReserveToken(
+    initializeReserveTreasuryCore(
+      oracle_: string,
+      reserveToken_: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    isApprovedReserveAsset(
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    isApprovedStakeToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isStakeToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
     oracle(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
+    redeemReserveToken(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    redeemReserveTokenAmount(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     reserveToken(overrides?: CallOverrides): Promise<string>;
 
-    reserveTokenStaked(overrides?: CallOverrides): Promise<BigNumber>;
-
-    reserveTokenWrapped(overrides?: CallOverrides): Promise<string>;
+    reserveTokenBackingPrice(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber]>;
 
     setApprovedReserveToken(
       token_: string[],
@@ -447,17 +404,10 @@ export interface ReserveTreasury extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setReserveTokenWrapped(
-      reserveTokenWrapped_: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     totalAmountLocked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    totalStaked(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -473,9 +423,6 @@ export interface ReserveTreasury extends BaseContract {
   };
 
   filters: {
-    "AddStakeToken(address)"(token?: null): AddStakeTokenEventFilter;
-    AddStakeToken(token?: null): AddStakeTokenEventFilter;
-
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -484,42 +431,54 @@ export interface ReserveTreasury extends BaseContract {
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
+
+    "RedeemReserveToken(address,uint256,address,uint256)"(
+      account?: string | null,
+      amount?: null,
+      reserveAsset?: null,
+      reserveAssetAmount?: null
+    ): RedeemReserveTokenEventFilter;
+    RedeemReserveToken(
+      account?: string | null,
+      amount?: null,
+      reserveAsset?: null,
+      reserveAssetAmount?: null
+    ): RedeemReserveTokenEventFilter;
   };
 
   estimateGas: {
-    addStakeToken(
-      token_: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    approveStakeToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    initializeReserveCore(
+    initialize(
       oracle_: string,
       reserveToken_: string,
-      reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    isApprovedReserveToken(
+    initializeReserveTreasuryCore(
+      oracle_: string,
+      reserveToken_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    isApprovedReserveAsset(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    isApprovedStakeToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isStakeToken(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    redeemReserveToken(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    redeemReserveTokenAmount(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -527,9 +486,7 @@ export interface ReserveTreasury extends BaseContract {
 
     reserveToken(overrides?: CallOverrides): Promise<BigNumber>;
 
-    reserveTokenStaked(overrides?: CallOverrides): Promise<BigNumber>;
-
-    reserveTokenWrapped(overrides?: CallOverrides): Promise<BigNumber>;
+    reserveTokenBackingPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     setApprovedReserveToken(
       token_: string[],
@@ -547,17 +504,10 @@ export interface ReserveTreasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setReserveTokenWrapped(
-      reserveTokenWrapped_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     totalAmountLocked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    totalStaked(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -573,35 +523,19 @@ export interface ReserveTreasury extends BaseContract {
   };
 
   populateTransaction: {
-    addStakeToken(
-      token_: string[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    approveStakeToken(
-      token_: string[],
-      approved_: boolean[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    initializeReserveCore(
+    initialize(
       oracle_: string,
       reserveToken_: string,
-      reserveTokenWrapped_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    isApprovedReserveToken(
-      token_: string,
-      overrides?: CallOverrides
+    initializeReserveTreasuryCore(
+      oracle_: string,
+      reserveToken_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    isApprovedStakeToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isStakeToken(
+    isApprovedReserveAsset(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -610,17 +544,25 @@ export interface ReserveTreasury extends BaseContract {
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    redeemReserveToken(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    redeemReserveTokenAmount(
+      amount_: BigNumberish,
+      reserveAsset_: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     reserveToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    reserveTokenStaked(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    reserveTokenWrapped(
+    reserveTokenBackingPrice(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -640,17 +582,7 @@ export interface ReserveTreasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setReserveTokenWrapped(
-      reserveTokenWrapped_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     totalAmountLocked(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    totalStaked(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

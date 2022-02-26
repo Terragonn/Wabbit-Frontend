@@ -27,6 +27,29 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "taxPercentageNumerator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "taxPercentageDenominator_",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "taxCooldown_",
+        type: "uint256",
+      },
+    ],
+    name: "initializeTimelockTax",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "lastTax",
     outputs: [

@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -20,6 +21,7 @@ export interface TimelockTaxInterface extends utils.Interface {
   contractName: "TimelockTax";
   functions: {
     "claimTax(address)": FunctionFragment;
+    "initializeTimelockTax(uint256,uint256,uint256)": FunctionFragment;
     "lastTax()": FunctionFragment;
     "setTaxAccount(address)": FunctionFragment;
     "taxAccount()": FunctionFragment;
@@ -29,6 +31,10 @@ export interface TimelockTaxInterface extends utils.Interface {
   };
 
   encodeFunctionData(functionFragment: "claimTax", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "initializeTimelockTax",
+    values: [BigNumberish, BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "lastTax", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "setTaxAccount",
@@ -52,6 +58,10 @@ export interface TimelockTaxInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "claimTax", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "initializeTimelockTax",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "lastTax", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setTaxAccount",
@@ -107,6 +117,13 @@ export interface TimelockTax extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    initializeTimelockTax(
+      taxPercentageNumerator_: BigNumberish,
+      taxPercentageDenominator_: BigNumberish,
+      taxCooldown_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     lastTax(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     setTaxAccount(
@@ -131,6 +148,13 @@ export interface TimelockTax extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  initializeTimelockTax(
+    taxPercentageNumerator_: BigNumberish,
+    taxPercentageDenominator_: BigNumberish,
+    taxCooldown_: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
   setTaxAccount(
@@ -151,6 +175,13 @@ export interface TimelockTax extends BaseContract {
 
   callStatic: {
     claimTax(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    initializeTimelockTax(
+      taxPercentageNumerator_: BigNumberish,
+      taxPercentageDenominator_: BigNumberish,
+      taxCooldown_: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -176,6 +207,13 @@ export interface TimelockTax extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    initializeTimelockTax(
+      taxPercentageNumerator_: BigNumberish,
+      taxPercentageDenominator_: BigNumberish,
+      taxCooldown_: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
     setTaxAccount(
@@ -198,6 +236,13 @@ export interface TimelockTax extends BaseContract {
   populateTransaction: {
     claimTax(
       token_: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    initializeTimelockTax(
+      taxPercentageNumerator_: BigNumberish,
+      taxPercentageDenominator_: BigNumberish,
+      taxCooldown_: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

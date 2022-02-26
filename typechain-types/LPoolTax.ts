@@ -22,7 +22,6 @@ export interface LPoolTaxInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "POOL_ADMIN()": FunctionFragment;
-    "POOL_APPROVED()": FunctionFragment;
     "addTaxAccount(address)": FunctionFragment;
     "converter()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
@@ -31,6 +30,8 @@ export interface LPoolTaxInterface extends utils.Interface {
     "initializeLPoolCore(address,address)": FunctionFragment;
     "initializeLPoolTax(uint256,uint256)": FunctionFragment;
     "oracle()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
     "removeTaxAccount(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -39,6 +40,7 @@ export interface LPoolTaxInterface extends utils.Interface {
     "setTaxPercentage(uint256,uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "taxPercentage()": FunctionFragment;
+    "unpause()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -47,10 +49,6 @@ export interface LPoolTaxInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "POOL_ADMIN",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "POOL_APPROVED",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -79,6 +77,8 @@ export interface LPoolTaxInterface extends utils.Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "removeTaxAccount",
     values: [string]
@@ -108,16 +108,13 @@ export interface LPoolTaxInterface extends utils.Interface {
     functionFragment: "taxPercentage",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "POOL_ADMIN", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "POOL_APPROVED",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "addTaxAccount",
     data: BytesLike
@@ -138,6 +135,8 @@ export interface LPoolTaxInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "removeTaxAccount",
     data: BytesLike
@@ -164,17 +163,26 @@ export interface LPoolTaxInterface extends utils.Interface {
     functionFragment: "taxPercentage",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
 
   events: {
+    "Paused(address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
+
+export type PausedEvent = TypedEvent<[string], { account: string }>;
+
+export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
 export type RoleAdminChangedEvent = TypedEvent<
   [string, string, string],
@@ -197,6 +205,10 @@ export type RoleRevokedEvent = TypedEvent<
 >;
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+
+export type UnpausedEvent = TypedEvent<[string], { account: string }>;
+
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface LPoolTax extends BaseContract {
   contractName: "LPoolTax";
@@ -229,8 +241,6 @@ export interface LPoolTax extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<[string]>;
-
-    POOL_APPROVED(overrides?: CallOverrides): Promise<[string]>;
 
     addTaxAccount(
       account_: string,
@@ -266,6 +276,12 @@ export interface LPoolTax extends BaseContract {
     ): Promise<ContractTransaction>;
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
 
     removeTaxAccount(
       account_: string,
@@ -306,13 +322,15 @@ export interface LPoolTax extends BaseContract {
     ): Promise<[boolean]>;
 
     taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-  POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
 
   addTaxAccount(
     account_: string,
@@ -348,6 +366,12 @@ export interface LPoolTax extends BaseContract {
   ): Promise<ContractTransaction>;
 
   oracle(overrides?: CallOverrides): Promise<string>;
+
+  pause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  paused(overrides?: CallOverrides): Promise<boolean>;
 
   removeTaxAccount(
     account_: string,
@@ -389,12 +413,14 @@ export interface LPoolTax extends BaseContract {
 
   taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
+  unpause(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<string>;
-
-    POOL_APPROVED(overrides?: CallOverrides): Promise<string>;
 
     addTaxAccount(account_: string, overrides?: CallOverrides): Promise<void>;
 
@@ -427,6 +453,10 @@ export interface LPoolTax extends BaseContract {
     ): Promise<void>;
 
     oracle(overrides?: CallOverrides): Promise<string>;
+
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
 
     removeTaxAccount(
       account_: string,
@@ -461,9 +491,14 @@ export interface LPoolTax extends BaseContract {
     ): Promise<boolean>;
 
     taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+
+    unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
+    "Paused(address)"(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
+
     "RoleAdminChanged(bytes32,bytes32,bytes32)"(
       role?: BytesLike | null,
       previousAdminRole?: BytesLike | null,
@@ -496,14 +531,15 @@ export interface LPoolTax extends BaseContract {
       account?: string | null,
       sender?: string | null
     ): RoleRevokedEventFilter;
+
+    "Unpaused(address)"(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
   };
 
   estimateGas: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
-
-    POOL_APPROVED(overrides?: CallOverrides): Promise<BigNumber>;
 
     addTaxAccount(
       account_: string,
@@ -542,6 +578,12 @@ export interface LPoolTax extends BaseContract {
     ): Promise<BigNumber>;
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
 
     removeTaxAccount(
       account_: string,
@@ -582,6 +624,10 @@ export interface LPoolTax extends BaseContract {
     ): Promise<BigNumber>;
 
     taxPercentage(overrides?: CallOverrides): Promise<BigNumber>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -590,8 +636,6 @@ export interface LPoolTax extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     POOL_ADMIN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    POOL_APPROVED(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addTaxAccount(
       account_: string,
@@ -630,6 +674,12 @@ export interface LPoolTax extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     removeTaxAccount(
       account_: string,
@@ -670,5 +720,9 @@ export interface LPoolTax extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     taxPercentage(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    unpause(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }

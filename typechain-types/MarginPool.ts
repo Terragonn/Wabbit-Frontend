@@ -19,28 +19,44 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface MarginPoolInterface extends utils.Interface {
   contractName: "MarginPool";
   functions: {
-    "addBorrowedToken(address[])": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "MARGIN_ADMIN()": FunctionFragment;
+    "addBorrowToken(address[])": FunctionFragment;
     "addCollateralToken(address[])": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
     "initializeMarginCore(address,address)": FunctionFragment;
-    "isApprovedBorrowedToken(address)": FunctionFragment;
+    "isApprovedBorrowToken(address)": FunctionFragment;
     "isApprovedCollateralToken(address)": FunctionFragment;
-    "isBorrowedToken(address)": FunctionFragment;
+    "isBorrowToken(address)": FunctionFragment;
     "isCollateralToken(address)": FunctionFragment;
     "oracle()": FunctionFragment;
-    "owner()": FunctionFragment;
+    "pause()": FunctionFragment;
+    "paused()": FunctionFragment;
     "pool()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "setApprovedBorrowedToken(address[],bool[])": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
+    "setApprovedBorrowToken(address[],bool[])": FunctionFragment;
     "setApprovedCollateralToken(address[],bool[])": FunctionFragment;
     "setOracle(address)": FunctionFragment;
     "setPool(address)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "totalBorrowed(address)": FunctionFragment;
     "totalCollateral(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    "unpause()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "addBorrowedToken",
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "MARGIN_ADMIN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addBorrowToken",
     values: [string[]]
   ): string;
   encodeFunctionData(
@@ -48,11 +64,23 @@ export interface MarginPoolInterface extends utils.Interface {
     values: [string[]]
   ): string;
   encodeFunctionData(
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "initializeMarginCore",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isApprovedBorrowedToken",
+    functionFragment: "isApprovedBorrowToken",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -60,7 +88,7 @@ export interface MarginPoolInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isBorrowedToken",
+    functionFragment: "isBorrowToken",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -68,14 +96,19 @@ export interface MarginPoolInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(functionFragment: "pool", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setApprovedBorrowedToken",
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovedBorrowToken",
     values: [string[], boolean[]]
   ): string;
   encodeFunctionData(
@@ -85,6 +118,10 @@ export interface MarginPoolInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
   encodeFunctionData(functionFragment: "setPool", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "totalBorrowed",
     values: [string]
   ): string;
@@ -92,13 +129,18 @@ export interface MarginPoolInterface extends utils.Interface {
     functionFragment: "totalCollateral",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "addBorrowedToken",
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "MARGIN_ADMIN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -106,11 +148,17 @@ export interface MarginPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "initializeMarginCore",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isApprovedBorrowedToken",
+    functionFragment: "isApprovedBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -118,7 +166,7 @@ export interface MarginPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isBorrowedToken",
+    functionFragment: "isBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -126,14 +174,16 @@ export interface MarginPoolInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "pool", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setApprovedBorrowedToken",
+    functionFragment: "setApprovedBorrowToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -143,6 +193,10 @@ export interface MarginPoolInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setPool", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "totalBorrowed",
     data: BytesLike
   ): Result;
@@ -150,39 +204,52 @@ export interface MarginPoolInterface extends utils.Interface {
     functionFragment: "totalCollateral",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
 
   events: {
-    "AddBorrowedToken(address)": EventFragment;
-    "AddCollateralToken(address)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    "Paused(address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
+    "Unpaused(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AddBorrowedToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AddCollateralToken"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
-export type AddBorrowedTokenEvent = TypedEvent<[string], { token: string }>;
+export type PausedEvent = TypedEvent<[string], { account: string }>;
 
-export type AddBorrowedTokenEventFilter =
-  TypedEventFilter<AddBorrowedTokenEvent>;
+export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
-export type AddCollateralTokenEvent = TypedEvent<[string], { token: string }>;
-
-export type AddCollateralTokenEventFilter =
-  TypedEventFilter<AddCollateralTokenEvent>;
-
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
+export type RoleAdminChangedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; previousAdminRole: string; newAdminRole: string }
 >;
 
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+export type RoleAdminChangedEventFilter =
+  TypedEventFilter<RoleAdminChangedEvent>;
+
+export type RoleGrantedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
+
+export type RoleRevokedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+
+export type UnpausedEvent = TypedEvent<[string], { account: string }>;
+
+export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
 export interface MarginPool extends BaseContract {
   contractName: "MarginPool";
@@ -212,7 +279,11 @@ export interface MarginPool extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    addBorrowedToken(
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<[string]>;
+
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -222,13 +293,27 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     initializeMarginCore(
       pool_: string,
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
@@ -238,7 +323,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
@@ -250,15 +335,27 @@ export interface MarginPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
-    pool(overrides?: CallOverrides): Promise<[string]>;
-
-    renounceOwnership(
+    pause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setApprovedBorrowedToken(
+    paused(overrides?: CallOverrides): Promise<[boolean]>;
+
+    pool(overrides?: CallOverrides): Promise<[string]>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -280,6 +377,11 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     totalBorrowed(
       token_: string,
       overrides?: CallOverrides
@@ -290,13 +392,16 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  addBorrowedToken(
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  MARGIN_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+  addBorrowToken(
     token_: string[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -306,13 +411,27 @@ export interface MarginPool extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+  grantRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  hasRole(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   initializeMarginCore(
     pool_: string,
     oracle_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  isApprovedBorrowedToken(
+  isApprovedBorrowToken(
     token_: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
@@ -322,7 +441,7 @@ export interface MarginPool extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  isBorrowedToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
+  isBorrowToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
   isCollateralToken(
     token_: string,
@@ -331,15 +450,27 @@ export interface MarginPool extends BaseContract {
 
   oracle(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
-  pool(overrides?: CallOverrides): Promise<string>;
-
-  renounceOwnership(
+  pause(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setApprovedBorrowedToken(
+  paused(overrides?: CallOverrides): Promise<boolean>;
+
+  pool(overrides?: CallOverrides): Promise<string>;
+
+  renounceRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  revokeRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovedBorrowToken(
     token_: string[],
     approved_: boolean[],
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -361,6 +492,11 @@ export interface MarginPool extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   totalBorrowed(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   totalCollateral(
@@ -368,21 +504,35 @@ export interface MarginPool extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  transferOwnership(
-    newOwner: string,
+  unpause(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    addBorrowedToken(
-      token_: string[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<string>;
+
+    addBorrowToken(token_: string[], overrides?: CallOverrides): Promise<void>;
 
     addCollateralToken(
       token_: string[],
       overrides?: CallOverrides
     ): Promise<void>;
+
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     initializeMarginCore(
       pool_: string,
@@ -390,7 +540,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
@@ -400,10 +550,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isBorrowedToken(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    isBorrowToken(token_: string, overrides?: CallOverrides): Promise<boolean>;
 
     isCollateralToken(
       token_: string,
@@ -412,13 +559,25 @@ export interface MarginPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<string>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    pause(overrides?: CallOverrides): Promise<void>;
+
+    paused(overrides?: CallOverrides): Promise<boolean>;
 
     pool(overrides?: CallOverrides): Promise<string>;
 
-    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    setApprovedBorrowedToken(
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: CallOverrides
@@ -434,6 +593,11 @@ export interface MarginPool extends BaseContract {
 
     setPool(pool_: string, overrides?: CallOverrides): Promise<void>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     totalBorrowed(
       token_: string,
       overrides?: CallOverrides
@@ -444,31 +608,56 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    unpause(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
-    "AddBorrowedToken(address)"(token?: null): AddBorrowedTokenEventFilter;
-    AddBorrowedToken(token?: null): AddBorrowedTokenEventFilter;
+    "Paused(address)"(account?: null): PausedEventFilter;
+    Paused(account?: null): PausedEventFilter;
 
-    "AddCollateralToken(address)"(token?: null): AddCollateralTokenEventFilter;
-    AddCollateralToken(token?: null): AddCollateralTokenEventFilter;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
+    RoleAdminChanged(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
 
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
+    "RoleGranted(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+    RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+
+    "RoleRevoked(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+    RoleRevoked(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+
+    "Unpaused(address)"(account?: null): UnpausedEventFilter;
+    Unpaused(account?: null): UnpausedEventFilter;
   };
 
   estimateGas: {
-    addBorrowedToken(
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -478,13 +667,30 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     initializeMarginCore(
       pool_: string,
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -494,7 +700,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -506,15 +712,27 @@ export interface MarginPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    renounceOwnership(
+    pause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setApprovedBorrowedToken(
+    paused(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pool(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -536,6 +754,11 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     totalBorrowed(
       token_: string,
       overrides?: CallOverrides
@@ -546,14 +769,19 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    addBorrowedToken(
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    MARGIN_ADMIN(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    addBorrowToken(
       token_: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -563,13 +791,30 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     initializeMarginCore(
       pool_: string,
       oracle_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    isApprovedBorrowedToken(
+    isApprovedBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -579,7 +824,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isBorrowedToken(
+    isBorrowToken(
       token_: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -591,15 +836,27 @@ export interface MarginPool extends BaseContract {
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    renounceOwnership(
+    pause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setApprovedBorrowedToken(
+    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovedBorrowToken(
       token_: string[],
       approved_: boolean[],
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -621,6 +878,11 @@ export interface MarginPool extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     totalBorrowed(
       token_: string,
       overrides?: CallOverrides
@@ -631,8 +893,7 @@ export interface MarginPool extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    transferOwnership(
-      newOwner: string,
+    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

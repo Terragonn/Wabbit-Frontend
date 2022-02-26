@@ -35,6 +35,11 @@ const _abi = [
       },
       {
         internalType: "address",
+        name: "reserveTreasury_",
+        type: "address",
+      },
+      {
+        internalType: "address",
         name: "reserveToken_",
         type: "address",
       },
@@ -109,6 +114,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "reserveTreasury",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -143,6 +161,19 @@ const _abi = [
       },
     ],
     name: "setReserveTokenWrapped",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "reserveTreasury_",
+        type: "address",
+      },
+    ],
+    name: "setReserveTreasury",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

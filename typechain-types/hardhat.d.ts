@@ -29,6 +29,26 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnableUpgradeable__factory>;
     getContractFactory(
+      name: "TimelockControllerUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TimelockControllerUpgradeable__factory>;
+    getContractFactory(
+      name: "IVotesUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IVotesUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC3156FlashBorrowerUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC3156FlashBorrowerUpgradeable__factory>;
+    getContractFactory(
+      name: "IERC3156FlashLenderUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC3156FlashLenderUpgradeable__factory>;
+    getContractFactory(
+      name: "PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PausableUpgradeable__factory>;
+    getContractFactory(
       name: "ERC20Upgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Upgradeable__factory>;
@@ -40,6 +60,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC20PermitUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20PermitUpgradeable__factory>;
+    getContractFactory(
+      name: "ERC20PausableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20PausableUpgradeable__factory>;
     getContractFactory(
       name: "ERC20VotesUpgradeable",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -61,21 +85,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165Upgradeable__factory>;
     getContractFactory(
-      name: "AccessControl",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AccessControl__factory>;
-    getContractFactory(
-      name: "IAccessControl",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IAccessControl__factory>;
-    getContractFactory(
       name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
-    getContractFactory(
-      name: "TimelockController",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TimelockController__factory>;
     getContractFactory(
       name: "IERC3156FlashBorrower",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -97,29 +109,41 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "ERC165",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC165__factory>;
-    getContractFactory(
-      name: "IERC165",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC165__factory>;
-    getContractFactory(
       name: "Converter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Converter__factory>;
+    getContractFactory(
+      name: "ConverterConvert",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ConverterConvert__factory>;
+    getContractFactory(
+      name: "ConverterCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ConverterCore__factory>;
     getContractFactory(
       name: "IConverter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IConverter__factory>;
     getContractFactory(
-      name: "FlashBorrower",
+      name: "FlashBorrowerTest",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FlashBorrower__factory>;
+    ): Promise<Contracts.FlashBorrowerTest__factory>;
     getContractFactory(
       name: "FlashLender",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FlashLender__factory>;
+    getContractFactory(
+      name: "FlashLenderApproved",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FlashLenderApproved__factory>;
+    getContractFactory(
+      name: "FlashLenderCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FlashLenderCore__factory>;
+    getContractFactory(
+      name: "FlashLenderLend",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FlashLenderLend__factory>;
     getContractFactory(
       name: "ITaskTreasury",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -129,6 +153,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Resolver__factory>;
     getContractFactory(
+      name: "ResolverCore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ResolverCore__factory>;
+    getContractFactory(
+      name: "ResolverResolve",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ResolverResolve__factory>;
+    getContractFactory(
       name: "UniswapV2Router02",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UniswapV2Router02__factory>;
@@ -136,38 +168,6 @@ declare module "hardhat/types/runtime" {
       name: "WETH",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WETH__factory>;
-    getContractFactory(
-      name: "IOracle",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IOracle__factory>;
-    getContractFactory(
-      name: "Oracle",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Oracle__factory>;
-    getContractFactory(
-      name: "OracleTest",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OracleTest__factory>;
-    getContractFactory(
-      name: "OracleTokens",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OracleTokens__factory>;
-    getContractFactory(
-      name: "OracleReserve",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OracleReserve__factory>;
-    getContractFactory(
-      name: "OracleReserveTokens",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OracleReserveTokens__factory>;
-    getContractFactory(
-      name: "Timelock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Timelock__factory>;
-    getContractFactory(
-      name: "TimelockTax",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.TimelockTax__factory>;
     getContractFactory(
       name: "LPool",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -237,10 +237,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MarginLimits__factory>;
     getContractFactory(
-      name: "MarginPool",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MarginPool__factory>;
-    getContractFactory(
       name: "MarginLong",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MarginLong__factory>;
@@ -269,29 +265,41 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MarginLongRepayCore__factory>;
     getContractFactory(
-      name: "ReserveApproved",
+      name: "MarginPool",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveApproved__factory>;
+    ): Promise<Contracts.MarginPool__factory>;
     getContractFactory(
-      name: "ReserveCore",
+      name: "IOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveCore__factory>;
+    ): Promise<Contracts.IOracle__factory>;
     getContractFactory(
-      name: "ReserveDistributor",
+      name: "Oracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveDistributor__factory>;
+    ): Promise<Contracts.Oracle__factory>;
     getContractFactory(
-      name: "ReserveToken",
+      name: "OracleApproved",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveToken__factory>;
+    ): Promise<Contracts.OracleApproved__factory>;
     getContractFactory(
-      name: "ReserveTokenWrapped",
+      name: "OracleCore",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveTokenWrapped__factory>;
+    ): Promise<Contracts.OracleCore__factory>;
     getContractFactory(
-      name: "ReserveTreasury",
+      name: "OracleLP",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReserveTreasury__factory>;
+    ): Promise<Contracts.OracleLP__factory>;
+    getContractFactory(
+      name: "OraclePrice",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OraclePrice__factory>;
+    getContractFactory(
+      name: "OracleTest",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.OracleTest__factory>;
+    getContractFactory(
+      name: "Timelock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Timelock__factory>;
 
     getContractAt(
       name: "AggregatorV3Interface",
@@ -314,6 +322,31 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.OwnableUpgradeable>;
     getContractAt(
+      name: "TimelockControllerUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TimelockControllerUpgradeable>;
+    getContractAt(
+      name: "IVotesUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IVotesUpgradeable>;
+    getContractAt(
+      name: "IERC3156FlashBorrowerUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC3156FlashBorrowerUpgradeable>;
+    getContractAt(
+      name: "IERC3156FlashLenderUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC3156FlashLenderUpgradeable>;
+    getContractAt(
+      name: "PausableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PausableUpgradeable>;
+    getContractAt(
       name: "ERC20Upgradeable",
       address: string,
       signer?: ethers.Signer
@@ -328,6 +361,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20PermitUpgradeable>;
+    getContractAt(
+      name: "ERC20PausableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20PausableUpgradeable>;
     getContractAt(
       name: "ERC20VotesUpgradeable",
       address: string,
@@ -354,25 +392,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165Upgradeable>;
     getContractAt(
-      name: "AccessControl",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.AccessControl>;
-    getContractAt(
-      name: "IAccessControl",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IAccessControl>;
-    getContractAt(
       name: "Ownable",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Ownable>;
-    getContractAt(
-      name: "TimelockController",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.TimelockController>;
     getContractAt(
       name: "IERC3156FlashBorrower",
       address: string,
@@ -399,35 +422,50 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
-      name: "ERC165",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC165>;
-    getContractAt(
-      name: "IERC165",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC165>;
-    getContractAt(
       name: "Converter",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Converter>;
+    getContractAt(
+      name: "ConverterConvert",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ConverterConvert>;
+    getContractAt(
+      name: "ConverterCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ConverterCore>;
     getContractAt(
       name: "IConverter",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IConverter>;
     getContractAt(
-      name: "FlashBorrower",
+      name: "FlashBorrowerTest",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.FlashBorrower>;
+    ): Promise<Contracts.FlashBorrowerTest>;
     getContractAt(
       name: "FlashLender",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.FlashLender>;
+    getContractAt(
+      name: "FlashLenderApproved",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FlashLenderApproved>;
+    getContractAt(
+      name: "FlashLenderCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FlashLenderCore>;
+    getContractAt(
+      name: "FlashLenderLend",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FlashLenderLend>;
     getContractAt(
       name: "ITaskTreasury",
       address: string,
@@ -439,6 +477,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Resolver>;
     getContractAt(
+      name: "ResolverCore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ResolverCore>;
+    getContractAt(
+      name: "ResolverResolve",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ResolverResolve>;
+    getContractAt(
       name: "UniswapV2Router02",
       address: string,
       signer?: ethers.Signer
@@ -448,46 +496,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.WETH>;
-    getContractAt(
-      name: "IOracle",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IOracle>;
-    getContractAt(
-      name: "Oracle",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Oracle>;
-    getContractAt(
-      name: "OracleTest",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OracleTest>;
-    getContractAt(
-      name: "OracleTokens",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OracleTokens>;
-    getContractAt(
-      name: "OracleReserve",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OracleReserve>;
-    getContractAt(
-      name: "OracleReserveTokens",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OracleReserveTokens>;
-    getContractAt(
-      name: "Timelock",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Timelock>;
-    getContractAt(
-      name: "TimelockTax",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.TimelockTax>;
     getContractAt(
       name: "LPool",
       address: string,
@@ -574,11 +582,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.MarginLimits>;
     getContractAt(
-      name: "MarginPool",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MarginPool>;
-    getContractAt(
       name: "MarginLong",
       address: string,
       signer?: ethers.Signer
@@ -614,35 +617,50 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.MarginLongRepayCore>;
     getContractAt(
-      name: "ReserveApproved",
+      name: "MarginPool",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveApproved>;
+    ): Promise<Contracts.MarginPool>;
     getContractAt(
-      name: "ReserveCore",
+      name: "IOracle",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveCore>;
+    ): Promise<Contracts.IOracle>;
     getContractAt(
-      name: "ReserveDistributor",
+      name: "Oracle",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveDistributor>;
+    ): Promise<Contracts.Oracle>;
     getContractAt(
-      name: "ReserveToken",
+      name: "OracleApproved",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveToken>;
+    ): Promise<Contracts.OracleApproved>;
     getContractAt(
-      name: "ReserveTokenWrapped",
+      name: "OracleCore",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveTokenWrapped>;
+    ): Promise<Contracts.OracleCore>;
     getContractAt(
-      name: "ReserveTreasury",
+      name: "OracleLP",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ReserveTreasury>;
+    ): Promise<Contracts.OracleLP>;
+    getContractAt(
+      name: "OraclePrice",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OraclePrice>;
+    getContractAt(
+      name: "OracleTest",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.OracleTest>;
+    getContractAt(
+      name: "Timelock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Timelock>;
 
     // default types
     getContractFactory(

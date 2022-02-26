@@ -82,6 +82,11 @@ const _abi = [
       },
       {
         internalType: "address",
+        name: "reserveTreasury_",
+        type: "address",
+      },
+      {
+        internalType: "address",
         name: "reserveToken_",
         type: "address",
       },
@@ -94,25 +99,6 @@ const _abi = [
     name: "initializeReserveCore",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token_",
-        type: "address",
-      },
-    ],
-    name: "isApprovedReserveToken",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -213,21 +199,16 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "reserveTreasury",
+    outputs: [
       {
-        internalType: "address[]",
-        name: "token_",
-        type: "address[]",
-      },
-      {
-        internalType: "bool[]",
-        name: "approved_",
-        type: "bool[]",
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
-    name: "setApprovedReserveToken",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -265,6 +246,19 @@ const _abi = [
       },
     ],
     name: "setReserveTokenWrapped",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "reserveTreasury_",
+        type: "address",
+      },
+    ],
+    name: "setReserveTreasury",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

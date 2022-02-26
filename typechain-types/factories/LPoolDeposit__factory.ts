@@ -11,25 +11,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "LPToken",
-        type: "address",
-      },
-    ],
-    name: "AddLPToken",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "account",
@@ -44,7 +25,7 @@ const _abi = [
       {
         indexed: false,
         internalType: "uint256",
-        name: "amountIn",
+        name: "amount",
         type: "uint256",
       },
       {
@@ -61,6 +42,19 @@ const _abi = [
       },
     ],
     name: "Deposit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Paused",
     type: "event",
   },
   {
@@ -142,6 +136,19 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Unpaused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "address",
         name: "account",
@@ -209,19 +216,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "POOL_APPROVED",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -248,14 +242,9 @@ const _abi = [
         type: "address[]",
       },
       {
-        internalType: "string[]",
-        name: "name_",
-        type: "string[]",
-      },
-      {
-        internalType: "string[]",
-        name: "symbol_",
-        type: "string[]",
+        internalType: "address[]",
+        name: "lpToken_",
+        type: "address[]",
       },
     ],
     name: "addLPToken",
@@ -537,6 +526,26 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "paused",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -682,6 +691,13 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

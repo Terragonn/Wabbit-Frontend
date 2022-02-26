@@ -36,7 +36,7 @@ export const chainDataConfig: {[key in SupportedChainIds]: ChainData} = {
         config: testConfig,
         color: "yellow",
         priority: 3,
-        disabled: true,
+        disabled: false,
     },
     1337: {
         name: "Localhost",
@@ -65,11 +65,11 @@ export interface Approved {
     address: string;
     decimals: number;
     priceFeed: string;
-    reservePriceFeed: string;
     oracle: boolean;
     marginLongCollateral: boolean;
     marginLongBorrow: boolean;
     leveragePool: boolean;
+    flashLender: boolean;
     setup: {
         maxInterestMinNumerator: number;
         maxInterestMinDenominator: number;
@@ -81,19 +81,31 @@ export interface Approved {
 }
 
 export interface Config {
-    nativeCoin: Approved;
-    wrappedCoin: Approved;
-    routerAddress: string;
-    taskTreasury: string;
-    LPPrefixName: string;
-    LPPrefixSymbol: string;
-    approved: Approved[];
-    leveragePoolAddress: string;
-    oracleAddress: string;
-    converterAddress: string;
-    marginLongAddress: string;
-    resolverAddress: string;
-    timelockAddress: string;
+    setup: {
+        routerAddress: string;
+        taskTreasury: string;
+        LPPrefixName: string;
+        LPPrefixSymbol: string;
+    };
+    contracts: {
+        leveragePoolAddress: string;
+        oracleAddress: string;
+        converterAddress: string;
+        marginLongAddress: string;
+        resolverAddress: string;
+        timelockAddress: string;
+        flashLender: string;
+        flashBorrowerTest: string;
+    };
+    tokens: {
+        nativeCoin: Approved;
+        wrappedCoin: Approved;
+        lpTokens: {
+            beaconAddress: string;
+            tokens: string[];
+        };
+        approved: Approved[];
+    };
 }
 
 const chainDataCtx = createContext<ChainData>(undefined as any);

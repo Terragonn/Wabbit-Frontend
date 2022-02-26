@@ -26,7 +26,6 @@ export interface TimelockInterface extends utils.Interface {
     "PROPOSER_ROLE()": FunctionFragment;
     "TIMELOCK_ADMIN_ROLE()": FunctionFragment;
     "cancel(bytes32)": FunctionFragment;
-    "claimTax(address)": FunctionFragment;
     "execute(address,uint256,bytes,bytes32,bytes32)": FunctionFragment;
     "executeBatch(address[],uint256[],bytes[],bytes32,bytes32)": FunctionFragment;
     "getMinDelay()": FunctionFragment;
@@ -36,21 +35,16 @@ export interface TimelockInterface extends utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "hashOperation(address,uint256,bytes,bytes32,bytes32)": FunctionFragment;
     "hashOperationBatch(address[],uint256[],bytes[],bytes32,bytes32)": FunctionFragment;
+    "initialize(uint256,address[],address[])": FunctionFragment;
     "isOperation(bytes32)": FunctionFragment;
     "isOperationDone(bytes32)": FunctionFragment;
     "isOperationPending(bytes32)": FunctionFragment;
     "isOperationReady(bytes32)": FunctionFragment;
-    "lastTax()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "schedule(address,uint256,bytes,bytes32,bytes32,uint256)": FunctionFragment;
     "scheduleBatch(address[],uint256[],bytes[],bytes32,bytes32,uint256)": FunctionFragment;
-    "setTaxAccount(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "taxAccount()": FunctionFragment;
-    "taxClaimAvailable(address)": FunctionFragment;
-    "taxCooldown()": FunctionFragment;
-    "taxPercentage()": FunctionFragment;
     "updateDelay(uint256)": FunctionFragment;
   };
 
@@ -71,7 +65,6 @@ export interface TimelockInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "cancel", values: [BytesLike]): string;
-  encodeFunctionData(functionFragment: "claimTax", values: [string]): string;
   encodeFunctionData(
     functionFragment: "execute",
     values: [string, BigNumberish, BytesLike, BytesLike, BytesLike]
@@ -109,6 +102,10 @@ export interface TimelockInterface extends utils.Interface {
     values: [string[], BigNumberish[], BytesLike[], BytesLike, BytesLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "initialize",
+    values: [BigNumberish, string[], string[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isOperation",
     values: [BytesLike]
   ): string;
@@ -124,7 +121,6 @@ export interface TimelockInterface extends utils.Interface {
     functionFragment: "isOperationReady",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "lastTax", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
     values: [BytesLike, string]
@@ -156,28 +152,8 @@ export interface TimelockInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTaxAccount",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "taxAccount",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "taxClaimAvailable",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "taxCooldown",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "taxPercentage",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "updateDelay",
@@ -201,7 +177,6 @@ export interface TimelockInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "cancel", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimTax", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "executeBatch",
@@ -229,6 +204,7 @@ export interface TimelockInterface extends utils.Interface {
     functionFragment: "hashOperationBatch",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isOperation",
     data: BytesLike
@@ -245,7 +221,6 @@ export interface TimelockInterface extends utils.Interface {
     functionFragment: "isOperationReady",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "lastTax", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -257,24 +232,7 @@ export interface TimelockInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTaxAccount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "taxAccount", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "taxClaimAvailable",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "taxCooldown",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "taxPercentage",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -403,11 +361,6 @@ export interface Timelock extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    claimTax(
-      token_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     execute(
       target: string,
       value: BigNumberish,
@@ -467,6 +420,13 @@ export interface Timelock extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { hash: string }>;
 
+    initialize(
+      minDelay_: BigNumberish,
+      proposers_: string[],
+      executors_: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     isOperation(
       id: BytesLike,
       overrides?: CallOverrides
@@ -486,8 +446,6 @@ export interface Timelock extends BaseContract {
       id: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean] & { ready: boolean }>;
-
-    lastTax(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renounceRole(
       role: BytesLike,
@@ -521,26 +479,10 @@ export interface Timelock extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTaxAccount(
-      account_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    taxAccount(overrides?: CallOverrides): Promise<[string]>;
-
-    taxClaimAvailable(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    taxCooldown(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     updateDelay(
       newDelay: BigNumberish,
@@ -558,11 +500,6 @@ export interface Timelock extends BaseContract {
 
   cancel(
     id: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  claimTax(
-    token_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -620,6 +557,13 @@ export interface Timelock extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  initialize(
+    minDelay_: BigNumberish,
+    proposers_: string[],
+    executors_: string[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   isOperation(id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
   isOperationDone(id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
@@ -630,8 +574,6 @@ export interface Timelock extends BaseContract {
   ): Promise<boolean>;
 
   isOperationReady(id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
-
-  lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
   renounceRole(
     role: BytesLike,
@@ -665,26 +607,10 @@ export interface Timelock extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTaxAccount(
-    account_: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  taxAccount(overrides?: CallOverrides): Promise<string>;
-
-  taxClaimAvailable(
-    token_: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  taxCooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-  taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   updateDelay(
     newDelay: BigNumberish,
@@ -701,8 +627,6 @@ export interface Timelock extends BaseContract {
     TIMELOCK_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     cancel(id: BytesLike, overrides?: CallOverrides): Promise<void>;
-
-    claimTax(token_: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     execute(
       target: string,
@@ -758,6 +682,13 @@ export interface Timelock extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    initialize(
+      minDelay_: BigNumberish,
+      proposers_: string[],
+      executors_: string[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     isOperation(id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
     isOperationDone(id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
@@ -771,8 +702,6 @@ export interface Timelock extends BaseContract {
       id: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
       role: BytesLike,
@@ -806,23 +735,10 @@ export interface Timelock extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTaxAccount(account_: string, overrides?: CallOverrides): Promise<void>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    taxAccount(overrides?: CallOverrides): Promise<string>;
-
-    taxClaimAvailable(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    taxCooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-    taxPercentage(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     updateDelay(
       newDelay: BigNumberish,
@@ -925,11 +841,6 @@ export interface Timelock extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    claimTax(
-      token_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     execute(
       target: string,
       value: BigNumberish,
@@ -987,6 +898,13 @@ export interface Timelock extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    initialize(
+      minDelay_: BigNumberish,
+      proposers_: string[],
+      executors_: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     isOperation(id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
 
     isOperationDone(
@@ -1003,8 +921,6 @@ export interface Timelock extends BaseContract {
       id: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    lastTax(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
       role: BytesLike,
@@ -1038,26 +954,10 @@ export interface Timelock extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTaxAccount(
-      account_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    taxAccount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    taxClaimAvailable(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    taxCooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-    taxPercentage(overrides?: CallOverrides): Promise<BigNumber>;
 
     updateDelay(
       newDelay: BigNumberish,
@@ -1080,11 +980,6 @@ export interface Timelock extends BaseContract {
 
     cancel(
       id: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    claimTax(
-      token_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1148,6 +1043,13 @@ export interface Timelock extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    initialize(
+      minDelay_: BigNumberish,
+      proposers_: string[],
+      executors_: string[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     isOperation(
       id: BytesLike,
       overrides?: CallOverrides
@@ -1167,8 +1069,6 @@ export interface Timelock extends BaseContract {
       id: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    lastTax(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceRole(
       role: BytesLike,
@@ -1202,26 +1102,10 @@ export interface Timelock extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTaxAccount(
-      account_: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    taxAccount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    taxClaimAvailable(
-      token_: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    taxCooldown(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    taxPercentage(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     updateDelay(
       newDelay: BigNumberish,
