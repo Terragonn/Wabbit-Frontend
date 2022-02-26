@@ -34,6 +34,36 @@ export default function RedeemLiquidity({
         maxAvailableLPToken: [ethers.BigNumber, number] | undefined;
     } | null>(null);
 
+    const [lpToken, setLPToken] = useState<Approved | null>(null);
+
+    useEffect(() => {
+        (async () => {
+            const newLPToken = await contracts.lPool.LPFromPT(token.address);
+            const newApproved: Approved = {
+                name: contracts.config.setup.LPPrefixName + " " + token.name,
+                symbol: contracts.config.setup.LPPrefixSymbol + token.symbol,
+                icon: token.icon,
+                address: newLPToken,
+                decimals: token.decimals,
+                priceFeed: "",
+                oracle: false,
+                marginLongCollateral: false,
+                marginLongBorrow: false,
+                leveragePool: false,
+                flashLender: false,
+                setup: {
+                    maxInterestMinNumerator: 0,
+                    maxInterestMinDenominator: 0,
+                    maxInterestMaxNumerator: 0,
+                    maxInterestMaxDenominator: 0,
+                    maxUtilizationNumerator: 0,
+                    maxUtilizationDenominator: 0,
+                },
+            };
+            setLPToken(newApproved);
+        })();
+    }, [token, contracts]);
+
     useEffect(() => {
         (async () => {
             const availableLP = await parseError(async () => await protocolData.liquidityProvidedTokenAmount(token));
@@ -56,25 +86,26 @@ export default function RedeemLiquidity({
     }, [token, protocolMax]);
 
     return (
-        <TokenSegment
-            title="Redeem Liquidity"
-            keys={[
-                ["Available", parseNumber(data?.availableLP) + " " + contracts.config.setup.LPPrefixSymbol + token.symbol],
-                ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + token.symbol],
-                ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
-            ]}
-            token={token}
-            max={maxData?.maxAvailableLPToken}
-            callback={[
-                {
-                    cta: "Redeem",
-                    fn: async (token, num) => await protocolMethods.redeem(token, num),
-                    approve: async (token, num) => {
-                        const lpToken = await contracts.lPool.LPFromPT(token.address);
-                        return await protocolMethods.approve(lpToken, contracts.lPool.address, num);
-                    },
-                },
-            ]}
-        />
+        <>
+            {lpToken ? (
+                <TokenSegment
+                    title="Redeem Liquidity"
+                    keys={[
+                        ["Available", parseNumber(data?.availableLP) + " " + contracts.config.setup.LPPrefixSymbol + token.symbol],
+                        ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + token.symbol],
+                        ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
+                    ]}
+                    token={lpToken}
+                    max={maxData?.maxAvailableLPToken}
+                    callback={[
+                        {
+                            cta: "Redeem",
+                            fn: async (token, num) => await protocolMethods.redeem(token, num),
+                            approve: async (token, num) => await protocolMethods.approve(token.address, contracts.lPool.address, num),
+                        },
+                    ]}
+                />
+            ) : null}
+        </>
     );
 }
