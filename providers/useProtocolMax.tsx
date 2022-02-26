@@ -100,7 +100,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
 
             const balance = (await contracts.signer.getBalance()).mul(numerator).div(denominator);
 
-            const parsed = parseDecimals(balance, contracts.config.nativeCoin.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(balance, contracts.config.tokens.nativeCoin.decimals).toNumber() / ROUND_CONSTANT;
 
             return [balance, parsed] as any;
         }

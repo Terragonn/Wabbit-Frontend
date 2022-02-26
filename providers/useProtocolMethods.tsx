@@ -62,24 +62,26 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
 
     async function wrap(amount: ethers.BigNumber) {
         if (contracts)
-            await handleError(async () => await (await contracts.converter.swapMaxEthIn(contracts.config.wrappedCoin.address, {...OVERRIDE, value: amount})).wait());
+            await handleError(
+                async () => await (await contracts.converter.swapMaxEthInTokenOut(contracts.config.tokens.wrappedCoin.address, {...OVERRIDE, value: amount})).wait()
+            );
         else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function unwrap(amount: ethers.BigNumber) {
-        if (contracts) await handleError(async () => await (await contracts.converter.swapMaxEthOut(contracts.config.wrappedCoin.address, amount)).wait());
+        if (contracts) await handleError(async () => await (await contracts.converter.swapMaxTokenInEthOut(contracts.config.tokens.wrappedCoin.address, amount)).wait());
         else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function provideLiquidity(token: Approved, amount: ethers.BigNumber) {
-        if (contracts) await handleError(async () => await (await contracts.lPool.addLiquidity(token.address, amount, OVERRIDE)).wait());
+        if (contracts) await handleError(async () => await (await contracts.lPool.provideLiquidity(token.address, amount, OVERRIDE)).wait());
         else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function redeem(token: Approved, amount: ethers.BigNumber) {
         if (contracts) {
             const redeemToken = await contracts.lPool.LPFromPT(token.address);
-            await handleError(async () => await (await contracts.lPool.removeLiquidity(redeemToken, amount, OVERRIDE)).wait());
+            await handleError(async () => await (await contracts.lPool.provideLiquidity(redeemToken, amount, OVERRIDE)).wait());
         } else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
