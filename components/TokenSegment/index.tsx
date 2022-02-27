@@ -26,10 +26,8 @@ export default function TokenSegment({
     hideInput?: boolean;
     max?: [ethers.BigNumber, number];
 }) {
-    const [num, setNum] = useState<string>("");
+    const [num, setNum] = useState<{value: string}>({value: ""});
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
-
-    useEffect(() => console.log("THE GLOBAL NUM WAS UPDATED"), [num]);
 
     return (
         <div>

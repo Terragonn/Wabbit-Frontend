@@ -13,7 +13,7 @@ export default function Callback({
 }: {
     token: Approved;
     globalBigNum: ethers.BigNumber;
-    setGlobalNum: (num: string) => void;
+    setGlobalNum: (num: {value: string}) => void;
     callback: {
         cta: string;
         fn: (token: Approved, num: ethers.BigNumber) => Promise<void>;
@@ -51,8 +51,7 @@ export default function Callback({
                         if (token)
                             if (!approve[index]) {
                                 await processHandler(async () => await cb.fn(token, globalBigNum), index);
-                                setGlobalNum("");
-                                console.log("Set global num to zero");
+                                setGlobalNum({value: ""});
                             } else {
                                 if (cb.approve) {
                                     const fn = await cb.approve(token, globalBigNum);
