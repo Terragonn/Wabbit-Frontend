@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {ethers} from "ethers";
 
 import {ProtocolData} from "../../providers/useProtocolData";
 
