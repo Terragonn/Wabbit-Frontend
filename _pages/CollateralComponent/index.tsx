@@ -10,6 +10,7 @@ import TokenSelect from "../../components/TokenSelect";
 import HeaderBanner from "./headerBanner";
 import CollateralDeposit from "./CollateralDeposit";
 import CollateralWithdraw from "./CollateralWithdraw";
+import Information from "./information";
 
 export default function CollateralComponent() {
     const contracts = useContracts();
@@ -25,6 +26,7 @@ export default function CollateralComponent() {
             {token && protocolData ? <HeaderBanner token={token} protocolData={protocolData} /> : null}
             <h2 className="font-bold text-white text-3xl lg:hidden block mt-20 ml-12">Leverage Long</h2>
             <div className="p-12 bg-neutral-900 bg-opacity-75 rounded-xl glow flex flex-col items-start pb-10 my-10">
+                {protocolData ? <Information protocolData={protocolData} /> : null}
                 {contracts ? (
                     <div className="w-full lg:mb-16 mb-20">
                         <TokenSelect title="Token" setToken={setToken} allowed={"marginLongCollateral"} contracts={contracts} />

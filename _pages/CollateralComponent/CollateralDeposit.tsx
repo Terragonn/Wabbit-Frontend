@@ -27,7 +27,7 @@ export default function CollateralDeposit({
     const [data, setData] = useState<{
         available: ethers.BigNumber | undefined;
         availableValue: ethers.BigNumber | undefined;
-        minCollateral: ethers.BigNumber | undefined;
+        minCollateralPrice: ethers.BigNumber | undefined;
     } | null>(null);
 
     const [maxData, setMaxData] = useState<{
@@ -38,9 +38,9 @@ export default function CollateralDeposit({
         (async () => {
             const available = await parseError(async () => await protocolData.availableTokenAmount(token));
             const availableValue = await parseError(async () => await protocolData.availableTokenPrice(token));
-            const minCollateral = await parseError(async () => await protocolData.minCollateralPrice());
+            const minCollateralPrice = await parseError(async () => await protocolData.minCollateralPrice());
 
-            setData({available, availableValue, minCollateral});
+            setData({available, availableValue, minCollateralPrice});
         })();
     }, [token, protocolData]);
 
@@ -58,7 +58,7 @@ export default function CollateralDeposit({
                 ["Available amount", parseNumber(data?.available) + " " + token.symbol],
                 ["Available value", "$ " + parseNumber(data?.availableValue)],
                 ["", ""],
-                ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateral)],
+                ["Minimum collateral to borrow", "$ " + parseNumber(data?.minCollateralPrice)],
             ]}
             token={token}
             max={maxData?.maxAvailableToken}
