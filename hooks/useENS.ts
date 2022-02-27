@@ -12,7 +12,7 @@ export default function useENS(signer: ethers.providers.JsonRpcSigner | undefine
                 const address = await signer.getAddress();
                 setAccount(address);
 
-                const provider = new ethers.providers.EtherscanProvider(1);
+                const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.alchemyapi.io/v2/ADDzI2bw-wbq6BrenI4xs0BKwtbZXqQj", 1);
 
                 const ensName = await provider.lookupAddress(address);
                 setENSName(ensName);
