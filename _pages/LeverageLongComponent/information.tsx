@@ -4,10 +4,10 @@ import {ethers} from "ethers";
 import {ProtocolData} from "../../providers/useProtocolData";
 
 import parseError from "../../utils/parseError";
-import {parseNumber} from "../../utils/parseNumber";
+import {parseNumberFloat} from "../../utils/parseNumber";
 
 export default function Information({protocolData}: {protocolData: ProtocolData}) {
-    const [maxLeverage, setMaxLeverage] = useState<ethers.BigNumber | undefined>(undefined);
+    const [maxLeverage, setMaxLeverage] = useState<number>(0);
 
     useEffect(() => {
         (async () => {
@@ -22,8 +22,8 @@ export default function Information({protocolData}: {protocolData: ProtocolData}
             <h3 className="text-neutral-300 font-bold text-left text-2xl mb-4">Why Leverage?</h3>
             <p className="text-neutral-400 font-medium text-lg mb-4">
                 Using our liquidity, you can <span className="font-bold text-neutral-300">trade or invest</span> up to{" "}
-                <span className="font-bold text-neutral-300">{parseNumber(maxLeverage)}x</span> against your collateral and have the of the profits distributed back to
-                you.
+                <span className="font-bold text-neutral-300">{parseNumberFloat(maxLeverage)}x</span> against your collateral and have the of the profits distributed back
+                to you.
             </p>
             <p className="text-neutral-400 font-medium text-lg mb-4">
                 If the <span className="font-bold text-neutral-300">losses incurred</span> from your leveraged position{" "}
