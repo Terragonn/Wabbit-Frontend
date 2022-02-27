@@ -11,7 +11,7 @@ import TokenSegment from "../../components/TokenSegment";
 import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
-export default function LeverageDeposit({
+export default function CollateralDeposit({
     token,
     protocolData,
     protocolMethods,

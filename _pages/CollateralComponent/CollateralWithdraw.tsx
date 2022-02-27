@@ -10,7 +10,7 @@ import TokenSegment from "../../components/TokenSegment";
 import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
-export default function LeverageWithdraw({
+export default function CollateralWithdraw({
     token,
     protocolData,
     protocolMethods,

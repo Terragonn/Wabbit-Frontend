@@ -11,15 +11,15 @@ export default function TokenSelect({
 }: {
     title: string;
     setToken: (token: Approved) => void;
-    allowed: ("leveragePool" | "marginLongCollateral" | "marginLongBorrow")[];
+    allowed: "leveragePool" | "marginLongCollateral" | "marginLongBorrow";
     contracts: Contracts;
 }) {
     const tokens = contracts.config.tokens.approved.filter(
         (approved) =>
             approved.oracle &&
-            ((approved.leveragePool && allowed.includes("leveragePool")) ||
-                (approved.marginLongCollateral && allowed.includes("marginLongCollateral")) ||
-                (approved.marginLongBorrow && allowed.includes("marginLongBorrow")))
+            ((approved.leveragePool && allowed === "leveragePool") ||
+                (approved.marginLongCollateral && allowed === "marginLongCollateral") ||
+                (approved.marginLongBorrow && allowed === "marginLongBorrow"))
     );
     const [selectedToken, setSelectedToken] = useState<Approved>(tokens[0]);
 
