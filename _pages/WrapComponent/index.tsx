@@ -35,7 +35,7 @@ export default function WrapComponent() {
             <div className="lg:mt-20 p-12 bg-neutral-900 bg-opacity-75 rounded-xl glow flex flex-col items-start pb-10 my-10">
                 {tokenData ? <Information nativeSymbol={tokenData.nativeCoin.symbol} wrappedSymbol={tokenData.wrappedCoin.symbol} /> : null}
                 {tokenData && contracts && protocolData && protocolMethods && protocolMax ? (
-                    <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full mt-16">
+                    <div className="flex lg:items-start items-stretch justify-between lg:space-y-0 space-y-20 lg:flex-row flex-col w-full">
                         <div className="w-full lg:mr-6">
                             <Wrap nativeCoin={tokenData.nativeCoin} protocolData={protocolData} protocolMethods={protocolMethods} protocolMax={protocolMax} />
                         </div>
