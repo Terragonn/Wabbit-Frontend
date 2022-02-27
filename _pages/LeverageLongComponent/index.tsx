@@ -11,7 +11,7 @@ import HeaderBanner from "./headerBanner";
 import LeverageLeverage from "./LeverageLeverage";
 import LeverageTotal from "./LeverageTotal";
 
-export default function LeverageComponent() {
+export default function LeverageLongComponent() {
     const contracts = useContracts();
 
     const protocolData = useProtocolData();

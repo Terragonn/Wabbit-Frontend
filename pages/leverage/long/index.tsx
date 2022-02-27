@@ -1,9 +1,9 @@
 import type {NextPage} from "next";
 
-import LeverageComponent from "../../../_pages/LeverageComponent";
+import LeverageLongComponent from "../../../_pages/LeverageLongComponent";
 
 const LeverageLong: NextPage = () => {
-    return <LeverageComponent />;
+    return <LeverageLongComponent />;
 };
 
 export default LeverageLong;
