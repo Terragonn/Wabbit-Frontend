@@ -46,7 +46,7 @@ export default function Callback({
             {callback.map((cb, index) => (
                 <Button
                     key={index}
-                    loading={processing}
+                    loading={processing} // **** This processing needs to be set for each individual key in the set
                     onClick={async () => {
                         if (token)
                             if (!approve[index]) {
