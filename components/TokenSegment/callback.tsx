@@ -20,14 +20,14 @@ export default function Callback({
         approve?: (token: Approved, num: ethers.BigNumber) => Promise<(() => Promise<void>) | null>;
     }[];
 }) {
-    const [processing, setProcessing] = useState<boolean>(false);
+    const [processing, setProcessing] = useState<boolean[]>(Array(callback.length).fill(false));
     const [approve, setApprove] = useState<boolean[]>(Array(callback.length).fill(false));
     const [updateApprove, setUpdateApprove] = useState<number>(0);
 
-    async function processHandler(fn: () => Promise<any>) {
-        setProcessing(true);
+    async function processHandler(fn: () => Promise<any>, index: number) {
+        setProcessing(processing.map((item, i) => (i == index ? true : item)));
         await fn();
-        setProcessing(false);
+        setProcessing(processing.map((item, i) => (i == index ? false : item)));
     }
 
     useEffect(() => {
@@ -46,17 +46,17 @@ export default function Callback({
             {callback.map((cb, index) => (
                 <Button
                     key={index}
-                    loading={processing} // **** This processing needs to be set for each individual key in the set
+                    loading={processing[index]}
                     onClick={async () => {
                         if (token)
                             if (!approve[index]) {
-                                await processHandler(async () => await cb.fn(token, globalBigNum));
+                                await processHandler(async () => await cb.fn(token, globalBigNum), index);
                                 setGlobalNum("");
                             } else {
                                 if (cb.approve) {
                                     const fn = await cb.approve(token, globalBigNum);
                                     if (fn) {
-                                        await processHandler(async () => await fn());
+                                        await processHandler(async () => await fn(), index);
                                         setUpdateApprove((prev) => prev + 1);
                                     }
                                 }
