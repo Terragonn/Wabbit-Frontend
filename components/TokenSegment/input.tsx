@@ -35,6 +35,8 @@ export default function Input({
         } else newBigNum = parseNumberAsBigNumber(parseStringToNumber(num), token.decimals);
 
         setBigNum(newBigNum);
+
+        console.log("Updated big num with new num");
     }, [num, token]);
 
     useEffect(() => {
@@ -42,11 +44,16 @@ export default function Input({
             (async () => {
                 const priceMin = (await parseError(async () => await protocolData.priceMin(token, bigNum))) || ethers.BigNumber.from(0);
                 setPriceNum(priceMin);
+
+                console.log("Updated price with new one");
             })();
     }, [token, bigNum, protocolData]);
 
     useEffect(() => setGlobalBigNum(bigNum), [bigNum]);
-    useEffect(() => setNum(globalNum), [globalNum]);
+    useEffect(() => {
+        setNum(globalNum);
+        console.log("Updated global num and in turn regular num");
+    }, [globalNum]);
 
     return (
         <div className="bg-neutral-900 rounded-3xl py-3 px-6 glow w-full text-center flex items-center justify-between space-x-3">

@@ -52,6 +52,7 @@ export default function Callback({
                             if (!approve[index]) {
                                 await processHandler(async () => await cb.fn(token, globalBigNum), index);
                                 setGlobalNum("");
+                                console.log("Set global num to zero");
                             } else {
                                 if (cb.approve) {
                                     const fn = await cb.approve(token, globalBigNum);

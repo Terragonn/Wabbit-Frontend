@@ -1,5 +1,5 @@
 import {ethers} from "ethers";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {Approved} from "../../providers/useChainData";
 
@@ -28,6 +28,8 @@ export default function TokenSegment({
 }) {
     const [num, setNum] = useState<string>("");
     const [bigNum, setBigNum] = useState<ethers.BigNumber>(ethers.BigNumber.from(0));
+
+    useEffect(() => console.log("THE GLOBAL NUM WAS UPDATED"), [num]);
 
     return (
         <div>
