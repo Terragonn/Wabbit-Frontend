@@ -79,10 +79,8 @@ export function ProtocolMethodsProvider({children}: {children: any}) {
     }
 
     async function redeem(token: Approved, amount: ethers.BigNumber) {
-        if (contracts) {
-            const redeemToken = await contracts.lPool.LPFromPT(token.address);
-            await handleError(async () => await (await contracts.lPool.provideLiquidity(redeemToken, amount, OVERRIDE)).wait());
-        } else setError("Your wallet is not connected. Please connect your wallet then try again.");
+        if (contracts) await handleError(async () => await (await contracts.lPool.redeemLiquidity(token.address, amount, OVERRIDE)).wait());
+        else setError("Your wallet is not connected. Please connect your wallet then try again.");
     }
 
     async function depositCollateral(token: Approved, amount: ethers.BigNumber) {
