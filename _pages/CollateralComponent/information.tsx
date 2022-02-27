@@ -7,11 +7,12 @@ import parseError from "../../utils/parseError";
 import {parseNumber} from "../../utils/parseNumber";
 
 export default function Information({protocolData}: {protocolData: ProtocolData}) {
-    const [minCollateralPrice, setMinCollateralPrice] = useState<BigNumber>(ethers.BigNumber.from(0));
+    const [minCollateralPrice, setMinCollateralPrice] = useState<BigNumber | undefined>(undefined);
 
     useEffect(() => {
         (async () => {
             const _minCollateralPrice = await parseError(async () => await protocolData.minCollateralPrice());
+
             setMinCollateralPrice(_minCollateralPrice);
         })();
     }, [protocolData]);
@@ -24,8 +25,8 @@ export default function Information({protocolData}: {protocolData: ProtocolData}
                 decreases, your collateral will be used to repay your losses.
             </p>
             <p className="text-neutral-400 font-medium text-lg mb-4">
-                A minimum of <span className="font-bold text-neutral-300">$ {parseNumber(minCollateralPrice)}</span> is required to open a leveraged position, however we
-                recommend you deposit more to avoid your account being reset prematurely.
+                A minimum of <span className="font-bold text-neutral-300">$ {parseNumber(minCollateralPrice)}</span> is required to open and maintain a leveraged
+                position, however we recommend you deposit more to avoid your account being reset prematurely.
             </p>
         </div>
     );
