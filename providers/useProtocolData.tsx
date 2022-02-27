@@ -19,6 +19,7 @@ export interface ProtocolData {
     totalTokenPriceLocked: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalTokenAmountBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
     totalTokenPriceBorrowed: (token: Approved) => Promise<ethers.BigNumber | undefined>;
+    totalTokenAmountCollateral: (token: Approved) => Promise<ethers.BigNumber | undefined>;
 
     provideLiquidityAPY: (token: Approved) => Promise<number | undefined>;
     borrowAPR: (token: Approved) => Promise<number | undefined>;
@@ -162,6 +163,14 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const price = await contracts.oracle.priceMax(token.address, borrowed);
 
             return parseDecimals(price, (await contracts.oracle.priceDecimals()).toNumber());
+        }
+    }
+
+    async function totalTokenAmountCollateral(token: Approved) {
+        if (contracts && getApproved(contracts.config, token.address)) {
+            const collateral = await contracts.marginLong.totalCollateral(token.address);
+
+            return parseDecimals(collateral, token.decimals);
         }
     }
 
@@ -457,6 +466,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
                 totalTokenPriceLocked,
                 totalTokenAmountBorrowed,
                 totalTokenPriceBorrowed,
+                totalTokenAmountCollateral,
                 provideLiquidityAPY,
                 borrowAPR,
                 availableTokenAmount,
