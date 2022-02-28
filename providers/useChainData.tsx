@@ -86,6 +86,7 @@ export interface Config {
         taskTreasury: string;
         LPPrefixName: string;
         LPPrefixSymbol: string;
+        multisig: string;
     };
     contracts: {
         leveragePoolAddress: string;
