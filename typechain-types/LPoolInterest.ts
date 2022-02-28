@@ -377,7 +377,7 @@ export type DepositEvent = TypedEvent<
   [string, string, BigNumber, string, BigNumber],
   {
     account: string;
-    tokenIn: string;
+    token: string;
     amount: BigNumber;
     convertedToken: string;
     convertedAmount: BigNumber;
@@ -1077,14 +1077,14 @@ export interface LPoolInterest extends BaseContract {
   filters: {
     "Deposit(address,address,uint256,address,uint256)"(
       account?: string | null,
-      tokenIn?: null,
+      token?: null,
       amount?: null,
       convertedToken?: null,
       convertedAmount?: null
     ): DepositEventFilter;
     Deposit(
       account?: string | null,
-      tokenIn?: null,
+      token?: null,
       amount?: null,
       convertedToken?: null,
       convertedAmount?: null
