@@ -36,7 +36,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
             const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
 
-            const parsed = parseDecimals(rawBalance, token.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(rawBalance, parseInt(token.decimals)).toNumber() / ROUND_CONSTANT;
 
             return [rawBalance, parsed] as any;
         }
@@ -50,7 +50,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            const parsed = parseDecimals(rawBalance, token.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(rawBalance, parseInt(token.decimals)).toNumber() / ROUND_CONSTANT;
 
             return [rawBalance, parsed] as any;
         }
@@ -62,7 +62,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
 
-            const parsed = parseDecimals(collateralAmount, token.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(collateralAmount, parseInt(token.decimals)).toNumber() / ROUND_CONSTANT;
 
             return [collateralAmount, parsed] as any;
         }
@@ -87,7 +87,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
             const liquidity = await contracts.lPool.liquidity(token.address);
             if (liquidity.lt(safeAmount)) safeAmount = liquidity;
 
-            const parsed = parseDecimals(safeAmount, token.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(safeAmount, parseInt(token.decimals)).toNumber() / ROUND_CONSTANT;
 
             return [safeAmount, parsed] as any;
         }
@@ -100,7 +100,7 @@ export function ProtocolMaxProvider({children}: {children: any}) {
 
             const balance = (await contracts.signer.getBalance()).mul(numerator).div(denominator);
 
-            const parsed = parseDecimals(balance, contracts.config.tokens.nativeCoin.decimals).toNumber() / ROUND_CONSTANT;
+            const parsed = parseDecimals(balance, parseInt(contracts.config.tokens.nativeCoin.decimals)).toNumber() / ROUND_CONSTANT;
 
             return [balance, parsed] as any;
         }

@@ -16,10 +16,10 @@ export default function TokenSelect({
 }) {
     const tokens = contracts.config.tokens.approved.filter(
         (approved) =>
-            approved.oracle &&
-            ((approved.leveragePool && allowed === "leveragePool") ||
-                (approved.marginLongCollateral && allowed === "marginLongCollateral") ||
-                (approved.marginLongBorrow && allowed === "marginLongBorrow"))
+            approved.setup.oracle &&
+            ((approved.setup.leveragePool && allowed === "leveragePool") ||
+                (approved.setup.marginLongCollateral && allowed === "marginLongCollateral") ||
+                (approved.setup.marginLongBorrow && allowed === "marginLongBorrow"))
     );
     const [selectedToken, setSelectedToken] = useState<Approved>(tokens[0]);
 

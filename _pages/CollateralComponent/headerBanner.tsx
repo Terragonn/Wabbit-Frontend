@@ -6,7 +6,7 @@ import {ProtocolData} from "../../providers/useProtocolData";
 
 import Banner from "../../components/Banner";
 import parseError from "../../utils/parseError";
-import {parseNumber, parseNumberFloat} from "../../utils/parseNumber";
+import {parseNumber} from "../../utils/parseNumber";
 
 export default function HeaderBanner({token, protocolData}: {token: Approved; protocolData: ProtocolData}) {
     const [data, setData] = useState<{

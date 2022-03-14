@@ -32,7 +32,7 @@ export default function Input({
         if (max && isMax) {
             newBigNum = max[0];
             setIsMax(false);
-        } else newBigNum = parseNumberAsBigNumber(parseStringToNumber(num), token.decimals);
+        } else newBigNum = parseNumberAsBigNumber(parseStringToNumber(num), parseInt(token.decimals));
 
         setBigNum(newBigNum);
     }, [num, token]);

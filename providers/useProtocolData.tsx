@@ -83,7 +83,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalPoolPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.leveragePool).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved
+                .filter((approved) => approved.setup.oracle && approved.setup.leveragePool)
+                .map((approved) => approved.address);
             for (const asset of assets) {
                 const totalLocked = await contracts.lPool.totalAmountLocked(asset);
                 const price = await contracts.oracle.priceMax(asset, totalLocked);
@@ -98,7 +100,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalBorrowedPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.marginLongBorrow).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved
+                .filter((approved) => approved.setup.oracle && approved.setup.marginLongBorrow)
+                .map((approved) => approved.address);
             for (const asset of assets) {
                 const totalBorrowed = await contracts.lPool.utilized(asset);
                 const price = await contracts.oracle.priceMax(asset, totalBorrowed);
@@ -113,7 +117,9 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts) {
             let totalPrice = ethers.BigNumber.from(0);
 
-            const assets = contracts.config.tokens.approved.filter((approved) => approved.oracle && approved.marginLongCollateral).map((approved) => approved.address);
+            const assets = contracts.config.tokens.approved
+                .filter((approved) => approved.setup.oracle && approved.setup.marginLongCollateral)
+                .map((approved) => approved.address);
             for (const asset of assets) {
                 const totalCollateral = await contracts.marginLong.totalCollateral(asset);
                 const price = await contracts.oracle.priceMax(asset, totalCollateral);
@@ -128,7 +134,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const liquidity = await contracts.lPool.liquidity(token.address);
 
-            return parseDecimals(liquidity, token.decimals);
+            return parseDecimals(liquidity, parseInt(token.decimals));
         }
     }
 
@@ -136,7 +142,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const totalLocked = await contracts.lPool.totalAmountLocked(token.address);
 
-            return parseDecimals(totalLocked, token.decimals);
+            return parseDecimals(totalLocked, parseInt(token.decimals));
         }
     }
 
@@ -153,7 +159,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const borrowed = await contracts.marginLong.totalBorrowed(token.address);
 
-            return parseDecimals(borrowed, token.decimals);
+            return parseDecimals(borrowed, parseInt(token.decimals));
         }
     }
 
@@ -170,7 +176,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
         if (contracts && getApproved(contracts.config, token.address)) {
             const collateral = await contracts.marginLong.totalCollateral(token.address);
 
-            return parseDecimals(collateral, token.decimals);
+            return parseDecimals(collateral, parseInt(token.decimals));
         }
     }
 
@@ -202,7 +208,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const tokenContract = loadERC20(token.address, contracts.signer);
             const rawBalance = await tokenContract.balanceOf(signerAddress);
 
-            return parseDecimals(rawBalance, token.decimals);
+            return parseDecimals(rawBalance, parseInt(token.decimals));
         }
     }
 
@@ -226,7 +232,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const rawBalance = await tokenContract.balanceOf(signerAddress);
             const LPAmount = await contracts.lPool.provideLiquidityOutLPTokens(token.address, rawBalance);
 
-            return parseDecimals(LPAmount, token.decimals);
+            return parseDecimals(LPAmount, parseInt(token.decimals));
         }
     }
 
@@ -238,7 +244,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
             const LPToken = loadERC20(LPTokenAddress, contracts.signer);
             const rawBalance = await LPToken.balanceOf(signerAddress);
 
-            return parseDecimals(rawBalance, token.decimals);
+            return parseDecimals(rawBalance, parseInt(token.decimals));
         }
     }
 
@@ -252,7 +258,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const redeemAmount = await contracts.lPool.redeemLiquidityOutPoolTokens(LPTokenAddress, rawBalance);
 
-            return parseDecimals(redeemAmount, token.decimals);
+            return parseDecimals(redeemAmount, parseInt(token.decimals));
         }
     }
 
@@ -302,7 +308,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const collateralAmount = await contracts.marginLong.collateral(token.address, signerAddress);
 
-            return parseDecimals(collateralAmount, token.decimals);
+            return parseDecimals(collateralAmount, parseInt(token.decimals));
         }
     }
 
@@ -343,7 +349,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
 
             const amount = await contracts.marginLong.borrowed(token.address, signerAddress);
 
-            return parseDecimals(amount, token.decimals);
+            return parseDecimals(amount, parseInt(token.decimals));
         }
     }
 
@@ -443,7 +449,7 @@ export function ProtocolDataProvider({children}: {children: any}) {
     }
 
     async function availableNativeCoinAmount() {
-        if (contracts) return parseDecimals(await contracts.signer.getBalance(), contracts.config.tokens.nativeCoin.decimals);
+        if (contracts) return parseDecimals(await contracts.signer.getBalance(), parseInt(contracts.config.tokens.nativeCoin.decimals));
     }
 
     async function priceMin(token: Approved, amount: ethers.BigNumber) {

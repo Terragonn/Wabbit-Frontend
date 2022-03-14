@@ -40,24 +40,24 @@ export default function RedeemLiquidity({
         (async () => {
             const newLPToken = await contracts.lPool.LPFromPT(token.address);
             const newApproved: Approved = {
-                name: contracts.config.setup.LPPrefixName + " " + token.name,
-                symbol: contracts.config.setup.LPPrefixSymbol + token.symbol,
+                name: contracts.config.setup.lpToken.LPPrefixName + " " + token.name,
+                symbol: contracts.config.setup.lpToken.LPPrefixSymbol + token.symbol,
                 icon: token.icon,
                 address: newLPToken,
                 decimals: token.decimals,
-                priceFeed: "",
-                oracle: false,
-                marginLongCollateral: false,
-                marginLongBorrow: false,
-                leveragePool: false,
-                flashLender: false,
                 setup: {
-                    maxInterestMinNumerator: 0,
-                    maxInterestMinDenominator: 0,
-                    maxInterestMaxNumerator: 0,
-                    maxInterestMaxDenominator: 0,
-                    maxUtilizationNumerator: 0,
-                    maxUtilizationDenominator: 0,
+                    priceFeed: "",
+                    oracle: false,
+                    marginLongCollateral: false,
+                    marginLongBorrow: false,
+                    leveragePool: false,
+                    flashLender: false,
+                    maxInterestMinNumerator: "0",
+                    maxInterestMinDenominator: "0",
+                    maxInterestMaxNumerator: "0",
+                    maxInterestMaxDenominator: "0",
+                    maxUtilizationNumerator: "0",
+                    maxUtilizationDenominator: "0",
                 },
             };
             setLPToken(newApproved);
@@ -91,7 +91,7 @@ export default function RedeemLiquidity({
                 <TokenSegment
                     title="Redeem Liquidity"
                     keys={[
-                        ["Available", parseNumber(data?.availableLP) + " " + contracts.config.setup.LPPrefixSymbol + token.symbol],
+                        ["Available", parseNumber(data?.availableLP) + " " + contracts.config.setup.lpToken.LPPrefixSymbol + token.symbol],
                         ["Total redeem amount", parseNumber(data?.LPRedeemAmount) + " " + token.symbol],
                         ["Total redeem value", "$ " + parseNumber(data?.LPRedeemValue)],
                     ]}
