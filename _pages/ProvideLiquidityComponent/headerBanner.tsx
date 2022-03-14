@@ -30,14 +30,12 @@ export default function HeaderBanner({token, protocolData}: {token: Approved; pr
     }, [protocolData, token]);
 
     return (
-        <div className="lg:block hidden">
-            <Banner
-                placeholders={[
-                    {title: "Provide Liquidity APY", body: parseNumberFloat(data?.provideLiquidityAPY) + " %"},
-                    {title: "Total Amount Locked", body: parseNumber(data?.totalAmountLocked) + " " + token.symbol},
-                    {title: "Total Value Locked", body: "$ " + parseNumber(data?.totalValueLocked)},
-                ]}
-            />
-        </div>
+        <Banner
+            placeholders={[
+                {title: "Provide Liquidity APY", body: parseNumberFloat(data?.provideLiquidityAPY) + " %"},
+                {title: "Total Amount Locked", body: parseNumber(data?.totalAmountLocked) + " " + token.symbol},
+                {title: "Total Value Locked", body: "$ " + parseNumber(data?.totalValueLocked)},
+            ]}
+        />
     );
 }

@@ -24,13 +24,11 @@ export default function HeaderBanner() {
     }, [protocolData]);
 
     return (
-        <div className="lg:block hidden">
-            <Banner
-                placeholders={[
-                    {title: "Total Value Locked", body: "$ " + parseNumber(data?.tvl)},
-                    {title: "Total Value Borrowed", body: "$ " + parseNumber(data?.borrowed)},
-                ]}
-            />
-        </div>
+        <Banner
+            placeholders={[
+                {title: "Total Value Locked", body: "$ " + parseNumber(data?.tvl)},
+                {title: "Total Value Borrowed", body: "$ " + parseNumber(data?.borrowed)},
+            ]}
+        />
     );
 }

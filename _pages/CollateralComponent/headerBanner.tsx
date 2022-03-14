@@ -24,19 +24,17 @@ export default function HeaderBanner({token, protocolData}: {token: Approved; pr
     }, [token, protocolData]);
 
     return (
-        <div className="lg:block hidden">
-            <Banner
-                placeholders={[
-                    {
-                        title: "Total Collateral Value",
-                        body: "$ " + parseNumber(data?.totalCollateralValue),
-                    },
-                    {
-                        title: "Total Collateral Amount",
-                        body: parseNumber(data?.totalCollateralAmount) + " " + token.symbol,
-                    },
-                ]}
-            />
-        </div>
+        <Banner
+            placeholders={[
+                {
+                    title: "Total Collateral Value",
+                    body: "$ " + parseNumber(data?.totalCollateralValue),
+                },
+                {
+                    title: "Total Collateral Amount",
+                    body: parseNumber(data?.totalCollateralAmount) + " " + token.symbol,
+                },
+            ]}
+        />
     );
 }

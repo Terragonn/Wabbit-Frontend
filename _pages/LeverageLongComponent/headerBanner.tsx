@@ -24,13 +24,11 @@ export default function HeaderBanner({token, protocolData}: {token: Approved; pr
     }, [token, protocolData]);
 
     return (
-        <div className="lg:block hidden">
-            <Banner
-                placeholders={[
-                    {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
-                    {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token.symbol},
-                ]}
-            />
-        </div>
+        <Banner
+            placeholders={[
+                {title: "Borrow APR", body: parseNumberFloat(data?.borrowAPR) + " %"},
+                {title: "Liquidity Available", body: parseNumber(data?.liquidity) + " " + token.symbol},
+            ]}
+        />
     );
 }
