@@ -63,20 +63,20 @@ export interface Approved {
     symbol: string;
     icon: string;
     address: string;
-    decimals: number;
-    priceFeed: string;
-    oracle: boolean;
-    marginLongCollateral: boolean;
-    marginLongBorrow: boolean;
-    leveragePool: boolean;
-    flashLender: boolean;
+    decimals: string;
     setup: {
-        maxInterestMinNumerator: number;
-        maxInterestMinDenominator: number;
-        maxInterestMaxNumerator: number;
-        maxInterestMaxDenominator: number;
-        maxUtilizationNumerator: number;
-        maxUtilizationDenominator: number;
+        priceFeed: string;
+        oracle: boolean;
+        marginLongCollateral: boolean;
+        marginLongBorrow: boolean;
+        leveragePool: boolean;
+        flashLender: boolean;
+        maxInterestMinNumerator: string;
+        maxInterestMinDenominator: string;
+        maxInterestMaxNumerator: string;
+        maxInterestMaxDenominator: string;
+        maxUtilizationNumerator: string;
+        maxUtilizationDenominator: string;
     };
 }
 
@@ -91,16 +91,32 @@ export interface Config {
             thresholdDenominator: string;
         };
         pool: {
-            taxPercentageNumerator: string;
-            taxPercentageDenominator: string;
+            taxPercentNumerator: string;
+            taxPercentDenominator: string;
             timePerInterestApplication: string;
         };
         lpToken: {
             LPPrefixName: string;
             LPPrefixSymbol: string;
         };
-        taskTreasury: string;
-        multisig: string;
+        marginLong: {
+            minCollateralPrice: string;
+            maxLeverageNumerator: string;
+            maxLeverageDenominator: string;
+            liquidationFeePercentNumerator: string;
+            liquidationFeePercentDenominator: string;
+        };
+        resolver: {
+            taskTreasury: string;
+            ethAddress: string;
+        };
+        flashLender: {
+            feePercentNumerator: string;
+            feePercentDenominator: string;
+        };
+        timelock: {
+            minDelay: string;
+        };
     };
     contracts: {
         leveragePoolAddress: string;
@@ -111,6 +127,7 @@ export interface Config {
         timelockAddress: string;
         flashLender: string;
         flashBorrowerTest: string;
+        multisig: string;
     };
     tokens: {
         nativeCoin: Approved;
