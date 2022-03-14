@@ -86,13 +86,20 @@ export interface Config {
             routerAddress: string;
         };
         oracle: {
-            priceDecimals: number;
-            thresholdNumerator: number;
-            thresholdDenominator: number;
+            priceDecimals: string;
+            thresholdNumerator: string;
+            thresholdDenominator: string;
+        };
+        pool: {
+            taxPercentageNumerator: string;
+            taxPercentageDenominator: string;
+            timePerInterestApplication: string;
+        };
+        lpToken: {
+            LPPrefixName: string;
+            LPPrefixSymbol: string;
         };
         taskTreasury: string;
-        LPPrefixName: string;
-        LPPrefixSymbol: string;
         multisig: string;
     };
     contracts: {
