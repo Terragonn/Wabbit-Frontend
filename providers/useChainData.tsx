@@ -82,7 +82,14 @@ export interface Approved {
 
 export interface Config {
     setup: {
-        routerAddress: string;
+        converter: {
+            routerAddress: string;
+        };
+        oracle: {
+            priceDecimals: number;
+            thresholdNumerator: number;
+            thresholdDenominator: number;
+        };
         taskTreasury: string;
         LPPrefixName: string;
         LPPrefixSymbol: string;
