@@ -55,7 +55,11 @@ export default function WalletSelector() {
                     icon="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/bftsslxvhe2yaih6nyl9"
                     fn={() => connectWalletConnect(chainId)}
                 />
-                <Card name="WalletLink" icon="https://pbs.twimg.com/profile_images/1481006694725419014/BuRoqUVN_400x400.png" fn={() => connectWalletLink(chainId)} />
+                <Card
+                    name="WalletLink"
+                    icon="https://play-lh.googleusercontent.com/wrgUujbq5kbn4Wd4tzyhQnxOXkjiGqq39N4zBvCHmxpIiKcZw_Pb065KTWWlnoejsg"
+                    fn={() => connectWalletLink(chainId)}
+                />
             </div>
         </div>
     );
