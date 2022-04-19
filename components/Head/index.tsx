@@ -1,9 +1,10 @@
 import { Header } from "@mantine/core";
+import Logo from "../Logo";
 
 export default function Head() {
     return (
-        <Header height={60} p="xl">
-            Hello World
+        <Header height={80} p="xl">
+            <Logo />
         </Header>
     );
 }
