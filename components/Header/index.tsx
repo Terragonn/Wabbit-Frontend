@@ -7,3 +7,6 @@ export default function Head() {
         </Header>
     );
 }
+
+// https://github.com/mantinedev/mantine/tree/master/src/mantine-demos/src/demos/core/AppShell
+// https://mantine.dev/core/app-shell/#navbar-and-aside-components
