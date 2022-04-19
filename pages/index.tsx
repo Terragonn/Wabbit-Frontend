@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 const Index: NextPage = () => {
-    return <></>;
+    return <>Hello World</>;
 };
 
 export default Index;
