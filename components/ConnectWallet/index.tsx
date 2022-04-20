@@ -18,7 +18,7 @@ export default function ConnectWallet() {
             {account ? (
                 account
             ) : (
-                <Button color="grape" onClick={connectInjected}>
+                <Button variant="gradient" onClick={connectInjected} gradient={{ from: "indigo", to: "grape", deg: 45 }}>
                     Connect
                 </Button>
             )}
