@@ -1,7 +1,6 @@
 import { useWeb3React } from "@web3-react/core";
-import { useEffect } from "react";
 
-import { injected, network, walletConnect, walletLink } from "../../../connectors";
+import { injected, walletConnect, walletLink } from "../../../connectors";
 import useError from "../../../providers/ErrorProvider";
 import { SupportedChainId } from "../../../utils/ChainData";
 import WalletCard from "../WalletCard";
@@ -21,12 +20,6 @@ export default function WalletSelector({ chainId, closeModal }: { chainId: Suppo
             }
         };
     }
-
-    useEffect(() => {
-        (async () => {
-            await activate(network(chainId), undefined, true);
-        })();
-    }, []);
 
     return (
         <>
