@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Text } from "@mantine/core";
+import { Box, Button, Group, Modal, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import { useWeb3React } from "@web3-react/core";
@@ -7,7 +7,7 @@ import { SupportedChainId } from "../../utils/ChainData";
 import { network } from "../../connectors";
 
 export default function ConnectWallet() {
-    const { chainId, account, activate, deactivate, active } = useWeb3React();
+    const { account, activate, deactivate, active } = useWeb3React();
 
     const [opened, setOpened] = useState<boolean>(false);
 
@@ -31,15 +31,17 @@ export default function ConnectWallet() {
                 <WalletSelector chainId={selectedChainId} closeModal={() => setOpened(false)} />
             </Modal>
 
-            {account ? (
-                <Button onClick={() => deactivate()} variant="outline" color="indigo">
-                    {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
-                </Button>
-            ) : (
-                <Button onClick={() => setOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
-                    Connect
-                </Button>
-            )}
+            <Group position="center">
+                {account ? (
+                    <Button onClick={() => deactivate()} variant="outline" color="indigo">
+                        {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
+                    </Button>
+                ) : (
+                    <Button onClick={() => setOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
+                        Connect
+                    </Button>
+                )}
+            </Group>
         </>
     );
 }
