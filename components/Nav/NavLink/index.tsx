@@ -1,9 +1,10 @@
 import { Anchor, Group, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 export default function NavLink({ icon, color, label, href }: { icon: ReactNode; color: string; label: string; href: string }) {
     return (
-        <Anchor href={href}>
+        <Anchor href={href} component={Link}>
             <UnstyledButton
                 sx={(theme) => ({
                     display: "block",
