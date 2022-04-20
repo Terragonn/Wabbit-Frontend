@@ -6,7 +6,7 @@ import WalletSelector from "./WalletSelector";
 import { SupportedChainId } from "../../utils/ChainData";
 
 export default function ConnectWallet() {
-    const { active, chainId } = useWeb3React();
+    const { active, chainId, account } = useWeb3React();
 
     const [opened, setOpened] = useState<boolean>(false);
 
