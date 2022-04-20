@@ -31,6 +31,7 @@ export default function ConnectWallet() {
             </Button>
 
             {/* **** Now I need some option that checks if the correct card has been selected */}
+            {/* **** We also need some sort of default provider */}
         </>
     );
 }

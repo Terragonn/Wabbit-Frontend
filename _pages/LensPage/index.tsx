@@ -17,7 +17,6 @@ export default function LensPage() {
 
             {/* **** Now I need a way of showing the different strategies - on top of that they need to be able to show a model for each strategy to allow users to use it */}
             {/* **** This should only really be possible if there is someone connected - otherwise it will throw an error and ask them to connect */}
-            {/* **** We also need some sort of default provider */}
         </>
     );
 }
