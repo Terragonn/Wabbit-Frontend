@@ -7,7 +7,7 @@ import { SupportedChainId } from "../../utils/ChainData";
 import { network } from "../../connectors";
 
 export default function ConnectWallet() {
-    const { chainId, account, activate } = useWeb3React();
+    const { chainId, account, activate, deactivate, active } = useWeb3React();
 
     const [opened, setOpened] = useState<boolean>(false);
 
@@ -15,7 +15,7 @@ export default function ConnectWallet() {
 
     useEffect(() => {
         activate(network(selectedChainId), undefined, true);
-    }, []);
+    }, [active]);
 
     return (
         <>
@@ -32,7 +32,7 @@ export default function ConnectWallet() {
             </Modal>
 
             {account ? (
-                <Button variant="outline" color="indigo">
+                <Button onClick={() => deactivate()} variant="outline" color="indigo">
                     {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
                 </Button>
             ) : (
@@ -40,9 +40,6 @@ export default function ConnectWallet() {
                     Connect
                 </Button>
             )}
-
-            {/* **** Now I need some option that checks if the correct card has been selected */}
-            {/* **** We also need some sort of default provider */}
         </>
     );
 }
