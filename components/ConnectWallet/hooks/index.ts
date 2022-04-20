@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { injected, network, walletConnect, walletLink } from "../../../connectors";
 import { SupportedChainId } from "../../../utils/ChainData";
 
-export function useMetamask() {
+export function useMetamask(chainId: SupportedChainId) {
     const { activate } = useWeb3React();
 
     const LOCAL_NAME = "METAMASK_CONNECTED";
@@ -59,13 +59,13 @@ export function useWalletLink(chainId: SupportedChainId) {
 }
 
 export function useNetwork(chainId: SupportedChainId) {
-    const { activate, active, account } = useWeb3React();
+    const { active, activate, account } = useWeb3React();
 
     async function connect() {
         await activate(network(chainId), undefined, true);
     }
 
     useEffect(() => {
-        if (!account) connect();
-    }, [account]);
+        if (!active && !account) connect();
+    }, [active, account]);
 }
