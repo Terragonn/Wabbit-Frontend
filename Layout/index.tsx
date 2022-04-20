@@ -1,16 +1,16 @@
 import { ErrorProvider } from "../providers/ErrorProvider";
-import MantineWrapper from "../providers/MantineWrapper";
+import CSSProvider from "../providers/CSSProvider";
 import ShellWrapper from "../providers/ShellWrapper";
 import WalletProvider from "../providers/WalletProvider";
 
 export default function Layout({ children }: { children: any }) {
     return (
         <WalletProvider>
-            <MantineWrapper>
+            <CSSProvider>
                 <ErrorProvider>
                     <ShellWrapper>{children}</ShellWrapper>
                 </ErrorProvider>
-            </MantineWrapper>
+            </CSSProvider>
         </WalletProvider>
     );
 }

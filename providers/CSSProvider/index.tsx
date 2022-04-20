@@ -1,6 +1,6 @@
 import { MantineProvider } from "@mantine/core";
 
-export default function MantineWrapper({ children }: { children: any }) {
+export default function CSSProvider({ children }: { children: any }) {
     return (
         <MantineProvider
             withGlobalStyles
