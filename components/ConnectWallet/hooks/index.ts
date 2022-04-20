@@ -4,13 +4,16 @@ import { useEffect } from "react";
 import { injected, network, walletConnect, walletLink } from "../../../connectors";
 import { SupportedChainId } from "../../../utils/ChainData";
 
+// **** Instead of this, lets use a synchronized single module which does each connect in order of priority, and then uses the network as a fallback
+
 export function useMetamask(chainId: SupportedChainId) {
-    const { account, activate } = useWeb3React();
+    const { activate } = useWeb3React();
 
     const LOCAL_NAME = "METAMASK_CONNECTED";
 
     async function connect() {
         await activate(injected, undefined, true);
+        console.log("Activated metamask");
         localStorage.setItem(LOCAL_NAME, JSON.stringify(true));
     }
 
@@ -63,6 +66,7 @@ export function useNetwork(chainId: SupportedChainId) {
 
     async function connect() {
         await activate(network(chainId), undefined, true);
+        console.log("Activated network");
     }
 
     useEffect(() => {
