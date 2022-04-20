@@ -1,4 +1,5 @@
 import { Box, Text, Title } from "@mantine/core";
+import VaultRenderer from "../../components/VaultRenderer";
 
 export default function LensPage() {
     return (
@@ -12,11 +13,11 @@ export default function LensPage() {
                 <Title order={2} mb={6}>
                     Torque Lens
                 </Title>
-                <Text color="dimmed">Hello world</Text>
+                <Text color="dimmed">
+                    Use our on-chain yield optimization / aggregations vaults to earn the best yields on your LP pairs with the least effort possible!
+                </Text>
             </Box>
-
-            {/* **** Now I need a way of showing the different strategies - on top of that they need to be able to show a model for each strategy to allow users to use it */}
-            {/* **** This should only really be possible if there is someone connected - otherwise it will throw an error and ask them to connect */}
+            <VaultRenderer />
         </>
     );
 }
