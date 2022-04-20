@@ -4,8 +4,8 @@ import { Eyeglass, BuildingBank } from "tabler-icons-react";
 import NavLink from "../NavLink";
 
 const data = [
-    { icon: <Eyeglass size={16} />, color: "indigo", label: "Lens" },
-    { icon: <BuildingBank size={16} />, color: "grape", label: "Lever" },
+    { icon: <Eyeglass size={16} />, color: "indigo", label: "Lens", href: "" },
+    { icon: <BuildingBank size={16} />, color: "grape", label: "Lever", href: "" },
 ];
 
 export default function NavLinkRenderer() {
