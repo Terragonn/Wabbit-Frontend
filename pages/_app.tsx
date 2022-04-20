@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 
-import Layout from "../layouts/Layout";
+import Layout from "../Layout";
 
 export default function App(props: AppProps) {
     const { Component, pageProps } = props;

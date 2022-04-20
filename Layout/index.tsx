@@ -1,6 +1,6 @@
-import MantineWrapper from "../wrappers/MantineWrapper";
-import ShellWrapper from "../wrappers/ShellWrapper";
-import WalletProvider from "../wrappers/WalletProvider";
+import MantineWrapper from "../providers/MantineWrapper";
+import ShellWrapper from "../providers/ShellWrapper";
+import WalletProvider from "../providers/WalletProvider";
 
 export default function Layout({ children }: { children: any }) {
     return (
