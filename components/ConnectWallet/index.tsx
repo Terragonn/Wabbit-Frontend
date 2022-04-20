@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import WalletSelector from "./WalletSelector";
 import { SupportedChainId } from "../../utils/ChainData";
-import { useMetamask, useWalletConnect, useWalletLink } from "./hooks";
+import { useMetamask, useNetwork, useWalletConnect, useWalletLink } from "./hooks";
 
 export default function ConnectWallet() {
     const { account, deactivate } = useWeb3React();
@@ -13,6 +13,7 @@ export default function ConnectWallet() {
 
     const SELECTED_CHAIN_ID: SupportedChainId = 250;
 
+    useNetwork(SELECTED_CHAIN_ID);
     const connectMetamask = useMetamask(SELECTED_CHAIN_ID);
     const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
     const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);

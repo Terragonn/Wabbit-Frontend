@@ -5,7 +5,7 @@ import { injected, network, walletConnect, walletLink } from "../../../connector
 import { SupportedChainId } from "../../../utils/ChainData";
 
 export function useMetamask(chainId: SupportedChainId) {
-    const { activate } = useWeb3React();
+    const { active, activate } = useWeb3React();
 
     const LOCAL_NAME = "METAMASK_CONNECTED";
 
@@ -15,15 +15,17 @@ export function useMetamask(chainId: SupportedChainId) {
     }
 
     useEffect(() => {
+        console.log(active);
+
         const storage = localStorage.getItem(LOCAL_NAME);
         if (storage != null && JSON.parse(storage)) connect();
-    }, []);
+    }, [active]);
 
     return connect;
 }
 
 export function useWalletConnect(chainId: SupportedChainId) {
-    const { activate } = useWeb3React();
+    const { active, activate } = useWeb3React();
 
     const LOCAL_NAME = "WALLETCONNECT_CONNECTED";
 
@@ -35,13 +37,13 @@ export function useWalletConnect(chainId: SupportedChainId) {
     useEffect(() => {
         const storage = localStorage.getItem(LOCAL_NAME);
         if (storage != null && JSON.parse(storage)) connect();
-    }, []);
+    }, [active]);
 
     return connect;
 }
 
 export function useWalletLink(chainId: SupportedChainId) {
-    const { activate } = useWeb3React();
+    const { active, activate } = useWeb3React();
 
     const LOCAL_NAME = "WALLETLINK_CONNECTED";
 
@@ -53,19 +55,20 @@ export function useWalletLink(chainId: SupportedChainId) {
     useEffect(() => {
         const storage = localStorage.getItem(LOCAL_NAME);
         if (storage != null && JSON.parse(storage)) connect();
-    }, []);
+    }, [active]);
 
     return connect;
 }
 
 export function useNetwork(chainId: SupportedChainId) {
-    const { active, activate, account } = useWeb3React();
+    const { activate, account } = useWeb3React();
 
     async function connect() {
         await activate(network(chainId), undefined, true);
     }
 
     useEffect(() => {
-        if (!active && !account) connect();
-    }, [active, account]);
+        console.log(account);
+        if (!account) connect();
+    }, [account]);
 }
