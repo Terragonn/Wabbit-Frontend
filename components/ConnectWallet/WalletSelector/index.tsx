@@ -1,14 +1,14 @@
-import { useWeb3React } from "@web3-react/core";
-
-import { injected, walletConnect, walletLink } from "../../../connectors";
 import useError from "../../../providers/ErrorProvider";
 import { SupportedChainId } from "../../../utils/ChainData";
 import WalletCard from "../WalletCard";
+import { useMetamask, useWalletConnect, useWalletLink } from "./hooks";
 
 export default function WalletSelector({ chainId, closeModal }: { chainId: SupportedChainId; closeModal: () => void }) {
-    const { activate } = useWeb3React();
-
     const setError = useError();
+
+    const connectMetamask = useMetamask();
+    const connectWalletConnect = useWalletConnect(chainId);
+    const connectWalletLink = useWalletLink(chainId);
 
     function connectWrapper(connect: () => Promise<void>) {
         return async () => {
@@ -26,17 +26,17 @@ export default function WalletSelector({ chainId, closeModal }: { chainId: Suppo
             <WalletCard
                 name="Metamask"
                 imgURL="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
-                onClick={connectWrapper(async () => await activate(injected, undefined, true))}
+                onClick={connectWrapper(async () => await connectMetamask())}
             />
             <WalletCard
                 name="WalletConnect"
                 imgURL="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/bftsslxvhe2yaih6nyl9"
-                onClick={connectWrapper(async () => await activate(walletConnect(chainId), undefined, true))}
+                onClick={connectWrapper(async () => await connectWalletConnect())}
             />
             <WalletCard
                 name="WalletLink"
                 imgURL="https://play-lh.googleusercontent.com/wrgUujbq5kbn4Wd4tzyhQnxOXkjiGqq39N4zBvCHmxpIiKcZw_Pb065KTWWlnoejsg"
-                onClick={connectWrapper(async () => await activate(walletLink(chainId), undefined, true))}
+                onClick={connectWrapper(async () => await connectWalletLink())}
             />
         </>
     );

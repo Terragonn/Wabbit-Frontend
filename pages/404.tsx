@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Custom404: NextPage = () => {
-    const DEFAULT_ROUTE = "/lens" as const;
+    const DEFAULT_ROUTE = "/lens";
 
     const router = useRouter();
 
