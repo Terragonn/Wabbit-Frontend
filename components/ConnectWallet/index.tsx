@@ -7,7 +7,7 @@ import { injected } from "../../connectors";
 // **** Don't forget to add a button for switching accounts and stuff and when these different components should be rendered !
 
 export default function ConnectWallet() {
-    const { account, activate, deactivate } = useWeb3React();
+    const { account, activate } = useWeb3React();
 
     async function connectInjected() {
         await activate(injected);
