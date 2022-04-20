@@ -4,18 +4,19 @@ import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import WalletSelector from "./WalletSelector";
 import { SupportedChainId } from "../../utils/ChainData";
-import { network } from "../../connectors";
+import { useMetamask, useNetwork, useWalletConnect, useWalletLink } from "./hooks";
 
 export default function ConnectWallet() {
-    const { account, activate, deactivate, active } = useWeb3React();
+    const { account, deactivate } = useWeb3React();
 
     const [opened, setOpened] = useState<boolean>(false);
 
-    const selectedChainId: SupportedChainId = 250;
+    const SELECTED_CHAIN_ID: SupportedChainId = 250;
 
-    useEffect(() => {
-        activate(network(selectedChainId), undefined, true);
-    }, [active]);
+    useNetwork(SELECTED_CHAIN_ID);
+    const connectMetamask = useMetamask();
+    const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
+    const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);
 
     return (
         <>
@@ -28,10 +29,11 @@ export default function ConnectWallet() {
                 >
                     <Text size="md">Choose A Wallet</Text>
                 </Box>
-                <WalletSelector chainId={selectedChainId} closeModal={() => setOpened(false)} />
+                <WalletSelector
+                    closeModal={() => setOpened(false)}
+                    connectors={{ metamask: connectMetamask, walletConnect: connectWalletConnect, walletLink: connectWalletLink }}
+                />
             </Modal>
-
-            {/* **** Its because the wallet selector isnt getting called immediately - we need to load it and then parse it in... */}
 
             <Group position="center">
                 {account ? (
