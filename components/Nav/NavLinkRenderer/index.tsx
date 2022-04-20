@@ -12,8 +12,8 @@ export default function NavLinkRenderer() {
     return (
         <div>
             {data.map((link, index) => (
-                <Box mt={24}>
-                    <NavLink {...link} key={index} />
+                <Box mt={24} key={index}>
+                    <NavLink {...link} />
                 </Box>
             ))}
         </div>

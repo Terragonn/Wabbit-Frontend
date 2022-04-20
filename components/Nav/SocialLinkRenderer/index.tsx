@@ -12,8 +12,8 @@ export default function SocialLinks() {
     return (
         <div>
             {data.map((link, index) => (
-                <Box mt={12}>
-                    <NavLink {...link} key={index} />
+                <Box mt={12} key={index}>
+                    <NavLink {...link} />
                 </Box>
             ))}
         </div>
