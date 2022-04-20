@@ -8,14 +8,14 @@ export const injected = new InjectedConnector({
     supportedChainIds: [250],
 });
 
-export const WalletConnect = (chainId: SupportedChainId) =>
+export const walletConnect = (chainId: SupportedChainId) =>
     new WalletConnectConnector({
         chainId: chainId,
         rpc: Object.entries(chainDataConfig).reduce((a, v) => ({ ...a, [Number(v[0])]: v[1].rpcUrl }), {}),
         supportedChainIds: [...SUPPORTED_CHAIN_ID],
     });
 
-export const WalletLink = (chainId: SupportedChainId) =>
+export const walletLink = (chainId: SupportedChainId) =>
     new WalletLinkConnector({
         url: chainDataConfig[chainId].rpcUrl,
         appName: "Torque",
