@@ -1,19 +1,22 @@
 import { useWeb3React } from "@web3-react/core";
 
 import { injected, walletConnect, walletLink } from "../../../connectors";
+import useError from "../../../providers/ErrorProvider";
 import { SupportedChainId } from "../../../utils/ChainData";
 import WalletCard from "../WalletCard";
 
 export default function WalletSelector({ chainId, closeModal }: { chainId: SupportedChainId; closeModal: () => void }) {
     const { activate } = useWeb3React();
 
+    const setError = useError();
+
     function connectWrapper(connect: () => Promise<void>) {
         return async () => {
             try {
                 await connect();
                 closeModal();
-            } catch (e) {
-                console.log(e);
+            } catch (e: any) {
+                setError(e.message);
             }
         };
     }
