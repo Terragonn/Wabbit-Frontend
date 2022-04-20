@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 export default function NavLink({ icon, color, label }: { icon: ReactNode; color: string; label: string }) {
     return (
         <UnstyledButton
-            mt={24}
             sx={(theme) => ({
                 display: "block",
                 width: "100%",

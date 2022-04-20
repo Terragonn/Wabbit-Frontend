@@ -2,7 +2,7 @@ import { Navbar } from "@mantine/core";
 
 import NavGroupHeader from "./NavGroupHeader";
 import NavLinkRenderer from "./NavLinkRenderer";
-import Social from "./Social";
+import SocialLinkRenderer from "./SocialLinkRenderer";
 
 export default function Nav() {
     return (
@@ -13,7 +13,7 @@ export default function Nav() {
             </Navbar.Section>
             <Navbar.Section>
                 <NavGroupHeader>Socials</NavGroupHeader>
-                <Social />
+                <SocialLinkRenderer />
             </Navbar.Section>
         </Navbar>
     );
