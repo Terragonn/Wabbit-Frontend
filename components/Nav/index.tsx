@@ -6,7 +6,7 @@ import SocialLinkRenderer from "./SocialLinkRenderer";
 
 export default function Nav() {
     return (
-        <Navbar p="xl">
+        <Navbar p="xl" width={{ base: 300 }}>
             <Navbar.Section grow>
                 <NavGroupHeader>Links</NavGroupHeader>
                 <NavLinkRenderer />
