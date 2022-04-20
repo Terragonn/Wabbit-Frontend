@@ -13,10 +13,11 @@ export default function ConnectWallet() {
 
     const SELECTED_CHAIN_ID: SupportedChainId = 250;
 
-    useNetwork(SELECTED_CHAIN_ID);
     const connectMetamask = useMetamask(SELECTED_CHAIN_ID);
     const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
     const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);
+
+    useNetwork(SELECTED_CHAIN_ID);
 
     return (
         <>
