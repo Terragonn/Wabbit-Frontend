@@ -4,7 +4,9 @@ export interface ChainData {
     blockExplorer: string;
 }
 
-export type SupportedChainId = 250;
+export const SUPPORTED_CHAIN_ID = [250] as const;
+
+export type SupportedChainId = typeof SUPPORTED_CHAIN_ID[number];
 
 export const chainDataConfig: { [key in SupportedChainId]: ChainData } = {
     250: {
