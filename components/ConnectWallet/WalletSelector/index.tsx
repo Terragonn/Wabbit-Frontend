@@ -1,7 +1,7 @@
 import useError from "../../../providers/ErrorProvider";
 import { SupportedChainId } from "../../../utils/ChainData";
 import WalletCard from "../WalletCard";
-import { useMetamask, useWalletConnect, useWalletLink } from "./hooks";
+import { useMetamask, useWalletConnect, useWalletLink } from "../hooks";
 
 export default function WalletSelector({ chainId, closeModal }: { chainId: SupportedChainId; closeModal: () => void }) {
     const setError = useError();

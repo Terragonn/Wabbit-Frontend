@@ -31,6 +31,8 @@ export default function ConnectWallet() {
                 <WalletSelector chainId={selectedChainId} closeModal={() => setOpened(false)} />
             </Modal>
 
+            {/* **** Its because the wallet selector isnt getting called immediately - we need to load it and then parse it in... */}
+
             <Group position="center">
                 {account ? (
                     <Button onClick={() => deactivate()} variant="outline" color="indigo">
