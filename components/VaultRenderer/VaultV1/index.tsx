@@ -1,4 +1,4 @@
-import { Badge, Box, Container, Divider, Group, Modal, Text } from "@mantine/core";
+import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
@@ -11,7 +11,7 @@ export default function VaultV1({ name, description, tags, color }: { name: stri
         <>
             {/* <Modal></Modal> */}
 
-            <Container
+            <Paper
                 p="xl"
                 mb="md"
                 sx={(theme) => ({
@@ -37,12 +37,19 @@ export default function VaultV1({ name, description, tags, color }: { name: stri
                     <Text size="xl" weight={700}>
                         {name}
                     </Text>
-                    <Group mt="sm">{tags && tags.map((tag) => <Badge color={color}>{tag}</Badge>)}</Group>
+                    <Group mt="sm">
+                        {tags &&
+                            tags.map((tag, index) => (
+                                <Badge color={color} key={index}>
+                                    {tag}
+                                </Badge>
+                            ))}
+                    </Group>
                     <Text mt="sm" color="dimmed" size="md">
                         {description}
                     </Text>
                 </Box>
-            </Container>
+            </Paper>
         </>
     );
 }
