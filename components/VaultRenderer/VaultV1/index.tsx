@@ -1,4 +1,4 @@
-import { Badge, Container, Group, Modal, Text } from "@mantine/core";
+import { Badge, Box, Container, Divider, Group, Modal, Text } from "@mantine/core";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
@@ -13,6 +13,7 @@ export default function VaultV1({ name, description, tags, color }: { name: stri
 
             <Container
                 p="xl"
+                mb="md"
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
                     border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]}`,
@@ -26,13 +27,21 @@ export default function VaultV1({ name, description, tags, color }: { name: stri
                 })}
             >
                 <Overlap token={[TokenData.FTM, TokenData.USDC]} />
-                <Text size="lg" weight={700}>
-                    {name}
-                </Text>
-                <Text color="dimmed" size="md">
-                    {description}
-                </Text>
-                <Group>{tags && tags.map((tag) => <Badge color={color}>{tag}</Badge>)}</Group>
+                <Box
+                    mt="md"
+                    pb="md"
+                    sx={(theme) => ({
+                        borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]}`,
+                    })}
+                >
+                    <Text size="xl" weight={700}>
+                        {name}
+                    </Text>
+                    <Group mt="sm">{tags && tags.map((tag) => <Badge color={color}>{tag}</Badge>)}</Group>
+                    <Text mt="sm" color="dimmed" size="md">
+                        {description}
+                    </Text>
+                </Box>
             </Container>
         </>
     );
