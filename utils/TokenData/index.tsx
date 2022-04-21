@@ -1,7 +1,7 @@
 import { Image } from "@mantine/core";
 
 function TokenIcon({ name, src }: { name: string; src: string }) {
-    return <Image src={src} alt={name} width={50} radius="xl" />;
+    return <Image src={src} alt={name} width={40} radius="xl" />;
 }
 
 export interface Token {

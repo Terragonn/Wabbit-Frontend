@@ -4,9 +4,15 @@ import { Token } from "../../TokenData";
 export default function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
-            {token.map((tkn) => (
-                <Box sx={{ margin: "-4px" }}>{tkn.icon}</Box>
-            ))}
+            {token.map((tkn, index) => {
+                const margin = index === 0 ? 0 : -24;
+
+                return (
+                    <Box style={{ margin }} key={index}>
+                        {tkn.icon}
+                    </Box>
+                );
+            })}
         </Group>
     );
 }
