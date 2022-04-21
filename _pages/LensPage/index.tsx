@@ -18,6 +18,10 @@ export default function LensPage() {
                 </Text>
             </Box>
             <VaultRenderer />
+            <Box mt={24} pb="sm">
+                <Title order={3}>Vaults</Title>
+            </Box>
+            <VaultRenderer />
         </>
     );
 }
