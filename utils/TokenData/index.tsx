@@ -4,6 +4,13 @@ function TokenIcon({ name, src }: { name: string; src: string }) {
     return <Image src={src} alt={name} width={50} />;
 }
 
+export interface Token {
+    address: string;
+    name: string;
+    decimals: number;
+    icon: JSX.Element;
+}
+
 export default {
     FTM: {
         address: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
@@ -47,7 +54,6 @@ export default {
         decimals: 18,
         icon: <TokenIcon name="Chainlink" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1975.png" />,
     },
+} as {
+    [key: string]: Token;
 };
-
-// **** So for this I want to be able to get a list of different tokens and have them display properly
-// **** Have an icon and everything
