@@ -44,8 +44,6 @@ export default function VaultV1({
                             {name}
                         </Text>
                     </Text>
-                    {/* **** Now we need an input for all tokens */}
-                    {/* **** We also need a way of loading the contracts */}
                 </Box>
             </Modal>
 
