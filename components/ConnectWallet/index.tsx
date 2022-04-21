@@ -7,7 +7,7 @@ import { SupportedChainId } from "../../utils/ChainData";
 import { useDefaultConnector, useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "./hooks";
 
 export default function ConnectWallet() {
-    const { account } = useWeb3React();
+    const { account, chainId } = useWeb3React();
 
     const [opened, setOpened] = useState<boolean>(false);
 
@@ -39,9 +39,15 @@ export default function ConnectWallet() {
 
             <Group position="center">
                 {account ? (
-                    <Button onClick={() => disconnect()} variant="outline" color="indigo">
-                        {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
-                    </Button>
+                    chainId === SELECTED_CHAIN_ID ? (
+                        <Button onClick={() => disconnect()} variant="outline" color="indigo">
+                            {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
+                        </Button>
+                    ) : (
+                        <Button variant="outline" color="red">
+                            Wrong Network!
+                        </Button>
+                    )
                 ) : (
                     <Button onClick={() => setOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
                         Connect
