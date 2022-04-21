@@ -1,11 +1,13 @@
 import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
 import { useState } from "react";
+
 import Overlap from "../../../utils/TokenArrange/Overlap";
-import TokenData from "../../../utils/TokenData";
+import { Token } from "../../../utils/TokenData";
 
 export default function VaultV1({
     name,
     description,
+    token,
     tags,
     color,
     apy,
@@ -14,6 +16,7 @@ export default function VaultV1({
 }: {
     name: string;
     description: string;
+    token: Token[];
     tags?: string[];
     color: string;
     apy: number;
@@ -60,7 +63,7 @@ export default function VaultV1({
                     },
                 })}
             >
-                <Overlap token={[TokenData.FTM, TokenData.USDC]} />
+                <Overlap token={token} />
                 <Box
                     mt="md"
                     pb="md"

@@ -1,4 +1,5 @@
 import { Grid, Group } from "@mantine/core";
+import TokenData from "../../utils/TokenData";
 import VaultV1 from "./VaultV1";
 
 export default function VaultRenderer() {
@@ -8,6 +9,7 @@ export default function VaultRenderer() {
                 <VaultV1
                     name="Beefy FTM-USDC LP"
                     description="Torque USDC-FTM LP strategy optimized on-chain over different vaults on Beefy Finance to earn you the highest yield possible with the least effort on your behalf!"
+                    token={[TokenData.FTM, TokenData.USDC]}
                     tags={["New", "Low Risk"]}
                     color={"blue"}
                     apy={24.79}
