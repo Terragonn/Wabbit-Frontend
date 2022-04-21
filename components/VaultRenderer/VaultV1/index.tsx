@@ -1,4 +1,5 @@
 import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
+import { useState } from "react";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
@@ -19,17 +20,20 @@ export default function VaultV1({
     tvl: number;
     fee: number;
 }) {
+    const [opened, setOpened] = useState<boolean>(false);
+
     // **** I need some way of getting a list of tokens that the user can use
     // **** When they click on the vault it will toggle the modal which will show all of the options they have to interact with the vault
     // **** Should also be some sort of agreement
 
     return (
         <>
-            {/* <Modal></Modal> */}
+            <Modal opened={opened} onClose={() => setOpened(false)}></Modal>
 
             <Paper
                 p="xl"
                 mb="md"
+                onClick={() => setOpened(true)}
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
                     border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]}`,
