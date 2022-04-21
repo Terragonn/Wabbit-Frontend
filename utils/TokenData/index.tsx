@@ -1,7 +1,7 @@
 import { Image } from "@mantine/core";
 
 function TokenIcon({ name, src }: { name: string; src: string }) {
-    return <Image src={src} alt={name} width={50} />;
+    return <Image src={src} alt={name} width={50} radius="xl" />;
 }
 
 export interface Token {
@@ -54,6 +54,4 @@ export default {
         decimals: 18,
         icon: <TokenIcon name="Chainlink" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1975.png" />,
     },
-} as {
-    [key: string]: Token;
 };

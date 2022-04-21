@@ -1,4 +1,6 @@
-import { Container } from "@mantine/core";
+import { Container, Modal } from "@mantine/core";
+import Overlap from "../../../utils/TokenArrange/Overlap";
+import TokenData from "../../../utils/TokenData";
 
 export default function VaultV1({}: {}) {
     // **** I need some way of getting a list of tokens that the user can use
@@ -7,6 +9,8 @@ export default function VaultV1({}: {}) {
 
     return (
         <>
+            {/* <Modal></Modal> */}
+
             <Container
                 p="xl"
                 sx={(theme) => ({
@@ -21,6 +25,7 @@ export default function VaultV1({}: {}) {
                     },
                 })}
             >
+                <Overlap token={[TokenData.FTM, TokenData.USDC]} />
                 Hello
             </Container>
         </>
