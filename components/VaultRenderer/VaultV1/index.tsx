@@ -1,4 +1,4 @@
-import { Badge, Container, Modal, Text } from "@mantine/core";
+import { Badge, Container, Group, Modal, Text } from "@mantine/core";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
@@ -29,7 +29,7 @@ export default function VaultV1({ name, tags }: { name: string; tags?: string[] 
                 <Text size="lg" weight={700}>
                     {name}
                 </Text>
-                {tags && tags.map((tag) => <Badge>{tag}</Badge>)}
+                <Group>{tags && tags.map((tag) => <Badge>{tag}</Badge>)}</Group>
             </Container>
         </>
     );
