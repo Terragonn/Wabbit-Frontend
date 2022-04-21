@@ -1,3 +1,9 @@
+import VaultV1 from "./VaultV1";
+
 export default function VaultRenderer() {
-    return <></>;
+    return (
+        <>
+            <VaultV1 />
+        </>
+    );
 }
