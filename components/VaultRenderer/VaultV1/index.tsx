@@ -28,7 +28,21 @@ export default function VaultV1({
 
     return (
         <>
-            <Modal opened={opened} onClose={() => setOpened(false)}></Modal>
+            <Modal opened={opened} onClose={() => setOpened(false)}>
+                <Box
+                    pb="sm"
+                    sx={(theme) => ({
+                        borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]}`,
+                    })}
+                >
+                    <Text size="md">
+                        Vault{" "}
+                        <Text component="span" weight={700}>
+                            {name}
+                        </Text>
+                    </Text>
+                </Box>
+            </Modal>
 
             <Paper
                 p="xl"
