@@ -2,7 +2,7 @@ import { Badge, Container, Group, Modal, Text } from "@mantine/core";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
-export default function VaultV1({ name, tags, color }: { name: string; tags?: string[]; color: string }) {
+export default function VaultV1({ name, description, tags, color }: { name: string; description: string; tags?: string[]; color: string }) {
     // **** I need some way of getting a list of tokens that the user can use
     // **** When they click on the vault it will toggle the modal which will show all of the options they have to interact with the vault
     // **** Should also be some sort of agreement
@@ -28,6 +28,9 @@ export default function VaultV1({ name, tags, color }: { name: string; tags?: st
                 <Overlap token={[TokenData.FTM, TokenData.USDC]} />
                 <Text size="lg" weight={700}>
                     {name}
+                </Text>
+                <Text color="dimmed" size="md">
+                    {description}
                 </Text>
                 <Group>{tags && tags.map((tag) => <Badge color={color}>{tag}</Badge>)}</Group>
             </Container>
