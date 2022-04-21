@@ -17,7 +17,6 @@ export default function LensPage() {
                     Use our on-chain yield optimization / aggregations vaults to earn the best yields on your LP pairs with the least effort possible!
                 </Text>
             </Box>
-            <VaultRenderer />
             <Box mt={24} pb="sm">
                 <Title order={3}>Vaults</Title>
             </Box>
