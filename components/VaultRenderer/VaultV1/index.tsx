@@ -2,7 +2,23 @@ import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
 import Overlap from "../../../utils/TokenArrange/Overlap";
 import TokenData from "../../../utils/TokenData";
 
-export default function VaultV1({ name, description, tags, color }: { name: string; description: string; tags?: string[]; color: string }) {
+export default function VaultV1({
+    name,
+    description,
+    tags,
+    color,
+    apy,
+    tvl,
+    fee,
+}: {
+    name: string;
+    description: string;
+    tags?: string[];
+    color: string;
+    apy: number;
+    tvl: number;
+    fee: number;
+}) {
     // **** I need some way of getting a list of tokens that the user can use
     // **** When they click on the vault it will toggle the modal which will show all of the options they have to interact with the vault
     // **** Should also be some sort of agreement
@@ -48,6 +64,36 @@ export default function VaultV1({ name, description, tags, color }: { name: stri
                     <Text mt="sm" color="dimmed" size="md">
                         {description}
                     </Text>
+                </Box>
+                <Box mt="md" pb="md">
+                    <Group position="apart">
+                        <Box>
+                            <Text size="lg" color="dimmed">
+                                APY
+                            </Text>
+                            <Text size="lg" weight={700}>
+                                {apy} %
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Text size="lg" color="dimmed">
+                                TVL
+                            </Text>
+                            <Text size="lg" weight={700}>
+                                $ {tvl} K
+                            </Text>
+                        </Box>
+                    </Group>
+                    <Group position="apart" mt="md">
+                        <Box>
+                            <Text size="lg" color="dimmed">
+                                Fee
+                            </Text>
+                            <Text size="lg" weight={700}>
+                                {fee} %
+                            </Text>
+                        </Box>
+                    </Group>
                 </Box>
             </Paper>
         </>

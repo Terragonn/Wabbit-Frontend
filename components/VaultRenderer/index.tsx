@@ -8,6 +8,9 @@ export default function VaultRenderer() {
                 description="Torque USDC-FTM LP strategy optimized on-chain over different vaults on Beefy Finance to earn you the highest yield possible with the least effort on your behalf!"
                 tags={["New", "Low Risk"]}
                 color={"blue"}
+                apy={24.79}
+                tvl={102.3}
+                fee={0}
             />
         </>
     );
