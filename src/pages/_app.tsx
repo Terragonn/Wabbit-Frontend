@@ -1,13 +1,13 @@
 import { AppProps } from "next/app";
 
-import Layout from "../Layout";
+import DefaultLayout from "../layout/Default";
 
 export default function App(props: AppProps) {
     const { Component, pageProps } = props;
 
     return (
-        <Layout>
+        <DefaultLayout>
             <Component {...pageProps} />
-        </Layout>
+        </DefaultLayout>
     );
 }
