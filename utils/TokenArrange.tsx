@@ -1,7 +1,7 @@
 import { Box, Group } from "@mantine/core";
-import { Token } from "../../TokenData";
+import { Token } from "./TokenData";
 
-export default function Overlap({ token }: { token: Token[] }) {
+export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
             {token.map((tkn, index) => {
