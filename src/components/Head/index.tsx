@@ -1,6 +1,7 @@
 import { Group, Header } from "@mantine/core";
-import ConnectWallet from "../ConnectWallet";
-import Logo from "../Logo";
+
+import { ConnectWallet } from "..";
+import { Logo } from "..";
 
 export default function Head() {
     return (

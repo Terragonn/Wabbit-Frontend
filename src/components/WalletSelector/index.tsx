@@ -1,5 +1,5 @@
 import { useError } from "../../providers";
-import WalletCard from "../WalletCard";
+import { WalletCard } from "..";
 
 type Connector = () => Promise<void>;
 
