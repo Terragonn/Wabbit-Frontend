@@ -21,8 +21,6 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     const depositAmount: BigNumber[] = new Array(amountKeys.length);
     for (let i = 0; i < amountKeys.length; i++) depositAmount[i] = bnAmount[parseAddress(await _vault.tokenByIndex(i))];
 
-    console.log(depositAmount);
-
     await (await _vault.deposit(depositAmount)).wait();
 }
 
