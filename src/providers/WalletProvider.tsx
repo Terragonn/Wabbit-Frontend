@@ -14,11 +14,11 @@ export function WalletProvider({ children }: { children: any }) {
     const [opened, setOpened] = useState<boolean>(false);
 
     return (
-        <walletModalCtx.Provider value={setOpened}>
-            <Web3ReactProvider getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}>
+        <Web3ReactProvider getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}>
+            <walletModalCtx.Provider value={setOpened}>
                 <WalletModal opened={opened} onClose={() => setOpened(false)} />
                 {children}
-            </Web3ReactProvider>
-        </walletModalCtx.Provider>
+            </walletModalCtx.Provider>
+        </Web3ReactProvider>
     );
 }
