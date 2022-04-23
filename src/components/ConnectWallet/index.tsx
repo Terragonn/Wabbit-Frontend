@@ -1,23 +1,14 @@
-import { Box, Button, Group, Modal, Text } from "@mantine/core";
-import { useState } from "react";
+import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 
-import { WalletSelector } from "..";
-import { SupportedChainId } from "../../utils";
-import { useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
+import { SELECTED_CHAIN_ID } from "../../utils";
+import { useDisconnect } from "../../hooks";
+import { useWalletModal } from "../../providers";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();
 
-    const [opened, setOpened] = useState<boolean>(false);
-
-    const SELECTED_CHAIN_ID: SupportedChainId = 250;
-
-    const connectMetamask = useMetamask();
-    const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
-    const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);
-
-    const connectors = { metamask: connectMetamask, walletConnect: connectWalletConnect, walletLink: connectWalletLink };
+    const setWalletModalOpened = useWalletModal();
 
     const disconnect = useDisconnect();
 
@@ -35,7 +26,7 @@ export default function ConnectWallet() {
                         </Button>
                     )
                 ) : (
-                    <Button onClick={() => setOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
+                    <Button onClick={() => setWalletModalOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
                         Connect
                     </Button>
                 )}
