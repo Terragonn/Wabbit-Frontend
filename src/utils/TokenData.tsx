@@ -13,7 +13,7 @@ export interface Token {
     icon: JSX.Element;
 }
 
-export function findTokenDataByAddress(token: string) {
+export function getTokenDataByAddress(token: string) {
     const data = Object.values(TokenData).filter((tkn) => parseAddress(tkn.address) === parseAddress(token));
     if (data.length === 0) throw new Error("Token with given address does not exist");
 
