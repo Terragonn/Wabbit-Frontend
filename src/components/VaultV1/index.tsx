@@ -17,7 +17,7 @@ export default function VaultV1({ name, description, token, tags, color }: { nam
 
     return (
         <>
-            <VaultV1Modal opened={opened} onClose={() => setOpened(false)} />
+            <VaultV1Modal token={token} opened={opened} onClose={() => setOpened(false)} />
 
             <Paper
                 p="xl"

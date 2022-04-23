@@ -1,6 +1,7 @@
-import { Box, Modal, Text } from "@mantine/core";
+import { Box, Group, Modal, NumberInput, Text } from "@mantine/core";
+import { Token } from "../../utils";
 
-export default function VaultV1Modal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
+export default function VaultV1Modal({ token, opened, onClose }: { token: Token[]; opened: boolean; onClose: () => void }) {
     return (
         <Modal opened={opened} onClose={onClose}>
             <Box
@@ -11,6 +12,12 @@ export default function VaultV1Modal({ opened, onClose }: { opened: boolean; onC
             >
                 <Text size="md">Vault</Text>
             </Box>
+            {token.map((tkn, index) => (
+                // **** Have an approve button next to this
+                <Group grow>
+                    <NumberInput mt="xl" label={tkn.name + " (" + tkn.ticker + ")"} placeholder="0.0" defaultValue={0} size="md" hideControls />
+                </Group>
+            ))}
         </Modal>
     );
 }
