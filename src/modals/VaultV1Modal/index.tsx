@@ -1,4 +1,4 @@
-import { Box, Group, Modal, NumberInput, Text } from "@mantine/core";
+import { Box, Button, Group, Modal, NumberInput, Text } from "@mantine/core";
 import { Token } from "../../utils";
 
 export default function VaultV1Modal({ token, opened, onClose }: { token: Token[]; opened: boolean; onClose: () => void }) {
@@ -14,10 +14,16 @@ export default function VaultV1Modal({ token, opened, onClose }: { token: Token[
             </Box>
             {token.map((tkn, index) => (
                 // **** Have an approve button next to this
+                // **** Need a good way of updating this too
                 <Group grow>
-                    <NumberInput mt="xl" label={tkn.name + " (" + tkn.ticker + ")"} placeholder="0.0" defaultValue={0} size="md" hideControls />
+                    <NumberInput key={index} mt="xl" label={tkn.name + " (" + tkn.ticker + ")"} placeholder="0.0" defaultValue={0} size="md" hideControls />
                 </Group>
             ))}
+            <Group grow>
+                <Button size="lg" color="grape" mt="xl">
+                    Deposit
+                </Button>
+            </Group>
         </Modal>
     );
 }
