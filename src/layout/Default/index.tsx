@@ -1,12 +1,14 @@
 import { Shell } from "../../components";
-import { WalletProvider, CSSProvider, ErrorProvider } from "../../providers";
+import { WalletProvider, CSSProvider, ErrorProvider, WalletAutoConnectProvider } from "../../providers";
 
 export default function DefaultLayout({ children }: { children: any }) {
     return (
         <CSSProvider>
             <ErrorProvider>
                 <WalletProvider>
-                    <Shell>{children}</Shell>
+                    <WalletAutoConnectProvider>
+                        <Shell>{children}</Shell>
+                    </WalletAutoConnectProvider>
                 </WalletProvider>
             </ErrorProvider>
         </CSSProvider>
