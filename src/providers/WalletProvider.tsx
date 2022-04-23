@@ -1,7 +1,14 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
+import { createContext, useContext } from "react";
 
-export default function WalletProvider({ children }: { children: any }) {
+const walletModalCtx = createContext<(error: string) => void>(undefined as any);
+
+export function useWalletModal() {
+    return useContext(walletModalCtx);
+}
+
+export function WalletProvider({ children }: { children: any }) {
     return <Web3ReactProvider getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}>{children}</Web3ReactProvider>;
 }
 
