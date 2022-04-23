@@ -1,14 +1,12 @@
 import { BigNumber, ethers } from "ethers";
 import { loadTorqueVaultV1 } from "./Contracts";
 
-import { parseToBigNumber } from "./Parse";
+import { parseAddress, parseToBigNumber } from ".";
 import { getTokenDataByAddress } from "./TokenData";
 
 // **** Make sure that we deal with the approvals as well (otherwise there could be problems)
 
 export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner) {
-    console.log(signer);
-
     const _vault = loadTorqueVaultV1(vault, signer);
 
     const bnAmount: { [key: string]: BigNumber } = {};
@@ -21,7 +19,9 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     }
 
     const depositAmount: BigNumber[] = new Array(amountKeys.length);
-    for (let i = 0; i < amountKeys.length; i++) depositAmount[i] = bnAmount[await _vault.tokenByIndex(i)];
+    for (let i = 0; i < amountKeys.length; i++) depositAmount[i] = bnAmount[parseAddress(await _vault.tokenByIndex(i))];
+
+    console.log(depositAmount);
 
     await (await _vault.deposit(depositAmount)).wait();
 }

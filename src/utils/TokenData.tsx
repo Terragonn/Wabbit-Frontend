@@ -14,7 +14,7 @@ export interface Token {
 }
 
 export function getTokenDataByAddress(token: string) {
-    const data = Object.values(TokenData).filter((tkn) => parseAddress(tkn.address) === parseAddress(token));
+    const data = Object.values(TokenData).filter((tkn) => tkn.address === parseAddress(token));
     if (data.length === 0) throw new Error("Token with given address does not exist");
 
     return data[0] as Token;
@@ -30,7 +30,7 @@ export const TokenData = {
     },
     USDC: {
         ticker: "USDC",
-        address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+        address: "0x04068da6c83afcfa0e13ba15a6696662335d5b75",
         name: "USD Coin",
         decimals: 6,
         icon: <TokenIcon name="USD Coin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png" />,
@@ -44,14 +44,14 @@ export const TokenData = {
     },
     BTC: {
         ticker: "BTC",
-        address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+        address: "0x321162cd933e2be498cd2267a90534a804051b11",
         name: "Bitcoin",
         decimals: 8,
         icon: <TokenIcon name="Bitcoin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" />,
     },
     ETH: {
         ticker: "ETH",
-        address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+        address: "0x74b23882a30290451a17c44f4f05243b6b58c76d",
         name: "Ethereum",
         decimals: 18,
         icon: <TokenIcon name="Ethereum" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" />,
@@ -65,7 +65,7 @@ export const TokenData = {
     },
     LINK: {
         ticker: "LINK",
-        address: "0xb3654dc3D10Ea7645f8319668E8F54d2574FBdC8",
+        address: "0xb3654dc3d10ea7645f8319668e8f54d2574fbdc8",
         name: "Chainlink",
         decimals: 18,
         icon: <TokenIcon name="Chainlink" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1975.png" />,
