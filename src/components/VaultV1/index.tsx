@@ -3,30 +3,10 @@ import { useState } from "react";
 
 import { Overlap, Token } from "../../utils/";
 
-export default function VaultV1({
-    name,
-    description,
-    token,
-    tags,
-    color,
-    apy,
-    tvl,
-    fee,
-}: {
-    name: string;
-    description: string;
-    token: Token[];
-    tags?: string[];
-    color: string;
-    apy: number;
-    tvl: number;
-    fee: number;
-}) {
+export default function VaultV1({ name, description, token, tags, color }: { name: string; description: string; token: Token[]; tags?: string[]; color: string }) {
     const [opened, setOpened] = useState<boolean>(false);
 
-    // **** I need some way of getting a list of tokens that the user can use
-    // **** When they click on the vault it will toggle the modal which will show all of the options they have to interact with the vault
-    // **** Should also be some sort of agreement
+    // **** I am going to have to pull the data into the modal
 
     return (
         <>
@@ -92,7 +72,7 @@ export default function VaultV1({
                                 APY
                             </Text>
                             <Text size="lg" weight={700}>
-                                {apy} %
+                                {/* {apy} % */}
                             </Text>
                         </Box>
                         <Box>
@@ -100,7 +80,7 @@ export default function VaultV1({
                                 TVL
                             </Text>
                             <Text size="lg" weight={700}>
-                                $ {tvl} K
+                                {/* $ {tvl} K */}
                             </Text>
                         </Box>
                     </Group>
@@ -110,7 +90,7 @@ export default function VaultV1({
                                 Fee
                             </Text>
                             <Text size="lg" weight={700}>
-                                {fee} %
+                                {/* {fee} % */}
                             </Text>
                         </Box>
                     </Group>
