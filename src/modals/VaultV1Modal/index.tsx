@@ -16,11 +16,11 @@ export default function VaultV1Modal({ token, opened, onClose }: { token: Token[
                 // **** Have an approve button next to this
                 // **** Need a good way of updating this too
                 <Group grow>
-                    <NumberInput key={index} mt="xl" label={tkn.name + " (" + tkn.ticker + ")"} placeholder="0.0" defaultValue={0} size="md" hideControls />
+                    <NumberInput key={index} mt="lg" label={tkn.name + " (" + tkn.ticker + ")"} placeholder="0.0" defaultValue={0} size="md" hideControls />
                 </Group>
             ))}
-            <Group grow>
-                <Button size="lg" color="grape" mt="xl">
+            <Group grow mt="xl">
+                <Button size="lg" color="grape">
                     Deposit
                 </Button>
             </Group>
