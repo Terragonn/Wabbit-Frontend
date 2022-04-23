@@ -5,5 +5,6 @@ export * from "./Connector";
 export * from "./Constants";
 export * from "./Data";
 export * from "./Approve";
-export * from "./VaultDeposit";
+export * from "./VaultIO";
 export * from "./Contracts";
+export * from "./Parse";

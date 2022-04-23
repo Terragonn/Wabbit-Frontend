@@ -1,4 +1,5 @@
 import { Image } from "@mantine/core";
+import { parseAddress } from ".";
 
 function TokenIcon({ name, src }: { name: string; src: string }) {
     return <Image src={src} alt={name} width={40} radius="xl" />;
@@ -10,6 +11,13 @@ export interface Token {
     name: string;
     decimals: number;
     icon: JSX.Element;
+}
+
+export function findTokenDataByAddress(token: string) {
+    const data = Object.values(TokenData).filter((tkn) => parseAddress(tkn.address) === parseAddress(token));
+    if (data.length === 0) throw new Error("Token with given address does not exist");
+
+    return data[0] as Token;
 }
 
 export const TokenData = {
