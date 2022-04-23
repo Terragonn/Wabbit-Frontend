@@ -1,35 +1,28 @@
 import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
+import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
+import { VaultV1Modal } from "../../modals";
+import { useWalletModal } from "../../providers";
 
 import { Overlap, Token } from "../../utils/";
 
 export default function VaultV1({ name, description, token, tags, color }: { name: string; description: string; token: Token[]; tags?: string[]; color: string }) {
+    const { active } = useWeb3React();
+
+    const setWalletModalOpened = useWalletModal();
+
     const [opened, setOpened] = useState<boolean>(false);
 
     // **** I am going to have to pull the data into the modal
 
     return (
         <>
-            <Modal opened={opened} onClose={() => setOpened(false)}>
-                <Box
-                    pb="sm"
-                    sx={(theme) => ({
-                        borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]}`,
-                    })}
-                >
-                    <Text size="md">
-                        Vault{" "}
-                        <Text component="span" weight={700}>
-                            {name}
-                        </Text>
-                    </Text>
-                </Box>
-            </Modal>
+            <VaultV1Modal opened={opened} onClose={() => setOpened(false)} />
 
             <Paper
                 p="xl"
                 mb="md"
-                onClick={() => setOpened(true)}
+                onClick={() => (active ? setOpened(true) : setWalletModalOpened(true))}
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
                     border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]}`,

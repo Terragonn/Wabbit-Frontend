@@ -1,2 +1,2 @@
 export { default as WalletModal } from "./WalletModal";
-export { default as VaultV1 } from "./VaultV1";
+export { default as VaultV1Modal } from "./VaultV1Modal";
