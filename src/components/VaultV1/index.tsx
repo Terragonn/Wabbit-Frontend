@@ -6,7 +6,21 @@ import { useWalletModal } from "../../providers";
 
 import { Overlap, Token } from "../../utils/";
 
-export default function VaultV1({ name, description, token, tags, color }: { name: string; description: string; token: Token[]; tags?: string[]; color: string }) {
+export default function VaultV1({
+    vault,
+    name,
+    description,
+    token,
+    tags,
+    color,
+}: {
+    vault: string;
+    name: string;
+    description: string;
+    token: Token[];
+    tags?: string[];
+    color: string;
+}) {
     const { active } = useWeb3React();
 
     const setWalletModalOpened = useWalletModal();
@@ -17,7 +31,7 @@ export default function VaultV1({ name, description, token, tags, color }: { nam
 
     return (
         <>
-            <VaultV1Modal name={name} token={token} opened={opened} onClose={() => setOpened(false)} />
+            <VaultV1Modal name={name} token={token} vault={vault} opened={opened} onClose={() => setOpened(false)} />
 
             <Paper
                 p="xl"

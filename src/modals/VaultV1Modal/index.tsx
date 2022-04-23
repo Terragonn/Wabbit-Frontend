@@ -1,8 +1,11 @@
 import { Box, Button, Group, Modal, NumberInput, Text } from "@mantine/core";
+import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
-import { Token } from "../../utils";
+import { approve, Token, vaultDeposit } from "../../utils";
 
-export default function VaultV1Modal({ token, name, opened, onClose }: { token: Token[]; name: string; opened: boolean; onClose: () => void }) {
+export default function VaultV1Modal({ token, name, vault, opened, onClose }: { token: Token[]; name: string; vault: string; opened: boolean; onClose: () => void }) {
+    const { account, library } = useWeb3React();
+
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
         token.forEach((tkn) => (tmp[tkn.address] = 0));
@@ -42,10 +45,16 @@ export default function VaultV1Modal({ token, name, opened, onClose }: { token: 
                             })
                         }
                     />
+                    {/* **** Remove this if already approved */}
+                    {/* **** Add error wrappers for all of these */}
+                    {/* **** Fix the signer issue ? */}
+                    <Button onClick={async () => approve(tkn.address, account as string, vault, library)} size="sm" color="indigo">
+                        Approve
+                    </Button>
                 </Group>
             ))}
             <Group grow mt="xl">
-                <Button size="lg" color="grape">
+                <Button size="lg" color="grape" onClick={async () => vaultDeposit(vault, tokenAmount, library)}>
                     Deposit
                 </Button>
             </Group>
