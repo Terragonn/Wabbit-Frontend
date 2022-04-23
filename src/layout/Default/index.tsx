@@ -1,4 +1,4 @@
-import ShellWrapper from "../../components/ShellWrapper";
+import ShellWrapper from "../../components/Shell";
 import { WalletProvider, CSSProvider, ErrorProvider } from "../../providers";
 
 export default function DefaultLayout({ children }: { children: any }) {

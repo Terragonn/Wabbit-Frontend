@@ -1,6 +1,7 @@
-import { Grid, Group } from "@mantine/core";
-import TokenData from "../../utils/TokenData";
-import VaultV1 from "./VaultV1";
+import { Grid } from "@mantine/core";
+
+import { TokenData } from "../../utils";
+import { VaultV1 } from "..";
 
 export default function VaultRenderer() {
     return (

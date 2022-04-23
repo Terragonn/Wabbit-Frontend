@@ -1,8 +1,7 @@
 import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
 import { useState } from "react";
 
-import Overlap from "../../../utils/TokenArrange";
-import { Token } from "../../../utils/TokenData";
+import { Overlap, Token } from "../../utils/";
 
 export default function VaultV1({
     name,

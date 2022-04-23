@@ -2,8 +2,8 @@ import { Box, Button, Group, Modal, Text } from "@mantine/core";
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
-import WalletSelector from "./WalletSelector";
-import { SupportedChainId } from "../../utils/ChainData";
+import { WalletSelector } from "..";
+import { SupportedChainId } from "../../utils";
 import { useDefaultConnector, useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 
 export default function ConnectWallet() {

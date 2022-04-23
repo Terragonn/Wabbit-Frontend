@@ -11,7 +11,7 @@ export interface Token {
     icon: JSX.Element;
 }
 
-export const tokenData = {
+export const TokenData = {
     FTM: {
         address: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
         name: "Fantom",

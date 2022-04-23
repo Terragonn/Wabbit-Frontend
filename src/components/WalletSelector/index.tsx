@@ -1,4 +1,4 @@
-import useError from "../../../providers/ErrorProvider";
+import { useError } from "../../providers";
 import WalletCard from "../WalletCard";
 
 type Connector = () => Promise<void>;
