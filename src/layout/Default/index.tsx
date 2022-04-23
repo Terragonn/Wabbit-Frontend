@@ -1,7 +1,5 @@
-import { ErrorProvider } from "../../providers/ErrorProvider";
-import CSSProvider from "../../providers/CSSProvider";
 import ShellWrapper from "../../components/ShellWrapper";
-import WalletProvider from "../../providers/WalletProvider";
+import { WalletProvider, CSSProvider, ErrorProvider } from "../../providers";
 
 export default function DefaultLayout({ children }: { children: any }) {
     return (

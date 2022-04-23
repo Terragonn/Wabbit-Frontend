@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import WalletSelector from "./WalletSelector";
 import { SupportedChainId } from "../../utils/ChainData";
-import { useDefaultConnector, useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "./hooks";
+import { useDefaultConnector, useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();

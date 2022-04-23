@@ -4,7 +4,7 @@ import { X } from "tabler-icons-react";
 
 const errorCtx = createContext<(error: string) => void>(undefined as any);
 
-export default function useError() {
+export function useError() {
     return useContext(errorCtx);
 }
 
