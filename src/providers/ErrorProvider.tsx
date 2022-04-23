@@ -1,5 +1,5 @@
-import { Dialog, Notification } from "@mantine/core";
 import { createContext, useContext, useState } from "react";
+import { Dialog, Notification } from "@mantine/core";
 import { X } from "tabler-icons-react";
 
 const errorCtx = createContext<(error: string) => void>(undefined as any);

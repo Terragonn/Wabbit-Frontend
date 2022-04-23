@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { useEffect } from "react";
 
-import { injected, network, walletConnect, walletLink } from "../../../connectors";
+import { injected, network, walletConnect, walletLink } from "../../../utils/Connectors";
 import { SupportedChainId } from "../../../utils/ChainData";
 
 type Connector = () => Promise<void>;
