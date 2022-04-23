@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
 
-import LeverPage from "../_pages/LeverPage";
+import ConstructionPage from "../_pages/ConstructionPage";
 
 const Lever: NextPage = () => {
-    return <LeverPage />;
+    return <ConstructionPage />;
 };
 
 export default Lever;

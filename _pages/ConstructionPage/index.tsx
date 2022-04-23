@@ -1,7 +1,7 @@
 import { Box, Group, Text, Title } from "@mantine/core";
 import { Backhoe } from "tabler-icons-react";
 
-export default function LeverPage() {
+export default function ConstructionPage() {
     return (
         <Box py="xl">
             <Title align="center" order={2}>
