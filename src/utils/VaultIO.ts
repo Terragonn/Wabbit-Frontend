@@ -7,6 +7,8 @@ import { getTokenDataByAddress } from "./TokenData";
 // **** Make sure that we deal with the approvals as well (otherwise there could be problems)
 
 export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner) {
+    console.log(signer);
+
     const _vault = loadTorqueVaultV1(vault, signer);
 
     const bnAmount: { [key: string]: BigNumber } = {};
