@@ -1,15 +1,23 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
+import { WalletModal } from "../modals";
 
-const walletModalCtx = createContext<(error: string) => void>(undefined as any);
+const walletModalCtx = createContext<(opened: boolean) => void>(undefined as any);
 
 export function useWalletModal() {
     return useContext(walletModalCtx);
 }
 
 export function WalletProvider({ children }: { children: any }) {
-    return <Web3ReactProvider getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}>{children}</Web3ReactProvider>;
-}
+    const [opened, setOpened] = useState<boolean>(false);
 
-// **** We need to do more work in this one to avoid problems
+    return (
+        <walletModalCtx.Provider value={setOpened}>
+            <Web3ReactProvider getLibrary={(provider) => new ethers.providers.Web3Provider(provider)}>
+                <WalletModal opened={opened} onClose={() => setOpened(false)} />
+                {children}
+            </Web3ReactProvider>
+        </walletModalCtx.Provider>
+    );
+}
