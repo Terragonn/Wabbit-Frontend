@@ -6,3 +6,4 @@ export * from "./Constants";
 export * from "./Data";
 export * from "./Approve";
 export * from "./VaultDeposit";
+export * from "./Contracts";
