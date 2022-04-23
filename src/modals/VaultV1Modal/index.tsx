@@ -3,7 +3,11 @@ import { useState } from "react";
 import { Token } from "../../utils";
 
 export default function VaultV1Modal({ token, name, opened, onClose }: { token: Token[]; name: string; opened: boolean; onClose: () => void }) {
-    const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>({});
+    const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
+        const tmp: { [key: string]: number } = {};
+        token.forEach((tkn) => (tmp[tkn.address] = 0));
+        return tmp;
+    });
 
     return (
         <Modal opened={opened} onClose={onClose}>
@@ -29,7 +33,6 @@ export default function VaultV1Modal({ token, name, opened, onClose }: { token: 
                         placeholder="0.0"
                         size="md"
                         hideControls
-                        // **** This should probably be controlled instead... ?
                         min={0}
                         max={9999999}
                         onChange={(num) =>
