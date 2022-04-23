@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { WalletSelector } from "..";
 import { SupportedChainId } from "../../utils";
-import { useDefaultConnector, useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
+import { useDisconnect, useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();
@@ -19,24 +19,10 @@ export default function ConnectWallet() {
 
     const connectors = { metamask: connectMetamask, walletConnect: connectWalletConnect, walletLink: connectWalletLink };
 
-    useDefaultConnector(SELECTED_CHAIN_ID, connectors);
-
     const disconnect = useDisconnect();
 
     return (
         <>
-            <Modal padding="xl" opened={opened} onClose={() => setOpened(false)}>
-                <Box
-                    pb="sm"
-                    sx={(theme) => ({
-                        borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]}`,
-                    })}
-                >
-                    <Text size="md">Choose A Wallet</Text>
-                </Box>
-                <WalletSelector closeModal={() => setOpened(false)} connectors={connectors} />
-            </Modal>
-
             <Group position="center">
                 {account ? (
                     chainId === SELECTED_CHAIN_ID ? (

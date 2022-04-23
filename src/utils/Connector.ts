@@ -1,5 +1,4 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
-import { NetworkConnector } from "@web3-react/network-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
@@ -24,5 +23,3 @@ export const walletLink = (chainId: SupportedChainId) =>
         appName: "Torque",
         supportedChainIds: [...SUPPORTED_CHAIN_ID],
     });
-
-export const network = (chainId: SupportedChainId) => new NetworkConnector({ defaultChainId: chainId, urls: mappedRPC });
