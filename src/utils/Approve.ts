@@ -1,7 +1,15 @@
 import { ethers } from "ethers";
+import { loadERC20 } from ".";
+import { TO_APPROVE_THRESHOLD } from "./Constants";
 
-export function isApproved(token: string, account: string) {
-    // **** Check if the given account is approved or not
+export async function isApproved(token: string, account: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
+    const tkn = loadERC20(token, signer);
+
+    const allowance = await tkn.allowance(account, toApprove);
+
+    return allowance.gt(TO_APPROVE_THRESHOLD);
 }
 
-export function approve(token: string, account: string, signer: ethers.providers.JsonRpcSigner) {}
+export function approve(token: string, account: string, signer: ethers.providers.JsonRpcSigner) {
+    // **** We need to approve it to be above the given threshold
+}
