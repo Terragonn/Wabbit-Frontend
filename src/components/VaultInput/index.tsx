@@ -10,6 +10,9 @@ export default function VaultInput({ token, account, vault, library }: { token: 
         return tmp;
     });
 
+    // **** I need to set up some sort of registry with this where we update everytime this happens - we also
+    // need a way of making sure that the deposit button doesnt come up until we approve all
+
     return (
         <>
             {token.map((tkn, index) => (
