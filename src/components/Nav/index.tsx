@@ -11,7 +11,7 @@ export default function Nav() {
                 <NavGroupHeader>Links</NavGroupHeader>
                 <NavLinkRenderer />
             </Navbar.Section>
-            <Navbar.Section>
+            <Navbar.Section grow>
                 <NavGroupHeader>Socials</NavGroupHeader>
                 <SocialLinkRenderer />
             </Navbar.Section>
