@@ -28,7 +28,7 @@ export default function VaultV1Modal({ token, name, vault, opened, onClose }: { 
                 </Text>
             </Box>
             {token.map((tkn, index) => (
-                <Group grow>
+                <Group grow key={index}>
                     <NumberInput
                         key={index}
                         mt="lg"
