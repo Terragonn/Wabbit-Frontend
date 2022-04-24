@@ -47,14 +47,15 @@ export default function VaultV1Modal({ token, name, vault, opened, onClose }: { 
                     />
                     {/* **** Remove this if already approved */}
                     {/* **** Add error wrappers for all of these */}
-                    <Button onClick={async () => approve(tkn.address, account as string, vault, library.getSigner())} size="sm" color="indigo">
+                    {/* <Button onClick={async () => await approve(tkn.address, account as string, vault, library.getSigner())} size="sm" color="indigo"> */}
+                    <Button onClick={() => console.log(tokenAmount)} size="sm" color="indigo">
                         Approve
                     </Button>
                 </Group>
             ))}
             <Group grow mt="xl">
                 {/* **** Fix whatever problem is wrong with this ? */}
-                <Button size="lg" color="grape" onClick={async () => vaultDeposit(vault, tokenAmount, library.getSigner())}>
+                <Button size="lg" color="grape" onClick={async () => await vaultDeposit(vault, tokenAmount, library.getSigner())}>
                     Deposit
                 </Button>
             </Group>
