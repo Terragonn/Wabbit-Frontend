@@ -6,7 +6,7 @@ export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
             {token.map((tkn, index) => {
-                const margin = index === 0 ? 0 : -24;
+                const margin = index === 0 ? 0 : "lg";
 
                 return (
                     <Box style={{ margin }} key={index}>

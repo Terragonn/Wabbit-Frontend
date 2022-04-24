@@ -1,14 +1,11 @@
-import { Box, Button, Group, Modal, NumberInput, Tabs, Text } from "@mantine/core";
-import { useWeb3React } from "@web3-react/core";
+import { Box, Modal, Tabs, Text } from "@mantine/core";
 import { ArrowsMaximize, ArrowsMinimize } from "tabler-icons-react";
-import { VaultInput } from "../../components";
-import { Token, vaultDeposit } from "../../utils";
+
+import { Token } from "../../utils";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 
 export default function VaultV1Modal({ token, name, vault, opened, onClose }: { token: Token[]; name: string; vault: string; opened: boolean; onClose: () => void }) {
-    const { account, library } = useWeb3React();
-
     return (
         <Modal opened={opened} onClose={onClose}>
             <Box
@@ -27,19 +24,12 @@ export default function VaultV1Modal({ token, name, vault, opened, onClose }: { 
 
             <Tabs grow mt="xl" color="indigo">
                 <Tabs.Tab label="Deposit" icon={<ArrowsMinimize size={14} />}>
-                    <Deposit />
+                    <Deposit token={token} vault={vault} />
                 </Tabs.Tab>
                 <Tabs.Tab label="Withdraw" icon={<ArrowsMaximize size={14} />}>
                     <Withdraw />
                 </Tabs.Tab>
             </Tabs>
-
-            {/* {account && library && <VaultInput token={token} account={account} vault={vault} library={library} />}
-            <Group grow mt="xl">
-                <Button size="lg" color="grape" onClick={async () => await vaultDeposit(vault, tokenAmount, library.getSigner())}>
-                    Deposit
-                </Button>
-            </Group> */}
         </Modal>
     );
 }

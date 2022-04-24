@@ -34,8 +34,9 @@ export default function VaultInputSingle({
     }, []);
 
     return (
-        <Group direction="column" grow mt="xl">
+        <Group direction="column" grow mt="sm">
             <NumberInput
+                variant="default"
                 mt="lg"
                 label={
                     <Text weight={700}>
