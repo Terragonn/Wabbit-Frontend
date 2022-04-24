@@ -1,4 +1,4 @@
-import { Button, Group, NumberInput } from "@mantine/core";
+import { Box, Button, Group, NumberInput, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { approve, isApproved, Token } from "../../utils";
 
@@ -11,14 +11,19 @@ export default function VaultInput({ token, account, vault, library }: { token: 
     }, []);
 
     return (
-        <Group grow>
+        <Group direction="column" grow mt="xl">
             <NumberInput
                 mt="lg"
-                label={token.name + " (" + token.ticker + ")"}
+                label={
+                    <Text weight={700}>
+                        {" "}
+                        {token.name} ({token.ticker})
+                    </Text>
+                }
                 placeholder="0.0"
                 size="md"
                 hideControls
-                value={parseFloat(amount) == NaN ? undefined : parseFloat(amount)}
+                value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
                 onChange={(num) => setAmount(num ? num.toString() : "")}
             />
             {!approved && (
