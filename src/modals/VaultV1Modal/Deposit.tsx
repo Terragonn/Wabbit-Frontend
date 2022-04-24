@@ -8,12 +8,12 @@ export default function Deposit({ token, vault }: { token: Token[]; vault: strin
 
     if (account && library)
         return (
-            <Box mt="xl">
+            <Box mt="sm">
                 <Text size="xl" weight={700}>
                     Deposit
                 </Text>
                 {account && library && <VaultInput token={token} account={account} vault={vault} library={library} />}
-                <Group grow mt="xl">
+                <Group grow mt="lg">
                     <Button size="lg" color="grape">
                         Deposit
                     </Button>

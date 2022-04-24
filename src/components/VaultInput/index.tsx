@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Token } from "../../utils";
 import { Input } from "..";
+import { Box } from "@mantine/core";
 
 export default function VaultInput({ token, account, vault, library }: { token: Token[]; account: string; vault: string; library: any }) {
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -14,10 +15,10 @@ export default function VaultInput({ token, account, vault, library }: { token: 
     // need a way of making sure that the deposit button doesnt come up until we approve all
 
     return (
-        <>
+        <Box>
             {token.map((tkn, index) => (
                 <Input key={index} token={tkn} account={account} vault={vault} library={library} />
             ))}
-        </>
+        </Box>
     );
 }
