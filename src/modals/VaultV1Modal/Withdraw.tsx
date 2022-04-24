@@ -1,1 +1,3 @@
-export default function Withdraw() {}
+export default function Withdraw() {
+    return <></>;
+}
