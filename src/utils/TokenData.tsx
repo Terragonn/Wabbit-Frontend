@@ -1,4 +1,5 @@
 import { Image } from "@mantine/core";
+
 import { parseAddress } from ".";
 
 function TokenIcon({ name, src }: { name: string; src: string }) {

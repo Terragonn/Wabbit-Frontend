@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
-import { ROUND_NUMBER } from "./Constants";
+
+import { ROUND_NUMBER } from ".";
 
 export function parseAddress(address: string) {
     return address.toLowerCase();

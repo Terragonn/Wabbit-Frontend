@@ -1,6 +1,6 @@
 import { Box, Group } from "@mantine/core";
 
-import { Token } from "./";
+import { Token } from ".";
 
 export function Overlap({ token }: { token: Token[] }) {
     return (

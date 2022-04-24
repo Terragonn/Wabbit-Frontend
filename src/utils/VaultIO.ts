@@ -1,8 +1,6 @@
 import { BigNumber, ethers } from "ethers";
-import { loadTorqueVaultV1 } from "./Contracts";
 
-import { parseAddress, parseToBigNumber } from ".";
-import { getTokenDataByAddress } from "./TokenData";
+import { parseAddress, parseToBigNumber, getTokenDataByAddress, loadTorqueVaultV1 } from ".";
 
 export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner) {
     const _vault = loadTorqueVaultV1(vault, signer);

@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 
-import { loadERC20 } from ".";
-import { TO_APPROVE, TO_APPROVE_THRESHOLD } from "./Constants";
+import { loadERC20, TO_APPROVE, TO_APPROVE_THRESHOLD } from ".";
 
 export async function isApproved(token: string, account: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
     const tkn = loadERC20(token, signer);

@@ -8,3 +8,4 @@ export * from "./Approve";
 export * from "./VaultIO";
 export * from "./Contracts";
 export * from "./Parse";
+export * from "./TokenAmount";
