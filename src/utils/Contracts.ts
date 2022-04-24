@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 
-import IERC20ABI from "../../abi/IERC20.json";
-import TorqueVaultV1ABI from "../../abi/TorqueVaultV1.json";
+import { IERC20ABI, TorqueVaultV1ABI } from "../../abi";
 import { IERC20, TorqueVaultV1 } from "../../types";
 
 export function loadERC20(token: string, signer: ethers.providers.JsonRpcSigner) {
