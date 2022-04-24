@@ -4,7 +4,7 @@ import { useState } from "react";
 import { approve, Token, vaultDeposit } from "../../utils";
 
 export default function VaultV1Modal({ token, name, vault, opened, onClose }: { token: Token[]; name: string; vault: string; opened: boolean; onClose: () => void }) {
-    const { account, library } = useWeb3React();
+    const { library } = useWeb3React();
 
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
