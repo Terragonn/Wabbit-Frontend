@@ -1,11 +1,12 @@
-import { Box, Modal, Tabs, Text } from "@mantine/core";
+import { Tabs } from "@mantine/core";
+import { ContextModalProps } from "@mantine/modals";
 import { ArrowsMaximize, ArrowsMinimize } from "tabler-icons-react";
 
 import { Token } from "../../utils";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 
-export default function VaultV1Modal({ token, name, vault }: { token: Token[]; name: string; vault: string }) {
+export default function VaultV1Modal({ context, id, innerProps: { token, name, vault } }: ContextModalProps<{ token: Token[]; name: string; vault: string }>) {
     return (
         <Tabs grow mt="xl" color="indigo">
             <Tabs.Tab label="Deposit" icon={<ArrowsMinimize size={14} />}>

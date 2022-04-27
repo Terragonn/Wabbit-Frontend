@@ -32,7 +32,7 @@ export default function VaultV1({
                 p="xl"
                 mb="md"
                 onClick={() =>
-                    active
+                    !active
                         ? showNotification({
                               title: "Wallet Error",
                               message: "Connect your wallet first to the correct network",
