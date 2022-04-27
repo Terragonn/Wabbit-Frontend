@@ -1,4 +1,6 @@
 import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+import { NotificationsProvider } from "@mantine/notifications";
 
 export default function CSSProvider({ children }: { children: any }) {
     return (
@@ -10,7 +12,9 @@ export default function CSSProvider({ children }: { children: any }) {
                 colorScheme: "dark",
             }}
         >
-            {children}
+            <ModalsProvider>
+                <NotificationsProvider>{children}</NotificationsProvider>
+            </ModalsProvider>
         </MantineProvider>
     );
 }
