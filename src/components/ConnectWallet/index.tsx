@@ -28,12 +28,7 @@ export default function ConnectWallet() {
                     )
                 ) : (
                     <Button
-                        onClick={() =>
-                            modals.openModal({
-                                title: "Choose A Wallet",
-                                children: <WalletModal />,
-                            })
-                        }
+                        onClick={() => modals.openContextModal("wallet", { title: "Choose A Wallet", innerProps: {} })}
                         variant="gradient"
                         gradient={{ from: "indigo", to: "grape", deg: 45 }}
                     >

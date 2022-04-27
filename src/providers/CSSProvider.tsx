@@ -2,6 +2,8 @@ import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 
+import { WalletModal } from "../modals";
+
 export default function CSSProvider({ children }: { children: any }) {
     return (
         <MantineProvider
@@ -12,7 +14,7 @@ export default function CSSProvider({ children }: { children: any }) {
                 colorScheme: "dark",
             }}
         >
-            <ModalsProvider>
+            <ModalsProvider modals={{ wallet: WalletModal }}>
                 <NotificationsProvider>{children}</NotificationsProvider>
             </ModalsProvider>
         </MantineProvider>
