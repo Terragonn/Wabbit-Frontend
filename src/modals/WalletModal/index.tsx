@@ -1,3 +1,4 @@
+import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 
 import { WalletCard } from "../../components";
@@ -5,10 +6,13 @@ import { useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 import { SELECTED_CHAIN_ID } from "../../utils";
 
 export default function WalletModal() {
+    const modals = useModals();
+
     function connectWrapper(connect: () => Promise<void>) {
         return async () => {
             try {
                 await connect();
+                modals.closeAll();
             } catch (e: any) {
                 showNotification({
                     title: "Wallet Error",
