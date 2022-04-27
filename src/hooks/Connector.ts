@@ -50,14 +50,12 @@ export function useWalletLink(chainId: SupportedChainId) {
 }
 
 export function useWalletAutoConnect(chainId: SupportedChainId) {
-    const { active } = useWeb3React();
-
     const connectMetamask = useMetamask();
     const connectWalletConnect = useWalletConnect(chainId);
     const connectWalletLink = useWalletLink(chainId);
 
     useEffect(() => {
-        if (!active) {
+        (async () => {
             const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
             if (metamaskStorage && JSON.parse(metamaskStorage)) {
                 connectMetamask();
@@ -75,6 +73,6 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
                 connectWalletLink();
                 return;
             }
-        }
-    }, [active]);
+        })();
+    }, []);
 }
