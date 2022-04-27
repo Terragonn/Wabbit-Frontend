@@ -3,7 +3,7 @@ import { Image } from "@mantine/core";
 import { parseAddress } from ".";
 
 function TokenIcon({ name, src }: { name: string; src: string }) {
-    return <Image src={src} alt={name} width={40} radius="xl" />;
+    return <Image src={src} alt={name} width={25} radius="xl" />;
 }
 
 export interface Token {

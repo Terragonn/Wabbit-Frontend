@@ -33,35 +33,44 @@ export default function VaultInputSingle({
         (async () => setApproved(await isApproved(token.address, account, vault, library.getSigner())))();
     }, []);
 
+    // **** Just make it value controlled instead tbh
+
+    // **** Also need another way to be able to get the max
+
     return (
         <Group direction="column" grow mt="sm">
             <NumberInput
                 variant="default"
                 mt="lg"
-                label={
-                    <Text weight={700}>
-                        {" "}
-                        {token.name} ({token.ticker})
-                    </Text>
-                }
                 placeholder="0.0"
+                label={token.name}
+                icon={token.icon}
                 size="md"
                 hideControls
                 value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
                 onChange={(num) => setAmount(num ? num.toString() : "")}
+                rightSection={
+                    <Group position="apart">
+                        {!approved && (
+                            <Button
+                                onClick={async () => {
+                                    await approve(token.address, account as string, vault, library.getSigner());
+                                    setApproved(true);
+                                }}
+                                size="xs"
+                                color="indigo"
+                                variant="outline"
+                            >
+                                Approve
+                            </Button>
+                        )}
+                        <Button size="xs" color="grape" variant="outline">
+                            Max
+                        </Button>
+                    </Group>
+                }
+                rightSectionWidth={180}
             />
-            {!approved && (
-                <Button
-                    onClick={async () => {
-                        await approve(token.address, account as string, vault, library.getSigner());
-                        setApproved(true);
-                    }}
-                    size="md"
-                    color="indigo"
-                >
-                    Approve
-                </Button>
-            )}
         </Group>
     );
 }
