@@ -3,12 +3,12 @@ import { WalletProvider, CSSProvider, WalletAutoConnectProvider } from "../../pr
 
 export default function DefaultLayout({ children }: { children: any }) {
     return (
-        <CSSProvider>
-            <WalletProvider>
-                <WalletAutoConnectProvider>
+        <WalletProvider>
+            <WalletAutoConnectProvider>
+                <CSSProvider>
                     <Shell>{children}</Shell>
-                </WalletAutoConnectProvider>
-            </WalletProvider>
-        </CSSProvider>
+                </CSSProvider>
+            </WalletAutoConnectProvider>
+        </WalletProvider>
     );
 }
