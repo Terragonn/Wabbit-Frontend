@@ -1,14 +1,15 @@
 import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
+import { useModals } from "@mantine/modals";
 
 import { SELECTED_CHAIN_ID } from "../../utils";
 import { useDisconnect } from "../../hooks";
-import { useWalletModal } from "../../providers";
+import { WalletModal } from "../../modals";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();
 
-    const setWalletModalOpened = useWalletModal();
+    const modals = useModals();
 
     const disconnect = useDisconnect();
 
@@ -17,7 +18,7 @@ export default function ConnectWallet() {
             <Group position="center">
                 {account ? (
                     chainId === SELECTED_CHAIN_ID ? (
-                        <Button onClick={() => disconnect()} variant="outline" color="indigo">
+                        <Button onClick={disconnect} variant="outline" color="indigo">
                             {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
                         </Button>
                     ) : (
@@ -26,7 +27,16 @@ export default function ConnectWallet() {
                         </Button>
                     )
                 ) : (
-                    <Button onClick={() => setWalletModalOpened(true)} variant="gradient" gradient={{ from: "indigo", to: "grape", deg: 45 }}>
+                    <Button
+                        onClick={() =>
+                            modals.openModal({
+                                title: "Choose A Wallet",
+                                children: <WalletModal />,
+                            })
+                        }
+                        variant="gradient"
+                        gradient={{ from: "indigo", to: "grape", deg: 45 }}
+                    >
                         Connect
                     </Button>
                 )}

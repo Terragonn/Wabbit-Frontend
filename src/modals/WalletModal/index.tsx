@@ -1,18 +1,45 @@
-import { Box, Modal, Text } from "@mantine/core";
-import { WalletSelector } from "../../components";
+import { showNotification } from "@mantine/notifications";
 
-export default function WalletModal({ opened, onClose }: { opened: boolean; onClose: () => void }) {
+import { WalletCard } from "../../components";
+import { useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
+import { SELECTED_CHAIN_ID } from "../../utils";
+
+export default function WalletModal() {
+    function connectWrapper(connect: () => Promise<void>) {
+        return async () => {
+            try {
+                await connect();
+            } catch (e: any) {
+                showNotification({
+                    title: "Wallet Error",
+                    message: e.message,
+                    color: "red",
+                });
+            }
+        };
+    }
+
+    const connectMetamask = useMetamask();
+    const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
+    const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);
+
     return (
-        <Modal opened={opened} onClose={onClose}>
-            <Box
-                pb="sm"
-                sx={(theme) => ({
-                    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]}`,
-                })}
-            >
-                <Text size="md">Choose A Wallet</Text>
-            </Box>
-            <WalletSelector closeModal={onClose} />
-        </Modal>
+        <>
+            <WalletCard
+                name="Metamask"
+                imgURL="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
+                onClick={connectWrapper(async () => await connectMetamask())}
+            />
+            <WalletCard
+                name="WalletConnect"
+                imgURL="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/bftsslxvhe2yaih6nyl9"
+                onClick={connectWrapper(async () => await connectWalletConnect())}
+            />
+            <WalletCard
+                name="WalletLink"
+                imgURL="https://play-lh.googleusercontent.com/wrgUujbq5kbn4Wd4tzyhQnxOXkjiGqq39N4zBvCHmxpIiKcZw_Pb065KTWWlnoejsg"
+                onClick={connectWrapper(async () => await connectWalletLink())}
+            />
+        </>
     );
 }
