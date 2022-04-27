@@ -38,7 +38,7 @@ export default function VaultV1({
                               message: "Connect your wallet first to the correct network",
                               color: "red",
                           })
-                        : modals.openModal({ title: "Vault", children: <VaultV1Modal name={name} token={token} vault={vault} /> })
+                        : modals.openContextModal("vaultV1", { title: "Vault", innerProps: { token, name, vault } })
                 }
                 sx={(theme) => ({
                     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
