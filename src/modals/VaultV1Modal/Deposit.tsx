@@ -1,4 +1,4 @@
-import { Box, Button, Group, Text } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 import { VaultInput } from "../../components";
 import { Token } from "../../utils";
