@@ -17,7 +17,9 @@ export default function VaultInput({ token, account, vault, library }: { token: 
     return (
         <Box>
             {token.map((tkn, index) => (
-                <Input key={index} token={tkn} account={account} vault={vault} library={library} />
+                <Box key={index} mb="md">
+                    <Input token={tkn} account={account} vault={vault} library={library} />
+                </Box>
             ))}
         </Box>
     );
