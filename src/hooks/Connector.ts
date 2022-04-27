@@ -24,11 +24,6 @@ export function useMetamask() {
         localStorage.setItem(WALLET_CONNECTOR_NAME[0], JSON.stringify(true));
     }
 
-    useEffect(() => {
-        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
-        if (storage && JSON.parse(storage)) connect();
-    }, []);
-
     return connect;
 }
 
@@ -39,11 +34,6 @@ export function useWalletConnect(chainId: SupportedChainId) {
         await activate(walletConnect(chainId), undefined, true);
         localStorage.setItem(WALLET_CONNECTOR_NAME[1], JSON.stringify(true));
     }
-
-    useEffect(() => {
-        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
-        if (storage && JSON.parse(storage)) connect();
-    }, []);
 
     return connect;
 }
@@ -56,10 +46,26 @@ export function useWalletLink(chainId: SupportedChainId) {
         localStorage.setItem(WALLET_CONNECTOR_NAME[2], JSON.stringify(true));
     }
 
+    return connect;
+}
+
+export function useAutoConnect(chainId: SupportedChainId) {
+    const connectMetamask = useMetamask();
+    const connectWalletConnect = useWalletConnect(chainId);
+    const connectWalletLink = useWalletLink(chainId);
+
     useEffect(() => {
-        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
-        if (storage && JSON.parse(storage)) connect();
+        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
+        if (storage && JSON.parse(storage)) connectMetamask();
     }, []);
 
-    return connect;
+    useEffect(() => {
+        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
+        if (storage && JSON.parse(storage)) connectWalletConnect();
+    }, []);
+
+    useEffect(() => {
+        const storage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
+        if (storage && JSON.parse(storage)) connectWalletLink();
+    }, []);
 }

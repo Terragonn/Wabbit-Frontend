@@ -1,18 +1,20 @@
-import { useError } from "../../providers";
+import { showNotification } from "@mantine/notifications";
 import { WalletCard } from "..";
 import { useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 import { SELECTED_CHAIN_ID } from "../../utils";
 
 export default function WalletSelector({ closeModal }: { closeModal: () => void }) {
-    const setError = useError();
-
     function connectWrapper(connect: () => Promise<void>) {
         return async () => {
             try {
                 await connect();
                 closeModal();
             } catch (e: any) {
-                setError(e.message);
+                showNotification({
+                    title: "Wallet Error",
+                    message: e.message,
+                    color: "red",
+                });
             }
         };
     }
