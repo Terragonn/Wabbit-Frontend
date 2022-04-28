@@ -2,8 +2,8 @@ import { Image } from "@mantine/core";
 
 import { parseAddress } from ".";
 
-function TokenIcon({ name, src }: { name: string; src: string }) {
-    return <Image src={src} alt={name} width={25} radius="xl" />;
+function TokenIcon({ name, src, width }: { name: string; src: string; width: number }) {
+    return <Image src={src} alt={name} width={width} radius="xl" />;
 }
 
 export interface Token {
@@ -11,7 +11,7 @@ export interface Token {
     address: string;
     name: string;
     decimals: number;
-    icon: JSX.Element;
+    icon: (width: number) => JSX.Element;
 }
 
 export function getTokenDataByAddress(token: string) {
@@ -27,48 +27,48 @@ export const TokenData = {
         address: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
         name: "Fantom",
         decimals: 18,
-        icon: <TokenIcon name="Fantom" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png" />,
+        icon: (width: number) => <TokenIcon name="Fantom" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png" width={width} />,
     },
     USDC: {
         ticker: "USDC",
         address: "0x04068da6c83afcfa0e13ba15a6696662335d5b75",
         name: "USD Coin",
         decimals: 6,
-        icon: <TokenIcon name="USD Coin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png" />,
+        icon: (width: number) => <TokenIcon name="USD Coin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png" width={width} />,
     },
     DAI: {
         ticker: "DAI",
         address: "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e",
         name: "DAI",
         decimals: 18,
-        icon: <TokenIcon name="DAI" src="https://s2.coinmarketcap.com/static/img/coins/64x64/4943.png" />,
+        icon: (width: number) => <TokenIcon name="DAI" src="https://s2.coinmarketcap.com/static/img/coins/64x64/4943.png" width={width} />,
     },
     BTC: {
         ticker: "BTC",
         address: "0x321162cd933e2be498cd2267a90534a804051b11",
         name: "Bitcoin",
         decimals: 8,
-        icon: <TokenIcon name="Bitcoin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" />,
+        icon: (width: number) => <TokenIcon name="Bitcoin" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" width={width} />,
     },
     ETH: {
         ticker: "ETH",
         address: "0x74b23882a30290451a17c44f4f05243b6b58c76d",
         name: "Ethereum",
         decimals: 18,
-        icon: <TokenIcon name="Ethereum" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" />,
+        icon: (width: number) => <TokenIcon name="Ethereum" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" width={width} />,
     },
     USDT: {
         ticker: "USDT",
         address: "0x049d68029688eabf473097a2fc38ef61633a3c7a",
         name: "Tether",
         decimals: 6,
-        icon: <TokenIcon name="Tether" src="https://s2.coinmarketcap.com/static/img/coins/64x64/825.png" />,
+        icon: (width: number) => <TokenIcon name="Tether" src="https://s2.coinmarketcap.com/static/img/coins/64x64/825.png" width={width} />,
     },
     LINK: {
         ticker: "LINK",
         address: "0xb3654dc3d10ea7645f8319668e8f54d2574fbdc8",
         name: "Chainlink",
         decimals: 18,
-        icon: <TokenIcon name="Chainlink" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1975.png" />,
+        icon: (width: number) => <TokenIcon name="Chainlink" src="https://s2.coinmarketcap.com/static/img/coins/64x64/1975.png" width={width} />,
     },
 };

@@ -42,7 +42,7 @@ export default function VaultInputSingle({
             variant="default"
             placeholder="0.0"
             label={token.name}
-            icon={token.icon}
+            icon={token.icon(25)}
             size="md"
             hideControls
             value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}

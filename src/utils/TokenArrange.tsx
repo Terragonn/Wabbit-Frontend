@@ -6,11 +6,11 @@ export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
             {token.map((tkn, index) => {
-                const margin = index === 0 ? 0 : "lg";
+                const margin = index === 0 ? 0 : -30;
 
                 return (
                     <Box style={{ margin }} key={index}>
-                        {tkn.icon}
+                        {tkn.icon(40)}
                     </Box>
                 );
             })}
