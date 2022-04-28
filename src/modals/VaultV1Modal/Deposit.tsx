@@ -1,14 +1,11 @@
 import { Box, Button, Group } from "@mantine/core";
-import { useWeb3React } from "@web3-react/core";
 
 import { Token, vaultDeposit } from "../../utils";
 import { Input } from "../../components";
 import { useVaultDeposit } from "../../hooks";
 import { showNotification } from "@mantine/notifications";
 
-export default function Deposit({ token, vault }: { token: Token[]; vault: string }) {
-    const { account, library } = useWeb3React();
-
+export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: any }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
 
     if (account && library)

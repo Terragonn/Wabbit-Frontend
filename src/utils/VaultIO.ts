@@ -29,6 +29,8 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
 
 // Redeem a specified percentage of tokens from a vault
 export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner) {
+    percent = Math.min(1, Math.max(0, percent));
+
     const signerAddress = await signer.getAddress();
     const _vault = loadTorqueVaultV1(vault, signer);
     const token = loadERC20(vault, signer);
