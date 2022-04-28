@@ -67,7 +67,7 @@ export default function VaultInputSingle({
                     </Button>
                 </Group>
             }
-            rightSectionWidth={180}
+            rightSectionWidth={!approved ? 160 : 65}
         />
     );
 }
