@@ -1,7 +1,6 @@
 import { Box, Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 
-import VaultInput from "./VaultInput";
 import { Token } from "../../utils";
 import { useState } from "react";
 import { Input } from "../../components";
