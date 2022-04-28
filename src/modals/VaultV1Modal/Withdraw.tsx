@@ -11,7 +11,7 @@ export default function Withdraw() {
                             { value: 50, label: "50%" },
                             { value: 80, label: "80%" },
                         ]}
-                        color="grape"
+                        color="pink"
                     />
                 </Box>
                 <Button variant="gradient" size="lg" gradient={{ from: "pink", to: "grape", deg: 45 }}>
