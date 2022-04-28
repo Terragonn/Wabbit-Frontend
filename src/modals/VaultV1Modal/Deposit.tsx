@@ -1,6 +1,7 @@
 import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
-import { VaultInput } from "../../components";
+
+import VaultInput from "./VaultInput";
 import { Token } from "../../utils";
 
 export default function Deposit({ token, vault }: { token: Token[]; vault: string }) {
