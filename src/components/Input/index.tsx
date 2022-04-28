@@ -1,7 +1,7 @@
 import { Button, Group, NumberInput, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-import { approve, isApproved, Token } from "../../utils";
+import { approve, getTokenAmount, isApproved, Token } from "../../utils";
 
 export default function VaultInputSingle({
     token,
@@ -20,6 +20,7 @@ export default function VaultInputSingle({
 }) {
     const [amount, setAmount] = useState<string>("");
     const [approved, setApproved] = useState<boolean>(true);
+    const [max, setMax] = useState<number>(0);
 
     useEffect(() => {
         if (onChange) onChange(amount);
@@ -31,6 +32,13 @@ export default function VaultInputSingle({
 
     useEffect(() => {
         (async () => setApproved(await isApproved(token.address, account, vault, library.getSigner())))();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const tknMax = await getTokenAmount(token, account, library.getSigner());
+            setMax(tknMax);
+        })();
     }, []);
 
     // **** Just make it value controlled instead tbh

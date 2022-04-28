@@ -20,4 +20,4 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     await (await _vault.deposit(depositAmount)).wait();
 }
 
-export async function vaultWithdraw(token: string, shares: number) {}
+export async function vaultWithdraw(vault: string, shares: number) {}
