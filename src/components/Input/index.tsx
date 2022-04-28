@@ -17,7 +17,7 @@ export default function VaultInputSingle({
     vault: string;
     library: any;
     onChange?: (data: string) => void;
-    defaultValue?: string;
+    defaultValue?: number;
 }) {
     const { amount, setAmount, approved, setApproved, max, error } = useInput(token, account, vault, library, onChange, defaultValue);
 
@@ -26,12 +26,12 @@ export default function VaultInputSingle({
             variant="default"
             placeholder="0.0"
             label={token.name}
-            icon={token.icon(25)}
             size="md"
             error={error}
             hideControls
             value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
             onChange={(num) => setAmount(num ? num.toString() : "")}
+            icon={token.icon(24)}
             rightSection={
                 <Group position="apart">
                     {!approved && (
