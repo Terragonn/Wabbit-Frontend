@@ -10,7 +10,7 @@ export function Overlap({ token }: { token: Token[] }) {
 
                 return (
                     <Box style={{ margin }} key={index}>
-                        {tkn.icon(42)}
+                        {tkn.icon(36)}
                     </Box>
                 );
             })}
