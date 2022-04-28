@@ -1,10 +1,12 @@
 import { Box, Text, Title } from "@mantine/core";
 
 import { VaultRenderer } from "../../components";
+import { LensHead } from "../../head";
 
 export default function LensPage() {
     return (
         <>
+            <LensHead />
             <Box pb="sm">
                 <Title order={2} mb={6}>
                     Torque Lens
