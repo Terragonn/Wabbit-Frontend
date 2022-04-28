@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getTokenAmount, isApproved, ROUND_NUMBER, Token } from "../utils";
+import { getTokenAmount, isApproved, ROUND_NUMBER, Token } from "../../utils";
 
-export function useInput(token: Token, account: string, vault: string, library: any, onChange?: (data: string) => void, defaultValue?: number) {
+export function useVaultInput(token: Token, account: string, vault: string, library: any, onChange?: (data: string) => void, defaultValue?: number) {
     const [amount, setAmount] = useState<string>(defaultValue ? (defaultValue > 0 ? defaultValue?.toString() : "") : "");
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);

@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { useEffect } from "react";
 
-import { injected, walletConnect, walletLink, SupportedChainId } from "../utils";
+import { injected, walletConnect, walletLink, SupportedChainId } from "../../utils";
 
 const WALLET_CONNECTOR_NAME = ["METAMASK_CONNECTED", "WALLETCONNECT_CONNECTED", "WALLETLINK_CONNECTED"] as const;
 

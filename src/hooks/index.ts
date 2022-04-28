@@ -1,2 +1,3 @@
-export * from "./Connector";
-export * from "./Input";
+export * from "./Wallet/Connector";
+export * from "./Vault/VaultInput";
+export * from "./Vault/VaultTokenInput";
