@@ -1,4 +1,4 @@
-import { Button, Group, NumberInput, Text } from "@mantine/core";
+import { Button, Group, NumberInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import { approve, getTokenAmount, isApproved, Token } from "../../utils";
@@ -36,7 +36,7 @@ export default function VaultInputSingle({
 
     useEffect(() => {
         (async () => {
-            const tknMax = await getTokenAmount(token, account, library.getSigner());
+            const tknMax = await getTokenAmount(token, library.getSigner());
             setMax(tknMax);
         })();
     }, []);

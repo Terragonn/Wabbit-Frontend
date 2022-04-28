@@ -1,13 +1,14 @@
 import { BigNumber, ethers } from "ethers";
 
-import { loadERC20 } from ".";
-import { ROUND_NUMBER } from "./Constants";
-import { Token } from "./TokenData";
+import { loadERC20, ROUND_NUMBER, Token } from ".";
 
-export async function getTokenAmount(token: Token, account: string, signer: ethers.providers.JsonRpcSigner) {
+// Get the max token amount as a number of the signer account
+export async function getTokenAmount(token: Token, signer: ethers.providers.JsonRpcSigner) {
+    const signerAddress = await signer.getAddress();
+
     const tkn = loadERC20(token.address, signer);
 
-    const bal = await tkn.balanceOf(account);
+    const bal = await tkn.balanceOf(signerAddress);
 
     return bal.mul(ROUND_NUMBER).div(BigNumber.from(10).pow(token.decimals)).toNumber() / ROUND_NUMBER;
 }

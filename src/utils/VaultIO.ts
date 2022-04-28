@@ -1,7 +1,8 @@
 import { BigNumber, ethers } from "ethers";
 
-import { parseAddress, parseToBigNumber, getTokenDataByAddress, loadTorqueVaultV1 } from ".";
+import { parseAddress, parseToBigNumber, getTokenDataByAddress, loadTorqueVaultV1, ROUND_NUMBER, loadERC20 } from ".";
 
+// Deposit a given amount of tokens as numbers into a vault
 export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner) {
     const _vault = loadTorqueVaultV1(vault, signer);
 
@@ -20,4 +21,15 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     await (await _vault.deposit(depositAmount)).wait();
 }
 
-export async function vaultWithdraw(vault: string, shares: number) {}
+// Redeem a specified percentage of tokens from a vault
+export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner) {
+    const signerAddress = await signer.getAddress();
+
+    const _vault = loadTorqueVaultV1(vault, signer);
+    const token = loadERC20(vault, signer);
+
+    const max = await token.balanceOf(signerAddress);
+    const shares = max.mul(Math.floor(ROUND_NUMBER * percent)).div(ROUND_NUMBER);
+
+    await (await _vault.redeem(shares)).wait();
+}
