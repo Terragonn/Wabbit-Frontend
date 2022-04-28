@@ -1,18 +1,15 @@
 import { Box, Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 
-import { Token } from "../../utils";
-import { useState } from "react";
+import { Token, vaultDeposit } from "../../utils";
 import { Input } from "../../components";
+import { useVaultDeposit } from "../../hooks";
+import { showNotification } from "@mantine/notifications";
 
 export default function Deposit({ token, vault }: { token: Token[]; vault: string }) {
     const { account, library } = useWeb3React();
 
-    const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
-        const tmp: { [key: string]: number } = {};
-        token.forEach((tkn) => (tmp[tkn.address] = 0));
-        return tmp;
-    });
+    const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
 
     if (account && library)
         return (
@@ -21,14 +18,29 @@ export default function Deposit({ token, vault }: { token: Token[]; vault: strin
                     <Box>
                         {token.map((tkn, index) => (
                             <Box key={index} mb="md">
-                                <Input token={tkn} account={account} vault={vault} library={library} />
+                                <Input token={tkn} account={account} vault={vault} library={library} onChange={(value) => setTokenAmount(tkn, value)} />
                             </Box>
                         ))}
                     </Box>
                 )}
 
                 <Group grow mt="lg">
-                    <Button variant="gradient" size="lg" gradient={{ from: "pink", to: "grape", deg: 45 }}>
+                    <Button
+                        variant="gradient"
+                        size="lg"
+                        gradient={{ from: "pink", to: "grape", deg: 45 }}
+                        onClick={async () => {
+                            try {
+                                await vaultDeposit(vault, tokenAmount, library.getSigner());
+                            } catch (e: any) {
+                                showNotification({
+                                    title: "Error",
+                                    message: e.message,
+                                    color: "red",
+                                });
+                            }
+                        }}
+                    >
                         Deposit
                     </Button>
                 </Group>

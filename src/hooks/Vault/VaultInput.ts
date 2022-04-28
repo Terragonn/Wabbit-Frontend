@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { getTokenAmount, isApproved, ROUND_NUMBER, Token } from "../../utils";
 
-export function useVaultInput(token: Token, account: string, vault: string, library: any, onChange?: (data: string) => void, defaultValue?: number) {
+export function useVaultInput(token: Token, account: string, vault: string, library: any, onChange?: (data: number) => void, defaultValue?: number) {
     const [amount, setAmount] = useState<string>(defaultValue ? (defaultValue > 0 ? defaultValue?.toString() : "") : "");
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);
     const [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        if (onChange) onChange(amount);
+        if (onChange) onChange(isNaN(parseFloat(amount)) ? 0 : parseFloat(amount));
     }, [amount]);
 
     useEffect(() => {
