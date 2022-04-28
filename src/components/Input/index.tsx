@@ -11,7 +11,6 @@ export default function VaultInputSingle({
     library,
     onChange,
     defaultValue,
-    onApprove,
 }: {
     token: Token;
     account: string;
@@ -19,9 +18,8 @@ export default function VaultInputSingle({
     library: any;
     onChange?: (data: string) => void;
     defaultValue?: string;
-    onApprove?: () => void;
 }) {
-    const { amount, setAmount, approved, setApproved, max, error } = useInput(token, account, vault, library, onChange, defaultValue, onApprove);
+    const { amount, setAmount, approved, setApproved, max, error } = useInput(token, account, vault, library, onChange, defaultValue);
 
     return (
         <NumberInput
