@@ -1,5 +1,6 @@
 import { Button, Group, NumberInput } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { useInput } from "../../hooks";
 
 import { approve, getTokenAmount, isApproved, Token } from "../../utils";
 
@@ -9,6 +10,7 @@ export default function VaultInputSingle({
     vault,
     library,
     onChange,
+    defaultValue,
     onApprove,
 }: {
     token: Token;
@@ -16,34 +18,10 @@ export default function VaultInputSingle({
     vault: string;
     library: any;
     onChange?: (data: string) => void;
+    defaultValue?: string;
     onApprove?: () => void;
 }) {
-    const [amount, setAmount] = useState<string>("");
-    const [approved, setApproved] = useState<boolean>(true);
-    const [max, setMax] = useState<number>(0);
-
-    useEffect(() => {
-        if (onChange) onChange(amount);
-    }, [amount]);
-
-    useEffect(() => {
-        if (onApprove) onApprove();
-    }, [approved]);
-
-    useEffect(() => {
-        (async () => setApproved(await isApproved(token.address, account, vault, library.getSigner())))();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            const tknMax = await getTokenAmount(token, library.getSigner());
-            setMax(tknMax);
-        })();
-    }, []);
-
-    // **** Just make it value controlled instead tbh
-
-    // **** Also need another way to be able to get the max
+    const { amount, setAmount, approved, setApproved, max } = useInput(token, account, vault, library, onChange, defaultValue, onApprove);
 
     return (
         <NumberInput
@@ -70,7 +48,7 @@ export default function VaultInputSingle({
                             Approve
                         </Button>
                     )}
-                    <Button size="xs" color="grape" variant="subtle">
+                    <Button size="xs" color="grape" variant="subtle" onClick={() => setAmount(max.toFixed())}>
                         Max
                     </Button>
                 </Group>
