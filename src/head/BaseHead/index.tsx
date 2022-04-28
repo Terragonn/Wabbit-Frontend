@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function Base() {
+export default function BaseHead() {
     return (
         <Head>
             <link rel="icon" href="/images/favicon.ico" />
