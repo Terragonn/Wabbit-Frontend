@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { getTokenAmount, isApproved, Token } from "../utils";
+import { getTokenAmount, isApproved, ROUND_NUMBER, Token } from "../utils";
 
 export function useInput(token: Token, account: string, vault: string, library: any, onChange?: (data: string) => void, defaultValue?: string, onApprove?: () => void) {
     const [amount, setAmount] = useState<string>(defaultValue || "");
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);
+    const [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (onChange) onChange(amount);
@@ -22,5 +23,14 @@ export function useInput(token: Token, account: string, vault: string, library: 
         (async () => setMax(await getTokenAmount(token, library.getSigner())))();
     }, []);
 
-    return { amount, setAmount, approved, setApproved, max };
+    useEffect(() => {
+        if (parseFloat(amount) > max) {
+            setError("Amount exceeds balance");
+            return;
+        }
+
+        setError(undefined);
+    }, [amount, max]);
+
+    return { amount, setAmount, approved, setApproved, max, error };
 }

@@ -21,7 +21,7 @@ export default function VaultInputSingle({
     defaultValue?: string;
     onApprove?: () => void;
 }) {
-    const { amount, setAmount, approved, setApproved, max } = useInput(token, account, vault, library, onChange, defaultValue, onApprove);
+    const { amount, setAmount, approved, setApproved, max, error } = useInput(token, account, vault, library, onChange, defaultValue, onApprove);
 
     return (
         <NumberInput
@@ -30,6 +30,7 @@ export default function VaultInputSingle({
             label={token.name}
             icon={token.icon(25)}
             size="md"
+            error={error}
             hideControls
             value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
             onChange={(num) => setAmount(num ? num.toString() : "")}
@@ -48,7 +49,7 @@ export default function VaultInputSingle({
                             Approve
                         </Button>
                     )}
-                    <Button size="xs" color="grape" variant="subtle" onClick={() => setAmount(max.toFixed())}>
+                    <Button size="xs" color="grape" variant="subtle" onClick={() => setAmount(max.toString())}>
                         Max
                     </Button>
                 </Group>
