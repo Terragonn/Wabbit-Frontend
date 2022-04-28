@@ -35,7 +35,7 @@ export default function Deposit({ token, vault }: { token: Token[]; vault: strin
                             } catch (e: any) {
                                 showNotification({
                                     title: "Error",
-                                    message: e.data.message,
+                                    message: e.data?.message || e.message,
                                     color: "red",
                                 });
                             }
