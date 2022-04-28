@@ -57,12 +57,12 @@ export default function VaultInputSingle({
                             }}
                             size="xs"
                             color="indigo"
-                            variant="outline"
+                            variant="subtle"
                         >
                             Approve
                         </Button>
                     )}
-                    <Button size="xs" color="grape" variant="outline">
+                    <Button size="xs" color="grape" variant="subtle">
                         Max
                     </Button>
                 </Group>
