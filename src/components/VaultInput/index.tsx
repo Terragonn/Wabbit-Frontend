@@ -1,6 +1,6 @@
 import { Button, Group, NumberInput } from "@mantine/core";
-import { useVaultInput } from "../../hooks";
 
+import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
 
 export default function VaultInput({

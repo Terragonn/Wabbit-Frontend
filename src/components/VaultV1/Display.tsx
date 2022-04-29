@@ -10,7 +10,7 @@ export default function Display({ name, token, description, tags, color }: { nam
                 mt="md"
                 pb="md"
                 sx={(theme) => ({
-                    borderBottom: `1px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]}`,
+                    borderBottom: `1px solid ${theme.colors.dark[4]}`,
                 })}
             >
                 <Text size="xl" weight={700}>

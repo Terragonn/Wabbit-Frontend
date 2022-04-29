@@ -1,3 +1,3 @@
 export { default as CSSProvider } from "./CSSProvider";
 export { default as WalletAutoConnectProvider } from "./WalletAutoConnectProvider";
-export * from "./WalletProvider";
+export { default as WalletProvider } from "./WalletProvider";

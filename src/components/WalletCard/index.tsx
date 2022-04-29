@@ -10,11 +10,11 @@ export default function WalletCard({ name, imgURL, onClick }: { name: string; im
                 width: "100%",
                 padding: theme.spacing.xs,
                 borderRadius: theme.radius.sm,
-                color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-                backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+                color: theme.colors.dark[0],
+                backgroundColor: theme.colors.dark[6],
 
                 "&:hover": {
-                    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
+                    backgroundColor: theme.colors.dark[5],
                 },
             })}
         >

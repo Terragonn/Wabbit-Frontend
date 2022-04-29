@@ -8,9 +8,7 @@ export default function LensPage() {
         <>
             <LensHead />
             <Box pb="sm">
-                <Title order={2} mb={6}>
-                    Torque Lens
-                </Title>
+                <Title order={2}>Torque Lens</Title>
                 <Text color="dimmed">
                     Use our on-chain yield optimization / aggregations vaults to earn the best yields on your LP pairs with the least effort possible!
                 </Text>

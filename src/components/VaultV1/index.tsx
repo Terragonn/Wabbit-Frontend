@@ -40,14 +40,14 @@ export default function VaultV1({
                     : modals.openContextModal("vaultV1", { title: "Vault", innerProps: { token, name, vault } })
             }
             sx={(theme) => ({
-                backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
-                border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]}`,
+                backgroundColor: theme.colors.dark[6],
+                border: `2px solid ${theme.colors.dark[5]}`,
                 borderRadius: theme.radius.md,
                 cursor: "pointer",
 
                 "&:hover": {
-                    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
-                    border: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]}`,
+                    backgroundColor: theme.colors.dark[5],
+                    border: `2px solid ${theme.colors.dark[4]}`,
                 },
             })}
         >
