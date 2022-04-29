@@ -4,11 +4,12 @@ import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";
 import { VaultInput } from "../../../components";
-import { useVaultDeposit } from "../../../hooks";
+import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
 
 export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
+    const { total, breakdown } = useDepositData(tokenAmount);
 
     if (account && library)
         return (
@@ -23,15 +24,7 @@ export default function Deposit({ token, vault, account, library }: { token: Tok
                     </Box>
                 )}
 
-                {/* **** We will also need some way of updating that vault data to be good */}
-
-                <DepositData
-                    total={"$ 0.00"}
-                    breakdown={[
-                        [token[0], "$ 25.95"],
-                        [token[1], "$ 32.41"],
-                    ]}
-                />
+                <DepositData total={total} breakdown={breakdown} />
 
                 <Group grow mt="lg">
                     <Button
