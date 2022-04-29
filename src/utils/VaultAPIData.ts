@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_URL } from "./Constants";
-import { formatNumber } from "./Parse";
 
 // Get the vault APY
 export async function vaultAPY(vault: string) {
@@ -33,11 +32,11 @@ export async function vaultTVL(vault: string) {
 }
 
 // Get the vault fee
-export async function vaultFeePercent(vault: string) {
-    const url = `${API_URL}/vault/tvl/${vault}`;
+export async function vaultFee(vault: string) {
+    const url = `${API_URL}/vault/fee/${vault}`;
     const {
-        data: { percent },
-    } = await axios.get<{ percent: number }>(url);
+        data: { fee },
+    } = await axios.get<{ fee: number }>(url);
 
-    return percent;
+    return fee;
 }
