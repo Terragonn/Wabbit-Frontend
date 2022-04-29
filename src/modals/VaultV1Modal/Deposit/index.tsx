@@ -23,7 +23,15 @@ export default function Deposit({ token, vault, account, library }: { token: Tok
                     </Box>
                 )}
 
-                <DepositData total={"$ 0.00"} breakdown={[]} />
+                {/* **** We will also need some way of updating that vault data to be good */}
+
+                <DepositData
+                    total={"$ 0.00"}
+                    breakdown={[
+                        [token[0], "$ 25.95"],
+                        [token[1], "$ 32.41"],
+                    ]}
+                />
 
                 <Group grow mt="lg">
                     <Button

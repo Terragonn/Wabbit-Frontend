@@ -9,7 +9,7 @@ export default function DepositData({ total, breakdown }: { total: string; break
             })}
             pt="md"
         >
-            <Group position="apart">
+            <Group position="apart" mb="sm">
                 <Text color="gray" weight={700} size="lg">
                     Total Cost
                 </Text>
@@ -18,11 +18,11 @@ export default function DepositData({ total, breakdown }: { total: string; break
                 </Text>
             </Group>
             {breakdown.map((data, index) => (
-                <Group key={index}>
-                    <Text color="gray" weight={700} size="lg">
+                <Group position="apart" key={index}>
+                    <Text color="dimmed" weight={700} size="sm">
                         {data[0].name}
                     </Text>
-                    <Text color="gray" weight={700} size="lg">
+                    <Text color="dimmed" weight={700} size="sm">
                         {data[1]}
                     </Text>
                 </Group>
