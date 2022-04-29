@@ -14,10 +14,10 @@ export default function VaultV1Modal({ context, id, innerProps: { token, name, v
         return (
             <Tabs grow mt="xl" color="indigo">
                 <Tabs.Tab label="Deposit" icon={<ArrowsMinimize size={14} />}>
-                    <Deposit token={token} vault={vault} account={account} library={library} />
+                    <Deposit token={token} vault={vault} account={account} library={library.getSigner()} />
                 </Tabs.Tab>
                 <Tabs.Tab label="Withdraw" icon={<ArrowsMaximize size={14} />}>
-                    <Withdraw vault={vault} library={library} />
+                    <Withdraw vault={vault} library={library.getSigner()} />
                 </Tabs.Tab>
             </Tabs>
         );

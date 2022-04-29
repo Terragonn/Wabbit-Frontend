@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Box, Button, Group, Slider } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { ethers } from "ethers";
 
 import { vaultRedeem } from "../../utils";
 
-export default function Withdraw({ vault, library }: { vault: string; library: any }) {
+export default function Withdraw({ vault, library }: { vault: string; library: ethers.providers.JsonRpcSigner }) {
     const [percent, setPercent] = useState<number>(0);
 
     return (
@@ -27,7 +28,7 @@ export default function Withdraw({ vault, library }: { vault: string; library: a
                     gradient={{ from: "pink", to: "grape", deg: 45 }}
                     onClick={async () => {
                         try {
-                            await vaultRedeem(vault, percent, library.getSigner());
+                            await vaultRedeem(vault, percent, library);
                         } catch (e: any) {
                             showNotification({
                                 title: "Error",

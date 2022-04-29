@@ -1,4 +1,5 @@
 import { Button, Group, NumberInput } from "@mantine/core";
+import { ethers } from "ethers";
 
 import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
@@ -12,7 +13,7 @@ export default function VaultInput({
 }: {
     token: Token;
     vault: string;
-    library: any;
+    library: ethers.providers.JsonRpcSigner;
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
@@ -34,7 +35,7 @@ export default function VaultInput({
                     {!approved && (
                         <Button
                             onClick={async () => {
-                                await approve(token.address, vault, library.getSigner());
+                                await approve(token.address, vault, library);
                                 setApproved(true);
                             }}
                             size="xs"
