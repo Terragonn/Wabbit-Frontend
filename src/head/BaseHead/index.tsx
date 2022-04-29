@@ -1,8 +1,20 @@
 import Head from "next/head";
+import Script from "next/script";
 
 export default function BaseHead() {
     return (
         <Head>
+            <Script src="https://www.googletagmanager.com/gtag/js?id=G-M831HRNWYT" strategy="afterInteractive" />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){window.dataLayer.push(arguments);}
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-M831HRNWYT');
+                `}
+            </Script>
+
             <link rel="icon" href="/images/favicon.ico" />
             <link rel="manifest" href="/manifest.json" />
 
