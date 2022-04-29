@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { parseNumber, parseToPercentage } from "../../utils";
 import { vaultAPY, vaultFee, vaultTVL, vaultUserTVL } from "../../utils/VaultAPIData";
 
-export function useVaultData(vault: string) {
+export function useVaultData(vault: string, account: string) {
     const [apy, setAPY] = useState<string | undefined>(undefined);
     const [balance, setBalance] = useState<string | undefined>(undefined);
     const [tvl, setTVL] = useState<string | undefined>(undefined);
@@ -19,7 +19,7 @@ export function useVaultData(vault: string) {
     }, []);
 
     useEffect(() => {
-        onFail(async () => setBalance("$ " + parseNumber(await vaultUserTVL(vault))));
+        onFail(async () => setBalance("$ " + parseNumber(await vaultUserTVL(vault, account))));
     }, []);
 
     useEffect(() => {

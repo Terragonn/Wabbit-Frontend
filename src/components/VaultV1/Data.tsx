@@ -3,8 +3,8 @@ import { Group } from "@mantine/core";
 import { useVaultData } from "../../hooks";
 import VaultData from "./VaultData";
 
-export default function Data({ vault }: { vault: string }) {
-    const { apy, balance, fee, tvl } = useVaultData(vault);
+export default function Data({ vault, account }: { vault: string; account: string }) {
+    const { apy, balance, fee, tvl } = useVaultData(vault, account);
 
     return (
         <Group position="apart">

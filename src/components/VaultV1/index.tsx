@@ -22,7 +22,7 @@ export default function VaultV1({
     tags: string[];
     color: string;
 }) {
-    const { active } = useWeb3React();
+    const { active, account } = useWeb3React();
 
     const modals = useModals();
 
@@ -52,9 +52,11 @@ export default function VaultV1({
             })}
         >
             <Display name={name} token={token} description={description} color={color} tags={tags} />
-            <Box mt="lg">
-                <Data vault={vault} />
-            </Box>
+            {account && (
+                <Box mt="lg">
+                    <Data vault={vault} account={account} />
+                </Box>
+            )}
         </Paper>
     );
 }
