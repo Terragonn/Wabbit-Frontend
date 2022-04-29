@@ -22,7 +22,7 @@ export default function VaultInput({
     return (
         <NumberInput
             variant="default"
-            placeholder="0.0"
+            placeholder="0.00"
             label={token.name}
             size="md"
             error={error}

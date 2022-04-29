@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 import { Token, vaultDeposit } from "../../../utils";
 import { VaultInput } from "../../../components";
 import { useVaultDeposit } from "../../../hooks";
+import DepositData from "./DepositData";
 
 export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
@@ -21,6 +22,8 @@ export default function Deposit({ token, vault, account, library }: { token: Tok
                         ))}
                     </Box>
                 )}
+
+                <DepositData total={"$ 0.00"} breakdown={[]} />
 
                 <Group grow mt="lg">
                     <Button
