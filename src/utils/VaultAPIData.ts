@@ -16,10 +16,10 @@ export async function vaultAPY(vault: string) {
 export async function vaultUserTVL(vault: string, wallet: string) {
     const url = `${API_URL}/lens/userVault/tvl/${vault}?wallet=${wallet}`;
     const {
-        data: { userTvl },
-    } = await axios.get<{ userTvl: number }>(url);
+        data: { tvl },
+    } = await axios.get<{ tvl: number }>(url);
 
-    return userTvl;
+    return tvl;
 }
 
 // Get the vault TVL
