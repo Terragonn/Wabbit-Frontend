@@ -3,7 +3,7 @@ import { Box, Button, Group, Slider } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
-import { vaultRedeem } from "../../utils";
+import { vaultRedeem } from "../../../utils";
 
 export default function Withdraw({ vault, library }: { vault: string; library: ethers.providers.JsonRpcSigner }) {
     const [percent, setPercent] = useState<number>(0);

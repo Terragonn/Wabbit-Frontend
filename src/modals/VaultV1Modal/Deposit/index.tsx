@@ -2,9 +2,9 @@ import { Box, Button, Group } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
-import { Token, vaultDeposit } from "../../utils";
-import { VaultInput } from "../../components";
-import { useVaultDeposit } from "../../hooks";
+import { Token, vaultDeposit } from "../../../utils";
+import { VaultInput } from "../../../components";
+import { useVaultDeposit } from "../../../hooks";
 
 export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
