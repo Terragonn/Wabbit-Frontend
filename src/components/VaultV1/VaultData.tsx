@@ -16,7 +16,7 @@ export default function VaultData({ label, value }: { label: string; value: stri
                 <Text size="lg" color="dimmed">
                     {label}
                 </Text>
-                <Skeleton height={8} radius="lg" />
+                <Skeleton height={8} radius="xl" />
             </Group>
         );
 }
