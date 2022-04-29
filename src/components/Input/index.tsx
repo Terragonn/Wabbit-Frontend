@@ -1,6 +1,5 @@
 import { Button, Group, NumberInput } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { useVaultInput } from "../../hooks";
+import { useInput } from "../../hooks";
 
 import { approve, getTokenAmount, isApproved, Token } from "../../utils";
 
@@ -19,7 +18,7 @@ export default function VaultInputSingle({
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, account, vault, library, onChange, defaultValue);
+    const { amount, setAmount, approved, setApproved, max, error } = useInput(token, account, vault, library, onChange, defaultValue);
 
     return (
         <NumberInput
