@@ -55,7 +55,7 @@ export default function VaultV1({
         >
             <Display name={name} token={token} description={description} color={color} tags={tags} />
             <Box mt="lg">
-                <Data />
+                <Data vault={vault} />
             </Box>
         </Paper>
     );

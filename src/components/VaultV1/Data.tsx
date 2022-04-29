@@ -1,6 +1,6 @@
 import { Box, Group, Text } from "@mantine/core";
 
-export default function Data() {
+export default function Data({ vault }: { vault: string }) {
     return (
         <>
             <Group position="apart">
