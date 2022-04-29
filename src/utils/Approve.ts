@@ -2,16 +2,19 @@ import { ethers } from "ethers";
 
 import { loadERC20, TO_APPROVE, TO_APPROVE_THRESHOLD } from ".";
 
-export async function isApproved(token: string, account: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
+// Check if the signer has approved their tokens for use with the specified account
+export async function isApproved(token: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
+    const signerAddress = await signer.getAddress();
     const tkn = loadERC20(token, signer);
 
-    const allowance = await tkn.allowance(account, toApprove);
+    const allowance = await tkn.allowance(signerAddress, toApprove);
 
     return allowance.gt(TO_APPROVE_THRESHOLD);
 }
 
-export async function approve(token: string, account: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
-    if (await isApproved(token, account, toApprove, signer)) return;
+// Approve the signers tokens for use with the specified account
+export async function approve(token: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
+    if (await isApproved(token, toApprove, signer)) return;
 
     const tkn = loadERC20(token, signer);
 
