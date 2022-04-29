@@ -1,32 +1,17 @@
-import { Group, Text } from "@mantine/core";
+import { Group, Skeleton, Text } from "@mantine/core";
+
+import { useVaultData } from "../../hooks";
+import VaultData from "./VaultData";
 
 export default function Data({ vault }: { vault: string }) {
+    const { apy, balance, fee, tvl } = useVaultData(vault);
+
     return (
         <Group position="apart">
-            <Text size="lg" color="dimmed">
-                APY:{" "}
-                <Text size="lg" weight={700} component="span" color="gray">
-                    30 %
-                </Text>
-            </Text>
-            <Text size="lg" color="dimmed">
-                Balance:{" "}
-                <Text size="lg" weight={700} component="span" color="gray">
-                    $ 250
-                </Text>
-            </Text>
-            <Text size="lg" color="dimmed">
-                TVL:{" "}
-                <Text size="lg" weight={700} component="span" color="gray">
-                    $ 250.36 K
-                </Text>
-            </Text>
-            <Text size="lg" color="dimmed">
-                Fee:{" "}
-                <Text size="lg" weight={700} component="span" color="gray">
-                    5 %
-                </Text>
-            </Text>
+            <VaultData label="APY:" value={apy} />
+            <VaultData label="Balance:" value={balance} />
+            <VaultData label="TVL:" value={tvl} />
+            <VaultData label="Fee:" value={fee} />
         </Group>
     );
 }
