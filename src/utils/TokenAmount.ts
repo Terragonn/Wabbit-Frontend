@@ -2,7 +2,7 @@ import { BigNumber, ethers } from "ethers";
 
 import { loadERC20, ROUND_NUMBER, Token } from ".";
 
-// Get the max token amount as a number of the signer account
+// Get the max token amount of the signer account as a number
 export async function getTokenAmount(token: Token, signer: ethers.providers.JsonRpcSigner) {
     const signerAddress = await signer.getAddress();
     const tkn = loadERC20(token.address, signer);

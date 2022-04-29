@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getTokenAmount, isApproved, ROUND_NUMBER, Token } from "../../utils";
+
+import { getTokenAmount, isApproved, Token } from "../../utils";
 
 export function useVaultInput(token: Token, account: string, vault: string, library: any, onChange?: (data: number) => void, defaultValue?: number) {
     const [amount, setAmount] = useState<string>(defaultValue ? (defaultValue > 0 ? defaultValue?.toString() : "") : "");

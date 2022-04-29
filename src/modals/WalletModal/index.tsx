@@ -1,4 +1,4 @@
-import { ContextModalProps, useModals } from "@mantine/modals";
+import { ContextModalProps } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 
 import { WalletCard } from "../../components";

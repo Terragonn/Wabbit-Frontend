@@ -1,11 +1,9 @@
-import { Badge, Box, Group, Modal, Paper, Text } from "@mantine/core";
+import { Box, Paper } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 import { useWeb3React } from "@web3-react/core";
-import { useState } from "react";
 
-import { VaultV1Modal } from "../../modals";
-import { Overlap, Token } from "../../utils/";
+import { Token } from "../../utils/";
 import Data from "./Data";
 import Display from "./Display";
 

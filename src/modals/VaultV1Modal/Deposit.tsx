@@ -1,9 +1,9 @@
 import { Box, Button, Group } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 
 import { Token, vaultDeposit } from "../../utils";
 import { VaultInput } from "../../components";
 import { useVaultDeposit } from "../../hooks";
-import { showNotification } from "@mantine/notifications";
 
 export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: any }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
