@@ -27,3 +27,8 @@ export function parseToBigNumber(raw: number, decimals: number) {
         .mul(Math.floor(raw * ROUND_NUMBER))
         .div(ROUND_NUMBER);
 }
+
+// Parse a proportion to a percentage
+export function parseToPercentage(proportion: number) {
+    return formatNumber(100 * proportion);
+}
