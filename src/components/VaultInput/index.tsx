@@ -5,20 +5,18 @@ import { approve, Token } from "../../utils";
 
 export default function VaultInput({
     token,
-    account,
     vault,
     library,
     onChange,
     defaultValue,
 }: {
     token: Token;
-    account: string;
     vault: string;
     library: any;
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, account, vault, library, onChange, defaultValue);
+    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, onChange, defaultValue);
 
     return (
         <NumberInput
@@ -36,7 +34,7 @@ export default function VaultInput({
                     {!approved && (
                         <Button
                             onClick={async () => {
-                                await approve(token.address, account as string, vault, library.getSigner());
+                                await approve(token.address, vault, library.getSigner());
                                 setApproved(true);
                             }}
                             size="xs"
