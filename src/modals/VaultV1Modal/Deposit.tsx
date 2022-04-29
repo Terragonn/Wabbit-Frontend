@@ -1,7 +1,7 @@
 import { Box, Button, Group } from "@mantine/core";
 
 import { Token, vaultDeposit } from "../../utils";
-import { Input } from "../../components";
+import { VaultInput } from "../../components";
 import { useVaultDeposit } from "../../hooks";
 import { showNotification } from "@mantine/notifications";
 
@@ -15,7 +15,7 @@ export default function Deposit({ token, vault, account, library }: { token: Tok
                     <Box>
                         {token.map((tkn, index) => (
                             <Box key={index} mb="md">
-                                <Input token={tkn} account={account} vault={vault} library={library} onChange={(value) => setTokenAmount(tkn, value)} />
+                                <VaultInput token={tkn} account={account} vault={vault} library={library} onChange={(value) => setTokenAmount(tkn, value)} />
                             </Box>
                         ))}
                     </Box>

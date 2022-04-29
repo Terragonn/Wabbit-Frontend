@@ -3,7 +3,7 @@ import { useVaultInput } from "../../hooks";
 
 import { approve, Token } from "../../utils";
 
-export default function VaultInputSingle({
+export default function VaultInput({
     token,
     account,
     vault,
