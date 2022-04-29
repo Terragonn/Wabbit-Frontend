@@ -1,4 +1,4 @@
-import { Group, Skeleton, Text } from "@mantine/core";
+import { Group } from "@mantine/core";
 
 import { useVaultData } from "../../hooks";
 import VaultData from "./VaultData";

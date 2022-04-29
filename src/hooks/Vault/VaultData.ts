@@ -15,15 +15,15 @@ export function useVaultData(vault: string) {
     }
 
     useEffect(() => {
-        onFail(async () => setAPY(parseToPercentage(await vaultAPY(vault))) + " %");
+        onFail(async () => setAPY(parseToPercentage(await vaultAPY(vault)) + " %"));
     }, []);
 
     useEffect(() => {
-        onFail(async () => setBalance(parseNumber(await vaultUserTVL(vault))));
+        onFail(async () => setBalance("$ " + parseNumber(await vaultUserTVL(vault))));
     }, []);
 
     useEffect(() => {
-        onFail(async () => setTVL(parseNumber(await vaultTVL(vault))));
+        onFail(async () => setTVL("$ " + parseNumber(await vaultTVL(vault))));
     }, []);
 
     useEffect(() => {
