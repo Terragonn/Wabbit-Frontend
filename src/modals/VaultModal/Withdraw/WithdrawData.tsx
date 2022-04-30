@@ -32,7 +32,7 @@ export default function WithdrawData({ vault, account, percent }: { vault: strin
                             </Text>
                         </Group>
                         <Group position="right">
-                            <Text color="dimmed" size="sm">
+                            <Text color="dimmed" weight={700} size="sm">
                                 {data[2]}
                             </Text>
                         </Group>

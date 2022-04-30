@@ -23,7 +23,7 @@ export default function DepositData({ total, breakdown }: { total: string; break
                     <Text color="dimmed" size="sm">
                         {data[0].name}
                     </Text>
-                    <Text color="dimmed" size="sm">
+                    <Text color="dimmed" weight={700} size="sm">
                         {data[1]}
                     </Text>
                 </Group>
