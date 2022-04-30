@@ -7,21 +7,23 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     const signerAddress = await signer.getAddress();
     const _vault = loadTorqueVaultV1(vault, signer);
 
+    const tokens = Object.keys(amount);
     const bnAmount: { [key: string]: BigNumber } = {};
 
-    const amountKeys = Object.keys(amount);
-
-    for (const address of amountKeys) {
+    for (const address of tokens) {
         const { decimals } = getTokenDataByAddress(address);
-        bnAmount[address] = parseToBigNumber(amount[address], decimals);
+        const depositAmount = parseToBigNumber(amount[address], decimals);
+
+        const token = loadERC20(address, signer);
+        const max = await token.balanceOf(signerAddress);
+
+        bnAmount[parseAddress(address)] = max.gt(depositAmount) ? depositAmount : max;
     }
 
-    const depositAmount: BigNumber[] = new Array(amountKeys.length);
-    for (let i = 0; i < amountKeys.length; i++) {
+    const depositAmount: BigNumber[] = new Array(tokens.length);
+    for (let i = 0; i < tokens.length; i++) {
         const token = parseAddress(await _vault.tokenByIndex(i));
-        const tkn = loadERC20(token, signer);
-        const max = await tkn.balanceOf(signerAddress);
-        depositAmount[i] = max.gt(bnAmount[token]) ? bnAmount[token] : max;
+        depositAmount[i] = bnAmount[token];
     }
 
     await (await _vault.deposit(depositAmount)).wait();
