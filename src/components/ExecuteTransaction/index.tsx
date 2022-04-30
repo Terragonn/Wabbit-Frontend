@@ -20,6 +20,7 @@ export default function ExecuteTransaction({ action, children, buttonProps }: { 
                         loading: true,
                         title: "Processing",
                         message: "Your transaction is being processed, please wait",
+                        disallowClose: true,
                         autoClose: false,
                     });
                     await action();
