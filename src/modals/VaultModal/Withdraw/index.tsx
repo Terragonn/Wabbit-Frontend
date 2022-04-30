@@ -5,6 +5,7 @@ import { ethers } from "ethers";
 
 import { vaultRedeem } from "../../../utils";
 import WithdrawData from "./WithdrawData";
+import { ExecuteTransaction } from "../../../components";
 
 export default function Withdraw({ vault, account, library }: { vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const [percent, setPercent] = useState<number>(0);
@@ -26,24 +27,17 @@ export default function Withdraw({ vault, account, library }: { vault: string; a
 
                 <WithdrawData percent={percent} account={account} vault={vault} />
 
-                <Button
-                    variant="gradient"
-                    size="lg"
-                    gradient={{ from: "pink", to: "grape", deg: 45 }}
-                    onClick={async () => {
-                        try {
-                            await vaultRedeem(vault, percent, library);
-                        } catch (e: any) {
-                            showNotification({
-                                title: "Error",
-                                message: e.data?.message || e.message,
-                                color: "red",
-                            });
-                        }
+                <ExecuteTransaction
+                    buttonProps={{
+                        variant: "gradient",
+                        mt: "md",
+                        size: "lg",
+                        gradient: { from: "pink", to: "grape", deg: 45 },
                     }}
+                    action={async () => await vaultRedeem(vault, percent, library)}
                 >
                     Withdraw
-                </Button>
+                </ExecuteTransaction>
             </Group>
         </>
     );

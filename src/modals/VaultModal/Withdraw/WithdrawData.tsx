@@ -22,7 +22,7 @@ export default function WithdrawData({ vault, account, percent }: { vault: strin
             </Group>
             {breakdown &&
                 breakdown.map((data, index) => (
-                    <Box key={index} mb="sm">
+                    <Box key={index} mb={index != breakdown.length - 1 ? "sm" : undefined}>
                         <Group position="apart">
                             <Text color="dimmed" size="sm">
                                 {data[0].name}
