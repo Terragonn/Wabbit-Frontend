@@ -3,3 +3,4 @@ export * from "./Input/VaultInput";
 export * from "./Vault/VaultTokenInput";
 export * from "./Vault/VaultData";
 export * from "./VaultModal/DepositData";
+export * from "./Price";
