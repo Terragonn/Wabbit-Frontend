@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { Box, Group } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";
-import { ExecuteTransaction, VaultInput } from "../../../components";
+import { AcceptTOS, ExecuteTransaction, VaultInput } from "../../../components";
 import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
 
 export default function Deposit({ token, vault, library }: { token: Token[]; vault: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
     const { total, breakdown } = useDepositData(tokenAmount);
+
+    const [agreed, setAgreed] = useState<boolean>(false);
 
     return (
         <Group grow direction="column">
@@ -22,9 +25,12 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
 
             <DepositData total={total} breakdown={breakdown} />
 
+            <AcceptTOS onChange={setAgreed} />
+
             <ExecuteTransaction
                 buttonProps={{
-                    variant: "gradient",
+                    variant: agreed ? "gradient" : "filled",
+                    disabled: !agreed,
                     mt: "md",
                     size: "lg",
                     gradient: { from: "pink", to: "grape", deg: 45 },
