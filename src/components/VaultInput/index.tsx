@@ -1,4 +1,5 @@
 import { Button, Group, NumberInput } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
 import { useVaultInput } from "../../hooks";
@@ -35,8 +36,16 @@ export default function VaultInput({
                     {!approved && (
                         <Button
                             onClick={async () => {
-                                await approve(token.address, vault, library);
-                                setApproved(true);
+                                try {
+                                    await approve(token.address, vault, library);
+                                    setApproved(true);
+                                } catch (e: any) {
+                                    showNotification({
+                                        title: "Error",
+                                        message: e.data?.message || e.message,
+                                        color: "red",
+                                    });
+                                }
                             }}
                             size="xs"
                             color="indigo"
