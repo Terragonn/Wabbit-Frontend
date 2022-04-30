@@ -20,12 +20,10 @@ export function useWithdrawData(vault: string, account: string, percent: number)
             (async () => {
                 let totalRaw = 0;
 
-                // **** We also have to factor the percentages into these ones of course
-
                 for (const pair of Object.entries(tokenAmount)) {
                     const token = getTokenDataByAddress(pair[0]);
                     const price = await getPrice(token);
-                    if (price) totalRaw += price * pair[1];
+                    if (price) totalRaw += price * pair[1] * percent;
                 }
 
                 setTotal("$ " + formatNumber(totalRaw));
@@ -37,15 +35,13 @@ export function useWithdrawData(vault: string, account: string, percent: number)
             (async () => {
                 const pairs = Object.entries(tokenAmount);
 
-                // **** We also have to factor the percentages into these ones of course
-
                 const out: [Token, string, string][] = [];
                 for (const pair of pairs) {
                     const token = getTokenDataByAddress(pair[0]);
 
                     const unitPrice = await getPrice(token);
                     let price = "$ 0.00";
-                    if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address]);
+                    if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address] * percent);
 
                     out.push([token, formatNumber(pair[1]), price]);
                 }
