@@ -9,7 +9,7 @@ import DepositData from "./DepositData";
 
 export default function Deposit({ token, vault, library }: { token: Token[]; vault: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
-    const { total, breakdown } = useDepositData(tokenAmount);
+    const { total, breakdown } = useDepositData(token, tokenAmount);
 
     const [agreed, setAgreed] = useState<boolean>(false);
 
@@ -42,6 +42,7 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
                     gradient: { from: "pink", to: "grape", deg: 45 },
                 }}
                 action={async () => await vaultDeposit(vault, tokenAmount, library)}
+                actionLabel="Depositing tokens"
             >
                 Deposit
             </ExecuteTransaction>

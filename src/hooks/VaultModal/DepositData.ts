@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import { formatNumber, getTokenDataByAddress, Token } from "../../utils";
 import { usePrice } from "..";
 
-export function useDepositData(tokenAmount: { [key: string]: number }) {
+export function useDepositData(token: Token[], tokenAmount: { [key: string]: number }) {
     const getPrice = usePrice();
 
     const [total, setTotal] = useState<string>("$ 0.00");
     const [breakdown, setBreakdown] = useState<[Token, string][]>(() => {
-        const pairs = Object.entries(tokenAmount);
-        return pairs.map((pair) => [getTokenDataByAddress(pair[0]), "$ 0.00"] as [Token, string]);
+        return token.map((tkn) => [getTokenDataByAddress(tkn.address), "$ 0.00"] as [Token, string]);
     });
 
     useEffect(() => {

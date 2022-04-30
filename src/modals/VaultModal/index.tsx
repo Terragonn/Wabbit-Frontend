@@ -7,7 +7,7 @@ import { Token } from "../../utils";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 
-export default function VaultModal({ context, id, innerProps: { token, name, vault } }: ContextModalProps<{ token: Token[]; name: string; vault: string }>) {
+export default function VaultModal({ context, id, innerProps: { token, vault } }: ContextModalProps<{ token: Token[]; vault: string }>) {
     const { account, library } = useWeb3React();
 
     if (library && account)
@@ -17,7 +17,7 @@ export default function VaultModal({ context, id, innerProps: { token, name, vau
                     <Deposit token={token} vault={vault} library={library.getSigner()} />
                 </Tabs.Tab>
                 <Tabs.Tab label="Withdraw" icon={<ArrowsMaximize size={14} />}>
-                    <Withdraw vault={vault} account={account} library={library.getSigner()} />
+                    <Withdraw token={token} vault={vault} account={account} library={library.getSigner()} />
                 </Tabs.Tab>
             </Tabs>
         );

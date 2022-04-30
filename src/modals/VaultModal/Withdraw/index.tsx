@@ -2,12 +2,15 @@ import { useState } from "react";
 import { Box, Group, Slider } from "@mantine/core";
 import { ethers } from "ethers";
 
-import { vaultRedeem } from "../../../utils";
+import { Token, vaultRedeem } from "../../../utils";
 import WithdrawData from "./WithdrawData";
 import { ExecuteTransaction } from "../../../components";
+import { useWithdrawData } from "../../../hooks";
 
-export default function Withdraw({ vault, account, library }: { vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
+export default function Withdraw({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const [percent, setPercent] = useState<number>(0);
+
+    const { total, breakdown } = useWithdrawData(token, vault, account, percent);
 
     return (
         <>
@@ -24,7 +27,7 @@ export default function Withdraw({ vault, account, library }: { vault: string; a
                     />
                 </Box>
 
-                <WithdrawData percent={percent} account={account} vault={vault} />
+                <WithdrawData total={total} breakdown={breakdown} />
 
                 <Box
                     sx={(theme) => ({
@@ -39,6 +42,7 @@ export default function Withdraw({ vault, account, library }: { vault: string; a
                         gradient: { from: "pink", to: "grape", deg: 45 },
                     }}
                     action={async () => await vaultRedeem(vault, percent, library)}
+                    actionLabel="Withdrawing tokens"
                 >
                     Withdraw
                 </ExecuteTransaction>

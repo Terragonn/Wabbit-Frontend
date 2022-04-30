@@ -3,51 +3,54 @@ import { useEffect, useState } from "react";
 import { formatNumber, getTokenDataByAddress, onFail, Token, vaultUserBalance } from "../../utils";
 import { usePrice } from "..";
 
-export function useWithdrawData(vault: string, account: string, percent: number) {
+export function useWithdrawData(token: Token[], vault: string, account: string, percent: number) {
     const getPrice = usePrice();
 
-    const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number } | undefined>(undefined);
+    const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
+        const out: { [key: string]: number } = {};
+        token.forEach((tkn) => (out[tkn.address] = 0));
+        return out;
+    });
 
     const [total, setTotal] = useState<string>("$ 0.00");
-    const [breakdown, setBreakdown] = useState<[Token, string, string | undefined][] | undefined>(undefined);
+    const [breakdown, setBreakdown] = useState<[Token, string, string][]>([]);
 
     useEffect(() => {
         onFail(async () => setTokenAmount(await vaultUserBalance(vault, account)));
     }, []);
 
     useEffect(() => {
-        if (tokenAmount)
-            (async () => {
-                let totalRaw = 0;
+        (async () => {
+            let totalRaw = 0;
 
-                for (const pair of Object.entries(tokenAmount)) {
-                    const token = getTokenDataByAddress(pair[0]);
-                    const price = await getPrice(token);
-                    if (price) totalRaw += price * pair[1] * percent;
-                }
+            // **** Change this to use given token param above ^^^
+            for (const pair of Object.entries(tokenAmount)) {
+                const token = getTokenDataByAddress(pair[0]);
+                const price = await getPrice(token);
+                if (price) totalRaw += price * pair[1] * percent;
+            }
 
-                setTotal("$ " + formatNumber(totalRaw));
-            })();
+            setTotal("$ " + formatNumber(totalRaw));
+        })();
     }, [tokenAmount, percent]);
 
     useEffect(() => {
-        if (tokenAmount)
-            (async () => {
-                const pairs = Object.entries(tokenAmount);
+        (async () => {
+            const pairs = Object.entries(tokenAmount);
 
-                const out: [Token, string, string][] = [];
-                for (const pair of pairs) {
-                    const token = getTokenDataByAddress(pair[0]);
+            const out: [Token, string, string][] = [];
+            for (const pair of pairs) {
+                const token = getTokenDataByAddress(pair[0]);
 
-                    const unitPrice = await getPrice(token);
-                    let price = "$ 0.00";
-                    if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address] * percent);
+                const unitPrice = await getPrice(token);
+                let price = "$ 0.00";
+                if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address] * percent);
 
-                    out.push([token, formatNumber(pair[1]), price]);
-                }
+                out.push([token, formatNumber(pair[1]), price]);
+            }
 
-                setBreakdown(out);
-            })();
+            setBreakdown(out);
+        })();
     }, [tokenAmount, percent]);
 
     return { total, breakdown };

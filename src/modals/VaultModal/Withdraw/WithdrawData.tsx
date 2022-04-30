@@ -1,10 +1,8 @@
 import { Box, Group, Text } from "@mantine/core";
 
-import { useWithdrawData } from "../../../hooks";
+import { Token } from "../../../utils";
 
-export default function WithdrawData({ vault, account, percent }: { vault: string; account: string; percent: number }) {
-    const { total, breakdown } = useWithdrawData(vault, account, percent);
-
+export default function WithdrawData({ total, breakdown }: { total: string; breakdown: [Token, string, string][] }) {
     return (
         <Box
             sx={(theme) => ({
