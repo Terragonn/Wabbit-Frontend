@@ -5,4 +5,3 @@ export * from "./Vault/VaultData";
 export * from "./VaultModal/DepositData";
 export * from "./VaultModal/WithdrawData";
 export * from "./Price";
-export * from "./ExecuteTransation";

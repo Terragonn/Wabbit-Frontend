@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";
-import { VaultInput } from "../../../components";
+import { ExecuteTransaction, VaultInput } from "../../../components";
 import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
 
@@ -23,25 +23,17 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
 
             <DepositData total={total} breakdown={breakdown} />
 
-            <Button
-                variant="gradient"
-                mt="lg"
-                size="lg"
-                gradient={{ from: "pink", to: "grape", deg: 45 }}
-                onClick={async () => {
-                    try {
-                        await vaultDeposit(vault, tokenAmount, library);
-                    } catch (e: any) {
-                        showNotification({
-                            title: "Error",
-                            message: e.data?.message || e.message,
-                            color: "red",
-                        });
-                    }
+            <ExecuteTransaction
+                buttonProps={{
+                    variant: "gradient",
+                    mt: "md",
+                    size: "lg",
+                    gradient: { from: "pink", to: "grape", deg: 45 },
                 }}
+                action={async () => await vaultDeposit(vault, tokenAmount, library)}
             >
                 Deposit
-            </Button>
+            </ExecuteTransaction>
         </Group>
     );
 }

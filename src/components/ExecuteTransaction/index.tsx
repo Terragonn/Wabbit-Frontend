@@ -1,11 +1,51 @@
 import { Button } from "@mantine/core";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import { useState } from "react";
+import { Check, X } from "tabler-icons-react";
 
-import { useExecuteTransaction } from "../../hooks";
+export default function ExecuteTransaction({ action, children, buttonProps }: { action: () => Promise<any>; children: any; buttonProps?: any }) {
+    const notificationId = Math.random().toString();
 
-export default function ExecuteTransaction({ buttonProps, action, children }: { buttonProps: any; action: () => Promise<any>; children: any }) {
-    const { active, setActive } = useExecuteTransaction();
+    const [loading, setLoading] = useState<boolean>(false);
 
-    // Realistically the button will be pressed, and then the state will be set to active, and then if it fails it will display an error message and cancel the active
-
-    return <Button {...buttonProps}>{children}</Button>;
+    return (
+        <Button
+            {...buttonProps}
+            loading={loading}
+            onClick={async () => {
+                try {
+                    setLoading(true);
+                    showNotification({
+                        id: notificationId,
+                        loading: true,
+                        title: "Processing",
+                        message: "Your transaction is being processed, please wait",
+                        autoClose: false,
+                    });
+                    await action();
+                    updateNotification({
+                        id: notificationId,
+                        color: "teal",
+                        title: "Transaction successful",
+                        message: "Your transaction was executed successfully",
+                        icon: <Check />,
+                        autoClose: 3000,
+                    });
+                    setLoading(false);
+                } catch (e: any) {
+                    setLoading(false);
+                    updateNotification({
+                        id: notificationId,
+                        color: "red",
+                        title: "Transaction error",
+                        message: e.data?.message || e.message,
+                        icon: <X />,
+                        autoClose: 3000,
+                    });
+                }
+            }}
+        >
+            {children}
+        </Button>
+    );
 }
