@@ -62,3 +62,6 @@ export async function tokenPrice(token: Token) {
 
     return price;
 }
+
+// Get a quote for a given token amount for a vault
+export async function vaultQuote(token: Token, vault: string, amount: number) {}
