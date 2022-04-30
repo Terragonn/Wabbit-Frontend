@@ -1,4 +1,5 @@
 import { Box, Group, Text } from "@mantine/core";
+
 import { Token } from "../../../utils";
 
 export default function DepositData({ total, breakdown }: { total: string; breakdown: [Token, string][] }) {
