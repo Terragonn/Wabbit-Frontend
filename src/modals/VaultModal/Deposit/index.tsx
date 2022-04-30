@@ -1,5 +1,4 @@
-import { Box, Button, Group } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { Box, Group } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";

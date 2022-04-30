@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Group, Slider } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { Box, Group, Slider } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { vaultRedeem } from "../../../utils";

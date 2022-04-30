@@ -1,9 +1,9 @@
 import { Button, Group, NumberInput } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
 import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
+import ExecuteTransaction from "../ExecuteTransaction";
 
 export default function VaultInput({
     token,
@@ -34,32 +34,26 @@ export default function VaultInput({
             rightSection={
                 <Group position="apart">
                     {!approved && (
-                        <Button
-                            onClick={async () => {
-                                try {
-                                    await approve(token.address, vault, library);
-                                    setApproved(true);
-                                } catch (e: any) {
-                                    showNotification({
-                                        title: "Error",
-                                        message: e.data?.message || e.message,
-                                        color: "red",
-                                    });
-                                }
+                        <ExecuteTransaction
+                            action={async () => {
+                                await approve(token.address, vault, library);
+                                setApproved(true);
                             }}
-                            size="xs"
-                            color="indigo"
-                            variant="subtle"
+                            buttonProps={{
+                                size: "xs",
+                                color: "indigo",
+                                variant: "subtle",
+                            }}
                         >
                             Approve
-                        </Button>
+                        </ExecuteTransaction>
                     )}
                     <Button size="xs" color="grape" variant="subtle" onClick={() => setAmount(max.toString())}>
                         Max
                     </Button>
                 </Group>
             }
-            rightSectionWidth={!approved ? 160 : 65}
+            rightSectionWidth={!approved ? 180 : 65}
         />
     );
 }
