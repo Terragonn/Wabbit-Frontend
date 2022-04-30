@@ -7,3 +7,4 @@ export { default as VaultRenderer } from "./VaultRenderer";
 export { default as Vault } from "./Vault";
 export { default as WalletCard } from "./WalletCard";
 export { default as VaultInput } from "./VaultInput";
+export { default as ExecuteTransaction } from "./ExecuteTransaction";
