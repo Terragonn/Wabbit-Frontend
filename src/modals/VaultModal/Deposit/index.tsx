@@ -12,7 +12,7 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
     const { total, breakdown } = useDepositData(tokenAmount);
 
     return (
-        <>
+        <Group grow direction="column">
             <Box>
                 {token.map((tkn, index) => (
                     <Box key={index} mb="md">
@@ -23,26 +23,25 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
 
             <DepositData total={total} breakdown={breakdown} />
 
-            <Group grow mt="lg">
-                <Button
-                    variant="gradient"
-                    size="lg"
-                    gradient={{ from: "pink", to: "grape", deg: 45 }}
-                    onClick={async () => {
-                        try {
-                            await vaultDeposit(vault, tokenAmount, library);
-                        } catch (e: any) {
-                            showNotification({
-                                title: "Error",
-                                message: e.data?.message || e.message,
-                                color: "red",
-                            });
-                        }
-                    }}
-                >
-                    Deposit
-                </Button>
-            </Group>
-        </>
+            <Button
+                variant="gradient"
+                mt="lg"
+                size="lg"
+                gradient={{ from: "pink", to: "grape", deg: 45 }}
+                onClick={async () => {
+                    try {
+                        await vaultDeposit(vault, tokenAmount, library);
+                    } catch (e: any) {
+                        showNotification({
+                            title: "Error",
+                            message: e.data?.message || e.message,
+                            color: "red",
+                        });
+                    }
+                }}
+            >
+                Deposit
+            </Button>
+        </Group>
     );
 }

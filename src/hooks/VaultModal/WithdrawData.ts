@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { formatNumber, getTokenDataByAddress, Token, vaultUserBalance } from "../../utils";
+import { formatNumber, getTokenDataByAddress, onFail, Token, vaultUserBalance } from "../../utils";
 import { usePrice } from "..";
 
-export function useWithdrawData(vault: string, account: string, percentage: number) {
+export function useWithdrawData(vault: string, account: string, percent: number) {
     const getPrice = usePrice();
 
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number } | undefined>(undefined);
@@ -12,7 +12,7 @@ export function useWithdrawData(vault: string, account: string, percentage: numb
     const [breakdown, setBreakdown] = useState<[Token, string, string | undefined][] | undefined>(undefined);
 
     useEffect(() => {
-        (async () => setTokenAmount(await vaultUserBalance(vault, account)))();
+        onFail(async () => setTokenAmount(await vaultUserBalance(vault, account)));
     }, []);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export function useWithdrawData(vault: string, account: string, percentage: numb
 
                 setTotal("$ " + formatNumber(totalRaw));
             })();
-    }, [tokenAmount]);
+    }, [tokenAmount, percent]);
 
     useEffect(() => {
         if (tokenAmount)
@@ -52,7 +52,7 @@ export function useWithdrawData(vault: string, account: string, percentage: numb
 
                 setBreakdown(out);
             })();
-    }, [tokenAmount]);
+    }, [tokenAmount, percent]);
 
     return { total, breakdown };
 }

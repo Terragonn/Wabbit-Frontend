@@ -4,8 +4,9 @@ import { showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 
 import { vaultRedeem } from "../../../utils";
+import WithdrawData from "./WithdrawData";
 
-export default function Withdraw({ vault, library }: { vault: string; library: ethers.providers.JsonRpcSigner }) {
+export default function Withdraw({ vault, account, library }: { vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const [percent, setPercent] = useState<number>(0);
 
     return (
@@ -22,6 +23,9 @@ export default function Withdraw({ vault, library }: { vault: string; library: e
                         onChange={(value) => setPercent(value / 100)}
                     />
                 </Box>
+
+                <WithdrawData percent={percent} account={account} vault={vault} />
+
                 <Button
                     variant="gradient"
                     size="lg"
