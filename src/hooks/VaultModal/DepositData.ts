@@ -30,15 +30,13 @@ export function useDepositData(tokenAmount: { [key: string]: number }) {
     }
 
     useEffect(() => {
-        console.log("Updated");
-
         (async () => {
             let totalRaw = 0;
 
-            for (const tkn of Object.keys(tokenAmount)) {
-                const token = getTokenDataByAddress(tkn);
+            for (const pair of Object.entries(tokenAmount)) {
+                const token = getTokenDataByAddress(pair[0]);
                 const price = await getPrice(token);
-                if (price) totalRaw += price;
+                if (price) totalRaw += price * pair[1];
             }
 
             setTotal("$ " + formatNumber(totalRaw));

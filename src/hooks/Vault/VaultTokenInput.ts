@@ -12,7 +12,7 @@ export function useVaultDeposit(token: Token[]) {
     function _setTokenAmount(token: Token, amount: number) {
         setTokenAmount((tknAmnt) => {
             tknAmnt[token.address] = amount;
-            return tknAmnt;
+            return { ...tknAmnt };
         });
     }
 

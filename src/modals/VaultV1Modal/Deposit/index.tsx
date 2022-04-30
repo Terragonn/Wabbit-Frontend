@@ -6,6 +6,7 @@ import { Token, vaultDeposit } from "../../../utils";
 import { VaultInput } from "../../../components";
 import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
+import { useEffect } from "react";
 
 export default function Deposit({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
