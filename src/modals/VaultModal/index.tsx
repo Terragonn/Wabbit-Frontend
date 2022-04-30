@@ -7,7 +7,7 @@ import { Token } from "../../utils";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 
-export default function VaultV1Modal({ context, id, innerProps: { token, name, vault } }: ContextModalProps<{ token: Token[]; name: string; vault: string }>) {
+export default function VaultModal({ context, id, innerProps: { token, name, vault } }: ContextModalProps<{ token: Token[]; name: string; vault: string }>) {
     const { account, library } = useWeb3React();
 
     if (account && library)

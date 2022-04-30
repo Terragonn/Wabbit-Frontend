@@ -7,7 +7,7 @@ import { Token } from "../../utils";
 import Data from "./Data";
 import Display from "./Display";
 
-export default function VaultV1({
+export default function Vault({
     vault,
     name,
     description,
@@ -37,7 +37,7 @@ export default function VaultV1({
                           message: "Connect your wallet first to the correct network",
                           color: "red",
                       })
-                    : modals.openContextModal("vaultV1", { title: "Vault", innerProps: { token, name, vault } })
+                    : modals.openContextModal("vault", { title: "Vault", innerProps: { token, name, vault } })
             }
             sx={(theme) => ({
                 backgroundColor: theme.colors.dark[6],
