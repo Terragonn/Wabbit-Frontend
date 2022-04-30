@@ -26,9 +26,11 @@ export async function vaultUserTVL(vault: string, wallet: string) {
 // Get the users vault balance
 export async function vaultUserBalance(vault: string, wallet: string) {
     const url = `${API_URL}/lens/userVault/balance/${vault}?wallet=${wallet}`;
-    const { data } = await axios.get<{ [key: string]: number }>(url);
+    const {
+        data: { balance },
+    } = await axios.get<{ balance: { [key: string]: number } }>(url);
 
-    return data;
+    return balance;
 }
 
 // Get the vault TVL
