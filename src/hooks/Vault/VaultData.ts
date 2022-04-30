@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { parseNumber, parseToPercentage } from "../../utils";
-import { vaultAPY, vaultFee, vaultTVL, vaultUserTVL } from "../../utils/VaultAPIData";
+
+import { parseNumber, parseToPercentage, vaultAPY, vaultFee, vaultTVL, vaultUserTVL } from "../../utils";
 
 export function useVaultData(vault: string, account: string) {
     const [apy, setAPY] = useState<string | undefined>(undefined);

@@ -3,7 +3,7 @@ import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 import { useWeb3React } from "@web3-react/core";
 
-import { Token } from "../../utils/";
+import { Token } from "../../utils";
 import Data from "./Data";
 import Display from "./Display";
 

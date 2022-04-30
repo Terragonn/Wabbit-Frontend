@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { API_URL } from "./Constants";
+import { Token } from "./TokenData";
 
 // Get the vault APY
 export async function vaultAPY(vault: string) {
@@ -40,4 +41,14 @@ export async function vaultFee(vault: string) {
     } = await axios.get<{ fee: number }>(url);
 
     return fee;
+}
+
+// Get the price
+export async function tokenPrice(token: Token) {
+    const url = `${API_URL}/utils/price/${token.address}`;
+    const {
+        data: { price },
+    } = await axios.get<{ price: number }>(url);
+
+    return price;
 }
