@@ -23,7 +23,6 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
         (async () => {
             let totalRaw = 0;
 
-            // **** Change this to use given token param above ^^^
             for (const pair of Object.entries(tokenAmount)) {
                 const token = getTokenDataByAddress(pair[0]);
                 const price = await getPrice(token);
