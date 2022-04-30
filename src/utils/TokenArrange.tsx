@@ -2,6 +2,7 @@ import { Box, Group } from "@mantine/core";
 
 import { Token } from ".";
 
+// Show tokens overlapped (typically for LP tokens)
 export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
