@@ -1,4 +1,4 @@
-import { Anchor, Box, Checkbox, Text } from "@mantine/core";
+import { Anchor, Checkbox, Text } from "@mantine/core";
 import Link from "next/link";
 
 export default function AcceptTOS({ checked, onChange }: { checked: boolean; onChange?: (x: boolean) => void }) {

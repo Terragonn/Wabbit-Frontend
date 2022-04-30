@@ -3,7 +3,17 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { Check, X } from "tabler-icons-react";
 
-export default function ExecuteTransaction({ action, children, buttonProps }: { action: () => Promise<any>; children: any; buttonProps?: any }) {
+export default function ExecuteTransaction({
+    action,
+    actionLabel,
+    children,
+    buttonProps,
+}: {
+    action: () => Promise<any>;
+    actionLabel: string;
+    children: any;
+    buttonProps?: any;
+}) {
     const notificationId = Math.random().toString();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -18,7 +28,7 @@ export default function ExecuteTransaction({ action, children, buttonProps }: { 
                     showNotification({
                         id: notificationId,
                         loading: true,
-                        title: "Processing",
+                        title: actionLabel,
                         message: "Your transaction is being processed, please wait",
                         disallowClose: true,
                         autoClose: false,
