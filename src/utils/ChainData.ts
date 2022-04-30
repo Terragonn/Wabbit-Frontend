@@ -1,4 +1,4 @@
-export interface ChainData {
+interface ChainData {
     name: string;
     rpcUrl: string;
     blockExplorer: string;

@@ -13,40 +13,38 @@ export default function Withdraw({ token, vault, account, library }: { token: To
     const { total, breakdown } = useWithdrawData(token, vault, account, percent);
 
     return (
-        <>
-            <Group grow mt="lg" direction="column">
-                <Box mb="xl">
-                    <Slider
-                        marks={[
-                            { value: 20, label: "20%" },
-                            { value: 50, label: "50%" },
-                            { value: 80, label: "80%" },
-                        ]}
-                        color="pink"
-                        onChange={(value) => setPercent(value / 100)}
-                    />
-                </Box>
-
-                <WithdrawData total={total} breakdown={breakdown} />
-
-                <Box
-                    sx={(theme) => ({
-                        borderTop: `1px solid ${theme.colors.dark[4]}`,
-                    })}
+        <Group grow mt="xl" direction="column">
+            <Box mb="xl">
+                <Slider
+                    marks={[
+                        { value: 20, label: "20%" },
+                        { value: 50, label: "50%" },
+                        { value: 80, label: "80%" },
+                    ]}
+                    color="pink"
+                    onChange={(value) => setPercent(value / 100)}
                 />
-                <ExecuteTransaction
-                    buttonProps={{
-                        variant: "gradient",
-                        mt: "md",
-                        size: "lg",
-                        gradient: { from: "pink", to: "grape", deg: 45 },
-                    }}
-                    action={async () => await vaultRedeem(vault, percent, library)}
-                    actionLabel="Withdrawing tokens"
-                >
-                    Withdraw
-                </ExecuteTransaction>
-            </Group>
-        </>
+            </Box>
+
+            <WithdrawData total={total} breakdown={breakdown} />
+
+            <Box
+                sx={(theme) => ({
+                    borderTop: `1px solid ${theme.colors.dark[4]}`,
+                })}
+            />
+            <ExecuteTransaction
+                buttonProps={{
+                    variant: "gradient",
+                    mt: "md",
+                    size: "lg",
+                    gradient: { from: "pink", to: "grape", deg: 45 },
+                }}
+                action={async () => await vaultRedeem(vault, percent, library)}
+                actionLabel="Withdrawing tokens"
+            >
+                Withdraw
+            </ExecuteTransaction>
+        </Group>
     );
 }
