@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
-import ExecuteTransaction from "../ExecuteTransaction";
+import { ExecuteTransaction } from "..";
 
 export default function VaultInput({
     token,
@@ -39,6 +39,7 @@ export default function VaultInput({
                                 await approve(token.address, vault, library);
                                 setApproved(true);
                             }}
+                            actionLabel="Approving token"
                             buttonProps={{
                                 size: "xs",
                                 color: "indigo",

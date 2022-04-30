@@ -58,19 +58,19 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
         (async () => {
             const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
             if (metamaskStorage && JSON.parse(metamaskStorage)) {
-                connectMetamask();
+                await connectMetamask();
                 return;
             }
 
             const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
             if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
-                connectWalletConnect();
+                await connectWalletConnect();
                 return;
             }
 
             const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
             if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
-                connectWalletLink();
+                await connectWalletLink();
                 return;
             }
         })();
