@@ -25,7 +25,13 @@ export default function Deposit({ token, vault, library }: { token: Token[]; vau
 
             <DepositData total={total} breakdown={breakdown} />
 
-            <AcceptTOS onChange={setAgreed} />
+            <Box
+                sx={(theme) => ({
+                    borderTop: `1px solid ${theme.colors.dark[4]}`,
+                })}
+            />
+
+            <AcceptTOS checked={agreed} onChange={setAgreed} />
 
             <ExecuteTransaction
                 buttonProps={{

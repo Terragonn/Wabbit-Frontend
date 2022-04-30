@@ -26,6 +26,11 @@ export default function Withdraw({ vault, account, library }: { vault: string; a
 
                 <WithdrawData percent={percent} account={account} vault={vault} />
 
+                <Box
+                    sx={(theme) => ({
+                        borderTop: `1px solid ${theme.colors.dark[4]}`,
+                    })}
+                />
                 <ExecuteTransaction
                     buttonProps={{
                         variant: "gradient",
