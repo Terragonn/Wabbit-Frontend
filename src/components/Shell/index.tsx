@@ -1,6 +1,6 @@
 import { AppShell, Paper } from "@mantine/core";
 
-import { Head } from "..";
+import { Header } from "..";
 import { Nav } from "..";
 
 export default function Shell({ children }: { children: any }) {
@@ -8,7 +8,7 @@ export default function Shell({ children }: { children: any }) {
         <AppShell
             padding="md"
             navbar={<Nav />}
-            header={<Head />}
+            header={<Header />}
             styles={(theme) => ({
                 main: {
                     backgroundColor: theme.colors.dark[8],
