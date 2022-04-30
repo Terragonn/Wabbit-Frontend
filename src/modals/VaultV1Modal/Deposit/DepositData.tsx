@@ -10,20 +10,20 @@ export default function DepositData({ total, breakdown }: { total: string; break
             })}
             pt="xl"
         >
-            <Group position="apart" mb="lg">
-                <Text color="gray" weight={700} size="lg">
+            <Group position="apart" mb="md">
+                <Text color="gray" weight={700} size="md">
                     Total Cost
                 </Text>
-                <Text color="gray" weight={700} size="lg">
+                <Text color="gray" weight={700} size="md">
                     {total}
                 </Text>
             </Group>
             {breakdown.map((data, index) => (
-                <Group position="apart" key={index} pb="sm">
-                    <Text color="dimmed" weight={700} size="sm">
+                <Group position="apart" key={index}>
+                    <Text color="dimmed" size="sm">
                         {data[0].name}
                     </Text>
-                    <Text color="dimmed" weight={700} size="sm">
+                    <Text color="dimmed" size="sm">
                         {data[1]}
                     </Text>
                 </Group>
