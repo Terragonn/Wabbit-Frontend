@@ -12,7 +12,7 @@ export default function Withdraw({ vault, account, library }: { vault: string; a
     return (
         <>
             <Group grow mt="lg" direction="column">
-                <Box mb="lg">
+                <Box mb="xl">
                     <Slider
                         marks={[
                             { value: 20, label: "20%" },
