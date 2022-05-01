@@ -15,10 +15,10 @@ export function useDepositData(token: Token[], tokenAmount: { [key: string]: num
         (async () => {
             let totalRaw = 0;
 
-            for (const pair of Object.entries(tokenAmount)) {
-                const token = getTokenDataByAddress(pair[0]);
+            for (const [address, amount] of Object.entries(tokenAmount)) {
+                const token = getTokenDataByAddress(address);
                 const price = await getPrice(token);
-                if (price) totalRaw += price * pair[1];
+                if (price) totalRaw += price * amount;
             }
 
             setTotal("$ " + formatNumber(totalRaw));
@@ -27,15 +27,14 @@ export function useDepositData(token: Token[], tokenAmount: { [key: string]: num
 
     useEffect(() => {
         (async () => {
-            const pairs = Object.entries(tokenAmount);
-
             const out: [Token, string][] = [];
-            for (const pair of pairs) {
-                const token = getTokenDataByAddress(pair[0]);
+
+            for (const [address, amount] of Object.entries(tokenAmount)) {
+                const token = getTokenDataByAddress(address);
 
                 const unitPrice = await getPrice(token);
                 let price = "$ 0.00";
-                if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address]);
+                if (unitPrice) price = "$ " + formatNumber(unitPrice * amount);
 
                 out.push([token, price]);
             }

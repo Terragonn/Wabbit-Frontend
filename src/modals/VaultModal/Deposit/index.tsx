@@ -8,7 +8,7 @@ import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
 
 export default function Deposit({ token, vault, library }: { token: Token[]; vault: string; library: ethers.providers.JsonRpcSigner }) {
-    const { tokenAmount, setTokenAmount } = useVaultDeposit(token);
+    const { tokenAmount, setTokenAmount } = useVaultDeposit(token, vault);
     const { total, breakdown } = useDepositData(token, tokenAmount);
 
     const [agreed, setAgreed] = useState<boolean>(false);

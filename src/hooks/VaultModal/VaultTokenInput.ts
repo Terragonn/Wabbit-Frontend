@@ -1,19 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { Token } from "../../utils";
+import { Token, vaultQuote, parseAddress } from "../../utils";
 
-export function useVaultDeposit(token: Token[]) {
+export function useVaultDeposit(token: Token[], vault: string) {
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
         token.forEach((tkn) => (tmp[tkn.address] = 0));
         return tmp;
     });
 
-    function _setTokenAmount(token: Token, amount: number) {
+    async function _setTokenAmount(token: Token, amount: number) {
+        let quote: {
+            [key: string]: number | null;
+        } | null = null;
+        try {
+            quote = await vaultQuote(token, vault, amount);
+        } catch (e: any) {}
+
         setTokenAmount((tknAmnt) => {
             tknAmnt[token.address] = amount;
-
-            // **** In addition to this we are going to run some sort of function on this which will try and update the slot ASSUMING that the value has not been updated yet ??? (to avoid duplicate calls)
+            if (quote) for (const [address, amount] of Object.entries(quote)) if (amount) tknAmnt[parseAddress(address)] = amount;
 
             return { ...tknAmnt };
         });
