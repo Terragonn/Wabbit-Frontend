@@ -64,4 +64,11 @@ export async function tokenPrice(token: Token) {
 }
 
 // Get a quote for a given token amount for a vault
-export async function vaultQuote(token: Token, vault: string, amount: number) {}
+export async function vaultQuote(token: Token, vault: string, amount: number) {
+    const url = `${API_URL}/lens/utils/quote/${vault}?token=${token.address}&amount=${amount}`;
+    const {
+        data: { quote },
+    } = await axios.get<{ quote: { [key: string]: number | null } | null }>(url);
+
+    return quote;
+}
