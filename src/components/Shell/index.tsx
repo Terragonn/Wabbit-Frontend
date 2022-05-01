@@ -2,15 +2,12 @@ import { AppShell, Paper } from "@mantine/core";
 
 import { Header } from "..";
 import { Nav } from "..";
-import { useNavProvider } from "../../hooks";
 
 export default function Shell({ children }: { children: any }) {
-    const { opened } = useNavProvider();
-
     return (
         <AppShell
             padding="md"
-            navbar={opened ? <Nav /> : undefined}
+            navbar={<Nav />}
             header={<Header />}
             styles={(theme) => ({
                 main: {
