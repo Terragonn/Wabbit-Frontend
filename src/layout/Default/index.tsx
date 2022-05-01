@@ -1,6 +1,6 @@
 import { Shell } from "../../components";
 import { BaseHead } from "../../head";
-import { WalletProvider, CSSProvider, WalletAutoConnectProvider } from "../../providers";
+import { WalletProvider, CSSProvider, WalletAutoConnectProvider, NavProvider } from "../../providers";
 
 export default function DefaultLayout({ children }: { children: any }) {
     return (
@@ -8,9 +8,11 @@ export default function DefaultLayout({ children }: { children: any }) {
             <BaseHead />
             <WalletProvider>
                 <WalletAutoConnectProvider>
-                    <CSSProvider>
-                        <Shell>{children}</Shell>
-                    </CSSProvider>
+                    <NavProvider>
+                        <CSSProvider>
+                            <Shell>{children}</Shell>
+                        </CSSProvider>
+                    </NavProvider>
                 </WalletAutoConnectProvider>
             </WalletProvider>
         </>
