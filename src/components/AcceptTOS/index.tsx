@@ -11,7 +11,9 @@ export default function AcceptTOS({ checked, onChange }: { checked: boolean; onC
                 <Text size="md" align="right">
                     I have read and agreed to the{" "}
                     <Anchor href="https://docs.torque.money" component={Link}>
-                        terms and conditions
+                        <Text color="grape" component="span" sx={() => ({ cursor: "pointer" })}>
+                            terms and conditions
+                        </Text>
                     </Anchor>
                     .
                 </Text>
