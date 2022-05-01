@@ -1,7 +1,6 @@
 import axios from "axios";
 
-import { API_URL } from "./Constants";
-import { Token } from "./TokenData";
+import { API_URL, Token } from ".";
 
 // Get the vault APY
 export async function vaultAPY(vault: string) {
