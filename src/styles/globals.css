@@ -1,3 +1,7 @@
+body {
+    min-width: 480px;
+}
+
 * {
     scrollbar-width: thin;
     scrollbar-color: #434343 #0f0f0f;
