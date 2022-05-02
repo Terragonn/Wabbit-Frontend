@@ -17,38 +17,42 @@ export default function NavLink({
     mt: string;
     disabled?: boolean;
 }) {
-    const link = (
-        <UnstyledButton
-            sx={(theme) => ({
-                display: "block",
-                width: "100%",
-                padding: theme.spacing.xs,
-                borderRadius: theme.radius.sm,
-                color: theme.colors.dark[0],
+    const ButtonLink = ({ href }: { href?: string }) => {
+        return (
+            <Anchor href={href} underline={false}>
+                <UnstyledButton
+                    sx={(theme) => ({
+                        display: "block",
+                        width: "100%",
+                        padding: theme.spacing.xs,
+                        borderRadius: theme.radius.sm,
+                        color: theme.colors.dark[0],
 
-                "&:hover": {
-                    backgroundColor: theme.colors.dark[6],
-                },
-            })}
-        >
-            <Group>
-                <ThemeIcon color={color} variant="light">
-                    {icon}
-                </ThemeIcon>
+                        "&:hover": {
+                            backgroundColor: theme.colors.dark[6],
+                        },
+                    })}
+                >
+                    <Group>
+                        <ThemeIcon color={color} variant="light">
+                            {icon}
+                        </ThemeIcon>
 
-                <Text size="sm">{label}</Text>
-            </Group>
-        </UnstyledButton>
-    );
+                        <Text size="sm">{label}</Text>
+                    </Group>
+                </UnstyledButton>
+            </Anchor>
+        );
+    };
 
     return (
         <Box mt={mt}>
             {disabled ? (
-                link
+                <ButtonLink />
             ) : (
-                <Anchor href={href} component={Link}>
-                    {link}
-                </Anchor>
+                <Link href={href} passHref>
+                    <ButtonLink />
+                </Link>
             )}
         </Box>
     );

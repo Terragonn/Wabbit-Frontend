@@ -1,5 +1,4 @@
 import { Anchor, Checkbox, Text } from "@mantine/core";
-import Link from "next/link";
 
 export default function AcceptTOS({ checked, onChange }: { checked: boolean; onChange?: (x: boolean) => void }) {
     return (
@@ -10,8 +9,8 @@ export default function AcceptTOS({ checked, onChange }: { checked: boolean; onC
             label={
                 <Text size="md" align="right">
                     I have read and agreed to the{" "}
-                    <Anchor href="https://docs.torque.money" component={Link}>
-                        <Text color="grape" component="span" sx={() => ({ cursor: "pointer" })}>
+                    <Anchor href="https://docs.torque.money" underline={false}>
+                        <Text color="grape" component="span">
                             terms and conditions
                         </Text>
                     </Anchor>
