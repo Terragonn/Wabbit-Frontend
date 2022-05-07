@@ -25,7 +25,7 @@ export function useVaultInput(
             const _isApproved = await isApproved(token.address, vault, library);
             const _required = wrapper ? token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH()) : true;
 
-            setApproved(!_required ? true : _isApproved);
+            setApproved(!_required || _isApproved);
         })();
     }, []);
 
