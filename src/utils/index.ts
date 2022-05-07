@@ -9,3 +9,4 @@ export * from "./Contracts";
 export * from "./Parse";
 export * from "./APIData";
 export * from "./OnFail";
+export * from "./ETHUtils";

@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../utils";
+import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../utils";
 
 export function useVaultInput(
     token: Token,
@@ -30,7 +30,13 @@ export function useVaultInput(
     }, []);
 
     useEffect(() => {
-        (async () => setMax(await getTokenAmount(token, library)))();
+        (async () => {
+            let _max;
+            if (wrapper) _max = await getETHAmount(library);
+            else _max = await getTokenAmount(token, library);
+
+            setMax(_max);
+        })();
     }, []);
 
     useEffect(() => {
