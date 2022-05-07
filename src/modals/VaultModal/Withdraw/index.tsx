@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Group, Slider } from "@mantine/core";
 import { ethers } from "ethers";
 
-import { Token, vaultRedeem } from "../../../utils";
+import { approve, Token, vaultRedeem } from "../../../utils";
 import WithdrawData from "./WithdrawData";
 import { ExecuteTransaction } from "../../../components";
 import { useWithdrawData } from "../../../hooks";
@@ -22,7 +22,7 @@ export default function Withdraw({
 }) {
     const [percent, setPercent] = useState<number>(0);
 
-    const { total, breakdown, approved, setApproved } = useWithdrawData(token, vault, account, percent);
+    const { total, breakdown, approved, setApproved } = useWithdrawData(token, vault, account, percent, library, wrapper);
 
     return (
         <Group grow mt="xl" direction="column">
@@ -45,18 +45,39 @@ export default function Withdraw({
                     borderTop: `1px solid ${theme.colors.dark[4]}`,
                 })}
             />
-            <ExecuteTransaction
-                buttonProps={{
-                    variant: "gradient",
-                    mt: "md",
-                    size: "lg",
-                    gradient: { from: "pink", to: "grape", deg: 45 },
-                }}
-                action={async () => await vaultRedeem(vault, percent, library, wrapper)}
-                actionLabel="Withdrawing tokens"
-            >
-                Withdraw
-            </ExecuteTransaction>
+
+            {approved ? (
+                <ExecuteTransaction
+                    buttonProps={{
+                        variant: "gradient",
+                        mt: "md",
+                        size: "lg",
+                        gradient: { from: "pink", to: "grape", deg: 45 },
+                    }}
+                    action={async () => await vaultRedeem(vault, percent, library, wrapper)}
+                    actionLabel="Withdrawing tokens"
+                >
+                    Withdraw
+                </ExecuteTransaction>
+            ) : (
+                wrapper && (
+                    <ExecuteTransaction
+                        buttonProps={{
+                            variant: "gradient",
+                            mt: "md",
+                            size: "lg",
+                            gradient: { from: "indigo", to: "pink", deg: 45 },
+                        }}
+                        action={async () => {
+                            await approve(vault, wrapper, library);
+                            setApproved(true);
+                        }}
+                        actionLabel="Approving token"
+                    >
+                        Approve
+                    </ExecuteTransaction>
+                )
+            )}
         </Group>
     );
 }

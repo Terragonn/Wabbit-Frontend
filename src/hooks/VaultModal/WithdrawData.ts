@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 
-import { formatNumber, getTokenDataByAddress, onFail, Token, vaultUserBalance } from "../../utils";
+import { formatNumber, getTokenDataByAddress, isApproved, onFail, Token, vaultUserBalance } from "../../utils";
 import { usePrice } from "..";
 
-export function useWithdrawData(token: Token[], vault: string, account: string, percent: number) {
+export function useWithdrawData(token: Token[], vault: string, account: string, percent: number, library: ethers.providers.JsonRpcSigner, wrapper?: string) {
     const getPrice = usePrice();
 
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -14,6 +15,8 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
 
     const [total, setTotal] = useState<string>("$ 0.00");
     const [breakdown, setBreakdown] = useState<[Token, string, string][]>([]);
+
+    const [approved, setApproved] = useState<boolean>(true);
 
     useEffect(() => {
         onFail(async () => setTokenAmount(await vaultUserBalance(vault, account)));
@@ -34,6 +37,10 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
     }, [tokenAmount, percent]);
 
     useEffect(() => {
+        (async () => wrapper && setApproved(await isApproved(vault, wrapper, library)))();
+    }, []);
+
+    useEffect(() => {
         (async () => {
             const pairs = Object.entries(tokenAmount);
 
@@ -52,5 +59,5 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
         })();
     }, [tokenAmount, percent]);
 
-    return { total, breakdown };
+    return { total, breakdown, approved, setApproved };
 }
