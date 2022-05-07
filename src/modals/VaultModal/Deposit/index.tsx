@@ -41,7 +41,7 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
                     size: "lg",
                     gradient: { from: "pink", to: "grape", deg: 45 },
                 }}
-                action={async () => await vaultDeposit(vault, tokenAmount, library)}
+                action={async () => await vaultDeposit(vault, tokenAmount, library, wrapper)}
                 actionLabel="Depositing tokens"
             >
                 Deposit

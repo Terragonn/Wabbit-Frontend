@@ -52,7 +52,7 @@ export default function Withdraw({
                     size: "lg",
                     gradient: { from: "pink", to: "grape", deg: 45 },
                 }}
-                action={async () => await vaultRedeem(vault, percent, library)}
+                action={async () => await vaultRedeem(vault, percent, library, wrapper)}
                 actionLabel="Withdrawing tokens"
             >
                 Withdraw

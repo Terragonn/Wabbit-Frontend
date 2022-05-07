@@ -1,11 +1,12 @@
 import { BigNumber, ethers } from "ethers";
 
-import { parseAddress, parseToBigNumber, getTokenDataByAddress, loadTorqueVaultV1, ROUND_NUMBER, loadERC20 } from ".";
+import { parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER, loadERC20 } from ".";
+import { loadContractVault, loadContractVaultETHWrapper } from "./Contracts";
 
 // Deposit a given amount of tokens as numbers into a vault
-export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner) {
+export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner, wrapper?: string) {
     const signerAddress = await signer.getAddress();
-    const _vault = loadTorqueVaultV1(vault, signer);
+    const _vault = loadContractVault(vault, signer);
 
     const tokens = Object.keys(amount);
     const bnAmount: { [key: string]: BigNumber } = {};
@@ -26,15 +27,20 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
         depositAmount[i] = bnAmount[token];
     }
 
-    await (await _vault.deposit(depositAmount)).wait();
+    if (wrapper) {
+        const vaultETHWrapper = loadContractVaultETHWrapper(vault, signer);
+
+        const weth = parseAddress(await vaultETHWrapper.WETH());
+        await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
+    } else await (await _vault.deposit(depositAmount)).wait();
 }
 
 // Redeem a specified percentage of tokens from a vault
-export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner) {
+export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner, wrapper?: string) {
     percent = Math.min(1, Math.max(0, percent));
 
     const signerAddress = await signer.getAddress();
-    const _vault = loadTorqueVaultV1(vault, signer);
+    const _vault = loadContractVault(vault, signer);
     const token = loadERC20(vault, signer);
 
     const max = await token.balanceOf(signerAddress);
