@@ -22,7 +22,7 @@ export default function Withdraw({
 }) {
     const [percent, setPercent] = useState<number>(0);
 
-    const { total, breakdown } = useWithdrawData(token, vault, account, percent);
+    const { total, breakdown, approved, setApproved } = useWithdrawData(token, vault, account, percent);
 
     return (
         <Group grow mt="xl" direction="column">
