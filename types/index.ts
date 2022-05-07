@@ -1,2 +1,5 @@
-export type { IERC20 } from "./IERC20";
-export type { TorqueVaultV1 } from "./TorqueVaultV1";
+export { ILens } from "./ILens";
+export { IRegistry } from "./IRegistry";
+export { IStrategy } from "./IStrategy";
+export { ISupportsFee } from "./ISupportsFee";
+export { IVault } from "./IVault";
