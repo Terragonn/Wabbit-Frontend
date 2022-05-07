@@ -8,17 +8,19 @@ import { ExecuteTransaction } from "..";
 export default function VaultInput({
     token,
     vault,
+    wrapper,
     library,
     onChange,
     defaultValue,
 }: {
     token: Token;
     vault: string;
+    wrapper?: string;
     library: ethers.providers.JsonRpcSigner;
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, onChange, defaultValue);
+    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange, defaultValue);
 
     return (
         <NumberInput

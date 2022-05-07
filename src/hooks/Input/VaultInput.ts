@@ -1,9 +1,16 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { getTokenAmount, isApproved, Token } from "../../utils";
+import { getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../utils";
 
-export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, onChange?: (data: number) => void, defaultValue?: number) {
+export function useVaultInput(
+    token: Token,
+    vault: string,
+    library: ethers.providers.JsonRpcSigner,
+    wrapper?: string,
+    onChange?: (data: number) => void,
+    defaultValue?: number
+) {
     const [amount, setAmount] = useState<string>(defaultValue ? (defaultValue > 0 ? defaultValue?.toString() : "") : "");
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);
@@ -14,7 +21,12 @@ export function useVaultInput(token: Token, vault: string, library: ethers.provi
     }, [amount]);
 
     useEffect(() => {
-        (async () => setApproved(await isApproved(token.address, vault, library)))();
+        (async () => {
+            const _isApproved = await isApproved(token.address, vault, library);
+            const _required = wrapper ? token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH()) : true;
+
+            setApproved(!_required ? true : _isApproved);
+        })();
     }, []);
 
     useEffect(() => {
