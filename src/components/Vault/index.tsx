@@ -14,6 +14,7 @@ export default function Vault({
     token,
     tags,
     color,
+    wrapper,
 }: {
     vault: string;
     name: string;
@@ -21,6 +22,7 @@ export default function Vault({
     token: Token[];
     tags: string[];
     color: string;
+    wrapper?: string;
 }) {
     const { active, account } = useWeb3React();
 
@@ -37,7 +39,7 @@ export default function Vault({
                           message: "Connect your wallet first to the correct network",
                           color: "red",
                       })
-                    : modals.openContextModal("vault", { title: "Vault", innerProps: { token, vault } })
+                    : modals.openContextModal("vault", { title: "Vault", innerProps: { token, vault, wrapper } })
             }
             sx={(theme) => ({
                 backgroundColor: theme.colors.dark[6],
