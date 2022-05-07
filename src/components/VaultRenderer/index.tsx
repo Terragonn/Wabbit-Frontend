@@ -18,7 +18,7 @@ export default function VaultRenderer() {
         <Grid>
             <Grid.Col span={span}>
                 <Vault
-                    vault="0x7b02CBA8c6bFAc6eBAb2dfA57096A9D60d2162Ae"
+                    vault="0x242E9E75Dea7Fd2Ba2e55783B79E76648178145D"
                     name="Beefy FTM-USDC LP"
                     description="Torque USDC-FTM LP strategy optimized on-chain over different vaults on Beefy Finance to earn you the highest yield possible with the least effort on your behalf!"
                     token={[TokenData.FTM, TokenData.USDC]}
