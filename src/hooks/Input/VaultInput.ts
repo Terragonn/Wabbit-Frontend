@@ -32,7 +32,8 @@ export function useVaultInput(
     useEffect(() => {
         (async () => {
             let _max;
-            if (wrapper) _max = await getETHAmount(library);
+
+            if (wrapper && token.address === parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH())) _max = await getETHAmount(library);
             else _max = await getTokenAmount(token, library);
 
             setMax(_max);
