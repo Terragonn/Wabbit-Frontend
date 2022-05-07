@@ -7,7 +7,19 @@ import WithdrawData from "./WithdrawData";
 import { ExecuteTransaction } from "../../../components";
 import { useWithdrawData } from "../../../hooks";
 
-export default function Withdraw({ token, vault, account, library }: { token: Token[]; vault: string; account: string; library: ethers.providers.JsonRpcSigner }) {
+export default function Withdraw({
+    token,
+    vault,
+    wrapper,
+    account,
+    library,
+}: {
+    token: Token[];
+    vault: string;
+    wrapper?: string;
+    account: string;
+    library: ethers.providers.JsonRpcSigner;
+}) {
     const [percent, setPercent] = useState<number>(0);
 
     const { total, breakdown } = useWithdrawData(token, vault, account, percent);
