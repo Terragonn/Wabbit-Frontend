@@ -28,7 +28,7 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     }
 
     if (wrapper) {
-        const vaultETHWrapper = loadContractVaultETHWrapper(vault, signer);
+        const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
 
         const weth = parseAddress(await vaultETHWrapper.WETH());
         await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
