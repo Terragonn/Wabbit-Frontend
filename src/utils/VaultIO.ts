@@ -47,7 +47,7 @@ export async function vaultRedeem(vault: string, percent: number, signer: ethers
     const shares = max.mul(Math.floor(ROUND_NUMBER * percent)).div(ROUND_NUMBER);
 
     if (wrapper) {
-        const vaultETHWrapper = loadContractVaultETHWrapper(vault, signer);
+        const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
 
         await (await vaultETHWrapper.redeem(vault, shares)).wait();
     } else await (await _vault.redeem(shares)).wait();
