@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-import { formatNumber, getTokenDataByAddress, isApproved, onFail, Token, vaultUserBalance } from "../../utils";
-import { usePrice } from "..";
+import { formatNumber, getTokenDataByAddress, isApproved, onFail, Token, vaultUserBalance } from "../../../../../utils";
+import { usePrice } from "../../../../../hooks";
 
 export function useWithdrawData(token: Token[], vault: string, account: string, percent: number, library: ethers.providers.JsonRpcSigner, wrapper?: string) {
     const getPrice = usePrice();

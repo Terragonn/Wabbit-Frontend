@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Token, vaultBalance, parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER } from "../../utils";
+import { Token, vaultBalance, parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER } from "../../../../../utils";
 
 export function useVaultDeposit(token: Token[], vault: string) {
     const [tokenBalance, setTokenBalance] = useState<{ [key: string]: number } | null>(null);

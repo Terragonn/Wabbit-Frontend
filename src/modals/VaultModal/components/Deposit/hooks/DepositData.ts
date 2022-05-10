@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { formatNumber, getTokenDataByAddress, Token } from "../../utils";
-import { usePrice } from "..";
+import { formatNumber, getTokenDataByAddress, Token } from "../../../../../utils";
+import { usePrice } from "../../../../../hooks";
 
 export function useDepositData(token: Token[], tokenAmount: { [key: string]: number }) {
     const getPrice = usePrice();

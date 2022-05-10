@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../../utils";
 import { AcceptTOS, ExecuteTransaction, VaultInput } from "..";
-import { useDepositData, useVaultDeposit } from "../../../../hooks";
-import DepositData from "./DepositData";
+import { useDepositData, useVaultDeposit } from "./hooks";
+import { DepositData } from "..";
 
 export default function Deposit({ token, vault, wrapper, library }: { token: Token[]; vault: string; wrapper?: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token, vault);

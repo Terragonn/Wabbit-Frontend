@@ -1,6 +1,6 @@
 import { Box, Group, Text } from "@mantine/core";
 
-import { Token } from "../../../../utils";
+import { Token } from "../../../utils";
 
 export default function WithdrawData({ total, breakdown }: { total: string; breakdown: [Token, string, string][] }) {
     return (
