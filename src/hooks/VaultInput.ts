@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../utils";
+import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../utils";
 
 export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper?: string, onChange?: (data: number) => void) {
     const [amount, setAmount] = useState<number>(0);

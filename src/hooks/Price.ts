@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Token, tokenPrice } from "../../utils";
+import { Token, tokenPrice } from "../utils";
 
 export function usePrice() {
     const [prices, setPrices] = useState<{ [key: string]: number | undefined }>({});
