@@ -16,6 +16,6 @@ export const chainDataConfig: { [key in SupportedChainId]: ChainData } = {
         name: "Fantom",
         rpcUrl: "https://rpc.ftm.tools/",
         blockExplorer: "https://ftmscan.com/",
-        token: "https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png",
+        token: "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83",
     },
 };
