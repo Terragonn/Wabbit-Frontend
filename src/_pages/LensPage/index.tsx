@@ -10,7 +10,7 @@ export default function LensPage() {
             <Box pb="sm">
                 <Title order={2}>Torque Lens</Title>
                 <Text color="dimmed">
-                    Use our on-chain yield optimization / aggregations vaults to earn the best yields on your LP pairs with the least effort possible!
+                    Use our vaults which serve as an on-chain aggregator of yield aggregators yield to earn the best yields on your tokens with the least effort possible!
                 </Text>
             </Box>
             <Title order={3} mt="lg" pb="sm">

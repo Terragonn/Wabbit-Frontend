@@ -21,7 +21,7 @@ export default function VaultRenderer() {
                     vault="0x242e9e75dea7fd2ba2e55783b79e76648178145d"
                     wrapper="0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7"
                     name="Beefy FTM-USDC LP"
-                    description="Torque USDC-FTM LP strategy optimized on-chain over different vaults on Beefy Finance to earn you the highest yield possible with the least effort on your behalf!"
+                    description="Aggregates your USDC and FTM tokens over Beefy Finance's SushiSwap, WigoSwap, SpiritSwap, and SpookySwap strategies to ensure you are getting the highest APY possible on your tokens!"
                     token={[TokenData.FTM, TokenData.USDC]}
                     tags={["New", "Blue Chip"]}
                     color={"blue"}
