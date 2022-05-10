@@ -1,4 +1,4 @@
-import { parseAddress } from ".";
+import { parseAddress } from "..";
 
 export interface Token {
     ticker: string;

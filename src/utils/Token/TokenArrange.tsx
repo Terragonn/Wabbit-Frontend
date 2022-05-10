@@ -1,7 +1,7 @@
 import { Box, Group } from "@mantine/core";
 
-import { Token } from ".";
-import { TokenIcon } from "../components";
+import { Token } from "..";
+import { TokenIcon } from "../../components";
 
 // Show tokens overlapped (typically for LP tokens)
 export function Overlap({ token }: { token: Token[] }) {

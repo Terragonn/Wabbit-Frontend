@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 
-import { loadERC20, TO_APPROVE, TO_APPROVE_THRESHOLD, ROUND_NUMBER, Token } from ".";
+import { loadERC20, TO_APPROVE, TO_APPROVE_THRESHOLD, ROUND_NUMBER, Token } from "..";
 
 // Check if the signer has approved their tokens for use with the specified account
 export async function isApproved(token: string, toApprove: string, signer: ethers.providers.JsonRpcSigner) {
