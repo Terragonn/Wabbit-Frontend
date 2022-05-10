@@ -11,9 +11,7 @@ export function useVaultInput(token: Token, vault: string, library: ethers.provi
     const [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        if (onChange) {
-            onChange(amount);
-        }
+        if (onChange) onChange(amount);
     }, [amount]);
 
     useEffect(() => {
