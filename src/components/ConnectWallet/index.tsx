@@ -22,7 +22,7 @@ export default function ConnectWallet() {
                     <Button onClick={disconnect} variant="outline" color="indigo">
                         <Group position="apart">
                             <TokenIcon name={chainToken.name} src={chainToken.icon} width={20} />
-                            {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
+                            {account.slice(0, 6)}...{account.slice(account.length - 2, account.length)}
                         </Group>
                     </Button>
                 ) : (

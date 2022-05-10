@@ -72,4 +72,11 @@ export const TokenData = {
         decimals: 18,
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6538.png",
     },
+    ETH: {
+        ticker: "ETH",
+        address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+        name: "Ethereum",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+    },
 };
