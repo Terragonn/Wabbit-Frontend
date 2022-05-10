@@ -1,11 +1,11 @@
 import { Button, Group, NumberInput } from "@mantine/core";
 import { ethers } from "ethers";
 
-import { useVaultInput } from "../../hooks";
-import { approve, ROUND_NUMBER, Token } from "../../utils";
-import { ExecuteTransaction } from "..";
-import TokenIcon from "../TokenIcon";
 import { useEffect, useState } from "react";
+import { TokenIcon } from "../../../../components";
+import { useVaultInput } from "../../../../hooks";
+import { approve, Token } from "../../../../utils";
+import ExecuteTransaction from "../ExecuteTransaction";
 
 export default function VaultInput({
     token,

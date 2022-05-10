@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 
 import { approve, Token, vaultRedeem } from "../../../utils";
 import WithdrawData from "./WithdrawData";
-import { ExecuteTransaction } from "../../../components";
 import { useWithdrawData } from "../../../hooks";
+import { ExecuteTransaction } from "../components";
 
 export default function Withdraw({
     token,

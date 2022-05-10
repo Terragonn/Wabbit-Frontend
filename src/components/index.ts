@@ -5,7 +5,5 @@ export { default as Nav } from "./Nav";
 export { default as Shell } from "./Shell";
 export { default as VaultRenderer } from "./VaultRenderer";
 export { default as Vault } from "./Vault";
-export { default as VaultInput } from "./VaultInput";
-export { default as ExecuteTransaction } from "./ExecuteTransaction";
 export { default as AcceptTOS } from "./AcceptTOS";
 export { default as TokenIcon } from "./TokenIcon";
