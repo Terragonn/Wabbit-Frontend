@@ -65,7 +65,7 @@ export default function Vault({
                 name={name}
                 token={token}
                 vault={vault}
-                account={account}
+                account={account ? account : undefined}
                 aggregator={aggregator}
                 aggregated={aggregated}
                 description={description}
