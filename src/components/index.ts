@@ -9,3 +9,4 @@ export { default as WalletCard } from "./WalletCard";
 export { default as VaultInput } from "./VaultInput";
 export { default as ExecuteTransaction } from "./ExecuteTransaction";
 export { default as AcceptTOS } from "./AcceptTOS";
+export { default as TokenIcon } from "./TokenIcon";

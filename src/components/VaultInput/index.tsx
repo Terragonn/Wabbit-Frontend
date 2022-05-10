@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
 import { ExecuteTransaction } from "..";
+import TokenIcon from "../TokenIcon";
 
 export default function VaultInput({
     token,
@@ -32,7 +33,7 @@ export default function VaultInput({
             hideControls
             value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
             onChange={(num) => setAmount(num ? num.toString() : "")}
-            icon={token.icon(24)}
+            icon={<TokenIcon name={token.name} src={token.icon} width={24} />}
             rightSection={
                 <Group position="apart">
                     {!approved && (
