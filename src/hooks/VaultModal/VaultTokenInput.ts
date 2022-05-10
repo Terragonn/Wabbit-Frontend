@@ -27,7 +27,9 @@ export function useVaultDeposit(token: Token[], vault: string) {
             setTokenAmount((tknAmnt) => {
                 for (const tkn of token) if (balance[tkn.address] > 0) tknAmnt[tkn.address] = balance[tkn.address] * ratio;
 
-                return tknAmnt;
+                console.log({ ...tknAmnt });
+
+                return { ...tknAmnt };
             });
         } catch (e: any) {}
     }
