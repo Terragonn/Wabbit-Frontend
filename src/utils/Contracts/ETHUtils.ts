@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 
-import { ROUND_NUMBER } from "./Constants";
+import { ROUND_NUMBER } from "..";
 
 // Get the max ETH amount of the signer account as a number
 export async function getETHAmount(signer: ethers.providers.JsonRpcSigner) {

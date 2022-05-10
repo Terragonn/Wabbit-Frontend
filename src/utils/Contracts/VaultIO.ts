@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 
-import { parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER, loadERC20 } from ".";
+import { parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER, loadERC20 } from "..";
 import { loadContractVault, loadContractVaultETHWrapper } from "./Contracts";
 
 // Deposit a given amount of tokens as numbers into a vault

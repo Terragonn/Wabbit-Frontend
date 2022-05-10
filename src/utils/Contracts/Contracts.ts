@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-import { IERC20ABI, IVaultABI, IVaultETHWrapperABI } from "../../abi";
-import { IERC20, IVault, IVaultETHWrapper } from "../../types";
+import { IERC20ABI, IVaultABI, IVaultETHWrapperABI } from "../../../abi";
+import { IERC20, IVault, IVaultETHWrapper } from "../../../types";
 
 export function loadERC20(token: string, signer: ethers.providers.JsonRpcSigner) {
     return new ethers.Contract(token, IERC20ABI.abi, signer) as IERC20;
