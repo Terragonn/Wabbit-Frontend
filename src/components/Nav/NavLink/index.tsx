@@ -44,6 +44,7 @@ export default function NavLink({
             </Anchor>
         );
     });
+    ButtonLink.displayName = "ButtonLink";
 
     return (
         <Box mt={mt}>
