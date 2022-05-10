@@ -16,11 +16,11 @@ export function useDisconnect() {
     return disconnect;
 }
 
-export function useMetamask() {
+export function useMetamask(chainId: SupportedChainId) {
     const { activate } = useWeb3React();
 
     async function connect() {
-        await activate(injected, undefined, true);
+        await activate(injected(chainId), undefined, true);
         localStorage.setItem(WALLET_CONNECTOR_NAME[0], JSON.stringify(true));
     }
 
@@ -50,29 +50,29 @@ export function useWalletLink(chainId: SupportedChainId) {
 }
 
 export function useWalletAutoConnect(chainId: SupportedChainId) {
-    const connectMetamask = useMetamask();
+    const connectMetamask = useMetamask(chainId);
     const connectWalletConnect = useWalletConnect(chainId);
     const connectWalletLink = useWalletLink(chainId);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
-    //         if (metamaskStorage && JSON.parse(metamaskStorage)) {
-    //             connectMetamask();
-    //             return;
-    //         }
+    useEffect(() => {
+        (async () => {
+            const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
+            if (metamaskStorage && JSON.parse(metamaskStorage)) {
+                await connectMetamask();
+                return;
+            }
 
-    //         const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
-    //         if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
-    //             connectWalletConnect();
-    //             return;
-    //         }
+            const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
+            if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
+                await connectWalletConnect();
+                return;
+            }
 
-    //         const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
-    //         if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
-    //             connectWalletLink();
-    //             return;
-    //         }
-    //     })();
-    // }, []);
+            const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
+            if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
+                await connectWalletLink();
+                return;
+            }
+        })();
+    }, []);
 }
