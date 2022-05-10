@@ -2,17 +2,22 @@ import { Badge, Box, Group, Stack, Text } from "@mantine/core";
 
 import { Overlap, Token } from "../../utils";
 import TokenIcon from "../TokenIcon";
+import Data from "./Data";
 
 export default function Display({
     name,
     token,
     aggregator,
+    vault,
+    account,
     aggregated,
     description,
     tags,
     color,
 }: {
     name: string;
+    vault?: string;
+    account?: string;
     token: Token[];
     aggregator: Token;
     aggregated: Token[];
@@ -42,14 +47,14 @@ export default function Display({
                             </Badge>
                         ))}
                 </Group>
-                <Text mt="sm" color="dimmed" size="md">
+                <Text my="md" color="dimmed" size="md">
                     {description}
                 </Text>
             </Box>
             <Box
                 pb="md"
                 sx={(theme) => ({
-                    borderBottom: `1px solid ${theme.colors.dark[4]}`,
+                    borderBottom: vault && `1px solid ${theme.colors.dark[4]}`,
                 })}
             >
                 <Group position="apart">
@@ -67,6 +72,11 @@ export default function Display({
                     </Stack>
                 </Group>
             </Box>
+            {vault && account && (
+                <Box mt="lg">
+                    <Data vault={vault} account={account} />
+                </Box>
+            )}
         </Stack>
     );
 }

@@ -4,7 +4,6 @@ import { showNotification } from "@mantine/notifications";
 import { useWeb3React } from "@web3-react/core";
 
 import { Token } from "../../utils";
-import Data from "./Data";
 import Display from "./Display";
 
 export default function Vault({
@@ -62,12 +61,17 @@ export default function Vault({
                 },
             })}
         >
-            <Display name={name} token={token} aggregator={aggregator} aggregated={aggregated} description={description} color={color} tags={tags} />
-            {vault && account && (
-                <Box mt="lg">
-                    <Data vault={vault} account={account} />
-                </Box>
-            )}
+            <Display
+                name={name}
+                token={token}
+                vault={vault}
+                account={account}
+                aggregator={aggregator}
+                aggregated={aggregated}
+                description={description}
+                color={color}
+                tags={tags}
+            />
         </Paper>
     );
 }
