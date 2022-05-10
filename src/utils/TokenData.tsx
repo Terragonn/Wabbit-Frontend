@@ -30,4 +30,18 @@ export const TokenData = {
         decimals: 6,
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
     },
+    BIFI: {
+        ticker: "BIFI",
+        address: "0xd6070ae98b8069de6b494332d1a1a81b6179d960",
+        name: "Beefy Finance",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/7311.png",
+    },
+    BOO: {
+        ticker: "BOO",
+        address: "0x841fad6eae12c286d1fd18d1d525dffa75c7effe",
+        name: "SpookySwap",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/9608.png",
+    },
 };
