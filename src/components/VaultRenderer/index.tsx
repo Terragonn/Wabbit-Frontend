@@ -15,7 +15,7 @@ export default function VaultRenderer() {
     }, [ltSm]);
 
     return (
-        <SimpleGrid cols={cols}>
+        <SimpleGrid cols={cols} spacing={48}>
             <Vault
                 vault="0x242e9e75dea7fd2ba2e55783b79e76648178145d"
                 wrapper="0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7"
