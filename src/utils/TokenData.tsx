@@ -58,4 +58,18 @@ export const TokenData = {
         decimals: 18,
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/10239.png",
     },
+    WIGO: {
+        ticker: "WIGO",
+        address: "0xE992bEAb6659BFF447893641A378FbbF031C5bD6",
+        name: "WigoSwap",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/18148.png",
+    },
+    CRV: {
+        ticker: "CRV",
+        address: "0x1E4F97b9f9F913c46F1632781732927B9019C68b",
+        name: "Curve DAO Token",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6538.png",
+    },
 };
