@@ -27,11 +27,8 @@ export default function VaultInput({
     const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange);
 
     useEffect(() => {
-        console.log(viewAmount);
         setAmount(!viewAmount ? 0 : viewAmount);
     }, [viewAmount]);
-
-    // **** Really I need a seperate way of handling this data in terms of inputs and such - we will receive string data, update a seperate numerical state, and then parse the number
 
     return (
         <NumberInput
