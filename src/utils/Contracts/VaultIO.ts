@@ -36,9 +36,8 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
         depositAmount[i] = bnAmount[token];
     }
 
-    if (wrapper) {
-        await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
-    } else await (await _vault.deposit(depositAmount)).wait();
+    if (vaultETHWrapper && weth) await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
+    else await (await _vault.deposit(depositAmount)).wait();
 }
 
 // Redeem a specified percentage of tokens from a vault
