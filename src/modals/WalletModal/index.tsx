@@ -21,7 +21,7 @@ export default function WalletModal({ context, id }: ContextModalProps) {
         };
     }
 
-    const connectMetamask = useMetamask();
+    const connectMetamask = useMetamask(SELECTED_CHAIN_ID);
     const connectWalletConnect = useWalletConnect(SELECTED_CHAIN_ID);
     const connectWalletLink = useWalletLink(SELECTED_CHAIN_ID);
 
