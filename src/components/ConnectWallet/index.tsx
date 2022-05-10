@@ -1,9 +1,10 @@
-import { Button } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 import { useModals } from "@mantine/modals";
 
-import { SELECTED_CHAIN_ID } from "../../utils";
+import { chainDataConfig, getTokenDataByAddress, SELECTED_CHAIN_ID } from "../../utils";
 import { useDisconnect } from "../../hooks";
+import TokenIcon from "../TokenIcon";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();
@@ -12,12 +13,17 @@ export default function ConnectWallet() {
 
     const disconnect = useDisconnect();
 
+    const chainToken = getTokenDataByAddress(chainDataConfig[250].token);
+
     return (
         <>
             {account ? (
                 chainId === SELECTED_CHAIN_ID ? (
                     <Button onClick={disconnect} variant="outline" color="indigo">
-                        {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
+                        <Group position="apart">
+                            <TokenIcon name={chainToken.name} src={chainToken.icon} width={20} />
+                            {account.slice(0, 6)}...{account.slice(account.length - 6, account.length)}
+                        </Group>
                     </Button>
                 ) : (
                     <Button variant="outline" color="red">
