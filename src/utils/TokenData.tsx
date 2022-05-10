@@ -44,4 +44,18 @@ export const TokenData = {
         decimals: 18,
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/9608.png",
     },
+    SUSHI: {
+        ticker: "SUSHI",
+        address: "0xae75A438b2E0cB8Bb01Ec1E1e376De11D44477CC",
+        name: "SushiSwap",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/6758.png",
+    },
+    SPIRIT: {
+        ticker: "SPIRIT",
+        address: "0x5cc61a78f164885776aa610fb0fe1257df78e59b",
+        name: "SpiritSwap",
+        decimals: 18,
+        icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/10239.png",
+    },
 };
