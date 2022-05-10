@@ -63,7 +63,7 @@ export default function Display({
                         <Text color="dimmed" size="sm">
                             Aggregator
                         </Text>
-                        <TokenIcon name={aggregator.name} src={aggregator.icon} width={36} />
+                        <TokenIcon name={aggregator.name} src={aggregator.icon} width={32} />
                     </Stack>
                 </Group>
             </Box>

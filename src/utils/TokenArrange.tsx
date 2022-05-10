@@ -8,11 +8,11 @@ export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
             {token.map((tkn, index) => {
-                const margin = index !== token.length - 1 ? -24 : 0;
+                const margin = index !== token.length - 1 ? -26 : 0;
 
                 return (
                     <Box style={{ marginRight: margin }} key={index}>
-                        <TokenIcon name={tkn.name} src={tkn.icon} width={36} />
+                        <TokenIcon name={tkn.name} src={tkn.icon} width={32} />
                     </Box>
                 );
             })}
