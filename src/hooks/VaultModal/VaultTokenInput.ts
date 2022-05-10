@@ -12,7 +12,14 @@ export function useVaultDeposit(token: Token[], vault: string) {
 
     async function _setTokenAmount(_token: Token, amount: number) {
         try {
-            if (token.length < 2) return;
+            if (token.length < 2) {
+                setTokenAmount((tknAmnt) => {
+                    tknAmnt[_token.address] = amount;
+
+                    return { ...tknAmnt };
+                });
+                return;
+            }
 
             let balance: { [key: string]: number };
             if (!tokenBalance) {
@@ -20,7 +27,14 @@ export function useVaultDeposit(token: Token[], vault: string) {
                 setTokenBalance(balance);
             } else balance = tokenBalance;
 
-            if (balance[_token.address] <= 0) return;
+            if (balance[_token.address] <= 0) {
+                setTokenAmount((tknAmnt) => {
+                    tknAmnt[_token.address] = amount;
+
+                    return { ...tknAmnt };
+                });
+                return;
+            }
 
             const ratio = amount / balance[_token.address];
 
