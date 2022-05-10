@@ -5,7 +5,7 @@ export default function BaseHead() {
     return (
         <>
             <Head>
-                <link rel="icon" href="/images/favicon.ico" />
+                <link rel="icon" href="/favicon.ico" />
                 <link rel="manifest" href="/manifest.json" />
 
                 <title>Torque Money - DeFi The Norm</title>
