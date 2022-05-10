@@ -20,7 +20,13 @@ export function useMetamask() {
     const { activate } = useWeb3React();
 
     async function connect() {
-        await activate(injected, undefined, true);
+        console.log("Activating ***");
+        try {
+            await activate(injected, undefined, true);
+        } catch (e: any) {
+            console.log("HAPPENED ERROR", e);
+        }
+        console.log("Activated ***");
         localStorage.setItem(WALLET_CONNECTOR_NAME[0], JSON.stringify(true));
     }
 
@@ -54,25 +60,25 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
     const connectWalletConnect = useWalletConnect(chainId);
     const connectWalletLink = useWalletLink(chainId);
 
-    useEffect(() => {
-        (async () => {
-            const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
-            if (metamaskStorage && JSON.parse(metamaskStorage)) {
-                await connectMetamask();
-                return;
-            }
+    // useEffect(() => {
+    //     (async () => {
+    //         const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
+    //         if (metamaskStorage && JSON.parse(metamaskStorage)) {
+    //             connectMetamask();
+    //             return;
+    //         }
 
-            const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
-            if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
-                await connectWalletConnect();
-                return;
-            }
+    //         const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
+    //         if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
+    //             connectWalletConnect();
+    //             return;
+    //         }
 
-            const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
-            if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
-                await connectWalletLink();
-                return;
-            }
-        })();
-    }, []);
+    //         const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
+    //         if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
+    //             connectWalletLink();
+    //             return;
+    //         }
+    //     })();
+    // }, []);
 }
