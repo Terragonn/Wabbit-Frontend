@@ -11,14 +11,18 @@ export function useVaultInput(
     onChange?: (data: number) => void,
     defaultValue?: number
 ) {
-    const [amount, setAmount] = useState<string>(defaultValue ? (defaultValue > 0 ? defaultValue?.toString() : "") : "");
+    const [visualAmount, setVisualAmount] = useState<string>("");
+    const [amount, setAmount] = useState<number>(0);
+
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);
     const [error, setError] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        if (onChange) onChange(isNaN(parseFloat(amount)) ? 0 : parseFloat(amount));
-    }, [amount]);
+        if (onChange) {
+            onChange(isNaN(parseFloat(amount)) ? 0 : parseFloat(amount));
+        }
+    }, [visualAmount]);
 
     useEffect(() => {
         (async () => {
@@ -49,5 +53,5 @@ export function useVaultInput(
         setError(undefined);
     }, [amount, max]);
 
-    return { amount, setAmount, approved, setApproved, max, error };
+    return { amount, visualAmount, setVisualAmount, approved, setApproved, max, error };
 }

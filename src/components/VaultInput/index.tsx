@@ -23,6 +23,8 @@ export default function VaultInput({
 }) {
     const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange, defaultValue);
 
+    // **** Really I need a seperate way of handling this data in terms of inputs and such - we will receive string data, update a seperate numerical state, and then parse the number
+
     return (
         <NumberInput
             variant="default"
@@ -31,7 +33,7 @@ export default function VaultInput({
             size="md"
             error={error}
             hideControls
-            value={isNaN(parseFloat(amount)) ? undefined : parseFloat(amount)}
+            value={amount === "" ? undefined : parseFloat(amount)}
             onChange={(num) => setAmount(num ? num.toString() : "")}
             icon={<TokenIcon name={token.name} src={token.icon} width={24} />}
             rightSection={
