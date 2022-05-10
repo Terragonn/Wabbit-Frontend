@@ -5,6 +5,7 @@ import { useVaultInput } from "../../hooks";
 import { approve, Token } from "../../utils";
 import { ExecuteTransaction } from "..";
 import TokenIcon from "../TokenIcon";
+import { useEffect, useState } from "react";
 
 export default function VaultInput({
     token,
@@ -21,7 +22,13 @@ export default function VaultInput({
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange, defaultValue);
+    const [viewAmount, setViewAmount] = useState<number | undefined>(undefined);
+
+    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange);
+
+    useEffect(() => {
+        setAmount(!viewAmount ? 0 : viewAmount);
+    }, [viewAmount]);
 
     // **** Really I need a seperate way of handling this data in terms of inputs and such - we will receive string data, update a seperate numerical state, and then parse the number
 
@@ -33,8 +40,8 @@ export default function VaultInput({
             size="md"
             error={error}
             hideControls
-            value={amount === "" ? undefined : parseFloat(amount)}
-            onChange={(num) => setAmount(num ? num.toString() : "")}
+            value={viewAmount}
+            onChange={setViewAmount}
             icon={<TokenIcon name={token.name} src={token.icon} width={24} />}
             rightSection={
                 <Group position="apart">
@@ -54,7 +61,7 @@ export default function VaultInput({
                             Approve
                         </ExecuteTransaction>
                     )}
-                    <Button size="xs" color="grape" variant="subtle" onClick={() => setAmount(max.toString())}>
+                    <Button size="xs" color="grape" variant="subtle" onClick={() => setViewAmount(max)}>
                         Max
                     </Button>
                 </Group>

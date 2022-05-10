@@ -3,15 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../utils";
 
-export function useVaultInput(
-    token: Token,
-    vault: string,
-    library: ethers.providers.JsonRpcSigner,
-    wrapper?: string,
-    onChange?: (data: number) => void,
-    defaultValue?: number
-) {
-    const [visualAmount, setVisualAmount] = useState<string>("");
+export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper?: string, onChange?: (data: number) => void) {
     const [amount, setAmount] = useState<number>(0);
 
     const [approved, setApproved] = useState<boolean>(true);
@@ -20,9 +12,9 @@ export function useVaultInput(
 
     useEffect(() => {
         if (onChange) {
-            onChange(isNaN(parseFloat(amount)) ? 0 : parseFloat(amount));
+            onChange(amount);
         }
-    }, [visualAmount]);
+    }, [amount]);
 
     useEffect(() => {
         (async () => {
@@ -45,7 +37,7 @@ export function useVaultInput(
     }, []);
 
     useEffect(() => {
-        if (parseFloat(amount) > max) {
+        if (amount > max) {
             setError("Amount exceeds balance");
             return;
         }
@@ -53,5 +45,5 @@ export function useVaultInput(
         setError(undefined);
     }, [amount, max]);
 
-    return { amount, visualAmount, setVisualAmount, approved, setApproved, max, error };
+    return { amount, setAmount, approved, setApproved, max, error };
 }
