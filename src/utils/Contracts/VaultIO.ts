@@ -1,12 +1,21 @@
 import { BigNumber, ethers } from "ethers";
 
 import { parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER, loadERC20 } from "..";
+import { IVaultETHWrapper } from "../../../types";
 import { loadContractVault, loadContractVaultETHWrapper } from "./Contracts";
+import { getETHAmount } from "./ETHUtils";
 
 // Deposit a given amount of tokens as numbers into a vault
 export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner, wrapper?: string) {
     const signerAddress = await signer.getAddress();
     const _vault = loadContractVault(vault, signer);
+
+    let vaultETHWrapper: IVaultETHWrapper | undefined;
+    let weth: string | undefined;
+    if (wrapper) {
+        vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
+        weth = parseAddress(await vaultETHWrapper.WETH());
+    }
 
     const tokens = Object.keys(amount);
     const bnAmount: { [key: string]: BigNumber } = {};
@@ -16,7 +25,7 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
         const depositAmount = parseToBigNumber(amount[address], decimals);
 
         const token = loadERC20(address, signer);
-        const max = await token.balanceOf(signerAddress);
+        const max = weth && address === weth ? parseToBigNumber(await getETHAmount(signer), decimals) : await token.balanceOf(signerAddress);
 
         bnAmount[parseAddress(address)] = max.gt(depositAmount) ? depositAmount : max;
     }
@@ -28,9 +37,6 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
     }
 
     if (wrapper) {
-        const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
-
-        const weth = parseAddress(await vaultETHWrapper.WETH());
         await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
     } else await (await _vault.deposit(depositAmount)).wait();
 }

@@ -13,10 +13,6 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
 
     const [agreed, setAgreed] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log(tokenAmount);
-    }, [tokenAmount]);
-
     return (
         <Stack>
             <Box>
