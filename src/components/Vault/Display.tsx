@@ -1,13 +1,29 @@
-import { Badge, Box, Group, Text } from "@mantine/core";
+import { Badge, Box, Group, Stack, Text } from "@mantine/core";
 
 import { Overlap, Token } from "../../utils";
+import TokenIcon from "../TokenIcon";
 
-export default function Display({ name, token, description, tags, color }: { name: string; token: Token[]; description: string; tags: string[]; color: string }) {
+export default function Display({
+    name,
+    token,
+    aggregator,
+    aggregated,
+    description,
+    tags,
+    color,
+}: {
+    name: string;
+    token: Token[];
+    aggregator: Token;
+    aggregated: Token[];
+    description: string;
+    tags: string[];
+    color: string;
+}) {
     return (
-        <Group direction="column">
+        <Stack>
             <Overlap token={token} />
             <Box
-                mt="md"
                 pb="md"
                 sx={(theme) => ({
                     borderBottom: `1px solid ${theme.colors.dark[4]}`,
@@ -28,6 +44,17 @@ export default function Display({ name, token, description, tags, color }: { nam
                     {description}
                 </Text>
             </Box>
-        </Group>
+            <Box
+                pb="md"
+                sx={(theme) => ({
+                    borderBottom: `1px solid ${theme.colors.dark[4]}`,
+                })}
+            >
+                <Group>
+                    <TokenIcon name={aggregator.name} src={aggregator.icon} width={24} />
+                    <Overlap token={aggregated} />
+                </Group>
+            </Box>
+        </Stack>
     );
 }

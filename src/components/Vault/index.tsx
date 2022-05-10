@@ -12,6 +12,8 @@ export default function Vault({
     name,
     description,
     token,
+    aggregator,
+    aggregated,
     tags,
     color,
     wrapper,
@@ -20,6 +22,8 @@ export default function Vault({
     name: string;
     description: string;
     token: Token[];
+    aggregator: Token;
+    aggregated: Token[];
     tags: string[];
     color: string;
     wrapper?: string;
@@ -53,7 +57,7 @@ export default function Vault({
                 },
             })}
         >
-            <Display name={name} token={token} description={description} color={color} tags={tags} />
+            <Display name={name} token={token} aggregator={aggregator} aggregated={aggregated} description={description} color={color} tags={tags} />
             {account && (
                 <Box mt="lg">
                     <Data vault={vault} account={account} />

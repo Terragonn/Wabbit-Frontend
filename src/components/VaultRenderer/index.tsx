@@ -23,6 +23,8 @@ export default function VaultRenderer() {
                     name="Beefy FTM-USDC LP"
                     description="Aggregates your USDC and FTM tokens over Beefy Finance's SushiSwap, WigoSwap, SpiritSwap, and SpookySwap strategies to ensure you are getting the highest APY possible on your tokens!"
                     token={[TokenData.FTM, TokenData.USDC]}
+                    aggregator={TokenData.BIFI}
+                    aggregated={[TokenData.BOO, TokenData.SPIRIT, TokenData.SUSHI]}
                     tags={["New", "Blue Chip"]}
                     color={"blue"}
                 />
