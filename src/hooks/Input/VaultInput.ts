@@ -22,7 +22,7 @@ export function useVaultInput(
 
     useEffect(() => {
         (async () => {
-            const _isApproved = await isApproved(token.address, vault, library);
+            const _isApproved = await isApproved(token.address, wrapper || vault, library);
             const _required = wrapper ? token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH()) : true;
 
             setApproved(!_required || _isApproved);
