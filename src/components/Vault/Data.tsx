@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@mantine/core";
-import { useVaultData } from "../../hooks";
+import { useVaultData } from "./hooks";
 import VaultData from "./VaultData";
 
 export default function Data({ vault, account }: { vault: string; account: string }) {

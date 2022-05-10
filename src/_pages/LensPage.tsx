@@ -1,7 +1,7 @@
 import { Box, Text, Title } from "@mantine/core";
 
-import { VaultRenderer } from "../../components";
-import { LensHead } from "../../head";
+import { VaultRenderer } from "../components";
+import { LensHead } from "../head";
 
 export default function LensPage() {
     return (

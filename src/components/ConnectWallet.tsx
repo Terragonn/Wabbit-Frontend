@@ -2,9 +2,9 @@ import { Button, Group } from "@mantine/core";
 import { useWeb3React } from "@web3-react/core";
 import { useModals } from "@mantine/modals";
 
-import { chainDataConfig, getTokenDataByAddress, SELECTED_CHAIN_ID } from "../../utils";
-import { useDisconnect } from "../../hooks";
-import TokenIcon from "../TokenIcon";
+import { chainDataConfig, getTokenDataByAddress, SELECTED_CHAIN_ID } from "../utils";
+import { useDisconnect } from "../hooks";
+import { TokenIcon } from ".";
 
 export default function ConnectWallet() {
     const { account, chainId } = useWeb3React();

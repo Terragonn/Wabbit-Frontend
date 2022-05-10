@@ -1,6 +1,6 @@
 import { AppShell, Paper } from "@mantine/core";
 
-import { Header, Nav } from "..";
+import { Header, Nav } from ".";
 
 export default function Shell({ children }: { children: any }) {
     return (
