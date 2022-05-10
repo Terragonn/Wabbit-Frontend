@@ -5,12 +5,12 @@ import { useNavProvider, useBreakpoint } from "../../hooks";
 
 export default function Header() {
     const { opened, setOpened } = useNavProvider();
-    const { ltMd } = useBreakpoint();
+    const { ltLg } = useBreakpoint();
 
     return (
         <_Header height={80} p="xl">
             <Group position="apart">
-                {ltMd && <Burger opened={opened} onClick={() => setOpened((o) => !o)} />}
+                {ltLg && <Burger opened={opened} onClick={() => setOpened((o) => !o)} />}
                 <Logo />
                 <ConnectWallet />
             </Group>

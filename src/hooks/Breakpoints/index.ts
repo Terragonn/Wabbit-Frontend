@@ -11,6 +11,9 @@ export function useBreakpoint() {
     const _ltMd = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
     const [ltMd, setLtMd] = useState<boolean>(false);
 
+    const _ltLg = useMediaQuery(`(max-width: ${theme.breakpoints.lg}px)`);
+    const [ltLg, setLtLg] = useState<boolean>(false);
+
     useEffect(() => {
         setLtSm(_ltSm);
     }, [_ltSm]);
@@ -19,5 +22,9 @@ export function useBreakpoint() {
         setLtMd(_ltMd);
     }, [_ltMd]);
 
-    return { ltSm, ltMd };
+    useEffect(() => {
+        setLtLg(_ltLg);
+    }, [_ltLg]);
+
+    return { ltSm, ltMd, ltLg };
 }

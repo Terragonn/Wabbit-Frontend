@@ -6,16 +6,17 @@ import { useBreakpoint } from "../../hooks";
 import { SimpleGrid } from "@mantine/core";
 
 export default function VaultRenderer() {
-    const { ltSm } = useBreakpoint();
-    const [cols, setCols] = useState<number>(2);
+    const { ltSm, ltMd } = useBreakpoint();
+    const [cols, setCols] = useState<number>(3);
 
     useEffect(() => {
         if (ltSm) setCols(1);
-        else setCols(2);
-    }, [ltSm]);
+        else if (ltMd) setCols(2);
+        else setCols(3);
+    }, [ltSm, ltMd]);
 
     return (
-        <SimpleGrid cols={cols} spacing={48}>
+        <SimpleGrid cols={cols} spacing="xl">
             <Vault
                 vault="0x242e9e75dea7fd2ba2e55783b79e76648178145d"
                 wrapper="0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7"

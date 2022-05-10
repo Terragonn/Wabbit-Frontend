@@ -47,36 +47,25 @@ export default function Display({
                             </Badge>
                         ))}
                 </Group>
-                <Text my="md" color="dimmed" size="md">
+                {/* <Text my="md" color="dimmed" size="md">
                     {description}
-                </Text>
+                </Text> */}
             </Box>
-            <Box
-                pb="md"
-                sx={(theme) => ({
-                    borderBottom: vault && `1px solid ${theme.colors.dark[4]}`,
-                })}
-            >
-                <Group position="apart">
-                    <Stack>
-                        <Text color="dimmed" size="sm">
-                            Aggregated
-                        </Text>
-                        <Overlap token={aggregated} />
-                    </Stack>
-                    <Stack align="flex-end">
-                        <Text color="dimmed" size="sm">
-                            Aggregator
-                        </Text>
-                        <TokenIcon name={aggregator.name} src={aggregator.icon} width={32} />
-                    </Stack>
-                </Group>
-            </Box>
-            {vault && account && (
-                <Box mt="lg">
-                    <Data vault={vault} account={account} />
-                </Box>
-            )}
+            <Group position="apart">
+                <Stack>
+                    <Text color="dimmed" size="sm">
+                        Aggregated
+                    </Text>
+                    <Overlap token={aggregated} />
+                </Stack>
+                <Stack align="flex-end">
+                    <Text color="dimmed" size="sm">
+                        Aggregator
+                    </Text>
+                    <TokenIcon name={aggregator.name} src={aggregator.icon} width={32} />
+                </Stack>
+            </Group>
+            <Box mt="sm">{vault && account && <Data vault={vault} account={account} />}</Box>
         </Stack>
     );
 }

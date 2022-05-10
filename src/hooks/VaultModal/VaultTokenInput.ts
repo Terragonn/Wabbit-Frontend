@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Token, vaultQuote, parseAddress } from "../../utils";
+import { Token, vaultBalance, parseAddress, parseToBigNumber, getTokenDataByAddress } from "../../utils";
 
 export function useVaultDeposit(token: Token[], vault: string) {
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -9,20 +9,24 @@ export function useVaultDeposit(token: Token[], vault: string) {
         return tmp;
     });
 
-    async function _setTokenAmount(token: Token, amount: number) {
-        let quote: {
-            [key: string]: number | null;
-        } | null = null;
+    async function _setTokenAmount(_token: Token, amount: number) {
         try {
-            quote = await vaultQuote(token, vault, amount);
+            if (token.length < 2) return;
+
+            const balance = await vaultBalance(vault);
+            if (balance[_token.address] <= 0) return;
+
+            const parsedAmount = parseToBigNumber(amount, _token.decimals);
+
+            // **** Set the new token balance at the end
         } catch (e: any) {}
 
-        setTokenAmount((tknAmnt) => {
-            tknAmnt[token.address] = amount;
-            if (quote) for (const [address, amount] of Object.entries(quote)) if (amount) tknAmnt[parseAddress(address)] = amount;
+        // setTokenAmount((tknAmnt) => {
+        //     tknAmnt[token.address] = amount;
+        //     if (quote) for (const [address, amount] of Object.entries(quote)) if (amount) tknAmnt[parseAddress(address)] = amount;
 
-            return { ...tknAmnt };
-        });
+        //     return { ...tknAmnt };
+        // });
     }
 
     return { tokenAmount, setTokenAmount: _setTokenAmount };

@@ -6,17 +6,17 @@ import NavLinkRenderer from "./NavLinkRenderer";
 import SocialLinkRenderer from "./SocialLinkRenderer";
 
 export default function Nav() {
-    const { ltMd } = useBreakpoint();
+    const { ltLg } = useBreakpoint();
     const { opened } = useNavProvider();
 
     function NavWrapper({ children }: { children: any }) {
-        if (ltMd && opened)
+        if (ltLg && opened)
             return (
                 <Navbar fixed position={{ top: 0, left: 0 }} p="xl" width={{ base: 300 }}>
                     {children}
                 </Navbar>
             );
-        else if (!ltMd)
+        else if (!ltLg)
             return (
                 <Navbar p="xl" width={{ base: 300 }}>
                     {children}
