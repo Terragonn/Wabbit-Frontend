@@ -3,10 +3,9 @@ import { Box, Stack } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";
-import { ExecuteTransaction, VaultInput } from "../components";
+import { AcceptTOS, ExecuteTransaction, VaultInput } from "../components";
 import { useDepositData, useVaultDeposit } from "../../../hooks";
 import DepositData from "./DepositData";
-import { AcceptTOS } from "../../../components";
 
 export default function Deposit({ token, vault, wrapper, library }: { token: Token[]; vault: string; wrapper?: string; library: ethers.providers.JsonRpcSigner }) {
     const { tokenAmount, setTokenAmount } = useVaultDeposit(token, vault);
