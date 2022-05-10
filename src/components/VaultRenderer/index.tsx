@@ -36,6 +36,15 @@ export default function VaultRenderer() {
                 tags={["New", "Blue Chip"]}
                 color={"green"}
             />
+            <Vault
+                name="Beefy ETH-FTM LP (Disabled)"
+                description="Aggregates your ETH and FTM tokens over Beefy Finance's WigoSwap, SushiSwap, and SpookySwap strategies to ensure you are getting the highest APY possible on your tokens!"
+                token={[TokenData.ETH, TokenData.FTM]}
+                aggregator={TokenData.BIFI}
+                aggregated={[TokenData.BOO, TokenData.SUSHI, TokenData.WIGO]}
+                tags={["New", "Blue Chip"]}
+                color={"dark"}
+            />
         </SimpleGrid>
     );
 }
