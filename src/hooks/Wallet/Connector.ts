@@ -49,6 +49,7 @@ export function useWalletLink(chainId: SupportedChainId) {
     return connect;
 }
 
+// **** Maybe it is the location in which the connection happens ? Try moving it down a few levels and see if anything changes
 export function useWalletAutoConnect(chainId: SupportedChainId) {
     const connectMetamask = useMetamask(chainId);
     const connectWalletConnect = useWalletConnect(chainId);
