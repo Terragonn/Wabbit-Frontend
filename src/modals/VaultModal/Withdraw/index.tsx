@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Group, Slider } from "@mantine/core";
+import { Box, Group, Slider, Stack } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { approve, Token, vaultRedeem } from "../../../utils";
@@ -25,8 +25,8 @@ export default function Withdraw({
     const { total, breakdown, approved, setApproved } = useWithdrawData(token, vault, account, percent, library, wrapper);
 
     return (
-        <Group grow mt="xl" direction="column">
-            <Box mb="xl">
+        <Stack>
+            <Box my="xl">
                 <Slider
                     marks={[
                         { value: 20, label: "20%" },
@@ -78,6 +78,6 @@ export default function Withdraw({
                     </ExecuteTransaction>
                 )
             )}
-        </Group>
+        </Stack>
     );
 }

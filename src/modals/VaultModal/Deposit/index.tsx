@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Group } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { Token, vaultDeposit } from "../../../utils";
@@ -14,7 +14,7 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
     const [agreed, setAgreed] = useState<boolean>(false);
 
     return (
-        <Group grow direction="column">
+        <Stack>
             <Box>
                 {token.map((tkn, index) => (
                     <Box key={index} mb="md">
@@ -46,6 +46,6 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
             >
                 Deposit
             </ExecuteTransaction>
-        </Group>
+        </Stack>
     );
 }
