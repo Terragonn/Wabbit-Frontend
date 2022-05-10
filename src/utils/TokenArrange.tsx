@@ -8,10 +8,10 @@ export function Overlap({ token }: { token: Token[] }) {
     return (
         <Group>
             {token.map((tkn, index) => {
-                const margin = index === 0 ? 0 : -28;
+                const margin = index !== token.length - 1 ? -24 : 0;
 
                 return (
-                    <Box style={{ margin }} key={index}>
+                    <Box style={{ marginRight: margin }} key={index}>
                         <TokenIcon name={tkn.name} src={tkn.icon} width={36} />
                     </Box>
                 );

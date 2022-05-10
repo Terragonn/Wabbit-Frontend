@@ -50,9 +50,9 @@ export default function Display({
                     borderBottom: `1px solid ${theme.colors.dark[4]}`,
                 })}
             >
-                <Group>
-                    <TokenIcon name={aggregator.name} src={aggregator.icon} width={24} />
+                <Group position="apart">
                     <Overlap token={aggregated} />
+                    <TokenIcon name={aggregator.name} src={aggregator.icon} width={24} />
                 </Group>
             </Box>
         </Stack>
