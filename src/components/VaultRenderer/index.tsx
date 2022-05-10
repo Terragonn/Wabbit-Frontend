@@ -28,7 +28,7 @@ export default function VaultRenderer() {
                 color={"blue"}
             />
             <Vault
-                name="Beefy CRV-FTM LP"
+                name="Beefy CRV-FTM LP (Disabled)"
                 description="Aggregates your CRV and FTM tokens over Beefy Finance's WigoSwap, SpiritSwap, and SpookySwap strategies to ensure you are getting the highest APY possible on your tokens!"
                 token={[TokenData.CRV, TokenData.FTM]}
                 aggregator={TokenData.BIFI}
