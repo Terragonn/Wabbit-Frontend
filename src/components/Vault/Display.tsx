@@ -59,12 +59,6 @@ export default function Display({
                         </Text>
                         <Overlap token={aggregated} />
                     </Stack>
-                    <Stack align="center">
-                        <Text color="dimmed" size="sm">
-                            Accepted
-                        </Text>
-                        <Overlap token={token} />
-                    </Stack>
                     <Stack align="flex-end">
                         <Text color="dimmed" size="sm">
                             Aggregator

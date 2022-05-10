@@ -18,7 +18,7 @@ export default function Vault({
     color,
     wrapper,
 }: {
-    vault: string;
+    vault?: string;
     name: string;
     description: string;
     token: Token[];
@@ -35,16 +35,21 @@ export default function Vault({
     return (
         <Paper
             p="xl"
-            mb="md"
-            onClick={() =>
-                !active
-                    ? showNotification({
-                          title: "Wallet Error",
-                          message: "Connect your wallet first to the correct network",
-                          color: "red",
-                      })
-                    : modals.openContextModal("vault", { title: "Vault", innerProps: { token, vault, wrapper } })
-            }
+            onClick={() => {
+                if (!active)
+                    showNotification({
+                        title: "Wallet Error",
+                        message: "Connect your wallet first to the correct network",
+                        color: "red",
+                    });
+                else if (!vault) {
+                    showNotification({
+                        title: "Vault Error",
+                        message: "This vault is not available",
+                        color: "red",
+                    });
+                } else modals.openContextModal("vault", { title: "Vault", innerProps: { token, vault, wrapper } });
+            }}
             sx={(theme) => ({
                 backgroundColor: theme.colors.dark[6],
                 border: `2px solid ${theme.colors.dark[5]}`,
@@ -58,7 +63,7 @@ export default function Vault({
             })}
         >
             <Display name={name} token={token} aggregator={aggregator} aggregated={aggregated} description={description} color={color} tags={tags} />
-            {account && (
+            {vault && account && (
                 <Box mt="lg">
                     <Data vault={vault} account={account} />
                 </Box>
