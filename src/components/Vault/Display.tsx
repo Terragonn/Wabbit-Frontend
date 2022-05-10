@@ -22,16 +22,18 @@ export default function Display({
 }) {
     return (
         <Stack>
-            <Overlap token={token} />
             <Box
                 pb="md"
                 sx={(theme) => ({
                     borderBottom: `1px solid ${theme.colors.dark[4]}`,
                 })}
             >
-                <Text size="xl" weight={700}>
-                    {name}
-                </Text>
+                <Group mb="xl">
+                    <Overlap token={token} />
+                    <Text size="xl" weight={700}>
+                        {name}
+                    </Text>
+                </Group>
                 <Group mt="sm">
                     {tags &&
                         tags.map((tag, index) => (
@@ -56,6 +58,12 @@ export default function Display({
                             Aggregated
                         </Text>
                         <Overlap token={aggregated} />
+                    </Stack>
+                    <Stack align="center">
+                        <Text color="dimmed" size="sm">
+                            Accepted
+                        </Text>
+                        <Overlap token={token} />
                     </Stack>
                     <Stack align="flex-end">
                         <Text color="dimmed" size="sm">
