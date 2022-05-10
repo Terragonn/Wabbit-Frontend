@@ -51,8 +51,18 @@ export default function Display({
                 })}
             >
                 <Group position="apart">
-                    <Overlap token={aggregated} />
-                    <TokenIcon name={aggregator.name} src={aggregator.icon} width={24} />
+                    <Stack>
+                        <Text color="dimmed" size="sm">
+                            Aggregated
+                        </Text>
+                        <Overlap token={aggregated} />
+                    </Stack>
+                    <Stack align="flex-end">
+                        <Text color="dimmed" size="sm">
+                            Aggregator
+                        </Text>
+                        <TokenIcon name={aggregator.name} src={aggregator.icon} width={36} />
+                    </Stack>
                 </Group>
             </Box>
         </Stack>
