@@ -4,7 +4,7 @@ interface ChainData {
     name: string;
     rpcUrl: string;
     blockExplorer: string;
-    token: Token;
+    token: string;
 }
 
 export const SUPPORTED_CHAIN_ID = [250] as const;
@@ -16,6 +16,6 @@ export const chainDataConfig: { [key in SupportedChainId]: ChainData } = {
         name: "Fantom",
         rpcUrl: "https://rpc.ftm.tools/",
         blockExplorer: "https://ftmscan.com/",
-        token: TokenData.FTM,
+        token: "https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png",
     },
 };
