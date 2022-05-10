@@ -74,5 +74,5 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
                 return;
             }
         })();
-    });
+    }, []);
 }
