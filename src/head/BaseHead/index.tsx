@@ -9,7 +9,7 @@ export default function BaseHead() {
                 <link rel="manifest" href="/manifest.json" />
 
                 <title>Torque Money - DeFi The Norm</title>
-                <meta name="description" content="The official dapp of Torque Money. Maximize your DeFi yields with the least effort possible!" />
+                <meta name="description" content="A decentralized on-chain aggregator of yield aggregators platform powered by the Fantom blockchain." />
 
                 <meta name="theme-color" content="#921ebb" />
                 <meta charSet="UTF-8" />
