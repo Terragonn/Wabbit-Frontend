@@ -1,6 +1,6 @@
 import { Anchor, Box, Group, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
 
 export default function NavLink({
     icon,
@@ -17,9 +17,9 @@ export default function NavLink({
     mt: string;
     disabled?: boolean;
 }) {
-    const ButtonLink = ({ href }: { href?: string }) => {
+    const ButtonLink = forwardRef<HTMLAnchorElement, { href?: string }>(({ href }, ref) => {
         return (
-            <Anchor href={href} underline={false}>
+            <Anchor href={href} underline={false} ref={ref}>
                 <UnstyledButton
                     sx={(theme) => ({
                         display: "block",
@@ -43,7 +43,7 @@ export default function NavLink({
                 </UnstyledButton>
             </Anchor>
         );
-    };
+    });
 
     return (
         <Box mt={mt}>
