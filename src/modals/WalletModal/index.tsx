@@ -1,7 +1,7 @@
 import { ContextModalProps } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 
-import { WalletCard } from "../../components";
+import { WalletCard } from "./components";
 import { useMetamask, useWalletConnect, useWalletLink } from "../../hooks";
 import { SELECTED_CHAIN_ID } from "../../utils";
 
