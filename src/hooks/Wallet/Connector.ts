@@ -20,13 +20,7 @@ export function useMetamask() {
     const { activate } = useWeb3React();
 
     async function connect() {
-        console.log("Activating ***");
-        try {
-            await activate(injected, undefined, true);
-        } catch (e: any) {
-            console.log("HAPPENED ERROR", e);
-        }
-        console.log("Activated ***");
+        await activate(injected, undefined, true);
         localStorage.setItem(WALLET_CONNECTOR_NAME[0], JSON.stringify(true));
     }
 
