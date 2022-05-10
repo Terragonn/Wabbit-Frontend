@@ -27,7 +27,6 @@ export default function VaultInput({
     const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange);
 
     useEffect(() => {
-        console.log(token.name, viewAmount);
         setAmount(!viewAmount ? 0 : viewAmount);
     }, [viewAmount]);
 

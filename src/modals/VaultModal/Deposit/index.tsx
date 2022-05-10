@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Stack } from "@mantine/core";
 import { ethers } from "ethers";
 
@@ -12,6 +12,10 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
     const { total, breakdown } = useDepositData(token, tokenAmount);
 
     const [agreed, setAgreed] = useState<boolean>(false);
+
+    useEffect(() => {
+        console.log(tokenAmount);
+    }, [tokenAmount]);
 
     return (
         <Stack>
