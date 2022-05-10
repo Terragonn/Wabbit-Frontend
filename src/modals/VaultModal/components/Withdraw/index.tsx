@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Box, Group, Slider, Stack } from "@mantine/core";
 import { ethers } from "ethers";
 
-import { approve, Token, vaultRedeem } from "../../../utils";
+import { approve, Token, vaultRedeem } from "../../../../utils";
 import WithdrawData from "./WithdrawData";
-import { useWithdrawData } from "../../../hooks";
-import { ExecuteTransaction } from "../components";
+import { useWithdrawData } from "../../../../hooks";
+import { ExecuteTransaction } from "..";
 
 export default function Withdraw({
     token,
