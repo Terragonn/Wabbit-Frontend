@@ -2,7 +2,7 @@ import { Button, Group, NumberInput } from "@mantine/core";
 import { ethers } from "ethers";
 
 import { useVaultInput } from "../../hooks";
-import { approve, Token } from "../../utils";
+import { approve, ROUND_NUMBER, Token } from "../../utils";
 import { ExecuteTransaction } from "..";
 import TokenIcon from "../TokenIcon";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ export default function VaultInput({
     const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange);
 
     useEffect(() => {
+        console.log(viewAmount);
         setAmount(!viewAmount ? 0 : viewAmount);
     }, [viewAmount]);
 
@@ -41,6 +42,7 @@ export default function VaultInput({
             error={error}
             hideControls
             value={viewAmount}
+            precision={5}
             onChange={setViewAmount}
             icon={<TokenIcon name={token.name} src={token.icon} width={24} />}
             rightSection={
