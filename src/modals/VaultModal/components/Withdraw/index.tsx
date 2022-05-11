@@ -41,6 +41,7 @@ export default function Withdraw({
             <WithdrawData total={total} breakdown={breakdown} />
 
             <Box
+                mb="md"
                 sx={(theme) => ({
                     borderTop: `1px solid ${theme.colors.dark[4]}`,
                 })}
@@ -50,7 +51,6 @@ export default function Withdraw({
                 <ExecuteTransaction
                     buttonProps={{
                         variant: "gradient",
-                        mt: "md",
                         size: "lg",
                         gradient: { from: "pink", to: "grape", deg: 45 },
                     }}
@@ -64,7 +64,6 @@ export default function Withdraw({
                     <ExecuteTransaction
                         buttonProps={{
                             variant: "gradient",
-                            mt: "md",
                             size: "lg",
                             gradient: { from: "indigo", to: "pink", deg: 45 },
                         }}

@@ -4,7 +4,7 @@ export default function WalletCard({ name, imgURL, onClick }: { name: string; im
     return (
         <UnstyledButton
             onClick={onClick}
-            mt={18}
+            mb="md"
             sx={(theme) => ({
                 display: "block",
                 width: "100%",
