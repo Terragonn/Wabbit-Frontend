@@ -10,6 +10,8 @@ export function useVaultInput(token: Token, vault: string, library: ethers.provi
     const [max, setMax] = useState<number>(0);
     const [error, setError] = useState<string | undefined>(undefined);
 
+    // **** This is the real problem - the feedback loop for this needs to be revamped IMMEDIATELY
+
     useEffect(() => {
         if (onChange) onChange(amount);
     }, [amount]);
