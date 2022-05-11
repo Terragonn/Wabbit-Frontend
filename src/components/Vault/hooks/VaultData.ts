@@ -14,7 +14,7 @@ export function useVaultData(vault: string, account: string) {
 
     useEffect(() => {
         onFail(async () => setBalance("$ " + parseNumber(await vaultUserTVL(vault, account))));
-    }, [vault]);
+    }, [vault, account]);
 
     useEffect(() => {
         onFail(async () => setTVL("$ " + parseNumber(await vaultTVL(vault))));

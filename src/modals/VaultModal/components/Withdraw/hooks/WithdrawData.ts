@@ -38,7 +38,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
 
     useEffect(() => {
         (async () => setApproved(await isApproved(vault, wrapper, library)))();
-    }, [vault, wrapper, library]);
+    }, []);
 
     useEffect(() => {
         (async () => {
