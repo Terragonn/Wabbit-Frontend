@@ -1,25 +1,18 @@
 import { useState } from "react";
 
-import { Token, vaultBalance, parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER } from "../../../../../utils";
+import { Token, vaultBalance } from "../../../../../utils";
 
 export function useVaultDeposit(token: Token[], vault: string) {
-    const [tokenBalance, setTokenBalance] = useState<{ [key: string]: number } | null>(null);
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
         token.forEach((tkn) => (tmp[tkn.address] = 0));
         return tmp;
     });
+    const [tokenBalance, setTokenBalance] = useState<{ [key: string]: number } | null>(null);
 
     async function _setTokenAmount(_token: Token, amount: number) {
         try {
-            if (token.length < 2) {
-                setTokenAmount((tknAmnt) => {
-                    tknAmnt[_token.address] = amount;
-
-                    return { ...tknAmnt };
-                });
-                return;
-            }
+            if (token.length < 2) throw new Error("Invalid length");
 
             let balance: { [key: string]: number };
             if (!tokenBalance) {
@@ -27,25 +20,22 @@ export function useVaultDeposit(token: Token[], vault: string) {
                 setTokenBalance(balance);
             } else balance = tokenBalance;
 
-            if (balance[_token.address] <= 0) {
-                setTokenAmount((tknAmnt) => {
-                    tknAmnt[_token.address] = amount;
-
-                    return { ...tknAmnt };
-                });
-                return;
-            }
-
-            const ratio = amount / balance[_token.address];
+            if (balance[_token.address] <= 0) throw new Error("Invalid balance");
 
             setTokenAmount((tknAmnt) => {
                 for (const tkn of token)
-                    if (balance[tkn.address] > 0) tknAmnt[tkn.address] = balance[tkn.address] * ratio;
+                    if (balance[tkn.address] > 0) tknAmnt[tkn.address] = (balance[tkn.address] * amount) / balance[_token.address];
                     else if (tkn.address === _token.address) tknAmnt[tkn.address] = amount;
 
                 return { ...tknAmnt };
             });
-        } catch (e: any) {}
+        } catch (e: any) {
+            setTokenAmount((tknAmnt) => {
+                tknAmnt[_token.address] = amount;
+
+                return { ...tknAmnt };
+            });
+        }
     }
 
     return { tokenAmount, setTokenAmount: _setTokenAmount };
