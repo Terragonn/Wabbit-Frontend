@@ -15,8 +15,8 @@ export default function NavLinkRenderer() {
 
     return (
         <>
-            {links.map((link) => (
-                <NavLink {...link} />
+            {links.map((link, index) => (
+                <NavLink key={index} {...link} />
             ))}
         </>
     );

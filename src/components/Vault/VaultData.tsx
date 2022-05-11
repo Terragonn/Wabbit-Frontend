@@ -1,9 +1,9 @@
 import { Group, Skeleton, Text } from "@mantine/core";
 
-export default function VaultData({ label, value }: { label: string; value: string | undefined }) {
+export default function VaultData({ label, align, value }: { label: string; align?: string; value?: string }) {
     if (value)
         return (
-            <Text size="md" color="dimmed">
+            <Text size="md" color="dimmed" align={align as any}>
                 {label + " "}
                 <Text size="lg" weight={700} component="span" color="gray">
                     {value}
@@ -12,7 +12,7 @@ export default function VaultData({ label, value }: { label: string; value: stri
         );
     else
         return (
-            <Group position="apart">
+            <Group position="apart" align={align as any}>
                 <Text size="md" color="dimmed">
                     {label}
                 </Text>

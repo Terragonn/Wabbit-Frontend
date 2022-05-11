@@ -22,8 +22,8 @@ export default function SocialLinks() {
 
     return (
         <>
-            {links.map((link) => (
-                <NavLink {...link} />
+            {links.map((link, index) => (
+                <NavLink key={index} {...link} />
             ))}
         </>
     );

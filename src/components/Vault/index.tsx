@@ -1,31 +1,32 @@
-import { Box, Paper } from "@mantine/core";
+import { Paper } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { showNotification } from "@mantine/notifications";
 import { useWeb3React } from "@web3-react/core";
 
 import { Token } from "../../utils";
+import Data from "./Data";
 import Display from "./Display";
 
 export default function Vault({
     vault,
     name,
-    description,
     token,
     aggregator,
     aggregated,
     tags,
     color,
     wrapper,
+    disabled = false,
 }: {
-    vault?: string;
+    vault: string;
     name: string;
-    description: string;
     token: Token[];
     aggregator: Token;
     aggregated: Token[];
     tags: string[];
     color: string;
     wrapper?: string;
+    disabled?: boolean;
 }) {
     const { active, account } = useWeb3React();
 
@@ -35,16 +36,16 @@ export default function Vault({
         <Paper
             p="xl"
             onClick={() => {
-                if (!active)
+                if (disabled)
+                    showNotification({
+                        title: "Vault Error",
+                        message: "This vault is currently disabled",
+                        color: "red",
+                    });
+                else if (!active) {
                     showNotification({
                         title: "Wallet Error",
                         message: "Connect your wallet first to the correct network",
-                        color: "red",
-                    });
-                else if (!vault) {
-                    showNotification({
-                        title: "Vault Error",
-                        message: "This vault is not available",
                         color: "red",
                     });
                 } else modals.openContextModal("vault", { title: "Vault", innerProps: { token, vault, wrapper } });
@@ -61,17 +62,8 @@ export default function Vault({
                 },
             })}
         >
-            <Display
-                name={name}
-                token={token}
-                vault={vault}
-                account={account ? account : undefined}
-                aggregator={aggregator}
-                aggregated={aggregated}
-                description={description}
-                color={color}
-                tags={tags}
-            />
+            <Display name={name} token={token} aggregator={aggregator} aggregated={aggregated} color={color} tags={tags} disabled={disabled} />
+            {!disabled && vault && account && <Data vault={vault} account={account} />}
         </Paper>
     );
 }
