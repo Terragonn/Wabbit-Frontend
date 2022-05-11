@@ -1,5 +1,3 @@
-import { Token, TokenData } from ".";
-
 interface ChainData {
     name: string;
     rpcUrl: string;
@@ -7,7 +5,7 @@ interface ChainData {
     token: string;
 }
 
-export const SUPPORTED_CHAIN_ID = [250] as const;
+const SUPPORTED_CHAIN_ID = [250] as const;
 
 export type SupportedChainId = typeof SUPPORTED_CHAIN_ID[number];
 

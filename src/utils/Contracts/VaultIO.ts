@@ -1,7 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 
 import { parseAddress, parseToBigNumber, getTokenDataByAddress, ROUND_NUMBER, loadERC20 } from "..";
-import { IVaultETHWrapper } from "../../../types";
 import { loadContractVault, loadContractVaultETHWrapper } from "./Contracts";
 import { getETHAmount } from "./ETHUtils";
 
