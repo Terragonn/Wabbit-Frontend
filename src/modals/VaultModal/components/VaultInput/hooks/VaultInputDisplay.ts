@@ -17,7 +17,7 @@ export function useVaultInputDisplay(token: Token, library: ethers.providers.Jso
 
             setApproved(!_required || _isApproved);
         })();
-    }, []);
+    }, [library]);
 
     useEffect(() => {
         (async () => {
@@ -28,7 +28,7 @@ export function useVaultInputDisplay(token: Token, library: ethers.providers.Jso
 
             setMax(_max);
         })();
-    }, []);
+    }, [library]);
 
     useEffect(() => {
         if (amount > max) {
