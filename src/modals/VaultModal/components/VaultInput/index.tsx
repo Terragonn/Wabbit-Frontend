@@ -1,6 +1,5 @@
 import { Button, Group, NumberInput } from "@mantine/core";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 
 import { TokenIcon } from "../../../../components";
 import { useVaultInput, useVaultInputDisplay } from "./hooks";
@@ -13,7 +12,7 @@ export default function VaultInput({
     wrapper,
     library,
     onChange,
-    defaultValue, // **** This will be used for updating the feedback loop in the event that a change is made to it from the frontend
+    defaultValue,
 }: {
     token: Token;
     vault: string;

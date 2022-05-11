@@ -17,7 +17,14 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
             <Box>
                 {token.map((tkn, index) => (
                     <Box key={index} mb="md">
-                        <VaultInput token={tkn} vault={vault} wrapper={wrapper} library={library} onChange={(value) => setTokenAmount(tkn, value)} />
+                        <VaultInput
+                            token={tkn}
+                            vault={vault}
+                            wrapper={wrapper}
+                            library={library}
+                            onChange={(value) => setTokenAmount(tkn, value)}
+                            defaultValue={tokenAmount[tkn.address]}
+                        />
                     </Box>
                 ))}
             </Box>
