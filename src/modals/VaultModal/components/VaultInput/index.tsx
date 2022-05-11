@@ -21,7 +21,7 @@ export default function VaultInput({
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const { setAmount, approved, setApproved, max, error } = useVaultInputDisplay(token, vault, library, wrapper);
+    const { setAmount, approved, setApproved, max, error } = useVaultInputDisplay(token, library, wrapper);
 
     const { setFeedbackInput, feedbackOutput } = useVaultInput((num) => {
         setAmount(num);

@@ -10,19 +10,19 @@ export function useVaultData(vault: string, account: string) {
 
     useEffect(() => {
         onFail(async () => setAPY(parseToPercentage(await vaultAPY(vault)) + " %"));
-    }, []);
+    }, [vault]);
 
     useEffect(() => {
         onFail(async () => setBalance("$ " + parseNumber(await vaultUserTVL(vault, account))));
-    }, []);
+    }, [vault]);
 
     useEffect(() => {
         onFail(async () => setTVL("$ " + parseNumber(await vaultTVL(vault))));
-    }, []);
+    }, [vault]);
 
     useEffect(() => {
         onFail(async () => setFee(parseToPercentage(await vaultFee(vault)) + " %"));
-    }, []);
+    }, [vault]);
 
     return { apy, balance, tvl, fee };
 }

@@ -9,7 +9,7 @@ const Custom404: NextPage = () => {
 
     useEffect(() => {
         router.push(DEFAULT_ROUTE);
-    }, []);
+    }, [router]);
 
     return <></>;
 };

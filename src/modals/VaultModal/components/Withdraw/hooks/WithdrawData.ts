@@ -20,7 +20,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
 
     useEffect(() => {
         onFail(async () => setTokenAmount(await vaultUserBalance(vault, account)));
-    }, []);
+    }, [vault, account]);
 
     useEffect(() => {
         (async () => {
@@ -38,7 +38,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
 
     useEffect(() => {
         (async () => setApproved(await isApproved(vault, wrapper, library)))();
-    }, []);
+    }, [vault, wrapper, library]);
 
     useEffect(() => {
         (async () => {

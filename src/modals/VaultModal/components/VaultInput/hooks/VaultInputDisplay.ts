@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../../../../utils";
 
-export function useVaultInputDisplay(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper: string) {
+export function useVaultInputDisplay(token: Token, library: ethers.providers.JsonRpcSigner, wrapper: string) {
     const [amount, setAmount] = useState<number>(0);
 
     const [approved, setApproved] = useState<boolean>(true);
@@ -17,7 +17,7 @@ export function useVaultInputDisplay(token: Token, vault: string, library: ether
 
             setApproved(!_required || _isApproved);
         })();
-    }, []);
+    }, [token, wrapper, library]);
 
     useEffect(() => {
         (async () => {
@@ -28,7 +28,7 @@ export function useVaultInputDisplay(token: Token, vault: string, library: ether
 
             setMax(_max);
         })();
-    }, []);
+    }, [token, wrapper, library]);
 
     useEffect(() => {
         if (amount > max) {
