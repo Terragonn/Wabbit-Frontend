@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-export function useVaultInput(onChange: (num: number) => void, defaultValue?: number) {
+export function useVaultInput(onChangeInput: (num: number) => void, onChangeDefaultValue?: (num: number) => void, defaultValue?: number) {
     const [feedbackInput, setFeedbackInput] = useState<number | undefined>(defaultValue);
     const [feedbackOutput, setFeedbackOutput] = useState<number | undefined>(defaultValue);
 
     useEffect(() => {
-        onChange(feedbackInput ? feedbackInput : 0);
+        onChangeInput(feedbackInput ? feedbackInput : 0);
         setFeedbackOutput(feedbackInput);
     }, [feedbackInput]);
 
     useEffect(() => {
-        onChange(defaultValue ? defaultValue : 0);
+        onChangeDefaultValue && onChangeDefaultValue(defaultValue ? defaultValue : 0);
         setFeedbackOutput(feedbackInput);
     }, [defaultValue]);
 

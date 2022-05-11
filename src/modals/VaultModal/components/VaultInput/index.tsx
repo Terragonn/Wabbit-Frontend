@@ -21,10 +21,16 @@ export default function VaultInput({
 }) {
     const { setAmount, approved, setApproved, max, error } = useVaultInputDisplay(token, library, wrapper);
 
-    const { setFeedbackInput, feedbackOutput } = useVaultInput((num) => {
-        setAmount(num);
-        onChange && onChange(num);
-    }, defaultValue);
+    const { setFeedbackInput, feedbackOutput } = useVaultInput(
+        (num) => {
+            setAmount(num);
+            onChange && onChange(num);
+        },
+        (num) => {
+            setAmount(num);
+        },
+        defaultValue
+    );
 
     return (
         <NumberInput
