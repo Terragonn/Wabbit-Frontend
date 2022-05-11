@@ -4,8 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { ArrowsMaximize, ArrowsMinimize } from "tabler-icons-react";
 
 import { Token } from "../../utils";
-import Deposit from "./components/Deposit";
-import Withdraw from "./components/Withdraw";
+import { Deposit, Withdraw } from "./components";
 
 export default function VaultModal({ context, id, innerProps: { token, vault, wrapper } }: ContextModalProps<{ token: Token[]; vault: string; wrapper: string }>) {
     const { account, library } = useWeb3React();

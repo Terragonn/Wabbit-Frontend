@@ -59,22 +59,20 @@ export default function Withdraw({
                     Withdraw
                 </ExecuteTransaction>
             ) : (
-                wrapper && (
-                    <ExecuteTransaction
-                        buttonProps={{
-                            variant: "gradient",
-                            size: "lg",
-                            gradient: { from: "indigo", to: "pink", deg: 45 },
-                        }}
-                        action={async () => {
-                            await approve(vault, wrapper, library);
-                            setApproved(true);
-                        }}
-                        actionLabel="Approving token"
-                    >
-                        Approve
-                    </ExecuteTransaction>
-                )
+                <ExecuteTransaction
+                    buttonProps={{
+                        variant: "gradient",
+                        size: "lg",
+                        gradient: { from: "indigo", to: "pink", deg: 45 },
+                    }}
+                    action={async () => {
+                        await approve(vault, wrapper, library);
+                        setApproved(true);
+                    }}
+                    actionLabel="Approving token"
+                >
+                    Approve
+                </ExecuteTransaction>
             )}
         </Stack>
     );
