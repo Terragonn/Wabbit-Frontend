@@ -1,2 +1,2 @@
+export * from "./VaultInputDisplay";
 export * from "./VaultInput";
-export * from "./VaultInputFeedback";

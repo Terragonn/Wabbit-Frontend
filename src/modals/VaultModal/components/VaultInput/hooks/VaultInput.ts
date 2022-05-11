@@ -1,47 +1,20 @@
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../../../../utils";
+export function useVaultInput(onChange: (num: number) => void, defaultValue?: number) {
+    const [feedbackInput, setFeedbackInput] = useState<number | undefined>(defaultValue);
+    const [feedbackOutput, setFeedbackOutput] = useState<number | undefined>(defaultValue);
 
-export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper: string, onChange?: (data: number) => void) {
-    const [amount, setAmount] = useState<number>(0);
-
-    const [approved, setApproved] = useState<boolean>(true);
-    const [max, setMax] = useState<number>(0);
-    const [error, setError] = useState<string | undefined>(undefined);
+    // **** Now how do I integrate this with the hooks from the previous section ?
 
     useEffect(() => {
-        if (onChange) onChange(amount);
-    }, [amount]);
+        onChange(feedbackInput ? feedbackInput : 0);
+        setFeedbackOutput(feedbackInput);
+    }, [feedbackInput]);
 
     useEffect(() => {
-        (async () => {
-            const _isApproved = await isApproved(token.address, wrapper, library);
-            const _required = token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH());
+        onChange(defaultValue ? defaultValue : 0);
+        setFeedbackOutput(feedbackInput);
+    }, [defaultValue]);
 
-            setApproved(!_required || _isApproved);
-        })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            let _max;
-
-            if (token.address === parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH())) _max = await getETHAmount(library);
-            else _max = await getTokenAmount(token, library);
-
-            setMax(_max);
-        })();
-    }, []);
-
-    useEffect(() => {
-        if (amount > max) {
-            setError("Amount exceeds balance");
-            return;
-        }
-
-        setError(undefined);
-    }, [amount, max]);
-
-    return { amount, setAmount, approved, setApproved, max, error };
+    return { setFeedbackInput, feedbackOutput };
 }

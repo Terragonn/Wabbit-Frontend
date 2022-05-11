@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 import { TokenIcon } from "../../../../components";
-import { useVaultInput } from "./hooks";
+import { useVaultInput, useVaultInputDisplay } from "./hooks";
 import { approve, Token } from "../../../../utils";
 import { ExecuteTransaction } from "..";
 
@@ -22,13 +22,12 @@ export default function VaultInput({
     onChange?: (data: number) => void;
     defaultValue?: number;
 }) {
-    const [viewAmount, setViewAmount] = useState<number | undefined>(undefined);
+    const { setAmount, approved, setApproved, max, error } = useVaultInputDisplay(token, vault, library, wrapper);
 
-    const { amount, setAmount, approved, setApproved, max, error } = useVaultInput(token, vault, library, wrapper, onChange);
-
-    useEffect(() => {
-        setAmount(!viewAmount ? 0 : viewAmount);
-    }, [viewAmount]);
+    const { setFeedbackInput, feedbackOutput } = useVaultInput((num) => {
+        setAmount(num);
+        onChange && onChange(num);
+    }, defaultValue);
 
     return (
         <NumberInput
@@ -38,9 +37,9 @@ export default function VaultInput({
             size="md"
             error={error}
             hideControls
-            value={viewAmount}
+            value={feedbackOutput}
             precision={5}
-            onChange={setViewAmount}
+            onChange={setFeedbackInput}
             icon={<TokenIcon name={token.name} src={token.icon} width={24} />}
             rightSection={
                 <Group position="apart">
@@ -60,7 +59,7 @@ export default function VaultInput({
                             Approve
                         </ExecuteTransaction>
                     )}
-                    <Button size="xs" color="grape" variant="subtle" onClick={() => setViewAmount(max)}>
+                    <Button size="xs" color="grape" variant="subtle" onClick={() => setFeedbackInput(max)}>
                         Max
                     </Button>
                 </Group>
