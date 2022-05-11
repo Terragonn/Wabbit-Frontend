@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { useEffect } from "react";
 
-import { injected, walletConnect, walletLink, SupportedChainId } from "../utils";
+import { injected, walletConnect, walletLink, SupportedChainId, onFail } from "../utils";
 
 const WALLET_CONNECTOR_NAME = ["METAMASK_CONNECTED", "WALLETCONNECT_CONNECTED", "WALLETLINK_CONNECTED"] as const;
 
@@ -58,19 +58,19 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
         (async () => {
             const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
             if (metamaskStorage && JSON.parse(metamaskStorage)) {
-                await connectMetamask();
+                await onFail(async () => await connectMetamask());
                 return;
             }
 
             const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
             if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
-                await connectWalletConnect();
+                await onFail(async () => await connectWalletConnect());
                 return;
             }
 
             const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
             if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
-                await connectWalletLink();
+                await onFail(async () => await connectWalletLink());
                 return;
             }
         })();

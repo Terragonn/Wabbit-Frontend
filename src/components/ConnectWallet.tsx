@@ -13,7 +13,7 @@ export default function ConnectWallet() {
 
     const disconnect = useDisconnect();
 
-    const chainToken = getTokenDataByAddress(chainDataConfig[250].token);
+    const chainToken = getTokenDataByAddress(chainDataConfig[SELECTED_CHAIN_ID].token);
 
     return (
         <>
