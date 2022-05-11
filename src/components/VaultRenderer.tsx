@@ -1,9 +1,9 @@
+import { SimpleGrid } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import { Token, TokenData } from "../utils";
 import { Vault } from ".";
 import { useBreakpoint } from "../hooks";
-import { SimpleGrid } from "@mantine/core";
 
 export default function VaultRenderer() {
     const { ltSm, ltMd } = useBreakpoint();
