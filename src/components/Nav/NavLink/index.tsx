@@ -7,14 +7,14 @@ export default function NavLink({
     color,
     label,
     href,
-    mt,
+    pb,
     disabled = false,
 }: {
     icon: ReactNode;
     color: string;
     label: string;
     href: string;
-    mt: string;
+    pb: string;
     disabled?: boolean;
 }) {
     const ButtonLink = forwardRef<HTMLAnchorElement, { href?: string }>(({ href }, ref) => {
@@ -47,7 +47,7 @@ export default function NavLink({
     ButtonLink.displayName = "ButtonLink";
 
     return (
-        <Box mt={mt}>
+        <Box pb={pb}>
             {disabled ? (
                 <ButtonLink />
             ) : (
