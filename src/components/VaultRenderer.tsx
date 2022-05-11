@@ -23,7 +23,7 @@ export default function VaultRenderer() {
         aggregated: Token[];
         tags: string[];
         color: string;
-        wrapper?: string;
+        wrapper: string;
         disabled?: boolean;
     }[] = [
         {
@@ -38,6 +38,7 @@ export default function VaultRenderer() {
         },
         {
             vault: "",
+            wrapper: "0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7",
             name: "Beefy CRV-FTM LP",
             token: [TokenData.CRV, TokenData.FTM],
             aggregator: TokenData.BIFI,
@@ -48,6 +49,7 @@ export default function VaultRenderer() {
         },
         {
             vault: "",
+            wrapper: "0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7",
             name: "Beefy ETH-FTM LP",
             token: [TokenData.ETH, TokenData.FTM],
             aggregator: TokenData.BIFI,

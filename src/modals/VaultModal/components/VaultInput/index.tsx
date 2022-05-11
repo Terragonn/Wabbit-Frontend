@@ -17,7 +17,7 @@ export default function VaultInput({
 }: {
     token: Token;
     vault: string;
-    wrapper?: string;
+    wrapper: string;
     library: ethers.providers.JsonRpcSigner;
     onChange?: (data: number) => void;
     defaultValue?: number;
@@ -47,7 +47,7 @@ export default function VaultInput({
                     {!approved && (
                         <ExecuteTransaction
                             action={async () => {
-                                await approve(token.address, wrapper || vault, library);
+                                await approve(token.address, wrapper, library);
                                 setApproved(true);
                             }}
                             actionLabel="Approving token"

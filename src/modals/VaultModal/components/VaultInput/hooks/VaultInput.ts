@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 
 import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../../../../utils";
 
-export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper?: string, onChange?: (data: number) => void) {
+export function useVaultInput(token: Token, vault: string, library: ethers.providers.JsonRpcSigner, wrapper: string, onChange?: (data: number) => void) {
     const [amount, setAmount] = useState<number>(0);
 
     const [approved, setApproved] = useState<boolean>(true);
     const [max, setMax] = useState<number>(0);
     const [error, setError] = useState<string | undefined>(undefined);
-
-    // **** This is the real problem - the feedback loop for this needs to be revamped IMMEDIATELY
 
     useEffect(() => {
         if (onChange) onChange(amount);
@@ -18,8 +16,8 @@ export function useVaultInput(token: Token, vault: string, library: ethers.provi
 
     useEffect(() => {
         (async () => {
-            const _isApproved = await isApproved(token.address, wrapper || vault, library);
-            const _required = wrapper ? token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH()) : true;
+            const _isApproved = await isApproved(token.address, wrapper, library);
+            const _required = token.address != parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH());
 
             setApproved(!_required || _isApproved);
         })();
@@ -29,7 +27,7 @@ export function useVaultInput(token: Token, vault: string, library: ethers.provi
         (async () => {
             let _max;
 
-            if (wrapper && token.address === parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH())) _max = await getETHAmount(library);
+            if (token.address === parseAddress(await loadContractVaultETHWrapper(wrapper, library).WETH())) _max = await getETHAmount(library);
             else _max = await getTokenAmount(token, library);
 
             setMax(_max);

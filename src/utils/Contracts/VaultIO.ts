@@ -6,16 +6,12 @@ import { loadContractVault, loadContractVaultETHWrapper } from "./Contracts";
 import { getETHAmount } from "./ETHUtils";
 
 // Deposit a given amount of tokens as numbers into a vault
-export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner, wrapper?: string) {
+export async function vaultDeposit(vault: string, amount: { [key: string]: number }, signer: ethers.providers.JsonRpcSigner, wrapper: string) {
     const signerAddress = await signer.getAddress();
     const _vault = loadContractVault(vault, signer);
 
-    let vaultETHWrapper: IVaultETHWrapper | undefined;
-    let weth: string | undefined;
-    if (wrapper) {
-        vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
-        weth = parseAddress(await vaultETHWrapper.WETH());
-    }
+    const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
+    const weth = parseAddress(await vaultETHWrapper.WETH());
 
     const tokens = Object.keys(amount);
     const bnAmount: { [key: string]: BigNumber } = {};
@@ -25,7 +21,7 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
         const depositAmount = parseToBigNumber(amount[address], decimals);
 
         const token = loadERC20(address, signer);
-        const max = weth && address === weth ? parseToBigNumber(await getETHAmount(signer), decimals) : await token.balanceOf(signerAddress);
+        const max = address === weth ? parseToBigNumber(await getETHAmount(signer), decimals) : await token.balanceOf(signerAddress);
 
         bnAmount[parseAddress(address)] = max.gt(depositAmount) ? depositAmount : max;
     }
@@ -36,24 +32,20 @@ export async function vaultDeposit(vault: string, amount: { [key: string]: numbe
         depositAmount[i] = bnAmount[token];
     }
 
-    if (vaultETHWrapper && weth) await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
-    else await (await _vault.deposit(depositAmount)).wait();
+    await (await vaultETHWrapper.deposit(vault, depositAmount, { value: bnAmount[weth] })).wait();
 }
 
 // Redeem a specified percentage of tokens from a vault
-export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner, wrapper?: string) {
+export async function vaultRedeem(vault: string, percent: number, signer: ethers.providers.JsonRpcSigner, wrapper: string) {
     percent = Math.min(1, Math.max(0, percent));
 
     const signerAddress = await signer.getAddress();
     const _vault = loadContractVault(vault, signer);
+    const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
     const token = loadERC20(vault, signer);
 
     const max = await token.balanceOf(signerAddress);
     const shares = max.mul(Math.floor(ROUND_NUMBER * percent)).div(ROUND_NUMBER);
 
-    if (wrapper) {
-        const vaultETHWrapper = loadContractVaultETHWrapper(wrapper, signer);
-
-        await (await vaultETHWrapper.redeem(vault, shares)).wait();
-    } else await (await _vault.redeem(shares)).wait();
+    await (await vaultETHWrapper.redeem(vault, shares)).wait();
 }

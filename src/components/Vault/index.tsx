@@ -25,7 +25,7 @@ export default function Vault({
     aggregated: Token[];
     tags: string[];
     color: string;
-    wrapper?: string;
+    wrapper: string;
     disabled?: boolean;
 }) {
     const { active, account } = useWeb3React();

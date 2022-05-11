@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { formatNumber, getTokenDataByAddress, isApproved, onFail, Token, vaultUserBalance } from "../../../../../utils";
 import { usePrice } from "../../../../../hooks";
 
-export function useWithdrawData(token: Token[], vault: string, account: string, percent: number, library: ethers.providers.JsonRpcSigner, wrapper?: string) {
+export function useWithdrawData(token: Token[], vault: string, account: string, percent: number, library: ethers.providers.JsonRpcSigner, wrapper: string) {
     const getPrice = usePrice();
 
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -37,7 +37,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
     }, [tokenAmount, percent]);
 
     useEffect(() => {
-        (async () => wrapper && setApproved(await isApproved(vault, wrapper, library)))();
+        (async () => setApproved(await isApproved(vault, wrapper, library)))();
     }, []);
 
     useEffect(() => {

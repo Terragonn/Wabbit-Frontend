@@ -15,7 +15,7 @@ export default function Withdraw({
 }: {
     token: Token[];
     vault: string;
-    wrapper?: string;
+    wrapper: string;
     account: string;
     library: ethers.providers.JsonRpcSigner;
 }) {
