@@ -12,35 +12,31 @@ export function useDepositData(token: Token[], tokenAmount: { [key: string]: num
     });
 
     useEffect(() => {
-        (async () => {
-            let totalRaw = 0;
+        let totalRaw = 0;
 
-            for (const [address, amount] of Object.entries(tokenAmount)) {
-                const token = getTokenDataByAddress(address);
-                const price = getPrice(token);
-                if (price) totalRaw += price * amount;
-            }
+        for (const [address, amount] of Object.entries(tokenAmount)) {
+            const token = getTokenDataByAddress(address);
+            const price = getPrice(token);
+            if (price) totalRaw += price * amount;
+        }
 
-            setTotal("$ " + formatNumber(totalRaw));
-        })();
+        setTotal("$ " + formatNumber(totalRaw));
     }, [tokenAmount]);
 
     useEffect(() => {
-        (async () => {
-            const out: [Token, string][] = [];
+        const out: [Token, string][] = [];
 
-            for (const [address, amount] of Object.entries(tokenAmount)) {
-                const token = getTokenDataByAddress(address);
+        for (const [address, amount] of Object.entries(tokenAmount)) {
+            const token = getTokenDataByAddress(address);
 
-                const unitPrice = getPrice(token);
-                let price = "$ 0.00";
-                if (unitPrice) price = "$ " + formatNumber(unitPrice * amount);
+            const unitPrice = getPrice(token);
+            let price = "$ 0.00";
+            if (unitPrice) price = "$ " + formatNumber(unitPrice * amount);
 
-                out.push([token, price]);
-            }
+            out.push([token, price]);
+        }
 
-            setBreakdown(out);
-        })();
+        setBreakdown(out);
     }, [tokenAmount]);
 
     return { total, breakdown };

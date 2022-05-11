@@ -21,7 +21,7 @@ export function useVaultDeposit(token: Token[], vault: string) {
         })();
     }, []);
 
-    async function _setTokenAmount(_token: Token, amount: number) {
+    function _setTokenAmount(_token: Token, amount: number) {
         try {
             if (token.length < 2) throw new Error("Invalid length");
             if (tokenBalance[_token.address] <= 0) throw new Error("Invalid balance");
