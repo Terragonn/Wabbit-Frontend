@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { TokenIcon } from "../../../../components";
 import { useVaultInput } from "./hooks";
 import { approve, Token } from "../../../../utils";
-import ExecuteTransaction from "../ExecuteTransaction";
+import { ExecuteTransaction } from "..";
 
 export default function VaultInput({
     token,
