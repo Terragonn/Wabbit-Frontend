@@ -1,26 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Token, tokenPrice } from "../utils";
 
-export function usePrice() {
-    const [prices, setPrices] = useState<{ [key: string]: number | undefined }>({});
+export function usePrice(token: Token[]) {
+    const [prices, setPrices] = useState<{ [key: string]: number }>(() => {
+        const tmp: { [key: string]: number } = {};
+        token.forEach((tkn) => (tmp[tkn.address] = 0));
+        return tmp;
+    });
 
-    async function getPrice(token: Token) {
-        if (prices[token.address]) return prices[token.address];
+    useEffect(() => {
+        (async () => {
+            const hydratedPrices: { [key: string]: number } = {};
 
-        let price: number | undefined;
-        try {
-            price = await tokenPrice(token);
-        } catch {
-            price = undefined;
-        }
+            for (const tkn of token) hydratedPrices[tkn.address] = await tokenPrice(tkn);
+            setPrices(hydratedPrices);
+        })();
+    }, []);
 
-        setPrices((old) => {
-            old[token.address] = price;
-            return old;
-        });
-
-        return price;
+    function getPrice(token: Token) {
+        return prices[token.address];
     }
 
     return getPrice;

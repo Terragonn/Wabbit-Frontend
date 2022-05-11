@@ -22,7 +22,7 @@ export default function Deposit({ token, vault, wrapper, library }: { token: Tok
                             wrapper={wrapper}
                             library={library}
                             onChange={(value) => setTokenAmount(tkn, value)}
-                            // defaultValue={tokenAmount[tkn.address]}
+                            defaultValue={tokenAmount[tkn.address]}
                         />
                     </Box>
                 ))}

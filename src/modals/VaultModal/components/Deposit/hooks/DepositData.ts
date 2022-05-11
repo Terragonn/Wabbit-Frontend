@@ -4,7 +4,7 @@ import { formatNumber, getTokenDataByAddress, Token } from "../../../../../utils
 import { usePrice } from "../../../../../hooks";
 
 export function useDepositData(token: Token[], tokenAmount: { [key: string]: number }) {
-    const getPrice = usePrice();
+    const getPrice = usePrice(token);
 
     const [total, setTotal] = useState<string>("$ 0.00");
     const [breakdown, setBreakdown] = useState<[Token, string][]>(() => {
@@ -17,7 +17,7 @@ export function useDepositData(token: Token[], tokenAmount: { [key: string]: num
 
             for (const [address, amount] of Object.entries(tokenAmount)) {
                 const token = getTokenDataByAddress(address);
-                const price = await getPrice(token);
+                const price = getPrice(token);
                 if (price) totalRaw += price * amount;
             }
 
@@ -32,7 +32,7 @@ export function useDepositData(token: Token[], tokenAmount: { [key: string]: num
             for (const [address, amount] of Object.entries(tokenAmount)) {
                 const token = getTokenDataByAddress(address);
 
-                const unitPrice = await getPrice(token);
+                const unitPrice = getPrice(token);
                 let price = "$ 0.00";
                 if (unitPrice) price = "$ " + formatNumber(unitPrice * amount);
 
