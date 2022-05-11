@@ -13,7 +13,7 @@ export default function VaultInput({
     wrapper,
     library,
     onChange,
-    defaultValue,
+    defaultValue, // **** This will be used for updating the feedback loop in the event that a change is made to it from the frontend
 }: {
     token: Token;
     vault: string;
