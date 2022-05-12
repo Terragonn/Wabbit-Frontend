@@ -3,13 +3,13 @@ import { Eyeglass } from "tabler-icons-react";
 import NavLink from "../NavLink";
 
 export default function NavLinkRenderer() {
-    const links: { icon: JSX.Element; color: string; label: string; href: string; pb: string; disabled?: boolean }[] = [
+    const links: { icon: JSX.Element; color: string; label: string; href: string; mb: string; disabled?: boolean }[] = [
         {
             icon: <Eyeglass size={16} />,
             color: "indigo",
             label: "Lens",
             href: "/lens",
-            pb: "xl",
+            mb: "xl",
         },
     ];
 

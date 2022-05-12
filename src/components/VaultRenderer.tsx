@@ -19,6 +19,7 @@ export default function VaultRenderer() {
         vault: string;
         name: string;
         token: Token[];
+        description: string;
         aggregator: Token;
         aggregated: Token[];
         tags: string[];
@@ -30,6 +31,7 @@ export default function VaultRenderer() {
             vault: "0x242e9e75dea7fd2ba2e55783b79e76648178145d",
             wrapper: "0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7",
             name: "Beefy FTM-USDC LP",
+            description: "Aggregates USDC and FTM over Beefy Finance's SushiSwap, WigoSwap, SpookySwap, and SpiritSwap vaults",
             token: [TokenData.FTM, TokenData.USDC],
             aggregator: TokenData.BIFI,
             aggregated: [TokenData.BOO, TokenData.SPIRIT, TokenData.SUSHI, TokenData.WIGO],
@@ -40,6 +42,7 @@ export default function VaultRenderer() {
             vault: "",
             wrapper: "0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7",
             name: "Beefy CRV-FTM LP",
+            description: "Aggregates CRV and FTM over Beefy Finance's WigoSwap, SpookySwap, and SpiritSwap vaults",
             token: [TokenData.CRV, TokenData.FTM],
             aggregator: TokenData.BIFI,
             aggregated: [TokenData.BOO, TokenData.SPIRIT, TokenData.WIGO],
@@ -51,6 +54,7 @@ export default function VaultRenderer() {
             vault: "",
             wrapper: "0x5d7b57e4554cd40141b50bb165ba9ba0de290ca7",
             name: "Beefy ETH-FTM LP",
+            description: "Aggregates ETH and FTM over Beefy Finance's WigoSwap, SpookySwap, and SushiSwap vaults",
             token: [TokenData.ETH, TokenData.FTM],
             aggregator: TokenData.BIFI,
             aggregated: [TokenData.BOO, TokenData.SUSHI, TokenData.WIGO],

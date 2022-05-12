@@ -6,6 +6,7 @@ import { TokenIcon } from "..";
 export default function Display({
     name,
     token,
+    description,
     aggregator,
     aggregated,
     tags,
@@ -14,6 +15,7 @@ export default function Display({
 }: {
     name: string;
     token: Token[];
+    description: string;
     aggregator: Token;
     aggregated: Token[];
     tags: string[];
@@ -39,7 +41,7 @@ export default function Display({
                         )}
                     </Text>
                 </Group>
-                <Group mt="sm">
+                <Group mb="md">
                     {tags &&
                         tags.map((tag, index) => (
                             <Badge color={color} key={index}>
@@ -47,6 +49,9 @@ export default function Display({
                             </Badge>
                         ))}
                 </Group>
+                <Text size="sm" color="dimmed">
+                    {description}
+                </Text>
             </Box>
             <Group position="apart" mb="xl">
                 <Stack>
