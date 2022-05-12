@@ -19,7 +19,7 @@ export default function Withdraw({
     account: string;
     library: ethers.providers.JsonRpcSigner;
 }) {
-    const [percent, setPercent] = useState<number>(0);
+    const [percent, setPercent] = useState<number>(0.5);
 
     const { total, breakdown, approved, setApproved } = useWithdrawData(token, vault, account, percent, library, wrapper);
 
@@ -33,6 +33,7 @@ export default function Withdraw({
                         { value: 80, label: "80%" },
                     ]}
                     color="pink"
+                    value={percent * 100}
                     onChange={(value) => setPercent(value / 100)}
                 />
             </Box>

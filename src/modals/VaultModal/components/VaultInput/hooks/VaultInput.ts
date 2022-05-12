@@ -10,8 +10,9 @@ export function useVaultInput(onChangeInput: (num: number) => void, onChangeDefa
     }, [feedbackInput]);
 
     useEffect(() => {
-        onChangeDefaultValue && onChangeDefaultValue(defaultValue ? defaultValue : 0);
-        setFeedbackOutput(feedbackInput);
+        const onChangeValue = defaultValue ? defaultValue : 0;
+        onChangeDefaultValue && onChangeDefaultValue(onChangeValue);
+        setFeedbackOutput(onChangeValue);
     }, [defaultValue]);
 
     return { setFeedbackInput, feedbackOutput };

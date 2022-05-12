@@ -49,7 +49,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
             let price = "$ 0.00";
             if (unitPrice) price = "$ " + formatNumber(unitPrice * tokenAmount[token.address] * percent);
 
-            out.push([token, formatNumber(pair[1]), price]);
+            out.push([token, formatNumber(pair[1] * percent), price]);
         }
 
         setBreakdown(out);
