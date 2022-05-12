@@ -55,24 +55,12 @@ export function useWalletAutoConnect(chainId: SupportedChainId) {
     const connectWalletLink = useWalletLink(chainId);
 
     useEffect(() => {
-        (async () => {
-            const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
-            if (metamaskStorage && JSON.parse(metamaskStorage)) {
-                await onFail(async () => await connectMetamask());
-                return;
-            }
+        const metamaskStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[0]);
+        const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
+        const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
 
-            const walletConnectStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[1]);
-            if (walletConnectStorage && JSON.parse(walletConnectStorage)) {
-                await onFail(async () => await connectWalletConnect());
-                return;
-            }
-
-            const walletLinkStorage = localStorage.getItem(WALLET_CONNECTOR_NAME[2]);
-            if (walletLinkStorage && JSON.parse(walletLinkStorage)) {
-                await onFail(async () => await connectWalletLink());
-                return;
-            }
-        })();
+        if (metamaskStorage && JSON.parse(metamaskStorage)) onFail(async () => await connectMetamask());
+        else if (walletConnectStorage && JSON.parse(walletConnectStorage)) onFail(async () => await connectWalletConnect());
+        else if (walletLinkStorage && JSON.parse(walletLinkStorage)) onFail(async () => await connectWalletLink());
     }, []);
 }
