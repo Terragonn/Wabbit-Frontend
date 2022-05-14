@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Token, vaultBalance } from "../../../../../utils";
+import { onFail, Token, vaultBalance } from "../../../../../utils";
 
 export function useVaultDeposit(token: Token[], vault: string) {
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -15,10 +15,10 @@ export function useVaultDeposit(token: Token[], vault: string) {
     });
 
     useEffect(() => {
-        (async () => {
+        onFail(async () => {
             const balance = await vaultBalance(vault);
             setTokenBalance(balance);
-        })();
+        });
     }, []);
 
     function _setTokenAmount(_token: Token, amount: number) {
