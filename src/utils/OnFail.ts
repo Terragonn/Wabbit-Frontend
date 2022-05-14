@@ -1,4 +1,4 @@
-export async function onFail(fn: () => Promise<any>, failFn?: () => any) {
+export async function onFail(fn: () => any, failFn?: () => any) {
     try {
         await fn();
     } catch (e: any) {
