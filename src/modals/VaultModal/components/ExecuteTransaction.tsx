@@ -2,6 +2,7 @@ import { Button } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { Check, X } from "tabler-icons-react";
+import { useRefresh } from "../../../hooks";
 
 export default function ExecuteTransaction({
     action,
@@ -14,6 +15,7 @@ export default function ExecuteTransaction({
     children: any;
     buttonProps?: any;
 }) {
+    const { updateRefresh } = useRefresh();
     const notificationId = Math.random().toString();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -43,6 +45,7 @@ export default function ExecuteTransaction({
                         autoClose: 3000,
                     });
                     setLoading(false);
+                    updateRefresh();
                 } catch (e: any) {
                     setLoading(false);
                     updateNotification({
