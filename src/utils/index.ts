@@ -6,3 +6,4 @@ export * from "./Parse";
 export * from "./APIData";
 export * from "./OnFail";
 export * from "./Token";
+export * from "./Cache";
