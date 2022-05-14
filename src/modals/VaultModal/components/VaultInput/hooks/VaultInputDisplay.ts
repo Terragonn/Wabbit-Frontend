@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { useRefresh } from "../../../../../hooks";
 
+import { useRefresh } from "../../../../../hooks";
 import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../../../../utils";
 
 export function useVaultInputDisplay(token: Token, library: ethers.providers.JsonRpcSigner, wrapper: string) {
