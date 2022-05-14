@@ -1,12 +1,9 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-import { useRefresh } from "../../../../../hooks";
 import { getETHAmount, getTokenAmount, isApproved, loadContractVaultETHWrapper, parseAddress, Token } from "../../../../../utils";
 
 export function useVaultInputDisplay(token: Token, library: ethers.providers.JsonRpcSigner, wrapper: string) {
-    const { refresh } = useRefresh();
-
     const [amount, setAmount] = useState<number>(0);
 
     const [approved, setApproved] = useState<boolean>(true);
@@ -31,7 +28,7 @@ export function useVaultInputDisplay(token: Token, library: ethers.providers.Jso
 
             setMax(_max);
         })();
-    }, [library, refresh]);
+    }, [library]);
 
     useEffect(() => {
         if (amount > max) {
