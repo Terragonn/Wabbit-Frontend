@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Slider, Stack } from "@mantine/core";
 import { ethers } from "ethers";
+import { ModalsContextProps } from "@mantine/modals/lib/context";
 
 import { approve, Token, vaultRedeem } from "../../../../utils";
 import { WithdrawData, ExecuteTransaction } from "..";
@@ -12,12 +13,16 @@ export default function Withdraw({
     wrapper,
     account,
     library,
+    context,
+    id,
 }: {
     token: Token[];
     vault: string;
     wrapper: string;
     account: string;
     library: ethers.providers.JsonRpcSigner;
+    context: ModalsContextProps;
+    id: string;
 }) {
     const [percent, setPercent] = useState<number>(0.5);
 
@@ -54,7 +59,10 @@ export default function Withdraw({
                         size: "lg",
                         gradient: { from: "pink", to: "grape", deg: 45 },
                     }}
-                    action={async () => await vaultRedeem(vault, percent, library, wrapper)}
+                    action={async () => {
+                        await vaultRedeem(vault, percent, library, wrapper);
+                        context.closeModal(id);
+                    }}
                     actionLabel="Withdrawing tokens"
                 >
                     Withdraw
