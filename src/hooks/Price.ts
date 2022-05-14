@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { Token, tokenPrice } from "../utils";
+import { useRefresh } from ".";
 
 export function usePrice(token: Token[]) {
+    const { refresh } = useRefresh();
+
     const [prices, setPrices] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
         token.forEach((tkn) => (tmp[tkn.address] = 0));
@@ -16,7 +19,7 @@ export function usePrice(token: Token[]) {
             for (const tkn of token) hydratedPrices[tkn.address] = await tokenPrice(tkn);
             setPrices(hydratedPrices);
         })();
-    }, []);
+    }, [refresh]);
 
     function getPrice(token: Token) {
         return prices[token.address];

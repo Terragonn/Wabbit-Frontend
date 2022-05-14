@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
 import { formatNumber, getTokenDataByAddress, isApproved, onFail, Token, vaultUserBalance } from "../../../../../utils";
-import { usePrice } from "../../../../../hooks";
+import { usePrice, useRefresh } from "../../../../../hooks";
 
 export function useWithdrawData(token: Token[], vault: string, account: string, percent: number, library: ethers.providers.JsonRpcSigner, wrapper: string) {
+    const { refresh } = useRefresh();
     const getPrice = usePrice(token);
 
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
@@ -20,7 +21,7 @@ export function useWithdrawData(token: Token[], vault: string, account: string, 
 
     useEffect(() => {
         onFail(async () => setTokenAmount(await vaultUserBalance(vault, account)));
-    }, [vault, account]);
+    }, [vault, account, refresh]);
 
     useEffect(() => {
         let totalRaw = 0;
