@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Token, tokenPrice } from "../utils";
+import { onFail, Token, tokenPrice } from "../utils";
 import { useRefresh } from ".";
 
 export function usePrice(token: Token[]) {
@@ -13,12 +13,12 @@ export function usePrice(token: Token[]) {
     });
 
     useEffect(() => {
-        (async () => {
+        onFail(async () => {
             const hydratedPrices: { [key: string]: number } = {};
 
             for (const tkn of token) hydratedPrices[tkn.address] = await tokenPrice(tkn);
             setPrices(hydratedPrices);
-        })();
+        });
     }, [refresh]);
 
     function getPrice(token: Token) {
