@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { useRefresh } from "../../../../../hooks";
 import { onFail, Token, vaultBalance } from "../../../../../utils";
 
 export function useVaultDeposit(token: Token[], vault: string) {
+    const { refresh } = useRefresh();
+
     const [tokenAmount, setTokenAmount] = useState<{ [key: string]: number }>(() => {
         const tmp: { [key: string]: number } = {};
         token.forEach((tkn) => (tmp[tkn.address] = 0));
@@ -19,7 +22,7 @@ export function useVaultDeposit(token: Token[], vault: string) {
             const balance = await vaultBalance(vault);
             setTokenBalance(balance);
         });
-    }, []);
+    }, [refresh]);
 
     function _setTokenAmount(_token: Token, amount: number) {
         try {
