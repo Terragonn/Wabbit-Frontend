@@ -24,15 +24,15 @@ export default function BaseHead() {
                 <meta name="description" content={description} />
 
                 {/* OG Section */}
-                <meta name="og:title" content={title} />
-                <meta name="og:description" content={description} />
-                <meta name="og:image" content={bannerUrl} />
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={bannerUrl} />
                 <meta property="og:url" content={url} />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={description} />
-                <meta property="twitter:url" content={url} />
+                <meta name="twitter:url" content={url} />
                 <meta name="twitter:image" content={bannerUrl} />
                 <meta name="twitter:site" content={twitterHandle} />
             </Head>
